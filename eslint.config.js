@@ -25,7 +25,6 @@ export default [
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
-      import: importPlugin,
     },
 
     rules: {
