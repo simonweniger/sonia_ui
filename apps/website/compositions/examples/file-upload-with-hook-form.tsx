@@ -1,0 +1,54 @@
+'use client'
+
+import { HiUpload } from 'react-icons/hi'
+import { z } from 'zod'
+
+import { Button, Field, FileUpload } from '@sonia/ui'
+import { Controller, FormLayout, SubmitButton, useForm } from '@sonia/ui/forms'
+
+const formSchema = z.object({
+  images: z.array(z.instanceof(File)).min(1, 'At least one image is required'),
+})
+
+export const FileUploadWithHookForm = () => {
+  const form = useForm({
+    schema: formSchema,
+    defaultValues: {
+      images: [],
+    },
+    onSubmit: (data) => console.log(data),
+  })
+
+  return (
+    <form.Form>
+      <FormLayout>
+        <Controller
+          control={form.control}
+          name="images"
+          render={({ field, fieldState }) => (
+            <Field.Root invalid={!!fieldState.error}>
+              <Field.Label>Images</Field.Label>
+              <FileUpload.Root
+                name={field.name}
+                onFileChange={(e) => {
+                  field.onChange(e.acceptedFiles)
+                }}
+              >
+                <FileUpload.Trigger asChild onBlur={() => field.onBlur()}>
+                  <Button variant="outline" size="sm">
+                    <HiUpload /> Upload file
+                  </Button>
+                </FileUpload.Trigger>
+
+                <FileUpload.List showSize />
+              </FileUpload.Root>
+              <Field.ErrorText>{fieldState.error?.message}</Field.ErrorText>
+            </Field.Root>
+          )}
+        />
+
+        <SubmitButton>Submit</SubmitButton>
+      </FormLayout>
+    </form.Form>
+  )
+}

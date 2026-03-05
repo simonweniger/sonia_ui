@@ -1,0 +1,135 @@
+{
+  "name": "@sonia/ui",
+  "version": "3.0.0-next.1",
+  "description": "Sonia UI - The React component library for SaaS applications.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "sui":"./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./preset": {
+      "sui":"./src/preset/index.ts",
+      "types": "./dist/preset/index.d.ts",
+      "import": "./dist/preset/index.js"
+    },
+    "./colors": {
+      "sui":"./src/colors.ts",
+      "types": "./dist/colors.d.ts",
+      "import": "./dist/colors.js"
+    },
+    "./utils": {
+      "sui":"./src/utils/index.ts",
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js"
+    },
+    "./hooks": {
+      "sui":"./src/hooks/index.ts",
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
+    },
+    "./forms": {
+      "sui":"./src/forms/index.ts",
+      "types": "./dist/forms/index.d.ts",
+      "import": "./dist/forms/index.js"
+    },
+    "./forms/zod": {
+      "sui":"./src/forms/zod/src/index.ts",
+      "types": "./dist/forms/zod/src/index.d.ts",
+      "import": "./dist/forms/zod/src/index.js"
+    },
+    "./modals": {
+      "sui":"./src/modals/index.ts",
+      "types": "./dist/modals/index.d.ts",
+      "import": "./dist/modals/index.js"
+    },
+    "./hotkeys": {
+      "sui":"./src/hotkeys/index.ts",
+      "types": "./dist/hotkeys/index.d.ts",
+      "import": "./dist/hotkeys/index.js"
+    },
+    "./recipes/*": {
+      "sui":"./src/preset/theme/recipes/*.recipe.ts",
+      "types": "./dist/preset/theme/recipes/*.recipe.d.ts",
+      "import": "./dist/preset/theme/recipes/*.recipe.js"
+    },
+    "./slot-recipes/*": {
+      "sui":"./src/preset/theme/slot-recipes/*.recipe.ts",
+      "types": "./dist/preset/theme/slot-recipes/*.recipe.d.ts",
+      "import": "./dist/preset/theme/slot-recipes/*.recipe.js"
+    },
+    "./*": {
+      "sui":"./src/components/*/index.ts",
+      "types": "./dist/components/*/index.d.ts",
+      "import": "./dist/components/*/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf --no-glob ./dist",
+    "prebuild": "pnpm clean",
+    "build": "tsc --outDir dist --project tsconfig.json",
+    "lint": "eslint src --ext .ts,.tsx,.js,.jsx --config ../../eslint.config.js",
+    "lint:staged": "lint-staged --allow-empty --config ../../lint-staged.config.cjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Eelco Wiersma <eelco@sonia-ui.dev>",
+  "license": "MIT",
+  "homepage": "https://sonia-ui.dev/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saas-js/sonia-ui.git",
+    "directory": "packages/sonia-ui"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "chakra-ui",
+    "design-system",
+    "react-components",
+    "uikit",
+    "accessible",
+    "components",
+    "library",
+    "forms",
+    "modals",
+    "hotkeys"
+  ],
+  "dependencies": {
+    "@ark-ui/react": "^5.30.0",
+    "@hookform/resolvers": "^5.2.2",
+    "@react-aria/utils": "^3.28.1",
+    "@standard-schema/spec": "^1.0.0",
+    "@zag-js/dom-event": "^0.80.0",
+    "@zag-js/dom-utils": "^0.2.4",
+    "next-themes": "^0.4.6",
+    "react-hook-form": "^7.63.0",
+    "zod": "^4.1.11"
+  },
+  "peerDependencies": {
+    "@chakra-ui/react": "^3.28.0",
+    "@emotion/react": "^11",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.0",
+    "@types/react-dom": "19.2.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-icons": "^5.5.0",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.5.0",
+    "typescript": "5.9.3"
+  }
+}
