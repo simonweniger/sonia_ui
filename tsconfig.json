@@ -1,33 +1,35 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    // Enable latest features
-    "lib": ["DOM", "ESNext"],
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",
+    "moduleResolution": "Bundler",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "preserve",
     "allowJs": true,
-
-    // Bundler mode
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": false,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "checkJs": true,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "isolatedModules": true,
     "noEmit": true,
-    "customConditions": ["sui"],
-
-    // JSX
-    "jsx": "react-jsx",
-
-    // Best practices
-    "strict": true,
-    "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": false
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "verbatimModuleSyntax": true
   },
-  "include": [],
-  "references": [
-    {
-      "path": "./packages/sonia-ui/tsconfig.json"
-    }
-  ]
+  "include": ["src", ".storybook", "vite.config.ts"],
+  "exclude": ["node_modules", "**/*.test.*", "dist", "storybook-static"]
 }
