@@ -72,10 +72,3 @@ export type {
   PaginationNextIconProps,
   PaginationEllipsisProps,
 } from "./pagination";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {paginationVariants} from "../../styles";
-
-export type {PaginationVariants} from "../../styles";

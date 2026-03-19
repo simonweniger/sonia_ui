@@ -1,32 +1,37 @@
 "use client";
 
-import type {TextAreaVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {textAreaVariants} from "../../styles";
-import React, {useContext} from "react";
-import {TextArea as TextAreaPrimitive} from "react-aria-components";
+import {Textarea as ChakraTextarea} from "@chakra-ui/react";
+import {useContext} from "react";
 
-import {composeTwRenderProps} from "../../utils";
 import {TextFieldContext} from "../textfield";
 
 /* -------------------------------------------------------------------------------------------------
  * TextArea Root
  * -----------------------------------------------------------------------------------------------*/
-interface TextAreaRootProps
-  extends ComponentPropsWithRef<typeof TextAreaPrimitive>, TextAreaVariants {}
+type TextAreaVariant = "primary" | "secondary";
 
-const TextAreaRoot = ({className, fullWidth, variant, ...rest}: TextAreaRootProps) => {
+const variantMap: Record<TextAreaVariant, "outline" | "subtle"> = {
+  primary: "outline",
+  secondary: "subtle",
+};
+
+interface TextAreaRootProps extends Omit<ComponentPropsWithRef<typeof ChakraTextarea>, "variant"> {
+  fullWidth?: boolean;
+  variant?: string;
+}
+
+const TextAreaRoot = ({fullWidth, variant, ...rest}: TextAreaRootProps) => {
   const textFieldContext = useContext(TextFieldContext);
   const resolvedVariant = variant ?? textFieldContext?.variant;
+  const chakraVariant = variantMap[(resolvedVariant as TextAreaVariant) ?? "primary"] ?? "outline";
 
   return (
-    <TextAreaPrimitive
+    <ChakraTextarea
       data-slot="textarea"
-      className={composeTwRenderProps(
-        className,
-        textAreaVariants({fullWidth, variant: resolvedVariant}),
-      )}
+      variant={chakraVariant}
+      width={fullWidth ? "100%" : undefined}
       {...rest}
     />
   );

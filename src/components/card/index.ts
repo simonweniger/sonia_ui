@@ -38,10 +38,3 @@ export type {
   CardContentProps,
   CardFooterProps,
 } from "./card";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {cardVariants} from "../../styles";
-
-export type {CardVariants} from "../../styles";

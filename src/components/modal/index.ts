@@ -4,8 +4,8 @@ import {
   ModalBackdrop,
   ModalBody,
   ModalCloseTrigger,
-  ModalContainer,
-  ModalDialog,
+  ModalContent,
+  ModalDescription,
   ModalFooter,
   ModalHeader,
   ModalHeading,
@@ -21,11 +21,11 @@ export const Modal = Object.assign(ModalRoot, {
   Root: ModalRoot,
   Trigger: ModalTrigger,
   Backdrop: ModalBackdrop,
-  Container: ModalContainer,
-  Dialog: ModalDialog,
+  Content: ModalContent,
   Header: ModalHeader,
   Icon: ModalIcon,
   Heading: ModalHeading,
+  Description: ModalDescription,
   Body: ModalBody,
   Footer: ModalFooter,
   CloseTrigger: ModalCloseTrigger,
@@ -36,11 +36,11 @@ export type Modal = {
   RootProps: ComponentProps<typeof ModalRoot>;
   TriggerProps: ComponentProps<typeof ModalTrigger>;
   BackdropProps: ComponentProps<typeof ModalBackdrop>;
-  ContainerProps: ComponentProps<typeof ModalContainer>;
-  DialogProps: ComponentProps<typeof ModalDialog>;
+  ContentProps: ComponentProps<typeof ModalContent>;
   HeaderProps: ComponentProps<typeof ModalHeader>;
   IconProps: ComponentProps<typeof ModalIcon>;
   HeadingProps: ComponentProps<typeof ModalHeading>;
+  DescriptionProps: ComponentProps<typeof ModalDescription>;
   BodyProps: ComponentProps<typeof ModalBody>;
   FooterProps: ComponentProps<typeof ModalFooter>;
   CloseTriggerProps: ComponentProps<typeof ModalCloseTrigger>;
@@ -53,11 +53,11 @@ export {
   ModalRoot,
   ModalTrigger,
   ModalBackdrop,
-  ModalContainer,
-  ModalDialog,
+  ModalContent,
   ModalHeader,
   ModalIcon,
   ModalHeading,
+  ModalDescription,
   ModalBody,
   ModalFooter,
   ModalCloseTrigger,
@@ -68,19 +68,12 @@ export type {
   ModalRootProps as ModalProps,
   ModalTriggerProps,
   ModalBackdropProps,
-  ModalContainerProps,
-  ModalDialogProps,
+  ModalContentProps,
   ModalHeaderProps,
   ModalIconProps,
   ModalHeadingProps,
+  ModalDescriptionProps,
   ModalBodyProps,
   ModalFooterProps,
   ModalCloseTriggerProps,
 } from "./modal";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {modalVariants} from "../../styles";
-
-export type {ModalVariants} from "../../styles";

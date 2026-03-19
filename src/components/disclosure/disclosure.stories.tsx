@@ -1,6 +1,7 @@
-import type {Meta} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
+import {Box, Flex, Text} from "@chakra-ui/react";
 import React from "react";
 
 import {Button} from "../button";
@@ -10,12 +11,12 @@ import {Disclosure} from "./index";
 
 export default {
   argTypes: {
-    isDisabled: {
+    disabled: {
       control: {
         type: "boolean",
       },
     },
-    isExpanded: {
+    open: {
       control: {
         type: "boolean",
       },
@@ -29,163 +30,165 @@ export default {
 } as Meta<typeof Disclosure>;
 
 const defaultArgs: Disclosure["RootProps"] = {
-  isDisabled: false,
-  isExpanded: false,
+  disabled: false,
+  open: false,
 };
 
 const Template = (props: Disclosure["RootProps"]) => {
-  const [isExpanded, setIsExpanded] = React.useState(props.isExpanded ?? false);
+  const [isOpen, setIsOpen] = React.useState(props.open ?? false);
 
   return (
-    <div className="w-full max-w-md text-center">
-      <Disclosure {...props} isExpanded={isExpanded} onExpandedChange={setIsExpanded}>
+    <Box width="full" maxW="md" textAlign="center">
+      <Disclosure {...props} open={isOpen} onOpenChange={({open}) => setIsOpen(open)}>
         <Disclosure.Heading>
-          <Button slot="trigger" variant="secondary">
+          <Button slot="trigger" variant="outline">
             <Icon icon="gravity-ui:qr-code" />
             Preview HeroUI Native
             <Disclosure.Indicator />
           </Button>
         </Disclosure.Heading>
         <Disclosure.Content>
-          <Disclosure.Body className="flex flex-col items-center rounded-3xl bg-surface p-2 p-4 text-center shadow-surface">
-            <p className="text-sm text-muted">
+          <Disclosure.Body style={{display: "flex", flexDirection: "column", alignItems: "center", borderRadius: "var(--radii-3xl)", background: "var(--colors-bg-surface)", padding: "var(--spacing-4)", textAlign: "center", boxShadow: "var(--shadows-surface)"}}>
+            <Text fontSize="sm" color="fg.muted">
               Scan this QR code with your camera app to preview the HeroUI native components.
-            </p>
+            </Text>
             <img
               alt="Expo Go QR Code"
-              className="aspect-square w-full max-w-54 object-cover"
               src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
+              style={{aspectRatio: "1/1", width: "100%", maxWidth: "13.5rem", objectFit: "cover"}}
             />
-            <p className="text-sm text-muted">Expo must be installed on your device.</p>
-            <Button className="mt-4" variant="primary">
+            <Text fontSize="sm" color="fg.muted">Expo must be installed on your device.</Text>
+            <Button mt="4" variant="solid">
               <Icon icon="tabler:brand-apple-filled" />
               Download on App Store
             </Button>
           </Disclosure.Body>
         </Disclosure.Content>
       </Disclosure>
-    </div>
+    </Box>
   );
 };
 
 const ControlledTemplate = (props: Disclosure["RootProps"]) => {
-  const [isExpanded, setIsExpanded] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <div className="w-full max-w-md space-y-4">
-      <div className="flex items-center gap-4">
-        <Button variant="primary" onPress={() => setIsExpanded(!isExpanded)}>
-          {isExpanded ? "Collapse" : "Expand"} from outside
+    <Box width="full" maxW="md" spaceY="4">
+      <Flex align="center" gap="4">
+        <Button variant="solid" onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? "Collapse" : "Expand"} from outside
         </Button>
-        <Chip color={isExpanded ? "success" : "default"}>
-          State: {isExpanded ? "Expanded" : "Collapsed"}
+        <Chip color={isOpen ? "success" : "default"}>
+          State: {isOpen ? "Expanded" : "Collapsed"}
         </Chip>
-      </div>
-      <Disclosure {...props} isExpanded={isExpanded} onExpandedChange={setIsExpanded}>
-        <Disclosure.Trigger className="mb-2 flex w-full items-center justify-between rounded-md border border-gray-300 px-4 py-2 text-left hover:bg-gray-50">
+      </Flex>
+      <Disclosure {...props} open={isOpen} onOpenChange={({open}) => setIsOpen(open)}>
+        <Disclosure.Trigger style={{marginBottom: "0.5rem", display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", borderRadius: "var(--radii-md)", border: "1px solid var(--colors-gray-300)", paddingLeft: "1rem", paddingRight: "1rem", paddingTop: "0.5rem", paddingBottom: "0.5rem", textAlign: "left"}}>
           <span>Toggle content</span>
           <Icon
-            className="size-4 transition-transform duration-200 data-[state=open]:rotate-180"
+            className="transition-transform duration-200 data-[state=open]:rotate-180"
             icon="gravity-ui:chevron-down"
+            style={{width: "1rem", height: "1rem"}}
           />
         </Disclosure.Trigger>
         <Disclosure.Content>
-          <Disclosure.Body className="rounded-lg border p-4">
-            <p className="text-sm">
+          <Disclosure.Body style={{borderRadius: "var(--radii-lg)", border: "1px solid var(--colors-border)", padding: "1rem"}}>
+            <Text fontSize="sm">
               This disclosure is controlled from outside. You can toggle it using the button above
               or by clicking the trigger.
-            </p>
+            </Text>
           </Disclosure.Body>
         </Disclosure.Content>
       </Disclosure>
-    </div>
+    </Box>
   );
 };
 
 const ProductDetailsTemplate = (props: Disclosure["RootProps"]) => {
-  const [isExpanded, setIsExpanded] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <div className="w-full max-w-md">
-      <Disclosure {...props} isExpanded={isExpanded} onExpandedChange={setIsExpanded}>
-        <Disclosure.Trigger className="flex w-full items-center justify-between rounded-md border border-gray-300 px-4 py-2 text-left hover:bg-gray-50">
-          <span className="flex items-center gap-2">
+    <Box width="full" maxW="md">
+      <Disclosure {...props} open={isOpen} onOpenChange={({open}) => setIsOpen(open)}>
+        <Disclosure.Trigger style={{display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", borderRadius: "var(--radii-md)", border: "1px solid var(--colors-gray-300)", paddingLeft: "1rem", paddingRight: "1rem", paddingTop: "0.5rem", paddingBottom: "0.5rem", textAlign: "left"}}>
+          <Flex as="span" align="center" gap="2">
             <Icon icon="gravity-ui:box" />
             View product details
-          </span>
+          </Flex>
           <Icon
-            className="size-4 transition-transform duration-200"
-            icon={isExpanded ? "gravity-ui:chevron-up" : "gravity-ui:chevron-down"}
+            className="transition-transform duration-200"
+            icon={isOpen ? "gravity-ui:chevron-up" : "gravity-ui:chevron-down"}
+            style={{width: "1rem", height: "1rem"}}
           />
         </Disclosure.Trigger>
         <Disclosure.Content>
-          <Disclosure.Body className="pt-2">
-            <div className="space-y-4 rounded-lg border p-4">
-              <h3 className="text-lg font-semibold">Product Details</h3>
-              <div className="grid gap-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Material:</span>
+          <Disclosure.Body style={{paddingTop: "0.5rem"}}>
+            <Box spaceY="4" rounded="lg" borderWidth="1px" p="4">
+              <Text as="h3" fontSize="lg" fontWeight="semibold">Product Details</Text>
+              <Box display="grid" gap="2" fontSize="sm">
+                <Flex justify="space-between">
+                  <Text as="span" color="fg.muted">Material:</Text>
                   <span>100% Cotton</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Size:</span>
+                </Flex>
+                <Flex justify="space-between">
+                  <Text as="span" color="fg.muted">Size:</Text>
                   <span>Medium (38-40)</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Color:</span>
+                </Flex>
+                <Flex justify="space-between">
+                  <Text as="span" color="fg.muted">Color:</Text>
                   <span>Navy Blue</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Care:</span>
+                </Flex>
+                <Flex justify="space-between">
+                  <Text as="span" color="fg.muted">Care:</Text>
                   <span>Machine wash cold</span>
-                </div>
-              </div>
-              <div className="flex gap-2 pt-2">
+                </Flex>
+              </Box>
+              <Flex gap="2" pt="2">
                 <Chip color="success">Free Shipping</Chip>
                 <Chip color="accent">1 Year Warranty</Chip>
                 <Chip color="warning">Eco-Friendly</Chip>
-              </div>
-            </div>
+              </Flex>
+            </Box>
           </Disclosure.Body>
         </Disclosure.Content>
       </Disclosure>
-    </div>
+    </Box>
   );
 };
 
-export const Default = {
+export const Default: StoryObj<typeof Disclosure> = {
   args: {
     ...defaultArgs,
   },
   render: Template,
 };
 
-export const Controlled = {
+export const Controlled: StoryObj<typeof Disclosure> = {
   args: {
     ...defaultArgs,
   },
   render: ControlledTemplate,
 };
 
-export const ProductDetails = {
+export const ProductDetails: StoryObj<typeof Disclosure> = {
   args: {
     ...defaultArgs,
   },
   render: ProductDetailsTemplate,
 };
 
-export const InitiallyExpanded = {
+export const InitiallyExpanded: StoryObj<typeof Disclosure> = {
   args: {
     ...defaultArgs,
-    isExpanded: true,
+    open: true,
   },
   render: Template,
 };
 
-export const Disabled = {
+export const Disabled: StoryObj<typeof Disclosure> = {
   args: {
     ...defaultArgs,
-    isDisabled: true,
+    disabled: true,
   },
   render: Template,
 };

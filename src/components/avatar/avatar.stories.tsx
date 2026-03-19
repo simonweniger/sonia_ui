@@ -1,7 +1,8 @@
-import type {AvatarRootProps, AvatarVariants} from "./index";
+import type {AvatarRootProps} from "./index";
 import type {Meta} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
+import {Box, Flex, Text} from "@chakra-ui/react";
 import React from "react";
 
 import {Separator} from "../separator";
@@ -85,8 +86,8 @@ const circles = [
 ];
 
 const Template = ({color, size}: Avatar["RootProps"]) => (
-  <div className="flex items-start gap-4">
-    <div className="flex flex-col gap-4">
+  <Flex align="start" gap="4">
+    <Flex direction="column" gap="4">
       <Avatar color={color} size={size}>
         <Avatar.Fallback>PG</Avatar.Fallback>
       </Avatar>
@@ -103,34 +104,34 @@ const Template = ({color, size}: Avatar["RootProps"]) => (
           <Icon icon="gravity-ui:person-gear" />
         </Avatar.Fallback>
       </Avatar>
-    </div>
+    </Flex>
 
-    <div className="flex flex-col gap-4">
+    <Flex direction="column" gap="4">
       <Avatar color={color} size={size}>
         <Avatar.Image alt="John Doe" src="https://img.heroui.chat/image/avatar?w=400&h=400&u=3" />
-        <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+        <Avatar.Fallback>JD</Avatar.Fallback>
       </Avatar>
       <Avatar color={color} size={size}>
         <Avatar.Image
           alt="Junior Garcia"
           src="https://img.heroui.chat/image/avatar?w=400&h=400&u=4"
         />
-        <Avatar.Fallback delayMs={600}>JG</Avatar.Fallback>
+        <Avatar.Fallback>JG</Avatar.Fallback>
       </Avatar>
       <Avatar color={color} size={size}>
         <Avatar.Image
           alt="Junior Garcia"
           src="https://img.heroui.chat/image/avatar?w=400&h=400&u=5"
         />
-        <Avatar.Fallback delayMs={600}>JG</Avatar.Fallback>
+        <Avatar.Fallback>JG</Avatar.Fallback>
       </Avatar>
       <Avatar color={color} size={size}>
         <Avatar.Image alt="Paul" src="https://img.heroui.chat/image/avatar?w=400&h=400&u=8" />
-        <Avatar.Fallback delayMs={600}>PG</Avatar.Fallback>
+        <Avatar.Fallback>PG</Avatar.Fallback>
       </Avatar>
-    </div>
+    </Flex>
 
-    <div className="flex flex-col gap-4">
+    <Flex direction="column" gap="4">
       <Avatar color={color} size={size}>
         <Avatar.Image
           alt="Red"
@@ -166,8 +167,8 @@ const Template = ({color, size}: Avatar["RootProps"]) => (
         />
         <Avatar.Fallback>B</Avatar.Fallback>
       </Avatar>
-    </div>
-  </div>
+    </Flex>
+  </Flex>
 );
 
 const TemplateWithDelay = ({
@@ -176,23 +177,23 @@ const TemplateWithDelay = ({
   size,
 }: {
   delay: number;
-  color: AvatarVariants["color"];
-  size: AvatarVariants["size"];
+  color: AvatarRootProps["colorPalette"];
+  size: AvatarRootProps["size"];
 }) => {
   return (
-    <div className="flex flex-col gap-4">
+    <Flex direction="column" gap="4">
       <Avatar color={color} size={size}>
         <Avatar.Image
           src={`https://app.requestly.io/delay/${delay}/https://img.heroui.chat/image/avatar?w=400&h=400&u=3`}
         />
       </Avatar>
-    </div>
+    </Flex>
   );
 };
 
 const TemplateWithColors = () => {
   return (
-    <div className="flex items-center gap-4">
+    <Flex align="center" gap="4">
       <Avatar color="default">
         <Avatar.Fallback>DF</Avatar.Fallback>
       </Avatar>
@@ -208,13 +209,13 @@ const TemplateWithColors = () => {
       <Avatar color="danger">
         <Avatar.Fallback>DG</Avatar.Fallback>
       </Avatar>
-    </div>
+    </Flex>
   );
 };
 
 const FallbackTemplate = () => {
   return (
-    <div className="flex items-center gap-4">
+    <Flex align="center" gap="4">
       {/* Text fallback */}
       <Avatar>
         <Avatar.Fallback>JD</Avatar.Fallback>
@@ -231,22 +232,22 @@ const FallbackTemplate = () => {
           alt="Delayed Avatar"
           src="https://invalid-url-to-show-fallback.com/image.jpg"
         />
-        <Avatar.Fallback delayMs={600}>NA</Avatar.Fallback>
+        <Avatar.Fallback>NA</Avatar.Fallback>
       </Avatar>
       {/* Custom styled fallback */}
       <Avatar>
-        <Avatar.Fallback className="border-none bg-gradient-to-br from-pink-500 to-purple-500 text-white">
+        <Avatar.Fallback borderWidth="0" bgGradient="to-br" gradientFrom="pink.500" gradientTo="purple.500" color="white">
           GB
         </Avatar.Fallback>
       </Avatar>
-    </div>
+    </Flex>
   );
 };
 
 const AvatarGroupTemplate = () => {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-center -space-x-2">
+    <Flex direction="column" gap="4">
+      <Flex align="center" justify="center" css={{"& > *:not(:first-child)": {marginLeft: "-0.5rem"}}}>
         {users.map((user) => (
           <Avatar key={user.id} className="ring-2 ring-background">
             <Avatar.Image src={user.image_url} />
@@ -256,8 +257,8 @@ const AvatarGroupTemplate = () => {
         <Avatar className="ring-2 ring-background">
           <Avatar.Fallback className="border-none">+5</Avatar.Fallback>
         </Avatar>
-      </div>
-      <div className="flex items-center justify-center -space-x-2">
+      </Flex>
+      <Flex align="center" justify="center" css={{"& > *:not(:first-child)": {marginLeft: "-0.5rem"}}}>
         {circles.map((circle) => (
           <Avatar key={circle.id} className="ring-2 ring-background">
             <Avatar.Image src={circle.image_url} />
@@ -267,8 +268,8 @@ const AvatarGroupTemplate = () => {
         <Avatar className="ring-2 ring-background">
           <Avatar.Fallback className="border-none">+5</Avatar.Fallback>
         </Avatar>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 
@@ -296,7 +297,7 @@ export const Group = {
 
 export const Sizes = {
   render: () => (
-    <div className="flex items-center gap-4">
+    <Flex align="center" gap="4">
       <Avatar size="sm">
         <Avatar.Image alt="Small" src="https://img.heroui.chat/image/avatar?w=400&h=400&u=3" />
         <Avatar.Fallback>SM</Avatar.Fallback>
@@ -309,7 +310,7 @@ export const Sizes = {
         <Avatar.Image alt="Large" src="https://img.heroui.chat/image/avatar?w=400&h=400&u=5" />
         <Avatar.Fallback>LG</Avatar.Fallback>
       </Avatar>
-    </div>
+    </Flex>
   ),
 };
 
@@ -334,25 +335,25 @@ const VariantsTemplate = (props: AvatarRootProps) => {
   ] as const;
 
   return (
-    <div className="flex flex-col gap-4">
+    <Flex direction="column" gap="4">
       {/* Color labels header */}
-      <div className="flex items-center gap-3">
-        <div className="w-24 shrink-0" />
+      <Flex align="center" gap="3">
+        <Box width="96px" flexShrink={0} />
         {colors.map((color) => (
-          <div key={color} className="flex w-20 shrink-0 items-center justify-center">
-            <span className="text-xs text-muted capitalize">{color}</span>
-          </div>
+          <Flex key={color} width="80px" flexShrink={0} align="center" justify="center">
+            <Text fontSize="xs" color="fg.muted" textTransform="capitalize">{color}</Text>
+          </Flex>
         ))}
-      </div>
+      </Flex>
 
       <Separator />
 
       {/* Variant rows */}
       {variants.map((variant) => (
-        <div key={variant.label} className="flex items-center gap-3">
-          <div className="w-24 shrink-0 text-sm text-muted">{variant.label}</div>
+        <Flex key={variant.label} align="center" gap="3">
+          <Box width="96px" flexShrink={0} fontSize="sm" color="fg.muted">{variant.label}</Box>
           {colors.map((color, colorIndex) => (
-            <div key={color} className="flex w-20 shrink-0 items-center justify-center">
+            <Flex key={color} width="80px" flexShrink={0} align="center" justify="center">
               <Avatar
                 {...props}
                 color={color}
@@ -370,11 +371,11 @@ const VariantsTemplate = (props: AvatarRootProps) => {
                   <Avatar.Fallback>{variant.content}</Avatar.Fallback>
                 )}
               </Avatar>
-            </div>
+            </Flex>
           ))}
-        </div>
+        </Flex>
       ))}
-    </div>
+    </Flex>
   );
 };
 

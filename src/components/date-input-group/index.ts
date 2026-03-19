@@ -52,10 +52,3 @@ export type {
   DateInputGroupPrefixProps,
   DateInputGroupSuffixProps,
 } from "./date-input-group";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {dateInputGroupVariants} from "../../styles";
-
-export type {DateInputGroupVariants} from "../../styles";

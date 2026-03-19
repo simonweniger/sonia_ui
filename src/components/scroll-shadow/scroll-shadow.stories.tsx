@@ -1,6 +1,7 @@
 import type {ScrollShadowVisibility} from ".";
 import type {Meta, StoryObj} from "@storybook/react";
 
+import {Box, Flex, Text} from "@chakra-ui/react";
 import React, {useState} from "react";
 
 import {Button} from "../button";
@@ -23,7 +24,7 @@ export default meta;
 type Story = StoryObj<typeof ScrollShadow>;
 
 const LoremContent = () => (
-  <div className="space-y-4">
+  <Flex direction="column" gap="4">
     {Array.from({length: 10}).map((_, idx) => (
       <p key={`scroll-shadow-lorem-content-${idx}`}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus
@@ -31,7 +32,7 @@ const LoremContent = () => (
         accumsan cursus enim, sed ultricies sapien.
       </p>
     ))}
-  </div>
+  </Flex>
 );
 
 const LoremCards = () => {
@@ -46,125 +47,133 @@ const LoremCards = () => {
   };
 
   return (
-    <div className="flex flex-row gap-4">
+    <Flex direction="row" gap="4">
       {Array.from({length: 10}).map((_, idx) => (
         <Card
           key={`scroll-shadow-lorem-cards-${idx}`}
-          className="flex min-w-[200px] flex-row gap-3 p-1"
-          variant="transparent"
+          style={{display: "flex", minWidth: "200px", flexDirection: "row", gap: "12px", padding: "4px"}}
+          variant="secondary"
         >
           <img
             alt="Lorem Card"
-            className="aspect-square h-16 w-16 shrink-0 rounded-xl object-cover select-none sm:h-20 sm:w-20"
+            style={{
+              aspectRatio: "1/1",
+              height: "64px",
+              width: "64px",
+              flexShrink: 0,
+              borderRadius: "12px",
+              objectFit: "cover",
+              userSelect: "none",
+            }}
             loading="lazy"
             src={getRandomImage(idx)}
           />
-          <div className="flex flex-1 flex-col justify-center gap-1">
-            <Card.Title className="text-sm">Bridging the Future</Card.Title>
-            <Card.Description className="text-xs">Today, 6:30 PM</Card.Description>
-          </div>
+          <Flex flex="1" direction="column" justify="center" gap="1">
+            <Card.Title style={{fontSize: "14px"}}>Bridging the Future</Card.Title>
+            <Card.Description style={{fontSize: "12px"}}>Today, 6:30 PM</Card.Description>
+          </Flex>
         </Card>
       ))}
-    </div>
+    </Flex>
   );
 };
 
 export const Default: Story = {
   render: (args) => (
-    <div className="w-full p-0 sm:max-w-sm">
-      <ScrollShadow className="max-h-[240px] p-4" {...args}>
+    <Box w="full" p="0" maxW={{sm: "sm"}}>
+      <ScrollShadow style={{maxHeight: "240px", padding: "16px"}} {...args}>
         <LoremContent />
       </ScrollShadow>
-    </div>
+    </Box>
   ),
 };
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h4 className="mb-2 text-sm font-semibold">Fade (Opacity Effect)</h4>
-        <div className="w-full p-0 sm:max-w-sm">
-          <ScrollShadow className="max-h-[240px] p-4" {...args}>
+    <Flex direction="column" gap="8">
+      <Box>
+        <Text as="h4" mb="2" fontSize="sm" fontWeight="semibold">Fade (Opacity Effect)</Text>
+        <Box w="full" p="0" maxW={{sm: "sm"}}>
+          <ScrollShadow style={{maxHeight: "240px", padding: "16px"}} {...args}>
             <LoremContent />
           </ScrollShadow>
-        </div>
-      </div>
+        </Box>
+      </Box>
 
-      <div>
-        <h4 className="mb-2 text-sm font-semibold">Blur (Blur Effect)</h4>
-        <div className="w-full p-0 sm:max-w-sm">
-          <ScrollShadow className="max-h-[240px] p-4" {...args}>
+      <Box>
+        <Text as="h4" mb="2" fontSize="sm" fontWeight="semibold">Blur (Blur Effect)</Text>
+        <Box w="full" p="0" maxW={{sm: "sm"}}>
+          <ScrollShadow style={{maxHeight: "240px", padding: "16px"}} {...args}>
             <LoremContent />
           </ScrollShadow>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Flex>
   ),
 };
 
 export const Orientation: Story = {
   render: (args) => (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h4 className="mb-2 text-sm font-semibold">Vertical</h4>
-        <Card className="w-full p-0 sm:max-w-sm">
-          <ScrollShadow className="max-h-[240px] p-4" orientation="vertical" {...args}>
+    <Flex direction="column" gap="8">
+      <Box>
+        <Text as="h4" mb="2" fontSize="sm" fontWeight="semibold">Vertical</Text>
+        <Card style={{width: "100%", padding: 0, maxWidth: "384px"}}>
+          <ScrollShadow style={{maxHeight: "240px", padding: "16px"}} orientation="vertical" {...args}>
             <LoremContent />
           </ScrollShadow>
         </Card>
-      </div>
+      </Box>
 
-      <div>
-        <h4 className="mb-2 text-sm font-semibold">Horizontal</h4>
-        <Card className="w-full p-0 sm:max-w-sm">
-          <ScrollShadow className="p-4" orientation="horizontal" {...args}>
+      <Box>
+        <Text as="h4" mb="2" fontSize="sm" fontWeight="semibold">Horizontal</Text>
+        <Card style={{width: "100%", padding: 0, maxWidth: "384px"}}>
+          <ScrollShadow style={{padding: "16px"}} orientation="horizontal" {...args}>
             <LoremCards />
           </ScrollShadow>
         </Card>
-      </div>
-    </div>
+      </Box>
+    </Flex>
   ),
 };
 
 export const HideScrollBar: Story = {
   render: (args) => (
-    <div className="w-full p-0 sm:max-w-sm">
-      <ScrollShadow hideScrollBar className="max-h-[240px] p-4" {...args}>
+    <Box w="full" p="0" maxW={{sm: "sm"}}>
+      <ScrollShadow hideScrollBar style={{maxHeight: "240px", padding: "16px"}} {...args}>
         <LoremContent />
       </ScrollShadow>
-    </div>
+    </Box>
   ),
 };
 
 export const CustomSize: Story = {
   render: (args) => (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h4 className="mb-2 text-sm font-semibold">Small Shadow (20px)</h4>
-        <div className="w-full p-0 sm:max-w-sm">
-          <ScrollShadow className="max-h-[200px] p-4" size={20} {...args}>
+    <Flex direction="column" gap="6">
+      <Box>
+        <Text as="h4" mb="2" fontSize="sm" fontWeight="semibold">Small Shadow (20px)</Text>
+        <Box w="full" p="0" maxW={{sm: "sm"}}>
+          <ScrollShadow style={{maxHeight: "200px", padding: "16px"}} size={20} {...args}>
             <LoremContent />
           </ScrollShadow>
-        </div>
-      </div>
-      <div>
-        <h4 className="mb-2 text-sm font-semibold">Default Shadow (40px)</h4>
-        <div className="w-full p-0 sm:max-w-sm">
-          <ScrollShadow className="max-h-[200px] p-4" {...args}>
+        </Box>
+      </Box>
+      <Box>
+        <Text as="h4" mb="2" fontSize="sm" fontWeight="semibold">Default Shadow (40px)</Text>
+        <Box w="full" p="0" maxW={{sm: "sm"}}>
+          <ScrollShadow style={{maxHeight: "200px", padding: "16px"}} {...args}>
             <LoremContent />
           </ScrollShadow>
-        </div>
-      </div>
-      <div>
-        <h4 className="mb-2 text-sm font-semibold">Large Shadow (80px)</h4>
-        <div className="w-full p-0 sm:max-w-sm">
-          <ScrollShadow className="max-h-[200px] p-4" size={80} {...args}>
+        </Box>
+      </Box>
+      <Box>
+        <Text as="h4" mb="2" fontSize="sm" fontWeight="semibold">Large Shadow (80px)</Text>
+        <Box w="full" p="0" maxW={{sm: "sm"}}>
+          <ScrollShadow style={{maxHeight: "200px", padding: "16px"}} size={80} {...args}>
             <LoremContent />
           </ScrollShadow>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Flex>
   ),
 };
 
@@ -175,37 +184,37 @@ export const VisibilityChange: Story = {
 
     return (
       <>
-        <div className="mb-4 flex flex-col gap-4">
-          <div className="rounded bg-default p-4">
-            <p className="text-sm font-semibold">Vertical Shadow State: {verticalState}</p>
-          </div>
-          <div className="w-full p-0 sm:max-w-sm">
+        <Flex mb="4" direction="column" gap="4">
+          <Box rounded="md" bg="bg" p="4">
+            <Text fontSize="sm" fontWeight="semibold">Vertical Shadow State: {verticalState}</Text>
+          </Box>
+          <Box w="full" p="0" maxW={{sm: "sm"}}>
             <ScrollShadow
-              className="max-h-[240px] p-4"
+              style={{maxHeight: "240px", padding: "16px"}}
               orientation="vertical"
               onVisibilityChange={(visibility) => setVerticalState(visibility)}
               {...args}
             >
               <LoremContent />
             </ScrollShadow>
-          </div>
-        </div>
+          </Box>
+        </Flex>
 
-        <div className="flex flex-col gap-4">
-          <div className="rounded bg-default p-4">
-            <p className="text-sm font-semibold">Horizontal Shadow State: {horizontalState}</p>
-          </div>
-          <div className="w-full p-0 sm:max-w-sm">
+        <Flex direction="column" gap="4">
+          <Box rounded="md" bg="bg" p="4">
+            <Text fontSize="sm" fontWeight="semibold">Horizontal Shadow State: {horizontalState}</Text>
+          </Box>
+          <Box w="full" p="0" maxW={{sm: "sm"}}>
             <ScrollShadow
-              className="p-4"
+              style={{padding: "16px"}}
               orientation="horizontal"
               onVisibilityChange={(visibility) => setHorizontalState(visibility)}
               {...args}
             >
               <LoremCards />
             </ScrollShadow>
-          </div>
-        </div>
+          </Box>
+        </Flex>
       </>
     );
   },
@@ -213,21 +222,21 @@ export const VisibilityChange: Story = {
 
 export const WithCard: Story = {
   render: (args) => (
-    <Card className="max-w-[400px]">
+    <Card style={{maxWidth: "400px"}}>
       <Card.Header>
         <Card.Title>Terms and Conditions</Card.Title>
         <Card.Description>Please review before proceeding</Card.Description>
       </Card.Header>
-      <Card.Content className="p-0">
-        <ScrollShadow className="h-[300px] px-4" size={80} {...args}>
+      <Card.Content style={{padding: 0}}>
+        <ScrollShadow style={{height: "300px", paddingLeft: "16px", paddingRight: "16px"}} size={80} {...args}>
           <LoremContent />
         </ScrollShadow>
       </Card.Content>
-      <Card.Footer className="mt-4 flex flex-row gap-2">
-        <Button className="w-full" variant="secondary">
+      <Card.Footer style={{marginTop: "16px", display: "flex", flexDirection: "row", gap: "8px"}}>
+        <Button style={{width: "100%"}} variant="outline">
           Cancel
         </Button>
-        <Button className="w-full">Accept</Button>
+        <Button style={{width: "100%"}}>Accept</Button>
       </Card.Footer>
     </Card>
   ),

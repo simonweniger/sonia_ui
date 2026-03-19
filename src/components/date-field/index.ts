@@ -41,10 +41,3 @@ export type DateField = {
 export {DateFieldRoot};
 
 export type {DateFieldRootProps, DateFieldRootProps as DateFieldProps} from "./date-field";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {dateFieldVariants} from "../../styles";
-
-export type {DateFieldVariants} from "../../styles";

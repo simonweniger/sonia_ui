@@ -1,113 +1,92 @@
 "use client";
 
-import type {TagVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
-import type {Button as ButtonPrimitive} from "react-aria-components";
 
-import {tagVariants} from "../../styles";
-import React, {Children, createContext, useContext, useMemo} from "react";
-import {Tag as TagPrimitive} from "react-aria-components";
+import {Tag as ChakraTag} from "@chakra-ui/react";
+import React, {useContext} from "react";
 
-import {pickChildren} from "../../utils/children";
-import {composeTwRenderProps} from "../../utils/compose";
-import {CloseButton} from "../close-button";
 import {TagGroupContext} from "../tag-group";
-
-/* -------------------------------------------------------------------------------------------------
- * Tag Context
- * -----------------------------------------------------------------------------------------------*/
-type TagContext = {
-  slots?: ReturnType<typeof tagVariants>;
-};
-
-const TagContext = createContext<TagContext>({});
 
 /* -------------------------------------------------------------------------------------------------
  * Tag Root
  * -----------------------------------------------------------------------------------------------*/
-interface TagRootProps extends ComponentPropsWithRef<typeof TagPrimitive>, TagVariants {}
+interface TagRootProps extends ComponentPropsWithRef<typeof ChakraTag.Root> {
+  selected?: boolean;
+}
 
-const TagRoot = ({children, className, ...restProps}: TagRootProps) => {
-  const {size, variant} = useContext(TagGroupContext);
-
-  const slots = useMemo(() => tagVariants({size, variant}), [size, variant]);
-
-  const textValue = useMemo(() => {
-    if (typeof children === "string") {
-      return children;
-    }
-
-    if (typeof children === "object") {
-      return Children.toArray(children)
-        .filter((node) => typeof node === "string")
-        .at(0);
-    }
-
-    return undefined;
-  }, [children]);
-
-  // Extract custom RemoveButton from children if present
-  const [childrenWithoutRemoveButton, removeButtonChildren] = useMemo(() => {
-    if (typeof children === "function") {
-      return [children, undefined];
-    }
-
-    return pickChildren(children, TagRemoveButton);
-  }, [children]);
+const TagRoot = ({children, size, variant, selected, ...restProps}: TagRootProps) => {
+  const tagGroupCtx = useContext(TagGroupContext);
+  const effectiveSize = size ?? tagGroupCtx.size ?? "md";
+  const effectiveVariant = variant ?? tagGroupCtx.variant ?? "subtle";
 
   return (
-    <TagPrimitive
-      className={composeTwRenderProps(className, slots.base())}
+    <ChakraTag.Root
       data-slot="tag"
-      textValue={textValue}
+      data-selected={selected ? "true" : undefined}
+      size={effectiveSize}
+      variant={effectiveVariant}
       {...restProps}
     >
-      {(renderProps) => (
-        <TagContext value={{slots}}>
-          {typeof children === "function" ? (
-            children(renderProps)
-          ) : (
-            <>
-              {childrenWithoutRemoveButton}
-              {!!renderProps.allowsRemoving &&
-                (removeButtonChildren && removeButtonChildren.length > 0 ? (
-                  removeButtonChildren
-                ) : (
-                  <TagRemoveButton />
-                ))}
-            </>
-          )}
-        </TagContext>
-      )}
-    </TagPrimitive>
+      {children}
+    </ChakraTag.Root>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
- * Tag Remove Button
+ * Tag Label
  * -----------------------------------------------------------------------------------------------*/
-type TagRemoveButtonProps = ComponentPropsWithRef<typeof ButtonPrimitive> & {
-  children?: React.ReactNode;
+interface TagLabelProps extends ComponentPropsWithRef<typeof ChakraTag.Label> {}
+
+const TagLabel = ({children, ...restProps}: TagLabelProps) => {
+  return (
+    <ChakraTag.Label data-slot="tag-label" {...restProps}>
+      {children}
+    </ChakraTag.Label>
+  );
 };
 
-const TagRemoveButton = ({children, className, ...restProps}: TagRemoveButtonProps) => {
-  const {slots} = useContext(TagContext);
+/* -------------------------------------------------------------------------------------------------
+ * Tag Start Element
+ * -----------------------------------------------------------------------------------------------*/
+interface TagStartElementProps extends ComponentPropsWithRef<typeof ChakraTag.StartElement> {}
 
+const TagStartElement = ({children, ...restProps}: TagStartElementProps) => {
   return (
-    <CloseButton
-      className={composeTwRenderProps(className, slots?.removeButton())}
-      data-slot="tag-remove-button"
-      slot="remove"
-      {...restProps}
-    >
+    <ChakraTag.StartElement data-slot="tag-start-element" {...restProps}>
       {children}
-    </CloseButton>
+    </ChakraTag.StartElement>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * Tag End Element
+ * -----------------------------------------------------------------------------------------------*/
+interface TagEndElementProps extends ComponentPropsWithRef<typeof ChakraTag.EndElement> {}
+
+const TagEndElement = ({children, ...restProps}: TagEndElementProps) => {
+  return (
+    <ChakraTag.EndElement data-slot="tag-end-element" {...restProps}>
+      {children}
+    </ChakraTag.EndElement>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * Tag Close Trigger (Remove Button)
+ * -----------------------------------------------------------------------------------------------*/
+interface TagCloseTriggerProps extends ComponentPropsWithRef<typeof ChakraTag.CloseTrigger> {}
+
+const TagCloseTrigger = ({children, ...restProps}: TagCloseTriggerProps) => {
+  return (
+    <ChakraTag.CloseTrigger data-slot="tag-close-trigger" {...restProps}>
+      {children}
+    </ChakraTag.CloseTrigger>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/
-export {TagRoot, TagRemoveButton};
+export {TagRoot, TagLabel, TagStartElement, TagEndElement, TagCloseTrigger};
 
-export type {TagRootProps, TagRemoveButtonProps};
+export type {TagRootProps, TagLabelProps, TagStartElementProps, TagEndElementProps, TagCloseTriggerProps};

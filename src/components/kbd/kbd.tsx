@@ -1,42 +1,24 @@
 "use client";
 
 import type {KbdKey} from "./kbd.constants";
-import type {KbdVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {kbdVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-
-import {composeSlotClassName} from "../../utils/compose";
+import {Kbd as ChakraKbd} from "@chakra-ui/react";
 
 import {kbdKeysLabelMap, kbdKeysMap} from "./kbd.constants";
 
 /* -------------------------------------------------------------------------------------------------
- * Kbd Context
- * -----------------------------------------------------------------------------------------------*/
-type KbdContext = {
-  slots?: ReturnType<typeof kbdVariants>;
-};
-
-const KbdContext = createContext<KbdContext>({});
-
-/* -------------------------------------------------------------------------------------------------
  * Kbd Root
  * -----------------------------------------------------------------------------------------------*/
-interface KbdRootProps extends ComponentPropsWithRef<"kbd">, KbdVariants {
+interface KbdRootProps extends ComponentPropsWithRef<typeof ChakraKbd> {
   children: React.ReactNode;
-  className?: string;
 }
 
-const KbdRoot = ({children, className, variant, ...props}: KbdRootProps) => {
-  const slots = React.useMemo(() => kbdVariants({variant}), [variant]);
-
+const KbdRoot = ({children, ...props}: KbdRootProps) => {
   return (
-    <KbdContext value={{slots}}>
-      <kbd {...props} className={slots.base({className})}>
-        {children}
-      </kbd>
-    </KbdContext>
+    <ChakraKbd data-slot="kbd" {...props}>
+      {children}
+    </ChakraKbd>
   );
 };
 
@@ -44,20 +26,22 @@ const KbdRoot = ({children, className, variant, ...props}: KbdRootProps) => {
  * Kbd Abbr
  * -----------------------------------------------------------------------------------------------*/
 interface KbdAbbrProps extends ComponentPropsWithRef<"abbr"> {
-  className?: string;
-  /**
-   * The keyboard key to display
-   */
   keyValue: KbdKey;
 }
 
-const KbdAbbr = ({className, keyValue, ...props}: KbdAbbrProps) => {
-  const {slots} = useContext(KbdContext);
-
+const KbdAbbr = ({keyValue, ...props}: KbdAbbrProps) => {
   return (
     <abbr
-      className={composeSlotClassName(slots?.abbr, className)}
       title={kbdKeysLabelMap[keyValue]}
+      data-slot="kbd-abbr"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        height: "100%",
+        textDecoration: "none",
+      }}
       {...props}
     >
       {kbdKeysMap[keyValue]}
@@ -70,14 +54,19 @@ const KbdAbbr = ({className, keyValue, ...props}: KbdAbbrProps) => {
  * -----------------------------------------------------------------------------------------------*/
 interface KbdContentProps extends ComponentPropsWithRef<"span"> {
   children: React.ReactNode;
-  className?: string;
 }
 
-const KbdContent = ({children, className, ...props}: KbdContentProps) => {
-  const {slots} = useContext(KbdContext);
-
+const KbdContent = ({children, ...props}: KbdContentProps) => {
   return (
-    <span className={composeSlotClassName(slots?.content, className)} {...props}>
+    <span
+      data-slot="kbd-content"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+      {...props}
+    >
       {children}
     </span>
   );

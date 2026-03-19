@@ -29,10 +29,3 @@ export type {
   AvatarImageProps,
   AvatarFallbackProps,
 } from "./avatar";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {avatarVariants} from "../../styles";
-
-export type {AvatarVariants} from "../../styles";

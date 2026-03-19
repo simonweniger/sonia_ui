@@ -1,56 +1,150 @@
 "use client";
 
-import type {NumberFieldVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {numberFieldVariants} from "../../styles";
+import {Box, NumberInput} from "@chakra-ui/react";
 import React, {createContext, useContext} from "react";
-import {
-  Button as ButtonPrimitive,
-  Group as GroupPrimitive,
-  Input as InputPrimitive,
-  NumberField as NumberFieldPrimitive,
-} from "react-aria-components";
 
-import {composeTwRenderProps} from "../../utils/compose";
 import {IconMinus, IconPlus} from "../icons";
 
 /* -------------------------------------------------------------------------------------------------
  * NumberField Context
  * -----------------------------------------------------------------------------------------------*/
-type NumberFieldContext = {
-  slots?: ReturnType<typeof numberFieldVariants>;
+type NumberFieldContextValue = {
+  variant?: string;
 };
 
-const NumberFieldContext = createContext<NumberFieldContext>({});
+const NumberFieldContext = createContext<NumberFieldContextValue>({});
+
+/* -------------------------------------------------------------------------------------------------
+ * Style definitions
+ * -----------------------------------------------------------------------------------------------*/
+const groupBaseStyles = {
+  display: "inline-flex",
+  height: "9",
+  alignItems: "center",
+  overflow: "hidden",
+  rounded: "xl",
+  bg: "white",
+  color: "fg",
+  shadow: "field",
+  outline: "none",
+  borderWidth: "0px",
+  borderColor: "transparent",
+  fontSize: "sm",
+  transitionProperty: "common",
+  transitionDuration: "fast",
+  transitionTimingFunction: "ease",
+  _hover: {
+    bg: "bg.muted",
+    borderColor: "border.emphasized",
+  },
+  _focusWithin: {
+    ring: "2px",
+    ringColor: "accent",
+    borderColor: "accent",
+    bg: "bg.subtle",
+  },
+  _invalid: {
+    outline: "1px solid",
+    outlineColor: "danger",
+    bg: "bg.subtle",
+  },
+  _disabled: {
+    opacity: 0.5,
+    cursor: "not-allowed",
+    pointerEvents: "none" as const,
+  },
+} as const;
+
+const groupVariantStyles = {
+  primary: {
+    borderWidth: "1px",
+    borderColor: "border",
+    shadow: "field",
+  },
+  secondary: {
+    bg: "bg.muted",
+    shadow: "none",
+    borderColor: "transparent",
+    _hover: {
+      bg: "bg.emphasized",
+    },
+    _focusWithin: {
+      bg: "bg.muted",
+    },
+    _invalid: {
+      outline: "1px solid",
+      outlineColor: "danger",
+      bg: "bg.muted",
+    },
+  },
+} as const;
+
+const inputStyles = {
+  flex: "1",
+  rounded: "none",
+  borderWidth: "0",
+  bg: "transparent",
+  px: "3",
+  py: "2",
+  fontSize: {base: "md", sm: "sm"},
+  fontVariantNumeric: "tabular-nums",
+  shadow: "none",
+  outline: "none",
+  _focus: {outline: "none"},
+  _focusVisible: {outline: "none"},
+} as const;
+
+const stepperButtonBaseStyles = {
+  display: "flex",
+  height: "100%",
+  width: "10",
+  alignItems: "center",
+  justifyContent: "center",
+  rounded: "none",
+  bg: "transparent",
+  color: "fg",
+  outline: "none",
+  borderWidth: "0px",
+  borderColor: "transparent",
+  cursor: "pointer",
+  transitionProperty: "common",
+  transitionDuration: "fast",
+  transitionTimingFunction: "ease",
+  _active: {
+    bg: "blackAlpha.100",
+    transform: "scale(0.97)",
+  },
+  _disabled: {
+    opacity: 0.5,
+    cursor: "not-allowed",
+    pointerEvents: "none" as const,
+  },
+} as const;
 
 /* -------------------------------------------------------------------------------------------------
  * NumberField Root
  * -----------------------------------------------------------------------------------------------*/
 interface NumberFieldRootProps
-  extends ComponentPropsWithRef<typeof NumberFieldPrimitive>, NumberFieldVariants {}
+  extends Omit<ComponentPropsWithRef<typeof NumberInput.Root>, "variant"> {
+  fullWidth?: boolean;
+  variant?: string;
+}
 
-const NumberFieldRoot = ({
-  children,
-  className,
-  fullWidth,
-  variant,
-  ...props
-}: NumberFieldRootProps) => {
-  const slots = React.useMemo(
-    () => numberFieldVariants({fullWidth, variant}),
-    [fullWidth, variant],
-  );
-
+const NumberFieldRoot = ({children, fullWidth, variant, ...props}: NumberFieldRootProps) => {
   return (
-    <NumberFieldContext value={{slots}}>
-      <NumberFieldPrimitive
+    <NumberFieldContext value={{variant}}>
+      <NumberInput.Root
         data-slot="number-field"
+        display="flex"
+        flexDirection="column"
+        gap="1"
+        width={fullWidth ? "100%" : undefined}
         {...props}
-        className={composeTwRenderProps(className, slots?.base())}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </NumberFieldPrimitive>
+        {children}
+      </NumberInput.Root>
     </NumberFieldContext>
   );
 };
@@ -58,92 +152,84 @@ const NumberFieldRoot = ({
 /* -------------------------------------------------------------------------------------------------
  * NumberField Group
  * -----------------------------------------------------------------------------------------------*/
-interface NumberFieldGroupProps extends ComponentPropsWithRef<typeof GroupPrimitive> {}
+interface NumberFieldGroupProps extends ComponentPropsWithRef<"div"> {
+  fullWidth?: boolean;
+}
 
-const NumberFieldGroup = ({children, className, ...props}: NumberFieldGroupProps) => {
-  const {slots} = useContext(NumberFieldContext);
+const NumberFieldGroup = ({children, fullWidth, ...props}: NumberFieldGroupProps) => {
+  const {variant} = useContext(NumberFieldContext);
+  const resolvedVariantStyles =
+    variant === "secondary" ? groupVariantStyles.secondary : groupVariantStyles.primary;
 
   return (
-    <GroupPrimitive
-      className={composeTwRenderProps(className, slots?.group())}
+    <Box
       data-slot="number-field-group"
+      {...groupBaseStyles}
+      {...resolvedVariantStyles}
+      width={fullWidth ? "100%" : undefined}
       {...props}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-    </GroupPrimitive>
+      {children}
+    </Box>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * NumberField Input
  * -----------------------------------------------------------------------------------------------*/
-interface NumberFieldInputProps extends ComponentPropsWithRef<typeof InputPrimitive> {}
+interface NumberFieldInputProps extends ComponentPropsWithRef<typeof NumberInput.Input> {}
 
-const NumberFieldInput = ({className, ...props}: NumberFieldInputProps) => {
-  const {slots} = useContext(NumberFieldContext);
-
-  return (
-    <InputPrimitive
-      className={composeTwRenderProps(className, slots?.input())}
-      data-slot="number-field-input"
-      {...props}
-    />
-  );
+const NumberFieldInput = ({...props}: NumberFieldInputProps) => {
+  return <NumberInput.Input data-slot="number-field-input" {...inputStyles} {...props} />;
 };
 
 /* -------------------------------------------------------------------------------------------------
  * NumberField Increment Button
  * -----------------------------------------------------------------------------------------------*/
-interface NumberFieldIncrementButtonProps extends ComponentPropsWithRef<typeof ButtonPrimitive> {}
+interface NumberFieldIncrementButtonProps
+  extends ComponentPropsWithRef<typeof NumberInput.IncrementTrigger> {}
 
 const NumberFieldIncrementButton = ({
   children,
-  className,
   ...props
 }: NumberFieldIncrementButtonProps) => {
-  const {slots} = useContext(NumberFieldContext);
-
   return (
-    <ButtonPrimitive
-      className={composeTwRenderProps(className, slots?.incrementButton())}
+    <NumberInput.IncrementTrigger
       data-slot="number-field-increment-button"
-      slot="increment"
+      {...stepperButtonBaseStyles}
+      roundedLeft="none"
+      roundedRight="xl"
+      borderLeftWidth="1px"
+      borderLeftColor="blackAlpha.100"
       {...props}
     >
-      {children && React.isValidElement(children) ? (
-        children
-      ) : (
-        <IconPlus data-slot="number-field-increment-button-icon" />
-      )}
-    </ButtonPrimitive>
+      {children ?? <IconPlus data-slot="number-field-increment-button-icon" />}
+    </NumberInput.IncrementTrigger>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * NumberField Decrement Button
  * -----------------------------------------------------------------------------------------------*/
-interface NumberFieldDecrementButtonProps extends ComponentPropsWithRef<typeof ButtonPrimitive> {}
+interface NumberFieldDecrementButtonProps
+  extends ComponentPropsWithRef<typeof NumberInput.DecrementTrigger> {}
 
 const NumberFieldDecrementButton = ({
   children,
-  className,
   ...props
 }: NumberFieldDecrementButtonProps) => {
-  const {slots} = useContext(NumberFieldContext);
-
   return (
-    <ButtonPrimitive
-      className={composeTwRenderProps(className, slots?.decrementButton())}
+    <NumberInput.DecrementTrigger
       data-slot="number-field-decrement-button"
-      slot="decrement"
+      {...stepperButtonBaseStyles}
+      roundedLeft="xl"
+      roundedRight="none"
+      borderRightWidth="1px"
+      borderRightColor="blackAlpha.100"
       {...props}
     >
-      {children && React.isValidElement(children) ? (
-        children
-      ) : (
-        <IconMinus data-slot="number-field-decrement-button-icon" />
-      )}
-    </ButtonPrimitive>
+      {children ?? <IconMinus data-slot="number-field-decrement-button-icon" />}
+    </NumberInput.DecrementTrigger>
   );
 };
 

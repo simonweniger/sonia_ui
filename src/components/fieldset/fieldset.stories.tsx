@@ -6,7 +6,6 @@ import React from "react";
 import {Button} from "../button";
 import {Description} from "../description";
 import {FieldError} from "../field-error";
-import {Form} from "../form";
 import {Input} from "../input";
 import {Label} from "../label";
 import {TextArea} from "../textarea";
@@ -30,54 +29,26 @@ export const Default: Story = {
   render: () => {
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const formData = new FormData(e.currentTarget);
-      const data: Record<string, string> = {};
-
-      // Convert FormData to plain object
-      formData.forEach((value, key) => {
-        data[key] = value.toString();
-      });
-
       alert("Form submitted successfully!");
     };
 
     return (
-      <Form onSubmit={onSubmit}>
-        <Fieldset className="w-96">
+      <form onSubmit={onSubmit}>
+        <Fieldset w="96">
           <Fieldset.Legend>Profile Settings</Fieldset.Legend>
           <Description>Update your profile information.</Description>
           <Fieldset.Group>
-            <TextField
-              isRequired
-              name="name"
-              validate={(value) => {
-                if (value.length < 3) {
-                  return "Name must be at least 3 characters";
-                }
-
-                return null;
-              }}
-            >
+            <TextField required name="name">
               <Label>Name</Label>
               <Input placeholder="John Doe" />
               <FieldError />
             </TextField>
-            <TextField isRequired name="email" type="email">
+            <TextField required name="email">
               <Label>Email</Label>
-              <Input placeholder="john@example.com" />
+              <Input placeholder="john@example.com" type="email" />
               <FieldError />
             </TextField>
-            <TextField
-              isRequired
-              name="bio"
-              validate={(value) => {
-                if (value.length < 10) {
-                  return "Bio must be at least 10 characters";
-                }
-
-                return null;
-              }}
-            >
+            <TextField required name="bio">
               <Label>Bio</Label>
               <TextArea placeholder="Tell us about yourself..." />
               <Description>Minimum 10 characters</Description>
@@ -89,12 +60,12 @@ export const Default: Story = {
               <Icon icon="gravity-ui:floppy-disk" />
               Save changes
             </Button>
-            <Button type="reset" variant="tertiary">
+            <Button type="reset" variant="ghost">
               Cancel
             </Button>
           </Fieldset.Actions>
         </Fieldset>
-      </Form>
+      </form>
     );
   },
 };

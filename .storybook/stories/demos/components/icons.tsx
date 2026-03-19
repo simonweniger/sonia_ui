@@ -1,7 +1,10 @@
 import type {Ref, SVGProps} from "react";
 
 import React, {forwardRef, memo} from "react";
-import {cn} from "tailwind-variants";
+
+function cn(...classes: (string | undefined)[]): string {
+  return classes.filter(Boolean).join(" ");
+}
 
 const AppleIconRender = (props: SVGProps<SVGSVGElement>, ref: Ref<SVGSVGElement>) => {
   const {className, ...restProps} = props;

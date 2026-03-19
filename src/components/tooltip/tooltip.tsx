@@ -1,130 +1,80 @@
 "use client";
 
-import type {TooltipVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {tooltipVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-import {
-  Focusable as FocusablePrimitive,
-  OverlayArrow,
-  Tooltip as TooltipPrimitive,
-  TooltipTrigger as TooltipTriggerPrimitive,
-} from "react-aria-components";
-
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
-
-/* -------------------------------------------------------------------------------------------------
- * Tooltip Context
- * -----------------------------------------------------------------------------------------------*/
-type TooltipContext = {
-  slots?: ReturnType<typeof tooltipVariants>;
-};
-
-const TooltipContext = createContext<TooltipContext>({});
+import React from "react";
+import {Tooltip as ChakraTooltip} from "@chakra-ui/react";
 
 /* -------------------------------------------------------------------------------------------------
  * Tooltip Root
  * -----------------------------------------------------------------------------------------------*/
-type TooltipRootProps = ComponentPropsWithRef<typeof TooltipTriggerPrimitive>;
+interface TooltipRootProps extends ComponentPropsWithRef<typeof ChakraTooltip.Root> {}
 
-const TooltipRoot = ({
-  children,
-  ...props
-}: ComponentPropsWithRef<typeof TooltipTriggerPrimitive>) => {
-  const slots = React.useMemo(() => tooltipVariants(), []);
-
+const TooltipRoot = ({children, ...props}: TooltipRootProps) => {
   return (
-    <TooltipContext value={{slots}}>
-      <TooltipTriggerPrimitive data-slot="tooltip-root" {...props}>
-        {children}
-      </TooltipTriggerPrimitive>
-    </TooltipContext>
+    <ChakraTooltip.Root data-slot="tooltip-root" {...props}>
+      {children}
+    </ChakraTooltip.Root>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Tooltip Content
  * -----------------------------------------------------------------------------------------------*/
-interface TooltipContentProps
-  extends Omit<ComponentPropsWithRef<typeof TooltipPrimitive>, "children">, TooltipVariants {
+interface TooltipContentProps extends ComponentPropsWithRef<typeof ChakraTooltip.Content> {
   showArrow?: boolean;
-  children: React.ReactNode;
 }
 
-const TooltipContent = ({
-  children,
-  className,
-  offset: offsetProp,
-  showArrow = false,
-  ...props
-}: TooltipContentProps) => {
-  const {slots} = useContext(TooltipContext);
-  const offset = offsetProp ? offsetProp : showArrow ? 7 : 3;
-
+const TooltipContent = ({children, className, showArrow = false, ...props}: TooltipContentProps) => {
   return (
-    <TooltipPrimitive
+    <ChakraTooltip.Content
+      data-slot="tooltip-content"
+      className={className}
+      css={{transformOrigin: "var(--trigger-anchor-point)"}}
       {...props}
-      className={composeTwRenderProps(className, slots?.base())}
-      offset={offset}
     >
+      {showArrow && (
+        <ChakraTooltip.Arrow data-slot="tooltip-arrow">
+          <ChakraTooltip.ArrowTip />
+        </ChakraTooltip.Arrow>
+      )}
       {children}
-    </TooltipPrimitive>
+    </ChakraTooltip.Content>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Tooltip Arrow
  * -----------------------------------------------------------------------------------------------*/
-type TooltipArrowProps = Omit<ComponentPropsWithRef<typeof OverlayArrow>, "children"> & {
-  children?: React.ReactNode;
-};
+interface TooltipArrowProps extends ComponentPropsWithRef<typeof ChakraTooltip.Arrow> {}
 
-const TooltipArrow = ({children, className, ...props}: TooltipArrowProps) => {
-  const defaultArrow = (
-    <svg data-slot="overlay-arrow" height={12} viewBox="0 0 12 12" width={12}>
-      <path d="M0 0 Q6 9 12 0" />
-    </svg>
-  );
-
-  const arrow = React.isValidElement(children)
-    ? React.cloneElement(
-        children as React.ReactElement<{
-          className?: string;
-          "data-slot"?: "overlay-arrow";
-        }>,
-        {
-          "data-slot": "overlay-arrow",
-        },
-      )
-    : defaultArrow;
-
+const TooltipArrow = ({className, ...props}: TooltipArrowProps) => {
   return (
-    <OverlayArrow data-slot="tooltip-arrow" {...props} className={className}>
-      {arrow}
-    </OverlayArrow>
+    <ChakraTooltip.Arrow data-slot="tooltip-arrow" className={className} {...props}>
+      <ChakraTooltip.ArrowTip />
+    </ChakraTooltip.Arrow>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Tooltip Trigger
  * -----------------------------------------------------------------------------------------------*/
-interface TooltipTriggerProps extends ComponentPropsWithRef<"div"> {}
+interface TooltipTriggerProps extends ComponentPropsWithRef<typeof ChakraTooltip.Trigger> {}
 
 const TooltipTrigger = ({children, className, ...props}: TooltipTriggerProps) => {
-  const {slots} = useContext(TooltipContext);
-
   return (
-    <FocusablePrimitive>
-      <div
-        className={composeSlotClassName(slots?.trigger, className)}
-        data-slot="tooltip-trigger"
-        role="button"
-        {...props}
-      >
-        {children}
-      </div>
-    </FocusablePrimitive>
+    <ChakraTooltip.Trigger
+      data-slot="tooltip-trigger"
+      className={className}
+      css={{
+        transition:
+          "color 150ms var(--ease-smooth), background-color 150ms var(--ease-smooth), box-shadow 150ms var(--ease-out)",
+      }}
+      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
+      {...props}
+    >
+      {children}
+    </ChakraTooltip.Trigger>
   );
 };
 

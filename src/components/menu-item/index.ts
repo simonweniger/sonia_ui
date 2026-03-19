@@ -1,6 +1,6 @@
 import type {ComponentProps} from "react";
 
-import {MenuItemIndicator, MenuItemRoot, MenuItemSubmenuIndicator} from "./menu-item";
+import {MenuItemCommand, MenuItemIndicator, MenuItemRoot} from "./menu-item";
 
 /* -------------------------------------------------------------------------------------------------
  * Compound Component
@@ -8,30 +8,24 @@ import {MenuItemIndicator, MenuItemRoot, MenuItemSubmenuIndicator} from "./menu-
 export const MenuItem = Object.assign(MenuItemRoot, {
   Root: MenuItemRoot,
   Indicator: MenuItemIndicator,
-  SubmenuIndicator: MenuItemSubmenuIndicator,
+  Command: MenuItemCommand,
 });
 
 export type MenuItem = {
   Props: ComponentProps<typeof MenuItemRoot>;
   RootProps: ComponentProps<typeof MenuItemRoot>;
   IndicatorProps: ComponentProps<typeof MenuItemIndicator>;
-  SubmenuIndicatorProps: ComponentProps<typeof MenuItemSubmenuIndicator>;
+  CommandProps: ComponentProps<typeof MenuItemCommand>;
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Named Component
  * -----------------------------------------------------------------------------------------------*/
-export {MenuItemRoot, MenuItemIndicator, MenuItemSubmenuIndicator};
+export {MenuItemRoot, MenuItemIndicator, MenuItemCommand};
 
 export type {
   MenuItemRootProps,
   MenuItemRootProps as MenuItemProps,
   MenuItemIndicatorProps,
-  MenuItemSubmenuIndicatorProps,
+  MenuItemCommandProps,
 } from "./menu-item";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {menuItemVariants} from "../../styles";
-export type {MenuItemVariants} from "../../styles";

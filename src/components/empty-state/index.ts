@@ -20,10 +20,3 @@ export type EmptyState = {
 export {EmptyStateRoot};
 
 export type {EmptyStateRootProps, EmptyStateRootProps as EmptyStateProps} from "./empty-state";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {emptyStateVariants} from "../../styles";
-
-export type {EmptyStateVariants} from "../../styles";

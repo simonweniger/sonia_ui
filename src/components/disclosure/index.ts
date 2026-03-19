@@ -52,10 +52,3 @@ export type {
   DisclosureIndicatorProps,
   DisclosureBodyContentProps,
 } from "./disclosure";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {disclosureVariants} from "../../styles";
-
-export type {DisclosureVariants} from "../../styles";

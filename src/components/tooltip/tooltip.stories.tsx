@@ -3,6 +3,8 @@ import type {Meta} from "@storybook/react";
 import {Icon} from "@iconify/react";
 import React from "react";
 
+import {Box, Flex, Text} from "@chakra-ui/react";
+
 import {Button} from "../button";
 import {Card} from "../card";
 
@@ -17,27 +19,17 @@ export default {
       control: "select",
       options: [
         "bottom",
-        "bottom left",
-        "bottom right",
-        "bottom start",
-        "bottom end",
+        "bottom-start",
+        "bottom-end",
         "top",
-        "top left",
-        "top right",
-        "top start",
-        "top end",
+        "top-start",
+        "top-end",
         "left",
-        "left top",
-        "left bottom",
-        "start",
-        "start top",
-        "start bottom",
+        "left-start",
+        "left-end",
         "right",
-        "right top",
-        "right bottom",
-        "end",
-        "end top",
-        "end bottom",
+        "right-start",
+        "right-end",
       ],
     },
   },
@@ -53,33 +45,35 @@ const defaultArgs: Omit<Tooltip["ContentProps"], "children"> = {
 };
 
 const Template = (props: Tooltip["ContentProps"]) => (
-  <div className="flex items-center justify-center gap-3">
-    <Tooltip delay={0}>
-      <Button isIconOnly variant="tertiary">
-        <Icon icon="gravity-ui:circle-info" />
-      </Button>
-      <Tooltip.Content {...props}>
-        <Tooltip.Arrow />
-        <p>Tooltip content</p>
-      </Tooltip.Content>
-    </Tooltip>
-  </div>
-);
-
-const TemplateWithTrigger = (props: Tooltip["ContentProps"]) => (
-  <div className="flex items-center gap-3">
-    <Tooltip delay={0}>
-      <Tooltip.Trigger aria-label="Tooltip trigger">
-        <div className="rounded-full bg-accent-soft p-2">
+  <Flex align="center" justify="center" gap="3">
+    <Tooltip openDelay={0}>
+      <Tooltip.Trigger>
+        <Button isIconOnly variant="ghost">
           <Icon icon="gravity-ui:circle-info" />
-        </div>
+        </Button>
       </Tooltip.Trigger>
       <Tooltip.Content {...props}>
         <Tooltip.Arrow />
-        <p>Tooltip content</p>
+        <Text>Tooltip content</Text>
       </Tooltip.Content>
     </Tooltip>
-  </div>
+  </Flex>
+);
+
+const TemplateWithTrigger = (props: Tooltip["ContentProps"]) => (
+  <Flex align="center" gap="3">
+    <Tooltip openDelay={0}>
+      <Tooltip.Trigger aria-label="Tooltip trigger">
+        <Box rounded="full" bg="accent.soft" p="2">
+          <Icon icon="gravity-ui:circle-info" />
+        </Box>
+      </Tooltip.Trigger>
+      <Tooltip.Content {...props}>
+        <Tooltip.Arrow />
+        <Text>Tooltip content</Text>
+      </Tooltip.Content>
+    </Tooltip>
+  </Flex>
 );
 
 export const Default = {
@@ -93,23 +87,23 @@ export const WithTrigger = {
 };
 
 const CardWithTooltipTemplate = (props: Tooltip["ContentProps"]) => (
-  <Card className="w-[200px]">
-    <Card.Content className="flex items-center justify-center p-6">
-      <Tooltip delay={0}>
+  <Card width="200px">
+    <Card.Content display="flex" alignItems="center" justifyContent="center" p="6">
+      <Tooltip openDelay={0}>
         <Tooltip.Trigger aria-label="Attach a file">
           <Button
             isIconOnly
             aria-label="Attach file"
-            className="rounded-full"
+            rounded="full"
             size="lg"
-            variant="secondary"
+            variant="outline"
           >
             <Icon icon="gravity-ui:paperclip" />
           </Button>
         </Tooltip.Trigger>
         <Tooltip.Content {...props}>
           <Tooltip.Arrow />
-          <p>Attach a file</p>
+          <Text>Attach a file</Text>
         </Tooltip.Content>
       </Tooltip>
     </Card.Content>

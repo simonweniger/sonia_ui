@@ -2,8 +2,9 @@ import type {ComponentProps} from "react";
 
 import {
   PopoverArrow,
+  PopoverBody,
+  PopoverCloseTrigger,
   PopoverContent,
-  PopoverDialog,
   PopoverHeading,
   PopoverRoot,
   PopoverTrigger,
@@ -15,40 +16,36 @@ import {
 export const Popover = Object.assign(PopoverRoot, {
   Root: PopoverRoot,
   Trigger: PopoverTrigger,
-  Dialog: PopoverDialog,
+  Body: PopoverBody,
   Arrow: PopoverArrow,
   Content: PopoverContent,
   Heading: PopoverHeading,
+  CloseTrigger: PopoverCloseTrigger,
 });
 
 export type Popover = {
   Props: ComponentProps<typeof PopoverRoot>;
   RootProps: ComponentProps<typeof PopoverRoot>;
   TriggerProps: ComponentProps<typeof PopoverTrigger>;
-  DialogProps: ComponentProps<typeof PopoverDialog>;
+  BodyProps: ComponentProps<typeof PopoverBody>;
   ArrowProps: ComponentProps<typeof PopoverArrow>;
   ContentProps: ComponentProps<typeof PopoverContent>;
   HeadingProps: ComponentProps<typeof PopoverHeading>;
+  CloseTriggerProps: ComponentProps<typeof PopoverCloseTrigger>;
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Named Component
  * -----------------------------------------------------------------------------------------------*/
-export {PopoverArrow, PopoverContent, PopoverDialog, PopoverHeading, PopoverRoot, PopoverTrigger};
+export {PopoverArrow, PopoverBody, PopoverCloseTrigger, PopoverContent, PopoverHeading, PopoverRoot, PopoverTrigger};
 
 export type {
   PopoverRootProps,
   PopoverRootProps as PopoverProps,
   PopoverTriggerProps,
-  PopoverDialogProps,
+  PopoverBodyProps,
   PopoverArrowProps,
   PopoverContentProps,
   PopoverHeadingProps,
+  PopoverCloseTriggerProps,
 } from "./popover";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {popoverVariants} from "../../styles";
-
-export type {PopoverVariants} from "../../styles";

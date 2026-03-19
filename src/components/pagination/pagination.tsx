@@ -1,52 +1,40 @@
 "use client";
 
-import type {PaginationVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {paginationVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-import {Button as ButtonPrimitive} from "react-aria-components";
+import {Box, Pagination as ChakraPagination, chakra} from "@chakra-ui/react";
+import {Button} from "@chakra-ui/react";
+import React from "react";
 
-import {composeTwRenderProps} from "../../utils";
-import {composeSlotClassName} from "../../utils/compose";
 import {IconChevronLeft, IconChevronRight} from "../icons";
-
-/* -------------------------------------------------------------------------------------------------
- * Pagination Context
- * -----------------------------------------------------------------------------------------------*/
-type PaginationContext = {
-  slots?: ReturnType<typeof paginationVariants>;
-};
-
-const PaginationContext = createContext<PaginationContext>({});
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Root
  * -----------------------------------------------------------------------------------------------*/
-interface PaginationRootProps extends ComponentPropsWithRef<"nav">, PaginationVariants {
+interface PaginationRootProps extends ComponentPropsWithRef<typeof ChakraPagination.Root> {
   className?: string;
   children: React.ReactNode;
 }
 
-const PaginationRoot = ({children, className, size, ...props}: PaginationRootProps) => {
-  const slots = React.useMemo(() => paginationVariants({size}), [size]);
-
+const PaginationRoot = ({children, className, ...props}: PaginationRootProps) => {
   return (
-    <PaginationContext value={{slots}}>
-      <nav
-        aria-label="pagination"
-        data-slot="pagination"
-        role="navigation"
-        {...props}
-        className={composeSlotClassName(slots.base, className)}
-      >
-        {children}
-      </nav>
-    </PaginationContext>
+    <ChakraPagination.Root
+      className={className}
+      data-slot="pagination"
+      display="flex"
+      w="100%"
+      flexDir={{base: "column", sm: "row"}}
+      alignItems="center"
+      justifyContent="space-between"
+      gap="4"
+      {...props}
+    >
+      {children}
+    </ChakraPagination.Root>
   );
 };
 
-PaginationRoot.displayName = "HeroUI.Pagination";
+PaginationRoot.displayName = "Pagination";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Summary
@@ -57,20 +45,24 @@ interface PaginationSummaryProps extends ComponentPropsWithRef<"div"> {
 }
 
 const PaginationSummary = ({children, className, ...props}: PaginationSummaryProps) => {
-  const {slots} = useContext(PaginationContext);
-
   return (
-    <div
-      className={composeSlotClassName(slots?.summary, className)}
+    <Box
+      className={className}
       data-slot="pagination-summary"
+      display="flex"
+      alignItems="center"
+      gap="2"
+      alignSelf={{base: "flex-start", sm: "center"}}
+      fontSize="sm"
+      color="fg.muted"
       {...props}
     >
       {children}
-    </div>
+    </Box>
   );
 };
 
-PaginationSummary.displayName = "HeroUI.Pagination.Summary";
+PaginationSummary.displayName = "Pagination.Summary";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Content
@@ -81,20 +73,22 @@ interface PaginationContentProps extends ComponentPropsWithRef<"ul"> {
 }
 
 const PaginationContent = ({children, className, ...props}: PaginationContentProps) => {
-  const {slots} = useContext(PaginationContext);
-
   return (
-    <ul
-      className={composeSlotClassName(slots?.content, className)}
+    <chakra.ul
+      className={className}
       data-slot="pagination-content"
+      display="flex"
+      alignItems="center"
+      gap="1"
+      alignSelf={{base: "flex-start", sm: "center"}}
       {...props}
     >
       {children}
-    </ul>
+    </chakra.ul>
   );
 };
 
-PaginationContent.displayName = "HeroUI.Pagination.Content";
+PaginationContent.displayName = "Pagination.Content";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Item
@@ -105,72 +99,66 @@ interface PaginationItemProps extends ComponentPropsWithRef<"li"> {
 }
 
 const PaginationItem = ({children, className, ...props}: PaginationItemProps) => {
-  const {slots} = useContext(PaginationContext);
-
   return (
-    <li
-      className={composeSlotClassName(slots?.item, className)}
-      data-slot="pagination-item"
-      {...props}
-    >
+    <chakra.li className={className} data-slot="pagination-item" display="inline-flex" {...props}>
       {children}
-    </li>
+    </chakra.li>
   );
 };
 
-PaginationItem.displayName = "HeroUI.Pagination.Item";
+PaginationItem.displayName = "Pagination.Item";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Link
  * -----------------------------------------------------------------------------------------------*/
-interface PaginationLinkProps extends ComponentPropsWithRef<typeof ButtonPrimitive> {
+interface PaginationLinkProps extends ComponentPropsWithRef<typeof Button> {
   className?: string;
   children: React.ReactNode;
   isActive?: boolean;
 }
 
 const PaginationLink = ({children, className, isActive, ...props}: PaginationLinkProps) => {
-  const {slots} = useContext(PaginationContext);
-
   return (
-    <ButtonPrimitive
+    <Button
       aria-current={isActive ? "page" : undefined}
-      className={composeTwRenderProps(className, slots?.link())}
+      className={className}
       data-active={isActive ? "true" : undefined}
       data-slot="pagination-link"
+      variant="ghost"
+      size="sm"
+      boxSize={{base: "9", md: "8"}}
+      px="0"
+      minW="auto"
       {...props}
     >
       {children}
-    </ButtonPrimitive>
+    </Button>
   );
 };
 
-PaginationLink.displayName = "HeroUI.Pagination.Link";
+PaginationLink.displayName = "Pagination.Link";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Previous
  * -----------------------------------------------------------------------------------------------*/
-interface PaginationPreviousProps extends ComponentPropsWithRef<typeof ButtonPrimitive> {
+interface PaginationPreviousProps extends ComponentPropsWithRef<typeof ChakraPagination.PrevTrigger> {
   className?: string;
   children: React.ReactNode;
 }
 
 const PaginationPrevious = ({children, className, ...props}: PaginationPreviousProps) => {
-  const {slots} = useContext(PaginationContext);
-  const baseClass = `${slots?.link() ?? ""} pagination__link--nav`.trim();
-
   return (
-    <ButtonPrimitive
-      className={composeTwRenderProps(className, baseClass)}
+    <ChakraPagination.PrevTrigger
+      className={className}
       data-slot="pagination-previous"
       {...props}
     >
       {children}
-    </ButtonPrimitive>
+    </ChakraPagination.PrevTrigger>
   );
 };
 
-PaginationPrevious.displayName = "HeroUI.Pagination.Previous";
+PaginationPrevious.displayName = "Pagination.Previous";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Previous Icon
@@ -181,38 +169,31 @@ interface PaginationPreviousIconProps extends Omit<ComponentPropsWithRef<"span">
 
 const PaginationPreviousIcon = ({children, className, ...props}: PaginationPreviousIconProps) => {
   return (
-    <span aria-hidden="true" className={className} data-slot="pagination-previous-icon" {...props}>
+    <Box as="span" aria-hidden="true" className={className} data-slot="pagination-previous-icon" {...props}>
       {children ?? <IconChevronLeft />}
-    </span>
+    </Box>
   );
 };
 
-PaginationPreviousIcon.displayName = "HeroUI.Pagination.PreviousIcon";
+PaginationPreviousIcon.displayName = "Pagination.PreviousIcon";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Next
  * -----------------------------------------------------------------------------------------------*/
-interface PaginationNextProps extends ComponentPropsWithRef<typeof ButtonPrimitive> {
+interface PaginationNextProps extends ComponentPropsWithRef<typeof ChakraPagination.NextTrigger> {
   className?: string;
   children: React.ReactNode;
 }
 
 const PaginationNext = ({children, className, ...props}: PaginationNextProps) => {
-  const {slots} = useContext(PaginationContext);
-  const baseClass = `${slots?.link() ?? ""} pagination__link--nav`.trim();
-
   return (
-    <ButtonPrimitive
-      className={composeTwRenderProps(className, baseClass)}
-      data-slot="pagination-next"
-      {...props}
-    >
+    <ChakraPagination.NextTrigger className={className} data-slot="pagination-next" {...props}>
       {children}
-    </ButtonPrimitive>
+    </ChakraPagination.NextTrigger>
   );
 };
 
-PaginationNext.displayName = "HeroUI.Pagination.Next";
+PaginationNext.displayName = "Pagination.Next";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Next Icon
@@ -223,13 +204,13 @@ interface PaginationNextIconProps extends Omit<ComponentPropsWithRef<"span">, "c
 
 const PaginationNextIcon = ({children, className, ...props}: PaginationNextIconProps) => {
   return (
-    <span aria-hidden="true" className={className} data-slot="pagination-next-icon" {...props}>
+    <Box as="span" aria-hidden="true" className={className} data-slot="pagination-next-icon" {...props}>
       {children ?? <IconChevronRight />}
-    </span>
+    </Box>
   );
 };
 
-PaginationNextIcon.displayName = "HeroUI.Pagination.NextIcon";
+PaginationNextIcon.displayName = "Pagination.NextIcon";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Ellipsis
@@ -239,21 +220,27 @@ interface PaginationEllipsisProps extends ComponentPropsWithRef<"span"> {
 }
 
 const PaginationEllipsis = ({className, ...props}: PaginationEllipsisProps) => {
-  const {slots} = useContext(PaginationContext);
-
   return (
-    <span
+    <Box
+      as="span"
       aria-hidden="true"
-      className={composeSlotClassName(slots?.ellipsis, className)}
+      className={className}
       data-slot="pagination-ellipsis"
+      display="inline-flex"
+      boxSize={{base: "9", md: "8"}}
+      alignItems="center"
+      justifyContent="center"
+      fontSize="sm"
+      color="fg.muted"
+      userSelect="none"
       {...props}
     >
       &hellip;
-    </span>
+    </Box>
   );
 };
 
-PaginationEllipsis.displayName = "HeroUI.Pagination.Ellipsis";
+PaginationEllipsis.displayName = "Pagination.Ellipsis";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

@@ -20,10 +20,3 @@ export type Label = {
 export {LabelRoot};
 
 export type {LabelRootProps, LabelRootProps as LabelProps} from "./label";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {labelVariants} from "../../styles";
-
-export type {LabelVariants} from "../../styles";

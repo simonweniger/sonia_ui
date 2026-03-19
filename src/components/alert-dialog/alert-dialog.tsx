@@ -1,278 +1,282 @@
 "use client";
 
-import type {AlertDialogVariants} from "../../styles";
-import type {ComponentPropsWithRef, HTMLAttributes} from "react";
-import type {
-  ButtonProps as ButtonPrimitiveProps,
-  DialogProps as DialogPrimitiveProps,
-} from "react-aria-components";
+import type {ComponentPropsWithRef, ReactNode} from "react";
+import type {SystemStyleObject} from "@chakra-ui/react";
 
-import {alertDialogVariants} from "../../styles";
-import {createContext, useContext, useMemo} from "react";
-import {
-  DialogTrigger as AlertDialogTriggerPrimitive,
-  Dialog as DialogPrimitive,
-  Heading as HeadingPrimitive,
-  ModalOverlay as ModalOverlayPrimitive,
-  Modal as ModalPrimitive,
-  Pressable as PressablePrimitive,
-} from "react-aria-components";
+import React from "react";
+import {Box, Dialog as ChakraDialog} from "@chakra-ui/react";
 
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {CloseButton} from "../close-button";
 import {DangerIcon, InfoIcon, SuccessIcon, WarningIcon} from "../icons";
 
+type AlertDialogStatus = "default" | "accent" | "success" | "warning" | "danger";
+type AlertDialogSize = "xs" | "sm" | "md" | "lg" | "cover";
+type AlertDialogBackdropVariant = "transparent" | "opaque" | "blur";
 type AlertDialogPlacement = "auto" | "top" | "center" | "bottom";
 
-type AlertDialogStatus = "default" | "accent" | "success" | "warning" | "danger";
-
 /* -------------------------------------------------------------------------------------------------
- * AlertDialog Context
+ * Icon variant styles
  * -----------------------------------------------------------------------------------------------*/
-type AlertDialogContext = {
-  slots?: ReturnType<typeof alertDialogVariants>;
-  placement?: AlertDialogPlacement;
+const iconVariantStyles: Record<AlertDialogStatus, SystemStyleObject> = {
+  default: {bg: "bg", color: "fg"},
+  accent: {bg: "accent.subtle", color: "accent.fg"},
+  success: {bg: "success.subtle", color: "success.fg"},
+  warning: {bg: "warning.subtle", color: "warning.fg"},
+  danger: {bg: "danger.subtle", color: "danger.fg"},
 };
 
-const AlertDialogContext = createContext<AlertDialogContext>({});
+/* -------------------------------------------------------------------------------------------------
+ * Size styles
+ * -----------------------------------------------------------------------------------------------*/
+const sizeStyles: Record<AlertDialogSize, SystemStyleObject> = {
+  xs: {maxW: "xs"},
+  sm: {maxW: "sm"},
+  md: {maxW: "md"},
+  lg: {maxW: "lg"},
+  cover: {h: "full", minH: "full", w: "full"},
+};
 
 /* -------------------------------------------------------------------------------------------------
  * AlertDialog Root
  * -----------------------------------------------------------------------------------------------*/
-interface AlertDialogRootProps extends ComponentPropsWithRef<typeof AlertDialogTriggerPrimitive> {}
+interface AlertDialogRootProps extends ComponentPropsWithRef<typeof ChakraDialog.Root> {
+  role?: "alertdialog";
+}
 
 const AlertDialogRoot = ({children, ...props}: AlertDialogRootProps) => {
-  const alertDialogContext = useMemo<AlertDialogContext>(
-    () => ({slots: alertDialogVariants(), placement: undefined}),
-    [],
-  );
-
   return (
-    <AlertDialogContext value={alertDialogContext}>
-      <AlertDialogTriggerPrimitive data-slot="alert-dialog-root" {...props}>
-        {children}
-      </AlertDialogTriggerPrimitive>
-    </AlertDialogContext>
+    <ChakraDialog.Root data-slot="alert-dialog-root" role="alertdialog" {...props}>
+      {children}
+    </ChakraDialog.Root>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * AlertDialog Trigger
  * -----------------------------------------------------------------------------------------------*/
-interface AlertDialogTriggerProps extends HTMLAttributes<HTMLDivElement> {}
+interface AlertDialogTriggerProps extends ComponentPropsWithRef<typeof ChakraDialog.Trigger> {}
 
-const AlertDialogTrigger = ({children, className, ...props}: AlertDialogTriggerProps) => {
-  const {slots} = useContext(AlertDialogContext);
-
+const AlertDialogTrigger = ({children, ...props}: AlertDialogTriggerProps) => {
   return (
-    <PressablePrimitive>
-      <div
-        className={composeSlotClassName(slots?.trigger, className)}
-        data-slot="alert-dialog-trigger"
-        role="button"
-        {...props}
-      >
-        {children}
-      </div>
-    </PressablePrimitive>
+    <ChakraDialog.Trigger
+      data-slot="alert-dialog-trigger"
+      cursor="pointer"
+      css={{
+        WebkitTapHighlightColor: "transparent",
+        transition:
+          "transform 250ms var(--ease-out-quart), background-color 150ms var(--ease-smooth), box-shadow 150ms var(--ease-out)",
+        "@media (prefers-reduced-motion: reduce)": {
+          transition: "none",
+        },
+        "&:active, &[data-pressed='true']": {
+          transform: "scale(0.97)",
+        },
+      }}
+      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
+      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
+      {...props}
+    >
+      {children}
+    </ChakraDialog.Trigger>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * AlertDialog Backdrop
  * -----------------------------------------------------------------------------------------------*/
-interface AlertDialogBackdropProps extends ComponentPropsWithRef<typeof ModalOverlayPrimitive> {
-  variant?: AlertDialogVariants["variant"];
-  /**
-   * Whether to close the alert dialog when the user interacts outside it.
-   * Alert dialogs typically require explicit action, so this defaults to false.
-   * @default false
-   */
-  isDismissable?: boolean;
-  /**
-   * Whether pressing the escape key to close the modal should be disabled.
-   * Alert dialogs typically require explicit action, so this defaults to true.
-   * @default true
-   */
-  isKeyboardDismissDisabled?: boolean;
+interface AlertDialogBackdropProps extends ComponentPropsWithRef<typeof ChakraDialog.Backdrop> {
+  variant?: AlertDialogBackdropVariant;
 }
 
-const AlertDialogBackdrop = ({
-  children,
-  className,
-  isDismissable = false,
-  isKeyboardDismissDisabled = true,
-  variant,
-  ...props
-}: AlertDialogBackdropProps) => {
-  const {slots: contextSlots} = useContext(AlertDialogContext);
+const backdropVariantStyles: Record<AlertDialogBackdropVariant, SystemStyleObject> = {
+  transparent: {bg: "transparent"},
+  opaque: {bg: "black/50", _dark: {bg: "black/60"}},
+  blur: {bg: "black/50", backdropFilter: "blur(12px)", _dark: {bg: "black/60"}},
+};
 
-  const updatedSlots = useMemo(() => alertDialogVariants({variant}), [variant]);
-
-  const updatedModalContext = useMemo<AlertDialogContext>(
-    () => ({slots: {...contextSlots, ...updatedSlots}}),
-    [contextSlots, updatedSlots],
-  );
+const AlertDialogBackdrop = ({variant = "opaque", ...props}: AlertDialogBackdropProps) => {
+  const variantProps = backdropVariantStyles[variant] ?? {};
 
   return (
-    <ModalOverlayPrimitive
-      className={composeTwRenderProps(className, updatedSlots?.backdrop())}
+    <ChakraDialog.Backdrop
       data-slot="alert-dialog-backdrop"
-      isDismissable={isDismissable}
-      isKeyboardDismissDisabled={isKeyboardDismissDisabled}
+      pos="fixed"
+      inset="0"
+      zIndex="50"
+      display="flex"
+      flexDir="row"
+      alignItems="center"
+      justifyContent="center"
+      w="full"
+      css={{
+        height: "var(--visual-viewport-height)",
+        "&[data-entering='true']": {
+          animation: "fadeIn 150ms ease-out",
+          willChange: "opacity",
+        },
+        "&[data-exiting='true']": {
+          animation: "fadeOut 100ms ease-out",
+          willChange: "opacity",
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          "&[data-entering='true'], &[data-exiting='true']": {
+            animation: "none",
+          },
+        },
+      }}
+      {...variantProps}
       {...props}
-    >
-      {(renderProps) => (
-        <AlertDialogContext value={updatedModalContext}>
-          {typeof children === "function" ? children(renderProps) : children}{" "}
-        </AlertDialogContext>
-      )}
-    </ModalOverlayPrimitive>
+    />
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
- * AlertDialog Container
+ * AlertDialog Content
  * -----------------------------------------------------------------------------------------------*/
-interface AlertDialogContainerProps extends Omit<
-  ComponentPropsWithRef<typeof ModalPrimitive>,
-  Exclude<keyof AlertDialogBackdropProps, "children" | "className">
-> {
-  /**
-   * The placement of the alert dialog on the screen.
-   * @default "auto"
-   */
+interface AlertDialogContentProps extends ComponentPropsWithRef<typeof ChakraDialog.Content> {
+  size?: AlertDialogSize;
   placement?: AlertDialogPlacement;
-  size?: AlertDialogVariants["size"];
 }
 
-const AlertDialogContainer = ({
+const AlertDialogContent = ({
   children,
-  className,
+  size = "md",
   placement = "auto",
-  size,
   ...props
-}: AlertDialogContainerProps) => {
-  const {slots: contextSlots} = useContext(AlertDialogContext);
-
-  const updatedSlots = useMemo(() => alertDialogVariants({size}), [size]);
-
-  const updatedContext = useMemo<AlertDialogContext>(
-    () => ({placement, slots: {...contextSlots, ...updatedSlots}}),
-    [placement, contextSlots, updatedSlots],
-  );
+}: AlertDialogContentProps) => {
+  const sizeProps = sizeStyles[size] ?? {};
 
   return (
-    <ModalPrimitive
-      className={composeTwRenderProps(className, updatedSlots?.container())}
+    <ChakraDialog.Content
+      data-slot="alert-dialog-content"
       data-placement={placement}
-      data-slot="alert-dialog-container"
-      {...props}
-    >
-      {(renderProps) => (
-        <AlertDialogContext value={updatedContext}>
-          {typeof children === "function" ? children(renderProps) : children}
-        </AlertDialogContext>
-      )}
-    </ModalPrimitive>
-  );
-};
-
-/* -------------------------------------------------------------------------------------------------
- * AlertDialog Dialog
- * -----------------------------------------------------------------------------------------------*/
-interface AlertDialogDialogProps extends DialogPrimitiveProps {}
-
-const AlertDialogDialog = ({children, className, ...props}: AlertDialogDialogProps) => {
-  const {placement, slots} = useContext(AlertDialogContext);
-
-  return (
-    <DialogPrimitive
-      className={composeSlotClassName(slots?.dialog, className)}
-      data-placement={placement}
-      data-slot="alert-dialog-dialog"
+      overflow="hidden"
+      {...sizeProps}
+      css={{
+        "&[data-placement='auto']": {
+          marginTop: "auto",
+        },
+        "@media (min-width: 640px)": {
+          "&[data-placement='auto']": {
+            marginTop: "auto",
+            marginBottom: "auto",
+          },
+        },
+        "&[data-placement='center']": {
+          marginTop: "auto",
+          marginBottom: "auto",
+        },
+        "&[data-placement='bottom']": {
+          marginTop: "auto",
+        },
+        "&[data-placement='top']": {
+          marginTop: 0,
+        },
+      }}
       role="alertdialog"
       {...props}
     >
       {children}
-    </DialogPrimitive>
+    </ChakraDialog.Content>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * AlertDialog Header
  * -----------------------------------------------------------------------------------------------*/
-interface AlertDialogHeaderProps extends HTMLAttributes<HTMLDivElement> {}
+interface AlertDialogHeaderProps extends ComponentPropsWithRef<typeof ChakraDialog.Header> {}
 
-const AlertDialogHeader = ({children, className, ...props}: AlertDialogHeaderProps) => {
-  const {slots} = useContext(AlertDialogContext);
-
+const AlertDialogHeader = ({children, ...props}: AlertDialogHeaderProps) => {
   return (
-    <div
-      className={composeSlotClassName(slots?.header, className)}
+    <ChakraDialog.Header
       data-slot="alert-dialog-header"
+      display="flex"
+      flexDir="column"
+      gap="3"
+      mb="0"
       {...props}
     >
       {children}
-    </div>
+    </ChakraDialog.Header>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * AlertDialog Heading
  * -----------------------------------------------------------------------------------------------*/
-interface AlertDialogHeadingProps extends ComponentPropsWithRef<typeof HeadingPrimitive> {}
+interface AlertDialogHeadingProps extends ComponentPropsWithRef<typeof ChakraDialog.Title> {}
 
-const AlertDialogHeading = ({children, className, ...props}: AlertDialogHeadingProps) => {
-  const {slots} = useContext(AlertDialogContext);
-
+const AlertDialogHeading = ({children, ...props}: AlertDialogHeadingProps) => {
   return (
-    <HeadingPrimitive
-      className={composeSlotClassName(slots?.heading, className)}
+    <ChakraDialog.Title
       data-slot="alert-dialog-heading"
-      slot="title"
+      verticalAlign="middle"
+      textStyle="md"
+      fontWeight="medium"
+      color="fg"
       {...props}
     >
       {children}
-    </HeadingPrimitive>
+    </ChakraDialog.Title>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * AlertDialog Body
  * -----------------------------------------------------------------------------------------------*/
-interface AlertDialogBodyProps extends HTMLAttributes<HTMLDivElement> {}
+interface AlertDialogBodyProps extends ComponentPropsWithRef<typeof ChakraDialog.Body> {}
 
-const AlertDialogBody = ({children, className, ...props}: AlertDialogBodyProps) => {
-  const {slots} = useContext(AlertDialogContext);
-
+const AlertDialogBody = ({children, ...props}: AlertDialogBodyProps) => {
   return (
-    <div
-      className={composeSlotClassName(slots?.body, className)}
+    <ChakraDialog.Body
       data-slot="alert-dialog-body"
+      minH="0"
+      flex="1"
+      textStyle="sm"
+      lineHeight="1.43"
+      color="fg.muted"
+      my="0"
+      overflowY="auto"
+      css={{
+        WebkitOverflowScrolling: "touch",
+        "[data-slot='alert-dialog-header'] + &": {
+          marginTop: "0.5rem",
+        },
+      }}
       {...props}
     >
       {children}
-    </div>
+    </ChakraDialog.Body>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * AlertDialog Footer
  * -----------------------------------------------------------------------------------------------*/
-interface AlertDialogFooterProps extends HTMLAttributes<HTMLDivElement> {}
+interface AlertDialogFooterProps extends ComponentPropsWithRef<typeof ChakraDialog.Footer> {}
 
-const AlertDialogFooter = ({children, className, ...props}: AlertDialogFooterProps) => {
-  const {slots} = useContext(AlertDialogContext);
-
+const AlertDialogFooter = ({children, ...props}: AlertDialogFooterProps) => {
   return (
-    <div
-      className={composeSlotClassName(slots?.footer, className)}
+    <ChakraDialog.Footer
       data-slot="alert-dialog-footer"
+      display="flex"
+      flexDir="row"
+      alignItems="center"
+      justifyContent="flex-end"
+      gap="2"
+      mt="0"
+      css={{
+        "[data-slot='alert-dialog-header'] + &": {
+          marginTop: "1.25rem",
+        },
+        "[data-slot='alert-dialog-body'] + &": {
+          marginTop: "1.25rem",
+        },
+      }}
       {...props}
     >
       {children}
-    </div>
+    </ChakraDialog.Footer>
   );
 };
 
@@ -289,12 +293,9 @@ interface AlertDialogIconProps extends ComponentPropsWithRef<"div"> {
 
 const AlertDialogIcon = ({
   children,
-  className,
   status = "danger",
   ...props
 }: AlertDialogIconProps) => {
-  const slots = useMemo(() => alertDialogVariants({status}), [status]);
-
   const getDefaultIcon = () => {
     switch (status) {
       case "default":
@@ -312,28 +313,52 @@ const AlertDialogIcon = ({
     }
   };
 
+  const variantProps = iconVariantStyles[status] ?? {};
+
   return (
-    <div className={slots?.icon({className})} data-slot="alert-dialog-icon" {...props}>
+    <Box
+      data-slot="alert-dialog-icon"
+      data-status={status}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      boxSize="10"
+      flexShrink={0}
+      rounded="full"
+      userSelect="none"
+      {...variantProps}
+      css={{
+        "& [data-slot='alert-dialog-default-icon']": {
+          boxSizing: "content-box",
+          width: "1.25rem",
+          height: "1.25rem",
+        },
+      }}
+      {...props}
+    >
       {children ?? getDefaultIcon()}
-    </div>
+    </Box>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * AlertDialog Close Trigger
  * -----------------------------------------------------------------------------------------------*/
-interface AlertDialogCloseTriggerProps extends ButtonPrimitiveProps {}
+interface AlertDialogCloseTriggerProps extends ComponentPropsWithRef<typeof ChakraDialog.CloseTrigger> {
+  children?: ReactNode;
+}
 
-const AlertDialogCloseTrigger = ({className, ...rest}: AlertDialogCloseTriggerProps) => {
-  const {slots} = useContext(AlertDialogContext);
-
+const AlertDialogCloseTrigger = ({children, ...rest}: AlertDialogCloseTriggerProps) => {
   return (
-    <CloseButton
-      className={composeTwRenderProps(className, slots?.closeTrigger())}
+    <ChakraDialog.CloseTrigger
       data-slot="alert-dialog-close-trigger"
-      slot="close"
+      pos="absolute"
+      top="4"
+      right="4"
       {...rest}
-    />
+    >
+      {children ?? <CloseButton />}
+    </ChakraDialog.CloseTrigger>
   );
 };
 
@@ -344,8 +369,7 @@ export {
   AlertDialogRoot,
   AlertDialogTrigger,
   AlertDialogBackdrop,
-  AlertDialogContainer,
-  AlertDialogDialog,
+  AlertDialogContent,
   AlertDialogHeader,
   AlertDialogHeading,
   AlertDialogBody,
@@ -358,8 +382,7 @@ export type {
   AlertDialogRootProps,
   AlertDialogTriggerProps,
   AlertDialogBackdropProps,
-  AlertDialogContainerProps,
-  AlertDialogDialogProps,
+  AlertDialogContentProps,
   AlertDialogHeaderProps,
   AlertDialogHeadingProps,
   AlertDialogBodyProps,

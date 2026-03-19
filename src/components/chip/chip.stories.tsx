@@ -2,6 +2,7 @@ import type {ChipProps} from "./index";
 import type {Meta} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
+import {Box, Flex, Text} from "@chakra-ui/react";
 import React from "react";
 
 import {Separator} from "../separator";
@@ -16,13 +17,12 @@ export default {
     },
     variant: {
       control: "select",
-      options: ["primary", "secondary", "tertiary", "soft"],
+      options: ["primary", "secondary", "tertiary", "soft", "solid", "subtle", "outline", "surface"],
     },
     size: {
       control: "select",
       options: ["sm", "md", "lg"],
     },
-    //  TODO: Add sizes
   },
   component: Chip,
   parameters: {
@@ -34,17 +34,17 @@ export default {
 const defaultArgs: ChipProps = {
   children: "Label",
   color: "accent",
-  variant: "secondary",
+  variant: "subtle",
 };
 
 const Template = (props: ChipProps) => (
-  <div className="flex items-center gap-3">
+  <Flex align="center" gap="3">
     <Chip {...props}>Label</Chip>
-  </div>
+  </Flex>
 );
 
 const SizesTemplate = (props: ChipProps) => (
-  <div className="flex items-center gap-3">
+  <Flex align="center" gap="3">
     <Chip {...props} size="sm">
       Small
     </Chip>
@@ -54,26 +54,26 @@ const SizesTemplate = (props: ChipProps) => (
     <Chip {...props} size="lg">
       Large
     </Chip>
-  </div>
+  </Flex>
 );
 
 const WithIconTemplate = (props: ChipProps) => (
-  <div className="flex items-center gap-3">
+  <Flex align="center" gap="3">
     <Chip {...props}>
       <Icon icon="gravity-ui:circle-dashed" />
       <Chip.Label>Label</Chip.Label>
       <Icon icon="gravity-ui:circle-dashed" />
     </Chip>
-  </div>
+  </Flex>
 );
 
 const StatusesTemplate = (props: ChipProps) => {
   const variants = ["primary", "secondary", "tertiary", "soft"] as const;
 
   return (
-    <div className="flex flex-col gap-4">
+    <Flex direction="column" gap="4">
       {variants.map((variant) => (
-        <div key={variant} className="flex items-center gap-3">
+        <Flex key={variant} align="center" gap="3">
           <Chip {...props} variant={variant}>
             <Icon icon="gravity-ui:circle-fill" width={6} />
             <Chip.Label>Information</Chip.Label>
@@ -90,9 +90,9 @@ const StatusesTemplate = (props: ChipProps) => {
             <Icon icon="gravity-ui:circle-fill" width={6} />
             <Chip.Label>Failed</Chip.Label>
           </Chip>
-        </div>
+        </Flex>
       ))}
-    </div>
+    </Flex>
   );
 };
 
@@ -102,32 +102,36 @@ const VariantsTemplate = (props: ChipProps) => {
   const colors = ["accent", "default", "success", "warning", "danger"] as const;
 
   return (
-    <div className="flex flex-col gap-8">
+    <Flex direction="column" gap="8">
       {sizes.map((size, index) => (
         <React.Fragment key={size}>
-          <div className="flex flex-col gap-4">
-            <h3 className="text-sm font-semibold text-muted capitalize">{size}</h3>
+          <Flex direction="column" gap="4">
+            <Box as="h3" fontSize="sm" fontWeight="semibold" color="fg.muted" textTransform="capitalize">{size}</Box>
             {/* Color labels header */}
-            <div className="flex items-center gap-3">
-              <div className="w-24 shrink-0" />
+            <Flex align="center" gap="3">
+              <Box width="24" flexShrink="0" />
               {colors.map((color) => (
-                <div
+                <Flex
                   key={color}
-                  className="flex shrink-0 items-center justify-center"
+                  flexShrink="0"
+                  align="center"
+                  justify="center"
                   style={{width: "130px"}}
                 >
-                  <span className="text-xs text-muted capitalize">{color}</span>
-                </div>
+                  <Text as="span" fontSize="xs" color="fg.muted" textTransform="capitalize">{color}</Text>
+                </Flex>
               ))}
-            </div>
-            <div className="flex flex-col gap-3">
+            </Flex>
+            <Flex direction="column" gap="3">
               {variants.map((variant) => (
-                <div key={variant} className="flex items-center gap-3">
-                  <div className="w-24 shrink-0 text-sm text-muted capitalize">{variant}</div>
+                <Flex key={variant} align="center" gap="3">
+                  <Box width="24" flexShrink="0" fontSize="sm" color="fg.muted" textTransform="capitalize">{variant}</Box>
                   {colors.map((color) => (
-                    <div
+                    <Flex
                       key={color}
-                      className="flex shrink-0 items-center justify-center"
+                      flexShrink="0"
+                      align="center"
+                      justify="center"
                       style={{width: "130px"}}
                     >
                       <Chip {...props} color={color} size={size} variant={variant}>
@@ -135,16 +139,16 @@ const VariantsTemplate = (props: ChipProps) => {
                         <Chip.Label>Label</Chip.Label>
                         <Icon icon="gravity-ui:circle-dashed" />
                       </Chip>
-                    </div>
+                    </Flex>
                   ))}
-                </div>
+                </Flex>
               ))}
-            </div>
-          </div>
+            </Flex>
+          </Flex>
           {index < sizes.length - 1 && <Separator />}
         </React.Fragment>
       ))}
-    </div>
+    </Flex>
   );
 };
 

@@ -1,15 +1,18 @@
 import type {ComponentProps} from "react";
 
 import {
+  DropdownCheckboxItem,
+  DropdownContent,
   DropdownItem,
   DropdownItemIndicator,
-  DropdownMenu,
-  DropdownPopover,
+  DropdownRadioItem,
+  DropdownRadioItemGroup,
   DropdownRoot,
   DropdownSection,
-  DropdownSubmenuIndicator,
-  DropdownSubmenuTrigger,
+  DropdownSectionLabel,
+  DropdownSeparator,
   DropdownTrigger,
+  DropdownTriggerItem,
 } from "./dropdown";
 
 /* -------------------------------------------------------------------------------------------------
@@ -18,59 +21,64 @@ import {
 export const Dropdown = Object.assign(DropdownRoot, {
   Root: DropdownRoot,
   Trigger: DropdownTrigger,
-  Popover: DropdownPopover,
-  Menu: DropdownMenu,
+  Content: DropdownContent,
   Section: DropdownSection,
+  SectionLabel: DropdownSectionLabel,
   Item: DropdownItem,
   ItemIndicator: DropdownItemIndicator,
-  SubmenuIndicator: DropdownSubmenuIndicator,
-  SubmenuTrigger: DropdownSubmenuTrigger,
+  CheckboxItem: DropdownCheckboxItem,
+  RadioItemGroup: DropdownRadioItemGroup,
+  RadioItem: DropdownRadioItem,
+  TriggerItem: DropdownTriggerItem,
+  Separator: DropdownSeparator,
 });
 
-export type Dropdown<T extends object = object> = {
+export type Dropdown = {
   Props: ComponentProps<typeof DropdownRoot>;
   RootProps: ComponentProps<typeof DropdownRoot>;
   TriggerProps: ComponentProps<typeof DropdownTrigger>;
-  PopoverProps: ComponentProps<typeof DropdownPopover>;
-  MenuProps: ComponentProps<typeof DropdownMenu<T>>;
+  ContentProps: ComponentProps<typeof DropdownContent>;
   SectionProps: ComponentProps<typeof DropdownSection>;
+  SectionLabelProps: ComponentProps<typeof DropdownSectionLabel>;
   ItemProps: ComponentProps<typeof DropdownItem>;
   ItemIndicatorProps: ComponentProps<typeof DropdownItemIndicator>;
-  SubmenuIndicatorProps: ComponentProps<typeof DropdownSubmenuIndicator>;
-  SubmenuTriggerProps: ComponentProps<typeof DropdownSubmenuTrigger>;
+  CheckboxItemProps: ComponentProps<typeof DropdownCheckboxItem>;
+  RadioItemGroupProps: ComponentProps<typeof DropdownRadioItemGroup>;
+  RadioItemProps: ComponentProps<typeof DropdownRadioItem>;
+  TriggerItemProps: ComponentProps<typeof DropdownTriggerItem>;
+  SeparatorProps: ComponentProps<typeof DropdownSeparator>;
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Named Component
  * -----------------------------------------------------------------------------------------------*/
 export {
+  DropdownCheckboxItem,
+  DropdownContent,
   DropdownItem,
   DropdownItemIndicator,
-  DropdownMenu,
-  DropdownPopover,
+  DropdownRadioItem,
+  DropdownRadioItemGroup,
   DropdownRoot,
   DropdownSection,
-  DropdownSubmenuIndicator,
-  DropdownSubmenuTrigger,
+  DropdownSectionLabel,
+  DropdownSeparator,
   DropdownTrigger,
+  DropdownTriggerItem,
 };
 
 export type {
+  DropdownCheckboxItemProps,
+  DropdownContentProps,
   DropdownItemIndicatorProps,
   DropdownItemProps,
-  DropdownMenuProps,
-  DropdownPopoverProps,
+  DropdownRadioItemGroupProps,
+  DropdownRadioItemProps,
   DropdownRootProps,
   DropdownRootProps as DropdownProps,
+  DropdownSectionLabelProps,
   DropdownSectionProps,
-  DropdownSubmenuIndicatorProps,
-  DropdownSubmenuTriggerProps,
+  DropdownSeparatorProps,
+  DropdownTriggerItemProps,
   DropdownTriggerProps,
 } from "./dropdown";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {dropdownVariants} from "../../styles";
-
-export type {DropdownVariants} from "../../styles";

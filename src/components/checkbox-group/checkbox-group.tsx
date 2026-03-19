@@ -1,39 +1,40 @@
 "use client";
 
-import type {CheckboxVariants} from "../checkbox";
-import type {CheckboxGroupVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {checkboxGroupVariants} from "../../styles";
+import {CheckboxGroup as ChakraCheckboxGroup} from "@chakra-ui/react";
 import React, {createContext} from "react";
-import {CheckboxGroup as CheckboxGroupPrimitive} from "react-aria-components";
-
-import {composeTwRenderProps} from "../../utils/compose";
 
 /* -------------------------------------------------------------------------------------------------
  * CheckboxGroup Context
  * -----------------------------------------------------------------------------------------------*/
 interface CheckboxGroupContext {
-  variant?: CheckboxVariants["variant"];
+  variant?: string;
 }
 
 const CheckboxGroupContext = createContext<CheckboxGroupContext>({});
 
-interface CheckboxGroupProps
-  extends ComponentPropsWithRef<typeof CheckboxGroupPrimitive>, CheckboxGroupVariants {}
+/* -------------------------------------------------------------------------------------------------
+ * CheckboxGroup
+ * -----------------------------------------------------------------------------------------------*/
+interface CheckboxGroupProps extends ComponentPropsWithRef<typeof ChakraCheckboxGroup> {
+  variant?: string;
+}
 
-const CheckboxGroup = ({children, className, variant, ...props}: CheckboxGroupProps) => {
-  const styles = React.useMemo(() => checkboxGroupVariants({variant}), [variant]);
-
+const CheckboxGroup = ({children, variant, ...props}: CheckboxGroupProps) => {
   return (
     <CheckboxGroupContext.Provider value={{variant}}>
-      <CheckboxGroupPrimitive
-        className={composeTwRenderProps(className, styles)}
+      <ChakraCheckboxGroup
         data-slot="checkbox-group"
+        display="flex"
+        flexDirection="column"
+        css={{
+          "& [data-slot=checkbox]": {marginTop: "1rem"},
+        }}
         {...props}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </CheckboxGroupPrimitive>
+        {children}
+      </ChakraCheckboxGroup>
     </CheckboxGroupContext.Provider>
   );
 };

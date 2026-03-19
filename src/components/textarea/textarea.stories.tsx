@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from "@storybook/react";
 
+import {Box} from "@chakra-ui/react";
 import React from "react";
 
 import {Surface} from "../surface";
@@ -23,20 +24,22 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex w-[280px] flex-col gap-2">
+    <Box display="flex" w="280px" flexDirection="column" gap="2">
       <TextArea fullWidth placeholder="Primary textarea" variant="primary" />
       <TextArea fullWidth placeholder="Secondary textarea" variant="secondary" />
-    </div>
+    </Box>
   ),
 };
 
 export const FullWidth: Story = {
   render: () => (
-    <div className="w-[400px] space-y-3">
+    <Box w="400px" spaceY="3">
       <TextArea fullWidth placeholder="Full width textarea" />
-      <Surface className="w-full rounded-3xl p-6">
-        <TextArea fullWidth placeholder="Full width textarea on surface" variant="secondary" />
-      </Surface>
-    </div>
+      <Box w="full" rounded="3xl" p="6">
+        <Surface>
+          <TextArea fullWidth placeholder="Full width textarea on surface" variant="secondary" />
+        </Surface>
+      </Box>
+    </Box>
   ),
 };

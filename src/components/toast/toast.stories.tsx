@@ -1,40 +1,23 @@
-import type {ToastContentValue, ToastVariants} from "./index";
 import type {HeroUIToastOptions} from "./toast-queue";
 import type {Meta} from "@storybook/react";
 
+import {Box, Flex, Text} from "@chakra-ui/react";
 import {Icon} from "@iconify/react";
 import React from "react";
 
 import {Button} from "../button";
 
-import {
-  Toast,
-  ToastContent,
-  ToastDescription,
-  ToastIndicator,
-  ToastQueue,
-  ToastTitle,
-  toast,
-} from "./index";
+import {Toast, toast} from "./index";
 
-type Placement = NonNullable<ToastVariants["placement"]>;
-
-interface ToastStoryProps extends Omit<HeroUIToastOptions, "variant"> {
-  placement?: Placement;
-}
+interface ToastStoryProps extends Omit<HeroUIToastOptions, "variant"> {}
 
 const meta: Meta<ToastStoryProps> = {
   argTypes: {
-    placement: {
-      control: "radio",
-      options: ["top start", "top", "top end", "bottom start", "bottom", "bottom end"],
-    },
     timeout: {
       control: "number",
     },
   },
   args: {
-    placement: "bottom",
     timeout: undefined,
   },
   parameters: {
@@ -45,24 +28,17 @@ const meta: Meta<ToastStoryProps> = {
 
 export default meta;
 
-const noop = () => {};
-
 const Template = () => {
   return (
-    <div className="flex h-full max-w-xl flex-col items-center justify-center">
-      <Toast.Provider placement="bottom" />
-      <div className="flex w-full flex-wrap items-center justify-center gap-4">
+    <Flex h="full" maxW="xl" direction="column" align="center" justify="center">
+      <Toast.Root />
+      <Flex w="full" wrap="wrap" align="center" justify="center" gap="4">
         <Button
-          className="text-muted"
+          style={{color: "var(--colors-fg-muted)"}}
           size="sm"
-          variant="tertiary"
-          onPress={() => {
+          variant="ghost"
+          onClick={() => {
             toast("You have been invited to join a team", {
-              actionProps: {
-                children: "Dismiss",
-                onPress: () => toast.clear(),
-                variant: "tertiary",
-              },
               description: "Bob sent you an invitation to join HeroUI team",
               indicator: <Icon icon="gravity-ui:persons" />,
               variant: "default",
@@ -73,10 +49,9 @@ const Template = () => {
         </Button>
         <Button
           size="sm"
-          variant="secondary"
-          onPress={() =>
+          variant="outline"
+          onClick={() =>
             toast.info("You have 2 credits left", {
-              actionProps: {children: "Upgrade", onPress: noop},
               description: "Get a paid plan for more credits",
             })
           }
@@ -84,16 +59,11 @@ const Template = () => {
           Accent toast
         </Button>
         <Button
-          className="text-success"
+          style={{color: "var(--colors-fg-success)"}}
           size="sm"
-          variant="tertiary"
-          onPress={() =>
+          variant="ghost"
+          onClick={() =>
             toast.success("You have upgraded your plan", {
-              actionProps: {
-                children: "Billing",
-                className: "bg-success text-success-foreground",
-                onPress: noop,
-              },
               description: "You can continue using HeroUI Chat",
             })
           }
@@ -101,16 +71,11 @@ const Template = () => {
           Success toast
         </Button>
         <Button
-          className="text-warning"
+          style={{color: "var(--colors-fg-warning)"}}
           size="sm"
-          variant="tertiary"
-          onPress={() =>
+          variant="ghost"
+          onClick={() =>
             toast.warning("You have no credits left", {
-              actionProps: {
-                children: "Upgrade",
-                className: "bg-warning text-warning-foreground",
-                onPress: noop,
-              },
               description: "Upgrade to a paid plan to continue",
             })
           }
@@ -119,10 +84,9 @@ const Template = () => {
         </Button>
         <Button
           size="sm"
-          variant="danger-soft"
-          onPress={() =>
+          variant="outline"
+          onClick={() =>
             toast.danger("Storage is full", {
-              actionProps: {children: "Remove", onPress: noop, variant: "danger"},
               description:
                 "Remove files to release space. Adding more text to demonstrate longer content display",
               indicator: <Icon icon="gravity-ui:hard-drive" />,
@@ -131,8 +95,8 @@ const Template = () => {
         >
           Danger toast
         </Button>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 
@@ -141,70 +105,33 @@ export const Default = {
   render: Template,
 };
 
-const placements = ["top start", "top", "top end", "bottom start", "bottom", "bottom end"] as const;
-
-// Create a separate queue for each placement
-const placementQueues = Object.fromEntries(
-  placements.map((p) => [p, new ToastQueue({maxVisibleToasts: 3})]),
-) as Record<Placement, ToastQueue>;
-
-const PlacementsTemplate = () => {
-  const showToast = (placement: Placement) => {
-    placementQueues[placement].add({
-      description: "Event has been created",
-      title: "Event created",
-      variant: "default",
-    });
-  };
-
-  return (
-    <div className="flex h-full flex-col items-center justify-center gap-6">
-      {/* Render a ToastProvider for each placement */}
-      {placements.map((p) => (
-        <Toast.Provider key={p} placement={p} queue={placementQueues[p]} />
-      ))}
-      <div className="flex max-w-xs flex-wrap justify-center gap-2">
-        {placements.map((p) => (
-          <Button key={p} size="sm" variant="secondary" onPress={() => showToast(p)}>
-            {p}
-          </Button>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-export const Placements = {
-  render: PlacementsTemplate,
-};
-
 // Simple Toast - Title only, minimal examples
 const SimpleToastTemplate = () => {
   return (
-    <div className="flex h-full max-w-xl flex-col items-center justify-center">
-      <Toast.Provider placement="bottom" />
-      <div className="flex w-full flex-wrap items-center justify-center gap-4">
-        <Button size="sm" variant="secondary" onPress={() => toast("Simple message")}>
+    <Flex h="full" maxW="xl" direction="column" align="center" justify="center">
+      <Toast.Root />
+      <Flex w="full" wrap="wrap" align="center" justify="center" gap="4">
+        <Button size="sm" variant="outline" onClick={() => toast("Simple message")}>
           Default
         </Button>
-        <Button size="sm" variant="secondary" onPress={() => toast.success("Operation completed")}>
+        <Button size="sm" variant="outline" onClick={() => toast.success("Operation completed")}>
           Success
         </Button>
-        <Button size="sm" variant="secondary" onPress={() => toast.info("New update available")}>
+        <Button size="sm" variant="outline" onClick={() => toast.info("New update available")}>
           Info
         </Button>
         <Button
           size="sm"
-          variant="secondary"
-          onPress={() => toast.warning("Please check your settings")}
+          variant="outline"
+          onClick={() => toast.warning("Please check your settings")}
         >
           Warning
         </Button>
-        <Button size="sm" variant="secondary" onPress={() => toast.danger("Something went wrong")}>
+        <Button size="sm" variant="outline" onClick={() => toast.danger("Something went wrong")}>
           Error
         </Button>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 
@@ -245,13 +172,13 @@ const PromiseToastTemplate = () => {
   };
 
   return (
-    <div className="flex h-full max-w-xl flex-col items-center justify-center">
-      <Toast.Provider placement="bottom" />
-      <div className="flex w-full flex-wrap items-center justify-center gap-4">
+    <Flex h="full" maxW="xl" direction="column" align="center" justify="center">
+      <Toast.Root />
+      <Flex w="full" wrap="wrap" align="center" justify="center" gap="4">
         <Button
           size="sm"
-          variant="secondary"
-          onPress={() => {
+          variant="outline"
+          onClick={() => {
             toast.promise(uploadFile(), {
               error: "Failed to upload file",
               loading: "Uploading file...",
@@ -263,8 +190,8 @@ const PromiseToastTemplate = () => {
         </Button>
         <Button
           size="sm"
-          variant="secondary"
-          onPress={() => {
+          variant="outline"
+          onClick={() => {
             toast.promise(createEvent(), {
               error: (err) => err.message,
               loading: "Creating event...",
@@ -276,8 +203,8 @@ const PromiseToastTemplate = () => {
         </Button>
         <Button
           size="sm"
-          variant="secondary"
-          onPress={() => {
+          variant="outline"
+          onClick={() => {
             toast.promise(saveData(), {
               error: (err) => err.message,
               loading: "Saving changes...",
@@ -289,8 +216,8 @@ const PromiseToastTemplate = () => {
         </Button>
         <Button
           size="sm"
-          variant="secondary"
-          onPress={() => {
+          variant="outline"
+          onClick={() => {
             toast.promise(fetchUser(), {
               error: "Failed to fetch user",
               loading: "Loading user...",
@@ -300,8 +227,8 @@ const PromiseToastTemplate = () => {
         >
           Fetch user
         </Button>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 
@@ -312,12 +239,12 @@ export const PromiseToast = {
 // Custom Indicator - Custom or no indicators
 const CustomIndicatorTemplate = () => {
   return (
-    <div className="flex h-full max-w-xl flex-col items-center justify-center">
-      <Toast.Provider placement="bottom" />
+    <Flex h="full" maxW="xl" direction="column" align="center" justify="center">
+      <Toast.Root />
       <Button
         size="sm"
-        variant="secondary"
-        onPress={() =>
+        variant="outline"
+        onClick={() =>
           toast("Custom icon indicator", {
             indicator: <Icon icon="gravity-ui:star" />,
           })
@@ -325,7 +252,7 @@ const CustomIndicatorTemplate = () => {
       >
         Custom indicator
       </Button>
-    </div>
+    </Flex>
   );
 };
 
@@ -336,13 +263,13 @@ export const CustomIndicator = {
 // Loading State - Manual loading toasts
 const LoadingStateTemplate = () => {
   return (
-    <div className="flex h-full max-w-xl flex-col items-center justify-center">
-      <Toast.Provider placement="bottom" />
-      <div className="flex w-full flex-wrap items-center justify-center gap-4">
+    <Flex h="full" maxW="xl" direction="column" align="center" justify="center">
+      <Toast.Root />
+      <Flex w="full" wrap="wrap" align="center" justify="center" gap="4">
         <Button
           size="sm"
-          variant="secondary"
-          onPress={() => {
+          variant="outline"
+          onClick={() => {
             const loadingId = toast("Uploading file...", {
               description: "Please wait while we upload your file",
               isLoading: true,
@@ -361,8 +288,8 @@ const LoadingStateTemplate = () => {
         </Button>
         <Button
           size="sm"
-          variant="secondary"
-          onPress={() => {
+          variant="outline"
+          onClick={() => {
             const loadingId = toast("Processing payment...", {
               isLoading: true,
               timeout: 0,
@@ -380,8 +307,8 @@ const LoadingStateTemplate = () => {
         </Button>
         <Button
           size="sm"
-          variant="secondary"
-          onPress={() => {
+          variant="outline"
+          onClick={() => {
             const loadingId = toast("Saving changes...", {
               isLoading: true,
               timeout: 0,
@@ -397,8 +324,8 @@ const LoadingStateTemplate = () => {
         >
           Loading to error
         </Button>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 
@@ -419,15 +346,15 @@ const WithCallbacksTemplate = () => {
   };
 
   return (
-    <div className="flex h-full max-w-2xl flex-col items-center justify-center gap-6">
-      <Toast.Provider placement="bottom" />
+    <Flex h="full" maxW="2xl" direction="column" align="center" justify="center" gap="6">
+      <Toast.Root />
 
       {/* Toast Buttons */}
-      <div className="flex w-full flex-wrap items-center justify-center gap-4">
+      <Flex w="full" wrap="wrap" align="center" justify="center" gap="4">
         <Button
           size="sm"
-          variant="secondary"
-          onPress={() =>
+          variant="outline"
+          onClick={() =>
             toast("File saved", {
               onClose: () => {
                 addToHistory("File saved (closed after 3 seconds)");
@@ -440,8 +367,8 @@ const WithCallbacksTemplate = () => {
         </Button>
         <Button
           size="sm"
-          variant="secondary"
-          onPress={() =>
+          variant="outline"
+          onClick={() =>
             toast("Changes saved", {
               onClose: () => {
                 addToHistory("Changes saved (closed after 10 seconds)");
@@ -454,8 +381,8 @@ const WithCallbacksTemplate = () => {
         </Button>
         <Button
           size="sm"
-          variant="secondary"
-          onPress={() =>
+          variant="outline"
+          onClick={() =>
             toast.success("Event created", {
               onClose: () => {
                 addToHistory("Event created (closed after default timeout)");
@@ -467,8 +394,8 @@ const WithCallbacksTemplate = () => {
         </Button>
         <Button
           size="sm"
-          variant="secondary"
-          onPress={() =>
+          variant="outline"
+          onClick={() =>
             toast("Important notification", {
               description: "This toast will stay until dismissed",
               onClose: () => {
@@ -480,42 +407,70 @@ const WithCallbacksTemplate = () => {
         >
           Persistent toast
         </Button>
-      </div>
+      </Flex>
 
       {/* Closed History Panel */}
-      <div className="w-full space-y-2">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium">Closed History</h3>
+      <Flex w="full" direction="column" gap="2">
+        <Flex align="center" justify="space-between">
+          <Text fontSize="sm" fontWeight="medium">Closed History</Text>
           {closedHistory.length > 0 && (
             <Button
-              className="h-6 text-xs"
+              style={{height: "24px", fontSize: "12px"}}
               size="sm"
-              variant="tertiary"
-              onPress={() => setClosedHistory([])}
+              variant="ghost"
+              onClick={() => setClosedHistory([])}
             >
               Clear
             </Button>
           )}
-        </div>
-        <div className="min-h-[120px] space-y-2 rounded-lg border border-border bg-surface p-4">
+        </Flex>
+        <Box
+          minH="120px"
+          display="flex"
+          flexDirection="column"
+          gap="2"
+          rounded="lg"
+          borderWidth="1px"
+          borderColor="border"
+          bg="bg.panel"
+          p="4"
+        >
           {closedHistory.length === 0 ? (
-            <p className="text-sm text-muted">No toasts closed yet. Try closing one above!</p>
+            <Text fontSize="sm" color="fg.muted">No toasts closed yet. Try closing one above!</Text>
           ) : (
             closedHistory.map((item, index) => (
-              <div
+              <Flex
                 key={`${item.time}-${index}`}
-                className="flex animate-in items-start justify-between gap-3 rounded-md border border-border bg-default px-3 py-2 text-sm duration-200 fade-in slide-in-from-top-2"
+                align="start"
+                justify="space-between"
+                gap="3"
+                rounded="md"
+                borderWidth="1px"
+                borderColor="border"
+                bg="bg"
+                px="3"
+                py="2"
+                fontSize="sm"
                 style={{
                   animationDelay: `${index * 50}ms`,
                 }}
               >
-                <div className="flex-1">
-                  <span className="font-medium">{item.message}</span>
-                  <span className="ml-2 text-xs text-muted">({item.time})</span>
-                </div>
-                <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-success/10 text-success">
+                <Box flex="1">
+                  <Text as="span" fontWeight="medium">{item.message}</Text>
+                  <Text as="span" ml="2" fontSize="xs" color="fg.muted">({item.time})</Text>
+                </Box>
+                <Flex
+                  flexShrink={0}
+                  h="5"
+                  w="5"
+                  align="center"
+                  justify="center"
+                  rounded="full"
+                  bg="success.muted"
+                  color="fg.success"
+                >
                   <svg
-                    className="size-3"
+                    style={{width: "12px", height: "12px"}}
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
@@ -523,141 +478,16 @@ const WithCallbacksTemplate = () => {
                   >
                     <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                </div>
-              </div>
+                </Flex>
+              </Flex>
             ))
           )}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Flex>
+    </Flex>
   );
 };
 
 export const WithCallbacks = {
   render: WithCallbacksTemplate,
-};
-
-// Custom Toast - Custom rendering with children
-const CustomToastTemplate = () => {
-  const customQueue = new ToastQueue();
-
-  return (
-    <div className="flex h-full max-w-xl flex-col items-center justify-center">
-      <Toast.Provider placement="bottom" queue={customQueue}>
-        {({toast: toastItem}) => {
-          const content = toastItem.content as ToastContentValue;
-
-          return (
-            <Toast
-              className="rounded-xl border border-border"
-              toast={toastItem}
-              variant={content.variant}
-            >
-              <ToastContent>
-                <div className="flex items-center gap-2">
-                  <ToastIndicator className="text-accent" variant={content.variant} />
-                  <div className="flex flex-col pr-6">
-                    {content.title ? (
-                      <ToastTitle className="text-accent">{content.title}</ToastTitle>
-                    ) : null}
-                    {content.description ? (
-                      <ToastDescription>{content.description}</ToastDescription>
-                    ) : null}
-                  </div>
-                </div>
-              </ToastContent>
-              <Toast.CloseButton className="absolute top-1/2 right-2 -translate-y-1/2 border-none bg-transparent opacity-100 [&>svg]:size-4" />
-            </Toast>
-          );
-        }}
-      </Toast.Provider>
-      <Button
-        size="sm"
-        variant="secondary"
-        onPress={() => {
-          customQueue.add({
-            description: "This uses a custom render function",
-            title: "Custom layout toast",
-            variant: "default",
-          });
-        }}
-      >
-        Custom toast
-      </Button>
-    </div>
-  );
-};
-
-export const CustomToast = {
-  render: CustomToastTemplate,
-};
-
-// Custom Queue - Multiple queue instances
-const CustomQueueTemplate = () => {
-  const notificationQueue = new ToastQueue({maxVisibleToasts: 2});
-  const errorQueue = new ToastQueue({maxVisibleToasts: 3});
-  const successQueue = new ToastQueue({maxVisibleToasts: 1});
-
-  return (
-    <div className="flex h-full max-w-4xl items-center justify-center gap-4">
-      {/* Notification Queue */}
-      <Toast.Provider placement="bottom" queue={notificationQueue} />
-      <div className="flex justify-center gap-2">
-        <Button
-          size="sm"
-          variant="secondary"
-          onPress={() => {
-            notificationQueue.add({
-              description: "You have a new message",
-              title: "New notification",
-              variant: "default",
-            });
-          }}
-        >
-          Add notification (max 2)
-        </Button>
-      </div>
-
-      {/* Error Queue */}
-      <Toast.Provider placement="top" queue={errorQueue} />
-      <div className="flex justify-center gap-2">
-        <Button
-          size="sm"
-          variant="danger-soft"
-          onPress={() => {
-            errorQueue.add({
-              description: "Failed to save changes",
-              title: "Error occurred",
-              variant: "danger",
-            });
-          }}
-        >
-          Add error (max 3)
-        </Button>
-      </div>
-
-      {/* Success Queue */}
-      <Toast.Provider placement="bottom end" queue={successQueue} />
-      <div className="flex justify-center gap-2">
-        <Button
-          className="text-success"
-          size="sm"
-          variant="secondary"
-          onPress={() => {
-            successQueue.add({
-              description: `Operation ${Date.now()}`,
-              title: "Success!",
-              variant: "success",
-            });
-          }}
-        >
-          Add success (max 1)
-        </Button>
-      </div>
-    </div>
-  );
-};
-
-export const CustomQueue = {
-  render: CustomQueueTemplate,
 };

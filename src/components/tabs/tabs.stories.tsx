@@ -1,8 +1,8 @@
-import type {Key} from "../rac";
 import type {Meta, StoryObj} from "@storybook/react";
 
 import React from "react";
-import {cn} from "tailwind-variants";
+
+import {Box, Flex, Text} from "@chakra-ui/react";
 
 import {Tabs} from "./index";
 
@@ -21,431 +21,448 @@ type Story = StoryObj<typeof meta>;
 
 const DefaultTemplate = (args: Story["args"]) => {
   return (
-    <div className="w-[600px]">
+    <Box width="600px">
       <Tabs {...args}>
         <Tabs.ListContainer>
           <Tabs.List aria-label="Options">
-            <Tabs.Tab id="overview">
+            <Tabs.Tab value="overview">
               Overview
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="analytics">
+            <Tabs.Tab value="analytics">
               Analytics
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="reports">
+            <Tabs.Tab value="reports">
               Reports
               <Tabs.Indicator />
             </Tabs.Tab>
           </Tabs.List>
         </Tabs.ListContainer>
-        <Tabs.Panel className="pt-4" id="overview">
-          <p>View your project overview and recent activity.</p>
+        <Tabs.Panel pt="4" value="overview">
+          <Text>View your project overview and recent activity.</Text>
         </Tabs.Panel>
-        <Tabs.Panel className="pt-4" id="analytics">
-          <p>Track your metrics and analyze performance data.</p>
+        <Tabs.Panel pt="4" value="analytics">
+          <Text>Track your metrics and analyze performance data.</Text>
         </Tabs.Panel>
-        <Tabs.Panel className="pt-4" id="reports">
-          <p>Generate and download detailed reports.</p>
+        <Tabs.Panel pt="4" value="reports">
+          <Text>Generate and download detailed reports.</Text>
         </Tabs.Panel>
       </Tabs>
-    </div>
+    </Box>
   );
 };
 
 const VerticalTemplate = (args: Story["args"]) => {
   return (
-    <div className="w-[600px]">
+    <Box width="600px">
       <Tabs {...args} orientation="vertical">
         <Tabs.ListContainer>
           <Tabs.List aria-label="Vertical tabs">
-            <Tabs.Tab id="account">
+            <Tabs.Tab value="account">
               Account
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="security">
+            <Tabs.Tab value="security">
               Security
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="notifications">
+            <Tabs.Tab value="notifications">
               Notifications
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="billing">
+            <Tabs.Tab value="billing">
               Billing
               <Tabs.Indicator />
             </Tabs.Tab>
           </Tabs.List>
         </Tabs.ListContainer>
-        <Tabs.Panel className="px-4" id="account">
-          <h3 className="mb-2 font-semibold">Account Settings</h3>
-          <p className="text-sm text-gray-600">Manage your account information and preferences.</p>
+        <Tabs.Panel px="4" value="account">
+          <Text as="h3" mb="2" fontWeight="semibold">Account Settings</Text>
+          <Text fontSize="sm" color="fg.muted">Manage your account information and preferences.</Text>
         </Tabs.Panel>
-        <Tabs.Panel className="px-4" id="security">
-          <h3 className="mb-2 font-semibold">Security Settings</h3>
-          <p className="text-sm text-gray-600">
+        <Tabs.Panel px="4" value="security">
+          <Text as="h3" mb="2" fontWeight="semibold">Security Settings</Text>
+          <Text fontSize="sm" color="fg.muted">
             Configure two-factor authentication and password settings.
-          </p>
+          </Text>
         </Tabs.Panel>
-        <Tabs.Panel className="px-4" id="notifications">
-          <h3 className="mb-2 font-semibold">Notification Preferences</h3>
-          <p className="text-sm text-gray-600">
+        <Tabs.Panel px="4" value="notifications">
+          <Text as="h3" mb="2" fontWeight="semibold">Notification Preferences</Text>
+          <Text fontSize="sm" color="fg.muted">
             Choose how and when you want to receive notifications.
-          </p>
+          </Text>
         </Tabs.Panel>
-        <Tabs.Panel className="px-4" id="billing">
-          <h3 className="mb-2 font-semibold">Billing Information</h3>
-          <p className="text-sm text-gray-600">
+        <Tabs.Panel px="4" value="billing">
+          <Text as="h3" mb="2" fontWeight="semibold">Billing Information</Text>
+          <Text fontSize="sm" color="fg.muted">
             View and manage your subscription and payment methods.
-          </p>
+          </Text>
         </Tabs.Panel>
       </Tabs>
-    </div>
+    </Box>
   );
 };
 
 const DisabledTabTemplate = (args: Story["args"]) => (
-  <div className="w-[600px]">
+  <Box width="600px">
     <Tabs {...args}>
       <Tabs.ListContainer>
         <Tabs.List aria-label="Tabs with disabled">
-          <Tabs.Tab id="active">
+          <Tabs.Tab value="active">
             Active
             <Tabs.Indicator />
           </Tabs.Tab>
-          <Tabs.Tab isDisabled id="disabled">
+          <Tabs.Tab disabled value="disabled">
             Disabled
             <Tabs.Indicator />
           </Tabs.Tab>
-          <Tabs.Tab id="available">
+          <Tabs.Tab value="available">
             Available
             <Tabs.Indicator />
           </Tabs.Tab>
         </Tabs.List>
       </Tabs.ListContainer>
-      <Tabs.Panel className="pt-4" id="active">
-        <p>This tab is active and can be selected.</p>
+      <Tabs.Panel pt="4" value="active">
+        <Text>This tab is active and can be selected.</Text>
       </Tabs.Panel>
-      <Tabs.Panel className="pt-4" id="disabled">
-        <p>This content cannot be accessed.</p>
+      <Tabs.Panel pt="4" value="disabled">
+        <Text>This content cannot be accessed.</Text>
       </Tabs.Panel>
-      <Tabs.Panel className="pt-4" id="available">
-        <p>This tab is also available for selection.</p>
+      <Tabs.Panel pt="4" value="available">
+        <Text>This tab is also available for selection.</Text>
       </Tabs.Panel>
     </Tabs>
-  </div>
+  </Box>
 );
 
 const DefaultSelectedTemplate = (args: Story["args"]) => (
-  <div className="w-[600px]">
-    <Tabs defaultSelectedKey="default" {...args}>
+  <Box width="600px">
+    <Tabs defaultValue="default" {...args}>
       <Tabs.ListContainer>
         <Tabs.List aria-label="Tabs with default options">
-          <Tabs.Tab id="active">
+          <Tabs.Tab value="active">
             Active
             <Tabs.Indicator />
           </Tabs.Tab>
-          <Tabs.Tab id="default">
+          <Tabs.Tab value="default">
             Default
             <Tabs.Indicator />
           </Tabs.Tab>
-          <Tabs.Tab id="available">
+          <Tabs.Tab value="available">
             Available
             <Tabs.Indicator />
           </Tabs.Tab>
         </Tabs.List>
       </Tabs.ListContainer>
-      <Tabs.Panel className="pt-4" id="active">
-        <p>This tab is active and can be selected.</p>
+      <Tabs.Panel pt="4" value="active">
+        <Text>This tab is active and can be selected.</Text>
       </Tabs.Panel>
-      <Tabs.Panel className="pt-4" id="default">
-        <p>This tab is the default selection.</p>
+      <Tabs.Panel pt="4" value="default">
+        <Text>This tab is the default selection.</Text>
       </Tabs.Panel>
-      <Tabs.Panel className="pt-4" id="available">
-        <p>This tab is available for selection as well.</p>
+      <Tabs.Panel pt="4" value="available">
+        <Text>This tab is available for selection as well.</Text>
       </Tabs.Panel>
     </Tabs>
-  </div>
+  </Box>
 );
 
 const ControlledSelectionTemplate = (args: Story["args"]) => {
-  const [selectedKey, setSelectedKey] = React.useState<Key>("controlled");
+  const [selectedValue, setSelectedValue] = React.useState<string>("controlled");
 
   return (
-    <div className="w-[600px]">
-      <p className="my-2">Selected: {selectedKey}</p>
-      <Tabs selectedKey={selectedKey} onSelectionChange={setSelectedKey} {...args}>
+    <Box width="600px">
+      <Text my="2">Selected: {selectedValue}</Text>
+      <Tabs value={selectedValue} onValueChange={(details) => setSelectedValue(details.value)} {...args}>
         <Tabs.ListContainer>
           <Tabs.List aria-label="Tabs with controlled options">
-            <Tabs.Tab id="active">
+            <Tabs.Tab value="active">
               Active
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="controlled">
+            <Tabs.Tab value="controlled">
               Controlled
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="available">
+            <Tabs.Tab value="available">
               Available
               <Tabs.Indicator />
             </Tabs.Tab>
           </Tabs.List>
         </Tabs.ListContainer>
-        <Tabs.Panel className="pt-4" id="active">
-          <p>This tab is active and can be selected.</p>
+        <Tabs.Panel pt="4" value="active">
+          <Text>This tab is active and can be selected.</Text>
         </Tabs.Panel>
-        <Tabs.Panel className="pt-4" id="controlled">
-          <p>This tab is the controlled selection.</p>
+        <Tabs.Panel pt="4" value="controlled">
+          <Text>This tab is the controlled selection.</Text>
         </Tabs.Panel>
-        <Tabs.Panel className="pt-4" id="available">
-          <p>This tab is available for selection as well.</p>
+        <Tabs.Panel pt="4" value="available">
+          <Text>This tab is available for selection as well.</Text>
         </Tabs.Panel>
       </Tabs>
-    </div>
+    </Box>
   );
 };
 
 const CustomStyleTemplate = (args: Story["args"]) => {
   return (
-    <div className="w-[380px]">
+    <Box width="380px">
       <Tabs {...args}>
         <Tabs.ListContainer>
           <Tabs.List
             aria-label="Options"
-            className="w-fit *:h-6 *:w-fit *:px-3 *:text-sm *:font-normal *:data-[selected=true]:text-accent-foreground"
+            style={{width: "fit-content"}}
+            css={{"& > *": {height: "1.5rem", width: "fit-content", paddingInline: "0.75rem", fontSize: "var(--font-sizes-sm)", fontWeight: "normal"}, "& > *[data-selected=true]": {color: "var(--colors-accent-fg)"}}}
           >
-            <Tabs.Tab id="daily">
+            <Tabs.Tab value="daily">
               Daily
-              <Tabs.Indicator className="bg-accent" />
+              <Tabs.Indicator style={{backgroundColor: "var(--colors-accent)"}} />
             </Tabs.Tab>
-            <Tabs.Tab id="weekly">
+            <Tabs.Tab value="weekly">
               Weekly
-              <Tabs.Indicator className="bg-accent" />
+              <Tabs.Indicator style={{backgroundColor: "var(--colors-accent)"}} />
             </Tabs.Tab>
-            <Tabs.Tab id="bi-weekly">
+            <Tabs.Tab value="bi-weekly">
               Bi-Weekly
-              <Tabs.Indicator className="bg-accent" />
+              <Tabs.Indicator style={{backgroundColor: "var(--colors-accent)"}} />
             </Tabs.Tab>
-            <Tabs.Tab id="monthly">
+            <Tabs.Tab value="monthly">
               Monthly
-              <Tabs.Indicator className="bg-accent" />
+              <Tabs.Indicator style={{backgroundColor: "var(--colors-accent)"}} />
             </Tabs.Tab>
           </Tabs.List>
         </Tabs.ListContainer>
       </Tabs>
-    </div>
+    </Box>
   );
 };
 
 const WithSeparatorTemplate = (args: Story["args"]) => {
   return (
-    <div className="w-[600px]">
+    <Box width="600px">
       <Tabs {...args}>
         <Tabs.ListContainer>
           <Tabs.List aria-label="Options">
-            <Tabs.Tab id="overview">
+            <Tabs.Tab value="overview">
               Overview
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="analytics">
+            <Tabs.Tab value="analytics">
               <Tabs.Separator />
               Analytics
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="reports">
+            <Tabs.Tab value="reports">
               <Tabs.Separator />
               Reports
               <Tabs.Indicator />
             </Tabs.Tab>
           </Tabs.List>
         </Tabs.ListContainer>
-        <Tabs.Panel className="pt-4" id="overview">
-          <p>View your project overview and recent activity.</p>
+        <Tabs.Panel pt="4" value="overview">
+          <Text>View your project overview and recent activity.</Text>
         </Tabs.Panel>
-        <Tabs.Panel className="pt-4" id="analytics">
-          <p>Track your metrics and analyze performance data.</p>
+        <Tabs.Panel pt="4" value="analytics">
+          <Text>Track your metrics and analyze performance data.</Text>
         </Tabs.Panel>
-        <Tabs.Panel className="pt-4" id="reports">
-          <p>Generate and download detailed reports.</p>
+        <Tabs.Panel pt="4" value="reports">
+          <Text>Generate and download detailed reports.</Text>
         </Tabs.Panel>
       </Tabs>
-    </div>
+    </Box>
   );
 };
 
 const SecondaryTemplate = (args: Story["args"]) => {
   return (
-    <div className="w-[600px]">
+    <Box width="600px">
       <Tabs {...args} variant="secondary">
         <Tabs.ListContainer>
           <Tabs.List aria-label="Options">
-            <Tabs.Tab id="overview">
+            <Tabs.Tab value="overview">
               Overview
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="analytics">
+            <Tabs.Tab value="analytics">
               Analytics
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="reports">
+            <Tabs.Tab value="reports">
               Reports
               <Tabs.Indicator />
             </Tabs.Tab>
           </Tabs.List>
         </Tabs.ListContainer>
-        <Tabs.Panel className="pt-4" id="overview">
-          <p>View your project overview and recent activity.</p>
+        <Tabs.Panel pt="4" value="overview">
+          <Text>View your project overview and recent activity.</Text>
         </Tabs.Panel>
-        <Tabs.Panel className="pt-4" id="analytics">
-          <p>Track your metrics and analyze performance data.</p>
+        <Tabs.Panel pt="4" value="analytics">
+          <Text>Track your metrics and analyze performance data.</Text>
         </Tabs.Panel>
-        <Tabs.Panel className="pt-4" id="reports">
-          <p>Generate and download detailed reports.</p>
+        <Tabs.Panel pt="4" value="reports">
+          <Text>Generate and download detailed reports.</Text>
         </Tabs.Panel>
       </Tabs>
-    </div>
+    </Box>
   );
 };
 
 const SecondaryVerticalTemplate = (args: Story["args"]) => {
   return (
-    <div className="w-[600px]">
+    <Box width="600px">
       <Tabs {...args} orientation="vertical" variant="secondary">
         <Tabs.ListContainer>
           <Tabs.List aria-label="Vertical tabs">
-            <Tabs.Tab id="account">
+            <Tabs.Tab value="account">
               Account
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="security">
+            <Tabs.Tab value="security">
               Security
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="notifications">
+            <Tabs.Tab value="notifications">
               Notifications
               <Tabs.Indicator />
             </Tabs.Tab>
-            <Tabs.Tab id="billing">
+            <Tabs.Tab value="billing">
               Billing
               <Tabs.Indicator />
             </Tabs.Tab>
           </Tabs.List>
         </Tabs.ListContainer>
-        <Tabs.Panel className="px-4" id="account">
-          <h3 className="mb-2 font-semibold">Account Settings</h3>
-          <p className="text-sm text-gray-600">Manage your account information and preferences.</p>
+        <Tabs.Panel px="4" value="account">
+          <Text as="h3" mb="2" fontWeight="semibold">Account Settings</Text>
+          <Text fontSize="sm" color="fg.muted">Manage your account information and preferences.</Text>
         </Tabs.Panel>
-        <Tabs.Panel className="px-4" id="security">
-          <h3 className="mb-2 font-semibold">Security Settings</h3>
-          <p className="text-sm text-gray-600">
+        <Tabs.Panel px="4" value="security">
+          <Text as="h3" mb="2" fontWeight="semibold">Security Settings</Text>
+          <Text fontSize="sm" color="fg.muted">
             Configure two-factor authentication and password settings.
-          </p>
+          </Text>
         </Tabs.Panel>
-        <Tabs.Panel className="px-4" id="notifications">
-          <h3 className="mb-2 font-semibold">Notification Preferences</h3>
-          <p className="text-sm text-gray-600">
+        <Tabs.Panel px="4" value="notifications">
+          <Text as="h3" mb="2" fontWeight="semibold">Notification Preferences</Text>
+          <Text fontSize="sm" color="fg.muted">
             Choose how and when you want to receive notifications.
-          </p>
+          </Text>
         </Tabs.Panel>
-        <Tabs.Panel className="px-4" id="billing">
-          <h3 className="mb-2 font-semibold">Billing Information</h3>
-          <p className="text-sm text-gray-600">
+        <Tabs.Panel px="4" value="billing">
+          <Text as="h3" mb="2" fontWeight="semibold">Billing Information</Text>
+          <Text fontSize="sm" color="fg.muted">
             View and manage your subscription and payment methods.
-          </p>
+          </Text>
         </Tabs.Panel>
       </Tabs>
-    </div>
+    </Box>
   );
 };
 
 const Showcase1Template = (args: Story["args"]) => {
-  const DEFAULT_ZOOM = 200;
-  const [selectedZoom, setSelectedZoom] = React.useState<Key>(DEFAULT_ZOOM);
+  const DEFAULT_ZOOM = "200";
+  const [selectedZoom, setSelectedZoom] = React.useState<string>(DEFAULT_ZOOM);
 
-  const zoomLevels = [200, 100, 48, 35, 28, 24, 13, "macro"];
+  const zoomLevels = ["200", "100", "48", "35", "28", "24", "13", "macro"];
 
-  const zoomXMap: Record<number | "macro", string> = {
-    [200]: "8x",
-    [100]: "4x",
-    [48]: "2x",
-    [35]: "1.5x",
-    [28]: "1.2x",
-    [24]: "1x",
-    [13]: "0.5x",
-    ["macro"]: "0.2x",
+  const zoomXMap: Record<string, string> = {
+    "200": "8x",
+    "100": "4x",
+    "48": "2x",
+    "35": "1.5x",
+    "28": "1.2x",
+    "24": "1x",
+    "13": "0.5x",
+    "macro": "0.2x",
   };
 
-  const zoomImgMap: Record<number | "macro", string> = {
-    [200]:
+  const zoomImgMap: Record<string, string> = {
+    "200":
       "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/200mm__c8kya18imsqe_large_2x.jpg",
-    [100]:
+    "100":
       "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/100mm__cykxcenbhvue_large_2x.jpg",
-    [48]: "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/48mm__bmrwps1q6w76_large_2x.jpg",
-    [35]: "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/35mm__k375wbkrjp2e_large_2x.jpg",
-    [28]: "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/28mm__fylmxo06jq6i_large_2x.jpg",
-    [24]: "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/24mm__e54cxtdkdrwy_large_2x.jpg",
-    [13]: "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/13mm__dzafu9h1kaye_large_2x.jpg",
-    ["macro"]:
+    "48": "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/48mm__bmrwps1q6w76_large_2x.jpg",
+    "35": "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/35mm__k375wbkrjp2e_large_2x.jpg",
+    "28": "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/28mm__fylmxo06jq6i_large_2x.jpg",
+    "24": "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/24mm__e54cxtdkdrwy_large_2x.jpg",
+    "13": "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/13mm__dzafu9h1kaye_large_2x.jpg",
+    "macro":
       "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/macro__bb7oud7ri2o2_large_2x.jpg",
   };
 
   return (
-    <div className="w-full">
-      <div className="flex flex-col items-center">
-        <div className="relative aspect-[7/5] w-full max-w-[840px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
+    <Box width="full">
+      <Flex direction="column" align="center">
+        <Box position="relative" aspectRatio="7/5" width="full" maxW="840px" height={{sm: "400px", md: "500px", lg: "600px"}}>
           {Object.keys(zoomImgMap).map((key) => (
             <img
               key={key}
               aria-hidden={selectedZoom !== key}
-              className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity delay-200 duration-[800ms] ease-in-out data-[selected=true]:opacity-100 data-[selected=true]:delay-0"
-              data-selected={selectedZoom === key}
+              className="data-[selected=true]:opacity-100 data-[selected=true]:delay-0"
+              data-selected={selectedZoom === key || undefined}
               src={zoomImgMap[key]}
+              style={{
+                position: "absolute",
+                inset: "0",
+                height: "100%",
+                width: "100%",
+                objectFit: "cover",
+                opacity: 0,
+                transition: "opacity 800ms ease-in-out",
+                transitionDelay: "200ms",
+              }}
             />
           ))}
-        </div>
-        <Tabs {...args} defaultSelectedKey={DEFAULT_ZOOM} onSelectionChange={setSelectedZoom}>
-          <Tabs.ListContainer className="scrollbar-hide my-4 w-full max-w-full overflow-x-auto sm:my-6">
+        </Box>
+        <Tabs {...args} defaultValue={DEFAULT_ZOOM} onValueChange={(details) => setSelectedZoom(details.value)}>
+          <Tabs.ListContainer style={{marginBlock: "1rem", width: "100%", maxWidth: "100%", overflowX: "auto", scrollbarWidth: "none"}}>
             <Tabs.List
               aria-label="Options"
-              className="w-fit min-w-min rounded-full bg-[#333336] *:h-8 *:w-fit *:px-3 *:text-xs *:font-normal *:text-white *:opacity-80 *:hover:opacity-100 *:data-[selected=true]:text-black sm:*:h-9 sm:*:px-4 sm:*:text-sm"
+              style={{width: "fit-content", minWidth: "min-content", borderRadius: "9999px", backgroundColor: "#333336"}}
+              css={{"& > *": {height: "2rem", width: "fit-content", paddingInline: "0.75rem", fontSize: "var(--font-sizes-xs)", fontWeight: "normal", color: "white", opacity: 0.8}, "& > *:hover": {opacity: 1}, "& > *[data-selected=true]": {color: "black"}, "@media (min-width: 640px)": {"& > *": {height: "2.25rem", paddingInline: "1rem", fontSize: "var(--font-sizes-sm)"}}}}
             >
               {zoomLevels.map((zoom) => (
                 <Tabs.Tab
                   key={zoom}
-                  className={zoom === "macro" ? "capitalize" : ""}
-                  id={zoom.toString()}
+                  style={zoom === "macro" ? {textTransform: "capitalize"} : undefined}
+                  value={zoom}
                 >
                   {zoom} {zoom === "macro" ? "" : "mm"}
-                  <Tabs.Indicator className="rounded-full bg-white shadow-none duration-[320ms]" />
+                  <Tabs.Indicator style={{borderRadius: "9999px", backgroundColor: "white", boxShadow: "none", transitionDuration: "320ms"}} />
                 </Tabs.Tab>
               ))}
             </Tabs.List>
           </Tabs.ListContainer>
         </Tabs>
-        <div className="relative h-10 w-10">
+        <Box position="relative" height="10" width="10">
           {Object.keys(zoomXMap).map((key) => (
-            <p
+            <Text
               key={key}
               aria-hidden={selectedZoom !== key}
               data-selected={selectedZoom === key}
-              className={cn(
-                "absolute top-1/2 left-1/2 origin-center -translate-x-1/2 -translate-y-1/2 scale-75 text-[21px] font-medium text-foreground opacity-0 transition-[scale,opacity] duration-[300ms] ease-[cubic-bezier(0.33,1,0.68,1)] ease-in-out-quad data-[selected=true]:scale-100 data-[selected=true]:opacity-100 data-[selected=true]:delay-200",
-                {
-                  "sr-only": selectedZoom !== key,
-                },
-              )}
+              position="absolute"
+              top="50%"
+              left="50%"
+              transformOrigin="center"
+              transform="translate(-50%, -50%) scale(0.75)"
+              fontSize="21px"
+              fontWeight="medium"
+              color="fg"
+              opacity={0}
+              transition="scale 300ms cubic-bezier(0.33,1,0.68,1), opacity 300ms cubic-bezier(0.33,1,0.68,1)"
+              className={`data-[selected=true]:scale-100 data-[selected=true]:opacity-100 data-[selected=true]:delay-200 ${selectedZoom !== key ? "sr-only" : ""}`}
             >
               {zoomXMap[key]}
-            </p>
+            </Text>
           ))}
-        </div>
-        <footer className="mt-4 w-full px-4 text-center text-xs text-muted/30 sm:text-sm">
+        </Box>
+        <Box as="footer" mt="4" width="full" px="4" textAlign="center" fontSize={{base: "xs", sm: "sm"}} color="fg.muted/30">
           <a href="https://www.apple.com/iphone-17-pro/" rel="noopener noreferrer" target="_blank">
             Showcase based on Apple&apos;s iPhone 17 Pro camera zoom showcase
           </a>
-        </footer>
-      </div>
-    </div>
+        </Box>
+      </Flex>
+    </Box>
   );
 };
 

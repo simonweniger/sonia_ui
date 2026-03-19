@@ -20,10 +20,3 @@ export type Spinner = {
 export {SpinnerRoot};
 
 export type {SpinnerRootProps, SpinnerRootProps as SpinnerProps} from "./spinner";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {spinnerVariants} from "../../styles";
-
-export type {SpinnerVariants} from "../../styles";

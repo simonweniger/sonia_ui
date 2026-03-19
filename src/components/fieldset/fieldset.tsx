@@ -1,49 +1,34 @@
 "use client";
 
-import type {FieldsetVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {fieldsetVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-
-import {composeSlotClassName} from "../../utils/compose";
-
-/* -------------------------------------------------------------------------------------------------
- * Fieldset Context
- * -----------------------------------------------------------------------------------------------*/
-type FieldsetContext = {
-  slots?: ReturnType<typeof fieldsetVariants>;
-};
-
-const FieldsetContext = createContext<FieldsetContext>({});
+import {Box, Fieldset as ChakraFieldset} from "@chakra-ui/react";
+import React from "react";
 
 /* -------------------------------------------------------------------------------------------------
  * Fieldset Root
  * -----------------------------------------------------------------------------------------------*/
-interface FieldsetRootProps extends ComponentPropsWithRef<"fieldset">, FieldsetVariants {}
+interface FieldsetRootProps extends ComponentPropsWithRef<typeof ChakraFieldset.Root> {}
 
-const FieldsetRoot = ({className, ...props}: FieldsetRootProps) => {
-  const slots = React.useMemo(() => fieldsetVariants({}), []);
-
+const FieldsetRoot = ({...props}: FieldsetRootProps) => {
   return (
-    <FieldsetContext value={{slots}}>
-      <fieldset className={slots?.base({className})} data-slot="fieldset" {...props} />
-    </FieldsetContext>
+    <ChakraFieldset.Root
+      data-slot="fieldset"
+      {...props}
+    />
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Fieldset Legend
  * -----------------------------------------------------------------------------------------------*/
-interface FieldsetLegendProps extends ComponentPropsWithRef<"legend"> {}
+interface FieldsetLegendProps extends ComponentPropsWithRef<typeof ChakraFieldset.Legend> {}
 
-const FieldsetLegend = ({className, ...props}: FieldsetLegendProps) => {
-  const {slots} = useContext(FieldsetContext);
-
+const FieldsetLegend = ({...props}: FieldsetLegendProps) => {
   return (
-    <legend
-      className={composeSlotClassName(slots?.legend, className)}
+    <ChakraFieldset.Legend
       data-slot="fieldset-legend"
+      fontSize="md"
       {...props}
     />
   );
@@ -52,16 +37,13 @@ const FieldsetLegend = ({className, ...props}: FieldsetLegendProps) => {
 /* -------------------------------------------------------------------------------------------------
  * Field Group
  * -----------------------------------------------------------------------------------------------*/
-interface FieldGroupProps extends ComponentPropsWithRef<"div"> {}
+interface FieldGroupProps extends ComponentPropsWithRef<typeof ChakraFieldset.Content> {}
 
-const FieldGroup = ({className, ...rest}: FieldGroupProps) => {
-  const {slots} = useContext(FieldsetContext);
-
+const FieldGroup = ({...props}: FieldGroupProps) => {
   return (
-    <div
-      className={composeSlotClassName(slots?.fieldGroup, className)}
+    <ChakraFieldset.Content
       data-slot="fieldset-field-group"
-      {...rest}
+      {...props}
     />
   );
 };
@@ -71,17 +53,18 @@ const FieldGroup = ({className, ...rest}: FieldGroupProps) => {
  * -----------------------------------------------------------------------------------------------*/
 interface FieldsetActionsProps extends ComponentPropsWithRef<"div"> {}
 
-const FieldsetActions = ({children, className, ...rest}: FieldsetActionsProps) => {
-  const {slots} = useContext(FieldsetContext);
-
+const FieldsetActions = ({children, ...rest}: FieldsetActionsProps) => {
   return (
-    <div
-      className={composeSlotClassName(slots?.actions, className)}
+    <Box
       data-slot="fieldset-actions"
+      display="flex"
+      alignItems="center"
+      gap="2"
+      pt="1"
       {...rest}
     >
       {children}
-    </div>
+    </Box>
   );
 };
 

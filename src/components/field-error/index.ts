@@ -20,10 +20,3 @@ export type FieldError = {
 export {FieldErrorRoot};
 
 export type {FieldErrorRootProps, FieldErrorRootProps as FieldErrorProps} from "./field-error";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {fieldErrorVariants} from "../../styles";
-
-export type {FieldErrorVariants} from "../../styles";

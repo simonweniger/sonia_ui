@@ -1,29 +1,18 @@
 "use client";
 
-import type {SurfaceVariants} from "../surface";
-import type {ComboBoxVariants} from "../../styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
-import type {ButtonProps} from "react-aria-components";
 
-import {comboBoxVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-import {
-  Button,
-  ComboBox as ComboBoxPrimitive,
-  ComboBoxStateContext,
-  Popover as PopoverPrimitive,
-} from "react-aria-components";
+import {Combobox} from "@ark-ui/react";
+import {Box} from "@chakra-ui/react";
+import React, {createContext} from "react";
 
-import {dataAttr} from "../../utils/assertion";
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {IconChevronDown} from "../icons";
-import {SurfaceContext} from "../surface";
 
 /* -------------------------------------------------------------------------------------------------
  * ComboBox Context
  * -----------------------------------------------------------------------------------------------*/
 type ComboBoxContext = {
-  slots?: ReturnType<typeof comboBoxVariants>;
+  isOpen?: boolean;
 };
 
 const ComboBoxContext = createContext<ComboBoxContext>({});
@@ -31,31 +20,25 @@ const ComboBoxContext = createContext<ComboBoxContext>({});
 /* -------------------------------------------------------------------------------------------------
  * ComboBox Root
  * -----------------------------------------------------------------------------------------------*/
-interface ComboBoxRootProps<T extends object>
-  extends ComponentPropsWithRef<typeof ComboBoxPrimitive<T>>, ComboBoxVariants {
-  items?: Iterable<T>;
+interface ComboBoxRootProps extends ComponentPropsWithRef<typeof Combobox.Root> {
+  className?: string;
 }
 
-const ComboBoxRoot = <T extends object = object>({
-  children,
-  className,
-  fullWidth,
-  menuTrigger = "focus",
-  ...props
-}: ComboBoxRootProps<T>) => {
-  const slots = React.useMemo(() => comboBoxVariants({fullWidth}), [fullWidth]);
-
+const ComboBoxRoot = ({children, className, ...props}: ComboBoxRootProps) => {
   return (
-    <ComboBoxContext value={{slots}}>
-      <ComboBoxPrimitive
-        data-slot="combo-box"
-        menuTrigger={menuTrigger}
-        {...props}
-        className={composeTwRenderProps(className, slots?.base())}
-      >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </ComboBoxPrimitive>
-    </ComboBoxContext>
+    <Combobox.Root
+      className={className}
+      data-slot="combo-box"
+      {...props}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.25rem",
+        ...props.style,
+      }}
+    >
+      {children}
+    </Combobox.Root>
   );
 };
 
@@ -65,72 +48,90 @@ const ComboBoxRoot = <T extends object = object>({
 interface ComboBoxInputGroupProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const ComboBoxInputGroup = ({children, className, ...props}: ComboBoxInputGroupProps) => {
-  const {slots} = useContext(ComboBoxContext);
-  const inputGroupClassName = composeSlotClassName(slots?.inputGroup, className);
-
   return (
-    <div className={inputGroupClassName} data-slot="combo-box-input-group" {...props}>
+    <Box
+      className={className}
+      data-slot="combo-box-input-group"
+      position="relative"
+      isolation="isolate"
+      display="inline-flex"
+      alignItems="center"
+      {...props}
+    >
       {children}
-    </div>
+    </Box>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * ComboBox Trigger
  * -----------------------------------------------------------------------------------------------*/
-interface ComboBoxTriggerProps extends ButtonProps {
+interface ComboBoxTriggerProps extends ComponentPropsWithRef<typeof Combobox.Trigger> {
   className?: string;
   children?: ReactNode;
 }
 
 const ComboBoxTrigger = ({children, className, ...rest}: ComboBoxTriggerProps) => {
-  const {slots} = useContext(ComboBoxContext);
-  const state = useContext(ComboBoxStateContext);
-
   return (
-    <Button
-      className={composeTwRenderProps(className, slots?.trigger())}
-      data-open={dataAttr(state?.isOpen)}
+    <Combobox.Trigger
+      className={className}
       data-slot="combo-box-trigger"
       {...rest}
+      style={{
+        position: "absolute",
+        top: "50%",
+        right: 0,
+        display: "flex",
+        height: "100%",
+        flexShrink: 0,
+        transform: "translateY(-50%)",
+        cursor: "pointer",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingRight: "0.5rem",
+        color: "var(--color-field-placeholder)",
+        transition: "all 150ms",
+        border: "none",
+        backgroundColor: "transparent",
+        outline: "none",
+        WebkitTapHighlightColor: "transparent",
+        ...rest.style,
+      }}
     >
       {children ?? <IconChevronDown data-slot="combo-box-trigger-default-icon" />}
-    </Button>
+    </Combobox.Trigger>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * ComboBox Popover
  * -----------------------------------------------------------------------------------------------*/
-interface ComboBoxPopoverProps extends Omit<
-  ComponentPropsWithRef<typeof PopoverPrimitive>,
-  "children"
-> {
+interface ComboBoxPopoverProps extends ComponentPropsWithRef<typeof Combobox.Content> {
   children: React.ReactNode;
 }
 
-const ComboBoxPopover = ({
-  children,
-  className,
-  placement = "bottom",
-  ...props
-}: ComboBoxPopoverProps) => {
-  const {slots} = useContext(ComboBoxContext);
-
+const ComboBoxPopover = ({children, className, ...props}: ComboBoxPopoverProps) => {
   return (
-    <SurfaceContext
-      value={{
-        variant: "default" as SurfaceVariants["variant"],
+    <Combobox.Content
+      className={className}
+      data-slot="combo-box-popover"
+      {...props}
+      style={{
+        minWidth: "var(--trigger-width)",
+        transformOrigin: "var(--trigger-anchor-point)",
+        scrollPaddingBlock: "0.25rem",
+        overflowY: "auto",
+        overscrollBehavior: "contain",
+        borderRadius: "1.5rem",
+        backgroundColor: "var(--color-overlay)",
+        padding: 0,
+        fontSize: "0.875rem",
+        boxShadow: "var(--shadow-overlay)",
+        ...props.style,
       }}
     >
-      <PopoverPrimitive
-        {...props}
-        className={composeTwRenderProps(className, slots?.popover())}
-        placement={placement}
-      >
-        {children}
-      </PopoverPrimitive>
-    </SurfaceContext>
+      {children}
+    </Combobox.Content>
   );
 };
 

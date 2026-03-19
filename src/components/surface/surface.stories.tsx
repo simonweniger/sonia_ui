@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from "@storybook/react";
 
+import {Flex, Text} from "@chakra-ui/react";
 import React from "react";
 
 import {Input} from "../input";
@@ -22,63 +23,47 @@ type Story = StoryObj<typeof Surface>;
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted">Transparent</p>
-        <Surface
-          className="flex min-w-[320px] flex-col gap-3 rounded-3xl border p-6"
-          variant="transparent"
-        >
-          <h3 className="text-base font-semibold text-foreground">Surface Content</h3>
-          <TextField isRequired name="email" type="email">
+    <Flex direction="column" gap="4">
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" fontWeight="medium" color="fg.muted">Default</Text>
+        <Surface style={{display: "flex", minWidth: "320px", flexDirection: "column", gap: "0.75rem", borderRadius: "var(--radii-3xl)", padding: "1.5rem"}} variant="default">
+          <Text as="h3" fontSize="base" fontWeight="semibold" color="foreground">Surface Content</Text>
+          <TextField required name="email">
             <Label>Email</Label>
-            <Input className="w-[280px]" placeholder="john@example.com" />
+            <Input width="280px" placeholder="john@example.com" />
           </TextField>
-          <p className="text-sm text-muted">
+          <Text fontSize="sm" color="fg.muted">
             This is a default surface variant. It uses bg-surface styling.
-          </p>
+          </Text>
         </Surface>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted">Default</p>
-        <Surface className="flex min-w-[320px] flex-col gap-3 rounded-3xl p-6" variant="default">
-          <h3 className="text-base font-semibold text-foreground">Surface Content</h3>
-          <TextField isRequired name="email" type="email" variant="secondary">
+      </Flex>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" fontWeight="medium" color="fg.muted">Secondary</Text>
+        <Surface style={{display: "flex", minWidth: "320px", flexDirection: "column", gap: "0.75rem", borderRadius: "var(--radii-3xl)", padding: "1.5rem"}} variant="secondary">
+          <Text as="h3" fontSize="base" fontWeight="semibold" color="foreground">Surface Content</Text>
+          <TextField required name="email">
             <Label>Email</Label>
-            <Input className="w-[280px] border border-border/20" placeholder="john@example.com" />
+            <Input width="280px" placeholder="john@example.com" />
           </TextField>
-          <p className="text-sm text-muted">
-            This is a default surface variant. It uses bg-surface styling.
-          </p>
-        </Surface>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted">Secondary</p>
-        <Surface className="flex min-w-[320px] flex-col gap-3 rounded-3xl p-6" variant="secondary">
-          <h3 className="text-base font-semibold text-foreground">Surface Content</h3>
-          <TextField isRequired name="email" type="email">
-            <Label>Email</Label>
-            <Input className="w-[280px]" placeholder="john@example.com" />
-          </TextField>
-          <p className="text-sm text-muted">
+          <Text fontSize="sm" color="fg.muted">
             This is a secondary surface variant. It uses bg-surface-secondary styling.
-          </p>
+          </Text>
         </Surface>
-      </div>
+      </Flex>
 
-      <div className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted">Tertiary</p>
-        <Surface className="flex min-w-[320px] flex-col gap-3 rounded-3xl p-6" variant="tertiary">
-          <h3 className="text-base font-semibold text-foreground">Surface Content</h3>
-          <TextField isRequired name="email" type="email">
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" fontWeight="medium" color="fg.muted">Tertiary</Text>
+        <Surface style={{display: "flex", minWidth: "320px", flexDirection: "column", gap: "0.75rem", borderRadius: "var(--radii-3xl)", padding: "1.5rem"}} variant="tertiary">
+          <Text as="h3" fontSize="base" fontWeight="semibold" color="foreground">Surface Content</Text>
+          <TextField required name="email">
             <Label>Email</Label>
-            <Input className="w-[280px]" placeholder="john@example.com" />
+            <Input width="280px" placeholder="john@example.com" />
           </TextField>
-          <p className="text-sm text-muted">
+          <Text fontSize="sm" color="fg.muted">
             This is a tertiary surface variant. It uses bg-surface-tertiary styling.
-          </p>
+          </Text>
         </Surface>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   ),
 };

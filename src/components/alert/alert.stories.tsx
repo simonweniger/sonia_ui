@@ -1,5 +1,7 @@
 import React from "react";
 
+import {Box, Grid} from "@chakra-ui/react";
+
 import {Button} from "../button";
 import {CloseButton} from "../close-button";
 import {Spinner} from "../spinner";
@@ -18,7 +20,7 @@ export default {
 const defaultArgs = {};
 
 const Template = () => (
-  <div className="grid w-full max-w-xl gap-4">
+  <Grid width="full" maxW="xl" gap="4">
     {/* Default - General information */}
     <Alert>
       <Alert.Indicator />
@@ -32,7 +34,7 @@ const Template = () => (
     </Alert>
 
     {/* Accent - Important information with action */}
-    <Alert status="accent">
+    <Alert status="info">
       <Alert.Indicator />
       <Alert.Content>
         <Alert.Title>Update available</Alert.Title>
@@ -40,11 +42,11 @@ const Template = () => (
           A new version of the application is available. Please refresh to get the latest features
           and bug fixes.
         </Alert.Description>
-        <Button className="mt-2 sm:hidden" size="sm" variant="primary">
+        <Button display={{base: "inline-flex", sm: "none"}} mt="2" size="sm" variant="solid">
           Refresh
         </Button>
       </Alert.Content>
-      <Button className="hidden sm:block" size="sm" variant="primary">
+      <Button display={{base: "none", sm: "block"}} size="sm" variant="solid">
         Refresh
       </Button>
     </Alert>
@@ -58,11 +60,11 @@ const Template = () => (
           Your payment of $49.99 has been processed. A confirmation email has been sent to your
           inbox.
         </Alert.Description>
-        <Button className="mt-2 sm:hidden" size="sm" variant="secondary">
+        <Button display={{base: "inline-flex", sm: "none"}} mt="2" size="sm" variant="outline">
           View Receipt
         </Button>
       </Alert.Content>
-      <Button className="hidden sm:block" size="sm" variant="secondary">
+      <Button display={{base: "none", sm: "block"}} size="sm" variant="outline">
         View Receipt
       </Button>
     </Alert>
@@ -76,33 +78,33 @@ const Template = () => (
           You're using 90% of your storage quota. Consider upgrading your plan or removing unused
           files to avoid service interruption.
         </Alert.Description>
-        <Button className="mt-2 sm:hidden" size="sm" variant="secondary">
+        <Button display={{base: "inline-flex", sm: "none"}} mt="2" size="sm" variant="outline">
           Manage Storage
         </Button>
       </Alert.Content>
-      <Button className="hidden sm:block" size="sm" variant="secondary">
+      <Button display={{base: "none", sm: "block"}} size="sm" variant="outline">
         Manage Storage
       </Button>
     </Alert>
 
     {/* Danger - Error with detailed steps */}
-    <Alert status="danger">
+    <Alert status="error">
       <Alert.Indicator />
       <Alert.Content>
         <Alert.Title>Unable to connect to server</Alert.Title>
         <Alert.Description>
           We're experiencing connection issues. Please try the following:
-          <ul className="mt-2 list-inside list-disc space-y-1 text-sm">
+          <Box as="ul" mt="2" listStylePosition="inside" listStyleType="disc" spaceY="1" fontSize="sm">
             <li>Check your internet connection</li>
             <li>Refresh the page</li>
             <li>Clear your browser cache</li>
-          </ul>
+          </Box>
         </Alert.Description>
-        <Button className="mt-2 sm:hidden" size="sm" variant="danger">
+        <Button display={{base: "inline-flex", sm: "none"}} mt="2" size="sm" variant="solid">
           Retry
         </Button>
       </Alert.Content>
-      <Button className="hidden sm:block" size="sm" variant="danger">
+      <Button display={{base: "none", sm: "block"}} size="sm" variant="solid">
         Retry
       </Button>
     </Alert>
@@ -117,7 +119,7 @@ const Template = () => (
     </Alert>
 
     {/* Custom indicator - Loading state */}
-    <Alert status="accent">
+    <Alert status="info">
       <Alert.Indicator>
         <Spinner size="sm" />
       </Alert.Indicator>
@@ -140,7 +142,7 @@ const Template = () => (
         </Alert.Description>
       </Alert.Content>
     </Alert>
-  </div>
+  </Grid>
 );
 
 export const Default = {

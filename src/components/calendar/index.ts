@@ -104,10 +104,3 @@ export {
   useYearPickerState,
 } from "../calendar-year-picker";
 export type {YearPickerContextValue, YearPickerStateContextValue} from "../calendar-year-picker";
-
-/* -------------------------------------------------------------------------------------------------
-| * Variants
-| * -----------------------------------------------------------------------------------------------*/
-export {calendarVariants} from "../../styles";
-
-export type {CalendarVariants} from "../../styles";

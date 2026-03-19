@@ -1,39 +1,44 @@
 "use client";
 
-import type {DateFieldVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
-import type {DateValue} from "react-aria-components";
 
-import {dateFieldVariants} from "../../styles";
+import {DatePicker} from "@ark-ui/react";
 import React from "react";
-import {DateField as DateFieldPrimitive} from "react-aria-components";
-
-import {dataAttr} from "../../utils/assertion";
-import {composeTwRenderProps} from "../../utils/compose";
 
 /* -------------------------------------------------------------------------------------------------
  * DateField Root
  * -----------------------------------------------------------------------------------------------*/
-interface DateFieldRootProps<T extends DateValue>
-  extends ComponentPropsWithRef<typeof DateFieldPrimitive<T>>, DateFieldVariants {}
+interface DateFieldRootProps extends ComponentPropsWithRef<typeof DatePicker.Root> {
+  fullWidth?: boolean;
+  isRequired?: boolean;
+}
 
-function DateFieldRoot<T extends DateValue>({
+function DateFieldRoot({
   children,
   className,
   fullWidth,
+  isRequired,
   ...props
-}: DateFieldRootProps<T>) {
-  const styles = React.useMemo(() => dateFieldVariants({fullWidth}), [fullWidth]);
-
+}: DateFieldRootProps) {
   return (
-    <DateFieldPrimitive
-      data-required={dataAttr(props.isRequired)}
+    <DatePicker.Root
+      data-required={isRequired ? "true" : undefined}
       data-slot="date-field"
       {...props}
-      className={composeTwRenderProps(className, styles)}
+      className={className}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-    </DateFieldPrimitive>
+      <DatePicker.Control
+        data-slot="date-field-control"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.25rem",
+          ...(fullWidth ? {width: "100%"} : {}),
+        }}
+      >
+        {children}
+      </DatePicker.Control>
+    </DatePicker.Root>
   );
 }
 

@@ -1,13 +1,9 @@
 "use client";
 
-import type {TextFieldVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {textFieldVariants} from "../../styles";
+import {Field} from "@chakra-ui/react";
 import React, {createContext} from "react";
-import {TextField as TextFieldPrimitive} from "react-aria-components";
-
-import {composeTwRenderProps} from "../../utils/compose";
 
 /* ------------------------------------------------------------------------------------------------
  * TextField Context
@@ -21,30 +17,41 @@ const TextFieldContext = createContext<TextFieldContext>({});
 /* -------------------------------------------------------------------------------------------------
  * TextField Root
  * -----------------------------------------------------------------------------------------------*/
-interface TextFieldRootProps
-  extends ComponentPropsWithRef<typeof TextFieldPrimitive>, TextFieldVariants {
+interface TextFieldRootProps extends ComponentPropsWithRef<typeof Field.Root> {
   /**
    * The variant of the text field.
    * @default "primary"
    */
   variant?: "primary" | "secondary";
+  fullWidth?: boolean;
+  /** HTML name attribute for the field */
+  name?: string;
 }
 
-const TextFieldRoot = ({children, className, fullWidth, variant, ...props}: TextFieldRootProps) => {
-  const styles = React.useMemo(() => textFieldVariants({fullWidth}), [fullWidth]);
-
+const TextFieldRoot = ({children, variant, fullWidth, ...props}: TextFieldRootProps) => {
   return (
-    <TextFieldPrimitive
-      data-slot="textfield"
-      {...props}
-      className={composeTwRenderProps(className, styles)}
-    >
-      {(values) => (
-        <TextFieldContext value={{variant}}>
-          <>{typeof children === "function" ? children(values) : children}</>
-        </TextFieldContext>
-      )}
-    </TextFieldPrimitive>
+    <TextFieldContext value={{variant}}>
+      <Field.Root
+        data-slot="textfield"
+        data-full-width={fullWidth || undefined}
+        display="flex"
+        flexDirection="column"
+        gap="1"
+        width={fullWidth ? "100%" : undefined}
+        css={
+          fullWidth
+            ? {
+                "& [data-slot='input'], & [data-slot='textarea']": {
+                  width: "100%",
+                },
+              }
+            : undefined
+        }
+        {...props}
+      >
+        {children}
+      </Field.Root>
+    </TextFieldContext>
   );
 };
 

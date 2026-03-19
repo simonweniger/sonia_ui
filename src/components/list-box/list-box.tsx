@@ -1,29 +1,37 @@
 "use client";
 
-import type {ListBoxVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {listboxVariants} from "../../styles";
+import {Box} from "@chakra-ui/react";
 import React from "react";
-import {ListBox as ListBoxPrimitive} from "react-aria-components";
-
-import {composeTwRenderProps} from "../../utils";
 
 /* -------------------------------------------------------------------------------------------------
  * ListBox Root
  * -----------------------------------------------------------------------------------------------*/
-interface ListBoxRootProps<T extends object>
-  extends ComponentPropsWithRef<typeof ListBoxPrimitive<T>>, ListBoxVariants {
+interface ListBoxRootProps extends ComponentPropsWithRef<typeof Box> {
   className?: string;
 }
 
-function ListBoxRoot<T extends object>({className, variant, ...props}: ListBoxRootProps<T>) {
-  const styles = React.useMemo(() => listboxVariants({variant}), [variant]);
-
+function ListBoxRoot({className, ...props}: ListBoxRootProps) {
   return (
-    <ListBoxPrimitive
-      className={composeTwRenderProps(className, styles)}
+    <Box
+      as="ul"
+      role="listbox"
+      className={className}
       data-slot="list-box"
+      position="relative"
+      display="flex"
+      w="full"
+      flexDirection="column"
+      gap="1"
+      overflow="clip"
+      p="1"
+      css={{
+        "& [data-slot='separator'][data-orientation='horizontal']": {
+          marginLeft: "3%",
+          width: "94%",
+        },
+      }}
       {...props}
     />
   );

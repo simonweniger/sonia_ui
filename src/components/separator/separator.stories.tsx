@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from "@storybook/react";
 
+import {Box, chakra, Flex, Text} from "@chakra-ui/react";
 import React from "react";
 
 import {Separator} from "./index";
@@ -23,32 +24,32 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: () => (
-    <div className="max-w-md">
-      <div className="space-y-1">
-        <h4 className="text-medium font-medium">HeroUI v3 Components</h4>
-        <p className="text-small text-default-400">Beautiful, fast and modern React UI library.</p>
-      </div>
-      <Separator className="my-4" />
-      <div className="text-small flex h-5 items-center space-x-4">
+    <Box maxW="md">
+      <Box spaceY="1">
+        <Box as="h4" fontSize="md" fontWeight="medium">Sonia UI Components</Box>
+        <Text fontSize="sm" color="fg.muted">Beautiful, fast and modern React UI library.</Text>
+      </Box>
+      <Separator my="4" />
+      <Flex fontSize="sm" height="5" align="center" spaceX="4">
         <div>Blog</div>
         <Separator orientation="vertical" />
         <div>Docs</div>
         <Separator orientation="vertical" />
         <div>Source</div>
-      </div>
-    </div>
+      </Flex>
+    </Box>
   ),
 };
 
 export const Vertical: Story = {
   render: () => (
-    <div className="text-small flex h-5 items-center space-x-4">
+    <Flex fontSize="sm" height="5" align="center" spaceX="4">
       <div>Blog</div>
       <Separator orientation="vertical" />
       <div>Docs</div>
       <Separator orientation="vertical" />
       <div>Source</div>
-    </div>
+    </Flex>
   ),
 };
 
@@ -73,32 +74,19 @@ const items = [
 
 export const WithContent: Story = {
   render: () => (
-    <div className="max-w-md space-y-4 rounded-3xl bg-surface p-4 shadow-surface">
+    <Box maxW="md" spaceY="4" rounded="3xl" bg="surface" p="4" shadow="surface">
       {items.map((item, index) => (
         <div key={index}>
-          <div className="flex items-center gap-3">
-            <img alt={item.title} className="size-12" src={item.iconUrl} />
-            <div className="flex-1 space-y-0">
-              <h4 className="text-small font-medium">{item.title}</h4>
-              <p className="text-sm text-muted">{item.subtitle}</p>
-            </div>
-          </div>
-          {index < items.length - 1 && <Separator className="my-4" />}
+          <Flex align="center" gap="3">
+            <chakra.img alt={item.title} boxSize="12" src={item.iconUrl} />
+            <Box flex="1" spaceY="0">
+              <Box as="h4" fontSize="sm" fontWeight="medium">{item.title}</Box>
+              <Text fontSize="sm" color="fg.muted">{item.subtitle}</Text>
+            </Box>
+          </Flex>
+          {index < items.length - 1 && <Separator my="4" />}
         </div>
       ))}
-    </div>
-  ),
-};
-
-export const Variants: Story = {
-  render: () => (
-    <div className="flex max-w-md flex-col items-center gap-3">
-      <div>Default Variant</div>
-      <Separator variant="default" />
-      <div>Secondary Variant</div>
-      <Separator variant="secondary" />
-      <div>Tertiary Variant</div>
-      <Separator variant="tertiary" />
-    </div>
+    </Box>
   ),
 };

@@ -4,8 +4,7 @@ import {
   AlertDialogBackdrop,
   AlertDialogBody,
   AlertDialogCloseTrigger,
-  AlertDialogContainer,
-  AlertDialogDialog,
+  AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogHeading,
@@ -21,8 +20,7 @@ export const AlertDialog = Object.assign(AlertDialogRoot, {
   Root: AlertDialogRoot,
   Trigger: AlertDialogTrigger,
   Backdrop: AlertDialogBackdrop,
-  Container: AlertDialogContainer,
-  Dialog: AlertDialogDialog,
+  Content: AlertDialogContent,
   Header: AlertDialogHeader,
   Heading: AlertDialogHeading,
   Body: AlertDialogBody,
@@ -36,8 +34,7 @@ export type AlertDialog = {
   RootProps: ComponentProps<typeof AlertDialogRoot>;
   TriggerProps: ComponentProps<typeof AlertDialogTrigger>;
   BackdropProps: ComponentProps<typeof AlertDialogBackdrop>;
-  ContainerProps: ComponentProps<typeof AlertDialogContainer>;
-  DialogProps: ComponentProps<typeof AlertDialogDialog>;
+  ContentProps: ComponentProps<typeof AlertDialogContent>;
   HeaderProps: ComponentProps<typeof AlertDialogHeader>;
   HeadingProps: ComponentProps<typeof AlertDialogHeading>;
   BodyProps: ComponentProps<typeof AlertDialogBody>;
@@ -53,8 +50,7 @@ export {
   AlertDialogRoot,
   AlertDialogTrigger,
   AlertDialogBackdrop,
-  AlertDialogContainer,
-  AlertDialogDialog,
+  AlertDialogContent,
   AlertDialogHeader,
   AlertDialogHeading,
   AlertDialogBody,
@@ -68,8 +64,7 @@ export type {
   AlertDialogRootProps as AlertDialogProps,
   AlertDialogTriggerProps,
   AlertDialogBackdropProps,
-  AlertDialogContainerProps,
-  AlertDialogDialogProps,
+  AlertDialogContentProps,
   AlertDialogHeaderProps,
   AlertDialogHeadingProps,
   AlertDialogBodyProps,
@@ -77,10 +72,3 @@ export type {
   AlertDialogIconProps,
   AlertDialogCloseTriggerProps,
 } from "./alert-dialog";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {alertDialogVariants} from "../../styles";
-
-export type {AlertDialogVariants} from "../../styles";

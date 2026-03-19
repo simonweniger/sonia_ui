@@ -20,10 +20,3 @@ export type Separator = {
 export {SeparatorRoot};
 
 export type {SeparatorRootProps, SeparatorRootProps as SeparatorProps} from "./separator";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {separatorVariants} from "../../styles";
-
-export type {SeparatorVariants} from "../../styles";

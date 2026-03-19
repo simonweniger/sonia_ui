@@ -1,25 +1,15 @@
 "use client";
 
-import type {LinkProps} from "../link";
-import type {BreadcrumbsVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {breadcrumbsVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-import {
-  Breadcrumb as BreadcrumbPrimitive,
-  Breadcrumbs as BreadcrumbsPrimitive,
-} from "react-aria-components";
+import {Breadcrumb as ChakraBreadcrumb} from "@chakra-ui/react";
+import React, {createContext} from "react";
 
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
-import {IconChevronRight} from "../icons";
-import {Link} from "../link";
 
 /* -------------------------------------------------------------------------------------------------
  * Breadcrumbs Context
  * -----------------------------------------------------------------------------------------------*/
 type BreadcrumbsContext = {
-  slots?: ReturnType<typeof breadcrumbsVariants>;
   separator?: React.ReactNode;
 };
 
@@ -28,23 +18,21 @@ const BreadcrumbsContext = createContext<BreadcrumbsContext>({});
 /* -------------------------------------------------------------------------------------------------
  * Breadcrumbs Root
  * -----------------------------------------------------------------------------------------------*/
-interface BreadcrumbsRootProps
-  extends ComponentPropsWithRef<typeof BreadcrumbsPrimitive>, BreadcrumbsVariants {
+interface BreadcrumbsRootProps extends Omit<ComponentPropsWithRef<typeof ChakraBreadcrumb.Root>, 'separator'> {
   separator?: React.ReactNode;
 }
 
-const BreadcrumbsRoot = ({children, className, separator, ...props}: BreadcrumbsRootProps) => {
-  const slots = React.useMemo(() => breadcrumbsVariants({}), []);
-
+const BreadcrumbsRoot = ({children, separator, ...props}: BreadcrumbsRootProps) => {
   return (
-    <BreadcrumbsContext.Provider value={{slots, separator}}>
-      <BreadcrumbsPrimitive
+    <BreadcrumbsContext.Provider value={{separator}}>
+      <ChakraBreadcrumb.Root
         data-slot="breadcrumbs"
+        display="flex"
+        alignItems="center"
         {...props}
-        className={composeSlotClassName(slots.base, className)}
       >
         {children}
-      </BreadcrumbsPrimitive>
+      </ChakraBreadcrumb.Root>
     </BreadcrumbsContext.Provider>
   );
 };
@@ -52,56 +40,26 @@ const BreadcrumbsRoot = ({children, className, separator, ...props}: Breadcrumbs
 /* -------------------------------------------------------------------------------------------------
  * Breadcrumbs Item
  * -----------------------------------------------------------------------------------------------*/
-interface BreadcrumbsItemProps extends ComponentPropsWithRef<typeof BreadcrumbPrimitive> {}
+interface BreadcrumbsItemProps extends ComponentPropsWithRef<typeof ChakraBreadcrumb.Link> {
+  current?: boolean;
+}
 
-const BreadcrumbsItem = ({
-  children,
-  className,
-  ...props
-}: BreadcrumbsItemProps & Omit<LinkProps, "className">) => {
-  const {separator, slots} = useContext(BreadcrumbsContext);
-
-  const renderSeparator = () => {
-    if (!separator)
-      return <IconChevronRight className={slots?.separator()} data-slot="breadcrumbs-separator" />;
-
-    if (React.isValidElement(separator)) {
-      return React.cloneElement(
-        separator as React.ReactElement<{
-          className?: string;
-          "data-slot": "breadcrumbs-separator";
-        }>,
-        {
-          className: slots?.separator(),
-          "data-slot": "breadcrumbs-separator",
-        },
-      );
-    }
-
-    return separator;
-  };
-
+const BreadcrumbsItem = ({children, current, ...props}: BreadcrumbsItemProps) => {
   return (
-    <BreadcrumbPrimitive
-      className={composeTwRenderProps(className, slots?.item())}
+    <ChakraBreadcrumb.Link
       data-slot="breadcrumbs-item"
+      data-current={current ? "true" : undefined}
+      pos="relative"
+      px="0.5"
+      textStyle="sm"
+      lineHeight="1.25rem"
+      fontWeight="medium"
+      color={current ? "accent" : "fg.muted"}
+      opacity={1}
       {...props}
     >
-      {({isCurrent}) => {
-        if (typeof children === "function") {
-          return children({} as any);
-        }
-
-        return (
-          <>
-            <Link className={slots?.link()} {...props}>
-              {children}
-            </Link>
-            {!isCurrent && renderSeparator()}
-          </>
-        );
-      }}
-    </BreadcrumbPrimitive>
+      {children}
+    </ChakraBreadcrumb.Link>
   );
 };
 

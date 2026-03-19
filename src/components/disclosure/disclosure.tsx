@@ -1,29 +1,17 @@
 "use client";
 
-import type {Booleanish} from "../../utils/assertion";
-import type {DisclosureVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
-import type {ButtonProps} from "react-aria-components";
 
-import {disclosureVariants} from "../../styles";
-import React, {createContext, useContext, useRef} from "react";
-import {
-  Button,
-  Heading as DisclosureHeadingPrimitive,
-  DisclosurePanel,
-  Disclosure as DisclosurePrimitive,
-  DisclosureStateContext,
-} from "react-aria-components";
+import {Box, Collapsible, chakra} from "@chakra-ui/react";
+import React, {createContext, useContext} from "react";
 
-import {dataAttr} from "../../utils/assertion";
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {IconChevronDown} from "../icons";
 
 /* ------------------------------------------------------------------------------------------------
  * Disclosure Context
  * --------------------------------------------------------------------------------------------- */
 type DisclosureContext = {
-  slots?: ReturnType<typeof disclosureVariants>;
+  open?: boolean;
 };
 
 const DisclosureContext = createContext<DisclosureContext>({});
@@ -31,21 +19,19 @@ const DisclosureContext = createContext<DisclosureContext>({});
 /* -------------------------------------------------------------------------------------------------
  * Disclosure Root
  * -----------------------------------------------------------------------------------------------*/
-interface DisclosureRootProps
-  extends ComponentPropsWithRef<typeof DisclosurePrimitive>, DisclosureVariants {}
+interface DisclosureRootProps extends ComponentPropsWithRef<typeof Collapsible.Root> {}
 
-const DisclosureRoot = ({children, className, ...props}: DisclosureRootProps) => {
-  const slots = React.useMemo(() => disclosureVariants({}), []);
-
+const DisclosureRoot = ({children, open, ...props}: DisclosureRootProps) => {
   return (
-    <DisclosureContext value={{slots}}>
-      <DisclosurePrimitive
+    <DisclosureContext value={{open}}>
+      <Collapsible.Root
         data-slot="disclosure"
+        pos="relative"
+        open={open}
         {...props}
-        className={composeTwRenderProps(className, slots.base())}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </DisclosurePrimitive>
+        {children}
+      </Collapsible.Root>
     </DisclosureContext>
   );
 };
@@ -53,64 +39,65 @@ const DisclosureRoot = ({children, className, ...props}: DisclosureRootProps) =>
 /* -------------------------------------------------------------------------------------------------
  * Disclosure Heading
  * -----------------------------------------------------------------------------------------------*/
-interface DisclosureHeadingProps extends ComponentPropsWithRef<typeof DisclosureHeadingPrimitive> {
+interface DisclosureHeadingProps extends ComponentPropsWithRef<"h3"> {
   className?: string;
 }
 
-const DisclosureHeading = ({className, ...props}: DisclosureHeadingProps) => {
-  const {slots} = useContext(DisclosureContext);
-
-  return (
-    <DisclosureHeadingPrimitive
-      className={composeSlotClassName(slots?.heading, className)}
-      data-slot="disclosure-heading"
-      {...props}
-    />
-  );
+const DisclosureHeading = ({...props}: DisclosureHeadingProps) => {
+  return <chakra.h3 data-slot="disclosure-heading" display="flex" {...props} />;
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Disclosure Trigger
  * -----------------------------------------------------------------------------------------------*/
-interface DisclosureTriggerProps extends ButtonProps {}
+interface DisclosureTriggerProps extends ComponentPropsWithRef<typeof Collapsible.Trigger> {}
 
-const DisclosureTrigger = ({className, ...props}: DisclosureTriggerProps) => {
-  const {slots} = useContext(DisclosureContext);
-
+const DisclosureTrigger = ({...props}: DisclosureTriggerProps) => {
   return (
-    <Button
-      className={composeTwRenderProps(className, slots?.trigger())}
+    <Collapsible.Trigger
       data-slot="disclosure-trigger"
-      slot="trigger"
+      cursor="pointer"
+      css={{
+        WebkitTapHighlightColor: "transparent",
+      }}
+      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
+      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
       {...props}
     >
-      {(values) => (
-        <>{typeof props.children === "function" ? props.children(values) : props.children}</>
-      )}
-    </Button>
+      {props.children}
+    </Collapsible.Trigger>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Disclosure Content
  * -----------------------------------------------------------------------------------------------*/
-interface DisclosureContentProps extends ComponentPropsWithRef<typeof DisclosurePanel> {}
+interface DisclosureContentProps extends ComponentPropsWithRef<typeof Collapsible.Content> {}
 
-const DisclosureContent = ({children, className, ...props}: DisclosureContentProps) => {
-  const {slots} = useContext(DisclosureContext);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const {isExpanded} = useContext(DisclosureStateContext)!;
+const DisclosureContent = ({children, ...props}: DisclosureContentProps) => {
+  const {open} = useContext(DisclosureContext);
 
   return (
-    <DisclosurePanel
-      ref={contentRef}
-      className={composeTwRenderProps(className, slots?.content())}
-      data-expanded={dataAttr(isExpanded)}
+    <Collapsible.Content
+      data-expanded={open ? "" : undefined}
       data-slot="disclosure-content"
+      css={{
+        opacity: 0,
+        height: "var(--disclosure-panel-height)",
+        overflow: "clip",
+        transition: "height 200ms var(--ease-out-quad), opacity 200ms var(--ease-out)",
+        "@media (prefers-reduced-motion: reduce)": {
+          transition: "none",
+        },
+        "&[data-expanded]": {
+          willChange: "height, opacity",
+          opacity: 1,
+        },
+      }}
       {...props}
     >
       {children}
-    </DisclosurePanel>
+    </Collapsible.Content>
   );
 };
 
@@ -121,13 +108,11 @@ interface DisclosureBodyContentProps extends ComponentPropsWithRef<"div"> {
   className?: string;
 }
 
-const DisclosureBody = ({children, className, ...props}: DisclosureBodyContentProps) => {
-  const {slots} = useContext(DisclosureContext);
-
+const DisclosureBody = ({children, ...props}: DisclosureBodyContentProps) => {
   return (
-    <div className={slots?.body({})} data-slot="disclosure-body" {...props}>
-      <div className={composeSlotClassName(slots?.bodyInner, className)}>{children}</div>
-    </div>
+    <Box data-slot="disclosure-body" p="2" {...props}>
+      {children}
+    </Box>
   );
 };
 
@@ -139,32 +124,44 @@ interface DisclosureIndicatorProps extends ComponentPropsWithRef<"svg"> {
 }
 
 const DisclosureIndicator = ({children, className, ...props}: DisclosureIndicatorProps) => {
-  const {isExpanded} = useContext(DisclosureStateContext)!;
-  const {slots} = useContext(DisclosureContext);
+  const {open} = useContext(DisclosureContext);
 
   if (children && React.isValidElement(children)) {
     return React.cloneElement(
       children as React.ReactElement<{
         className?: string;
         "data-slot"?: "disclosure-indicator";
-        "data-expanded"?: Booleanish;
+        "data-expanded"?: "";
       }>,
       {
         ...props,
-        "data-expanded": dataAttr(isExpanded),
-        className: composeSlotClassName(slots?.indicator, className),
+        "data-expanded": open ? "" : undefined,
+        className,
         "data-slot": "disclosure-indicator",
       },
     );
   }
 
   return (
-    <IconChevronDown
-      className={composeSlotClassName(slots?.indicator, className)}
-      data-expanded={dataAttr(isExpanded)}
+    <Box
+      ml="auto"
+      boxSize="4"
+      flexShrink={0}
+      color="inherit"
+      data-expanded={open ? "" : undefined}
       data-slot="disclosure-indicator"
-      {...props}
-    />
+      css={{
+        transition: "transform 250ms",
+        "@media (prefers-reduced-motion: reduce)": {
+          transition: "none",
+        },
+        "&[data-expanded]": {
+          transform: "rotate(-180deg)",
+        },
+      }}
+    >
+      <IconChevronDown className={className} {...props} />
+    </Box>
   );
 };
 

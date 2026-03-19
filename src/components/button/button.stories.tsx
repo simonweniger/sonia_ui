@@ -1,15 +1,16 @@
 import type {Meta} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
+import {Box, Flex} from "@chakra-ui/react";
 import React, {useState} from "react";
 
 import {Spinner} from "../spinner";
 
-import {Button, buttonVariants} from "./index";
+import {Button} from "./index";
 
 export default {
   argTypes: {
-    isDisabled: {
+    disabled: {
       control: "boolean",
     },
     size: {
@@ -18,7 +19,14 @@ export default {
     },
     variant: {
       control: "select",
-      options: ["primary", "secondary", "tertiary", "outline", "ghost", "danger"],
+      options: [
+        "solid", "subtle", "surface", "outline", "ghost", "plain", "glass",
+        "primary", "secondary", "tertiary", "danger", "danger-soft",
+      ],
+    },
+    colorPalette: {
+      control: "select",
+      options: ["accent", "gray", "red", "green", "blue", "orange"],
     },
   },
   component: Button,
@@ -32,93 +40,77 @@ const defaultArgs: Button["RootProps"] = {
   size: "md",
 };
 
-const Template = ({isDisabled, size}: Button["RootProps"]) => (
-  <div className="flex gap-3">
-    <Button isDisabled={isDisabled} size={size}>
+const Template = ({disabled, size}: Button["RootProps"]) => (
+  <Flex gap="3" flexWrap="wrap">
+    <Button disabled={disabled} size={size} variant="primary">
       Primary
     </Button>
-    <Button isDisabled={isDisabled} size={size} variant="secondary">
+    <Button disabled={disabled} size={size} variant="secondary">
       Secondary
     </Button>
-    <Button isDisabled={isDisabled} size={size} variant="tertiary">
+    <Button disabled={disabled} size={size} variant="tertiary">
       Tertiary
     </Button>
-    <Button isDisabled={isDisabled} size={size} variant="outline">
+    <Button disabled={disabled} size={size} variant="outline">
       Outline
     </Button>
-    <Button isDisabled={isDisabled} size={size} variant="ghost">
+    <Button disabled={disabled} size={size} variant="ghost">
       Ghost
     </Button>
-    <Button isDisabled={isDisabled} size={size} variant="danger">
+    <Button disabled={disabled} size={size} variant="danger">
       Danger
     </Button>
-    <Button isDisabled={isDisabled} size={size} variant="danger-soft">
+    <Button disabled={disabled} size={size} variant="danger-soft">
       Danger Soft
     </Button>
-  </div>
+    <Button disabled={disabled} size={size} variant="glass">
+      Glass
+    </Button>
+  </Flex>
 );
 
-const TemplateWithLinkButton = ({isIconOnly, size, variant}: Button["RootProps"]) => (
-  <div className="flex flex-col gap-3">
-    <div className="flex gap-3">
-      <a
-        className={buttonVariants({size, variant, isIconOnly})}
-        href="https://www.google.com"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Google
-      </a>
-    </div>
-  </div>
-);
-
-const TemplateWithIcon = ({isDisabled, size}: Button["RootProps"]) => (
-  <div className="flex gap-3">
-    <Button isDisabled={isDisabled} size={size}>
+const TemplateWithIcon = ({disabled, size}: Button["RootProps"]) => (
+  <Flex gap="3">
+    <Button disabled={disabled} size={size}>
       <Icon icon="gravity-ui:globe" />
       Search
     </Button>
-    <Button isDisabled={isDisabled} size={size} variant="secondary">
+    <Button disabled={disabled} size={size} variant="subtle">
       <Icon icon="gravity-ui:plus" />
       Add Member
     </Button>
-    <Button isDisabled={isDisabled} size={size} variant="tertiary">
+    <Button disabled={disabled} size={size} variant="outline">
       <Icon icon="gravity-ui:envelope" />
       Email
     </Button>
-    <Button isDisabled={isDisabled} size={size} variant="danger">
+    <Button disabled={disabled} size={size} variant="ghost">
       <Icon icon="gravity-ui:trash-bin" />
       Delete
     </Button>
-    <Button isDisabled={isDisabled} size={size} variant="danger-soft">
-      <Icon icon="gravity-ui:trash-bin" />
-      Cancel
-    </Button>
-  </div>
+  </Flex>
 );
 
-const TemplateWithIconOnly = ({isDisabled, size, variant}: Button["RootProps"]) => (
-  <div className="flex gap-3">
-    <Button isIconOnly isDisabled={isDisabled} size={size} variant={variant ?? "tertiary"}>
+const TemplateWithIconOnly = ({disabled, size, variant}: Button["RootProps"]) => (
+  <Flex gap="3">
+    <Button isIconOnly disabled={disabled} size={size} variant={variant ?? "ghost"}>
       <Icon icon="gravity-ui:ellipsis" />
     </Button>
-  </div>
+  </Flex>
 );
 
 const TemplateWithSpinner = ({size, variant}: Button["RootProps"]) => (
-  <div className="flex gap-3">
-    <Button isPending size={size} variant={variant}>
+  <Flex gap="3">
+    <Button disabled size={size} variant={variant}>
       <Spinner color="current" size="sm" />
       Loading
     </Button>
-  </div>
+  </Flex>
 );
 
 const TemplateWithLoadingState = ({size, variant}: Button["RootProps"]) => {
   const [isLoading, setLoading] = useState(false);
 
-  const handlePress = () => {
+  const handleClick = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -126,25 +118,21 @@ const TemplateWithLoadingState = ({size, variant}: Button["RootProps"]) => {
   };
 
   return (
-    <Button isPending={isLoading} size={size} variant={variant ?? "tertiary"} onPress={handlePress}>
-      {({isPending}) => (
-        <>
-          {isPending ? <Spinner color="current" size="sm" /> : <Icon icon="gravity-ui:paperclip" />}
-          {isLoading ? "Uploading..." : "Upload File"}
-        </>
-      )}
+    <Button disabled={isLoading} size={size} variant={variant ?? "ghost"} onClick={handleClick}>
+      {isLoading ? <Spinner color="current" size="sm" /> : <Icon icon="gravity-ui:paperclip" />}
+      {isLoading ? "Uploading..." : "Upload File"}
     </Button>
   );
 };
 
 const SizesTemplate = () => (
-  <div className="flex flex-col gap-6">
-    <div className="flex items-center gap-3">
+  <Flex direction="column" gap="6">
+    <Flex align="center" gap="3">
       <Button size="sm">Small</Button>
       <Button size="md">Medium</Button>
       <Button size="lg">Large</Button>
-    </div>
-    <div className="flex items-center gap-3">
+    </Flex>
+    <Flex align="center" gap="3">
       <Button size="sm" variant="secondary">
         <Icon icon="gravity-ui:plus" />
         Small
@@ -157,40 +145,40 @@ const SizesTemplate = () => (
         <Icon icon="gravity-ui:plus" />
         Large
       </Button>
-    </div>
-    <div className="flex items-center gap-3">
-      <Button isIconOnly size="sm" variant="tertiary">
+    </Flex>
+    <Flex align="center" gap="3">
+      <Button isIconOnly size="sm" variant="subtle" colorPalette="gray">
         <Icon icon="gravity-ui:ellipsis" />
       </Button>
-      <Button isIconOnly size="md" variant="tertiary">
+      <Button isIconOnly size="md" variant="subtle" colorPalette="gray">
         <Icon icon="gravity-ui:ellipsis" />
       </Button>
-      <Button isIconOnly size="lg" variant="tertiary">
+      <Button isIconOnly size="lg" variant="subtle" colorPalette="gray">
         <Icon icon="gravity-ui:ellipsis" />
       </Button>
-    </div>
-  </div>
+    </Flex>
+  </Flex>
 );
 
 const TemplateWithSocialButton = ({size, variant}: Button["RootProps"]) => (
-  <div className="flex w-full max-w-xs flex-col gap-3">
-    <Button size={size} variant={variant ?? "tertiary"}>
+  <Flex width="full" maxW="xs" direction="column" gap="3">
+    <Button size={size} variant={variant ?? "ghost"}>
       <Icon icon="devicon:google" />
       Sign in with Google
     </Button>
-    <Button size={size} variant={variant ?? "tertiary"}>
+    <Button size={size} variant={variant ?? "ghost"}>
       <Icon icon="mdi:github" />
       Sign in with GitHub
     </Button>
-    <Button size={size} variant={variant ?? "tertiary"}>
+    <Button size={size} variant={variant ?? "ghost"}>
       <Icon icon="ion:logo-apple" />
       Sign in with Apple
     </Button>
-    <Button size={size} variant={variant ?? "tertiary"}>
+    <Button size={size} variant={variant ?? "ghost"}>
       <Icon icon="typcn:social-linkedin" />
       Sign in with LinkedIn
     </Button>
-  </div>
+  </Flex>
 );
 
 export const Default = {
@@ -198,24 +186,22 @@ export const Default = {
   render: Template,
 };
 
-export const WithLinkButton = {
-  args: defaultArgs,
-  render: TemplateWithLinkButton,
-};
-
 export const Sizes = {
-  render: SizesTemplate,
+  args: {
+    variant: "solid"
+  },
+  render:SizesTemplate
 };
 
 export const FullWidth = {
   render: () => (
-    <div className="w-[400px] space-y-3">
-      <Button fullWidth>Primary</Button>
-      <Button fullWidth variant="secondary">
-        Secondary
+    <Box width="400px" spaceY="3">
+      <Button fullWidth>Solid</Button>
+      <Button fullWidth variant="subtle">
+        Subtle
       </Button>
-      <Button fullWidth variant="tertiary">
-        Tertiary
+      <Button fullWidth variant="ghost">
+        Ghost
       </Button>
       <Button fullWidth size="sm">
         Small
@@ -227,7 +213,7 @@ export const FullWidth = {
         <Icon icon="gravity-ui:plus" />
         With Icon
       </Button>
-    </div>
+    </Box>
   ),
 };
 

@@ -47,10 +47,3 @@ export type {
   NumberFieldIncrementButtonProps,
   NumberFieldDecrementButtonProps,
 } from "./number-field";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {numberFieldVariants} from "../../styles";
-
-export type {NumberFieldVariants} from "../../styles";

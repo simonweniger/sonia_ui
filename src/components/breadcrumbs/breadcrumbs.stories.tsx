@@ -3,6 +3,8 @@ import type {Meta, StoryObj} from "@storybook/react";
 import {Icon} from "@iconify/react";
 import React from "react";
 
+import {Box} from "@chakra-ui/react";
+
 import {Breadcrumbs, BreadcrumbsItem} from "./index";
 
 const meta: Meta<typeof Breadcrumbs> = {
@@ -51,12 +53,14 @@ const CustomSeparatorTemplate = () => (
 );
 
 const DisabledTemplate = () => (
-  <Breadcrumbs isDisabled>
-    <BreadcrumbsItem href="#">Home</BreadcrumbsItem>
-    <BreadcrumbsItem href="#">Products</BreadcrumbsItem>
-    <BreadcrumbsItem href="#">Electronics</BreadcrumbsItem>
-    <BreadcrumbsItem>Laptop</BreadcrumbsItem>
-  </Breadcrumbs>
+  <Box pointerEvents="none" opacity={0.5}>
+    <Breadcrumbs>
+      <BreadcrumbsItem href="#">Home</BreadcrumbsItem>
+      <BreadcrumbsItem href="#">Products</BreadcrumbsItem>
+      <BreadcrumbsItem href="#">Electronics</BreadcrumbsItem>
+      <BreadcrumbsItem>Laptop</BreadcrumbsItem>
+    </Breadcrumbs>
+  </Box>
 );
 
 export const Default: Story = {

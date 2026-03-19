@@ -1,43 +1,77 @@
 "use client";
 
-import type {InputOTPVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
-import type {ValidationResult} from "react-aria-components";
 
-import {inputOTPVariants} from "../../styles";
+import {Box} from "@chakra-ui/react";
 import {OTPInput, OTPInputContext} from "input-otp";
 import React, {createContext, useContext} from "react";
-import {FieldErrorContext} from "react-aria-components";
 
 import {dataAttr} from "../../utils/assertion";
-import {composeSlotClassName} from "../../utils/compose";
 
 /* -------------------------------------------------------------------------------------------------
  * Input OTP Context
  * -----------------------------------------------------------------------------------------------*/
-interface InputOTPContext {
-  slots?: ReturnType<typeof inputOTPVariants>;
+interface InputOTPContextValue {
   isDisabled?: boolean;
   isInvalid?: boolean;
+  variant?: string;
 }
 
-const InputOTPContext = createContext<InputOTPContext>({
+const InputOTPContext = createContext<InputOTPContextValue>({
   isDisabled: false,
   isInvalid: false,
 });
+
+/* -------------------------------------------------------------------------------------------------
+ * Style definitions
+ * -----------------------------------------------------------------------------------------------*/
+const slotBaseStyles = {
+  position: "relative" as const,
+  display: "flex",
+  height: "10",
+  width: "9.5",
+  flex: "1",
+  alignItems: "center",
+  justifyContent: "center",
+  rounded: "xl",
+  bg: "white",
+  color: "fg",
+  shadow: "field",
+  outline: "none",
+  borderWidth: "0px",
+  borderColor: "transparent",
+  fontSize: "sm",
+  fontWeight: "semibold",
+  transitionProperty: "common",
+  transitionDuration: "fast",
+  transitionTimingFunction: "ease",
+} as const;
+
+const slotVariantStyles = {
+  primary: {
+    borderWidth: "1px",
+    borderColor: "border",
+    shadow: "field",
+  },
+  secondary: {
+    bg: "bg.muted",
+    shadow: "none",
+    borderColor: "transparent",
+  },
+} as const;
 
 /* -------------------------------------------------------------------------------------------------
  * Input OTP Root
  * -----------------------------------------------------------------------------------------------*/
 interface InputOTPRootProps
   extends
-    Omit<ComponentPropsWithRef<typeof OTPInput>, "disabled" | "containerClassName" | "render">,
-    InputOTPVariants {
+    Omit<ComponentPropsWithRef<typeof OTPInput>, "disabled" | "containerClassName" | "render"> {
   isDisabled?: boolean;
   isInvalid?: boolean;
   validationErrors?: string[];
   validationDetails?: ValidityState;
   inputClassName?: string;
+  variant?: string;
   children: React.ReactNode;
 }
 
@@ -51,32 +85,17 @@ const InputOTPRoot = ({
   variant,
   ...props
 }: InputOTPRootProps) => {
-  const slots = React.useMemo(() => inputOTPVariants({variant}), [variant]);
-
-  const validation = React.useMemo(
-    () =>
-      ({
-        isInvalid,
-        validationErrors,
-        validationDetails,
-      }) as ValidationResult,
-    [isInvalid, validationErrors, validationDetails],
-  );
-
   return (
-    <InputOTPContext value={{slots, isDisabled, isInvalid}}>
-      <FieldErrorContext value={validation}>
-        <OTPInput
-          // OTP Input package uses the `className` prop for the actual `input` element which is not visible to the user so no need to pass it to the base container
-          className={slots.input({className: inputClassName})}
-          containerClassName={slots.base({className})}
-          data-disabled={dataAttr(isDisabled)}
-          data-invalid={dataAttr(isInvalid)}
-          data-slot="input-otp"
-          disabled={isDisabled}
-          {...props}
-        />
-      </FieldErrorContext>
+    <InputOTPContext value={{isDisabled, isInvalid, variant}}>
+      <OTPInput
+        className={inputClassName}
+        containerClassName={className}
+        data-disabled={dataAttr(isDisabled)}
+        data-invalid={dataAttr(isInvalid)}
+        data-slot="input-otp"
+        disabled={isDisabled}
+        {...props}
+      />
     </InputOTPContext>
   );
 };
@@ -88,12 +107,13 @@ const InputOTPRoot = ({
 interface InputOTPGroupProps extends ComponentPropsWithRef<"div"> {}
 
 const InputOTPGroup = ({className, ...props}: InputOTPGroupProps) => {
-  const {slots} = useContext(InputOTPContext);
-
   return (
-    <div
-      className={composeSlotClassName(slots?.group, className)}
+    <Box
+      className={className}
       data-slot="input-otp-group"
+      display="inline-flex"
+      alignItems="center"
+      gap="2"
       {...props}
     />
   );
@@ -107,30 +127,71 @@ interface InputOTPSlotProps extends ComponentPropsWithRef<"div"> {
 }
 
 const InputOTPSlot = ({className, index, ...props}: InputOTPSlotProps) => {
-  const {isDisabled, isInvalid, slots} = useContext(InputOTPContext);
+  const {isDisabled, isInvalid, variant} = useContext(InputOTPContext);
 
   const inputOTPContext = useContext(OTPInputContext);
   const {char, hasFakeCaret, isActive} = inputOTPContext?.slots[index] ?? {};
 
+  const resolvedVariantStyles =
+    variant === "secondary" ? slotVariantStyles.secondary : slotVariantStyles.primary;
+
   return (
-    <div
+    <Box
       {...props}
-      className={composeSlotClassName(slots?.slot, className)}
+      className={className}
       data-active={dataAttr(isActive)}
       data-disabled={dataAttr(isDisabled)}
       data-filled={dataAttr(!!char)}
       data-invalid={dataAttr(isInvalid)}
       data-slot="input-otp-slot"
+      {...slotBaseStyles}
+      {...resolvedVariantStyles}
+      {...(isActive
+        ? {
+            zIndex: 10,
+            bg: "bg.subtle",
+            ring: "2px",
+            ringColor: "accent",
+          }
+        : {})}
+      {...(char && !isActive ? {bg: "bg.subtle"} : {})}
+      {...(isInvalid
+        ? {
+            outline: "1px solid",
+            outlineColor: "danger",
+            bg: "bg.subtle",
+          }
+        : {})}
+      {...(isDisabled
+        ? {
+            opacity: 0.5,
+            cursor: "not-allowed",
+            pointerEvents: "none" as const,
+          }
+        : {})}
     >
       {char ? (
-        <div className={slots?.slotValue()} data-slot="input-otp-slot-value">
+        <Box
+          data-slot="input-otp-slot-value"
+          fontSize="lg"
+          lineHeight="6"
+          letterSpacing="-0.27px"
+        >
           {char}
-        </div>
+        </Box>
       ) : null}
       {hasFakeCaret && isActive ? (
-        <div className={slots?.caret()} data-slot="input-otp-caret" />
+        <Box
+          data-slot="input-otp-caret"
+          position="absolute"
+          height="4"
+          width="2px"
+          rounded="sm"
+          bg="fg.muted"
+          animation="blink 1s step-end infinite"
+        />
       ) : null}
-    </div>
+    </Box>
   );
 };
 
@@ -142,12 +203,15 @@ interface InputOTPSeparatorProps extends ComponentPropsWithRef<"div"> {
 }
 
 const InputOTPSeparator = ({className, ...props}: InputOTPSeparatorProps) => {
-  const {slots} = useContext(InputOTPContext);
-
   return (
-    <div
-      className={composeSlotClassName(slots?.separator, className)}
+    <Box
+      className={className}
       data-slot="input-otp-separator"
+      height="2px"
+      width="6px"
+      flexShrink={0}
+      rounded="sm"
+      bg="border"
       {...props}
     />
   );

@@ -41,10 +41,3 @@ export type TimeField = {
 export {TimeFieldRoot};
 
 export type {TimeFieldRootProps, TimeFieldRootProps as TimeFieldProps} from "./time-field";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {timeFieldVariants} from "../../styles";
-
-export type {TimeFieldVariants} from "../../styles";

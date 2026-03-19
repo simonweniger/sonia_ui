@@ -20,10 +20,3 @@ export type TextArea = {
 export {TextAreaRoot};
 
 export type {TextAreaRootProps, TextAreaRootProps as TextAreaProps} from "./textarea";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {textAreaVariants} from "../../styles";
-
-export type {TextAreaVariants} from "../../styles";

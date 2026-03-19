@@ -5,6 +5,7 @@ import {
   SliderMarks,
   SliderOutput,
   SliderRoot,
+  SliderSteps,
   SliderThumb,
   SliderTrack,
 } from "./slider";
@@ -18,6 +19,7 @@ export const Slider = Object.assign(SliderRoot, {
   Track: SliderTrack,
   Fill: SliderFill,
   Thumb: SliderThumb,
+  Steps: SliderSteps,
   Marks: SliderMarks,
 });
 
@@ -28,13 +30,14 @@ export type Slider = {
   TrackProps: ComponentProps<typeof SliderTrack>;
   FillProps: ComponentProps<typeof SliderFill>;
   ThumbProps: ComponentProps<typeof SliderThumb>;
+  StepsProps: ComponentProps<typeof SliderSteps>;
   MarksProps: ComponentProps<typeof SliderMarks>;
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Named Component
  * -----------------------------------------------------------------------------------------------*/
-export {SliderRoot, SliderOutput, SliderTrack, SliderFill, SliderThumb, SliderMarks};
+export {SliderRoot, SliderOutput, SliderTrack, SliderFill, SliderThumb, SliderSteps, SliderMarks};
 
 export type {
   SliderRootProps,
@@ -43,12 +46,6 @@ export type {
   SliderTrackProps,
   SliderFillProps,
   SliderThumbProps,
+  SliderStepsProps,
   SliderMarksProps,
 } from "./slider";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {sliderVariants} from "../../styles";
-
-export type {SliderVariants} from "../../styles";

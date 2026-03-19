@@ -49,10 +49,3 @@ export type {
   TabSeparatorProps,
   TabPanelProps,
 } from "./tabs";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {tabsVariants} from "../../styles";
-
-export type {TabsVariants} from "../../styles";

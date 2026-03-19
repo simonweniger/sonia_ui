@@ -20,10 +20,3 @@ export type Input = {
 export {InputRoot};
 
 export type {InputRootProps, InputRootProps as InputProps} from "./input";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {inputVariants} from "../../styles";
-
-export type {InputVariants} from "../../styles";

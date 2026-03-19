@@ -23,10 +23,3 @@ export type {
   ErrorMessageRootProps,
   ErrorMessageRootProps as ErrorMessageProps,
 } from "./error-message";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {errorMessageVariants} from "../../styles";
-
-export type {ErrorMessageVariants} from "../../styles";

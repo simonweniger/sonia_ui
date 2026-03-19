@@ -1,19 +1,19 @@
-import type {EmptyStateVariants} from "../../styles";
+"use client";
+
 import type {ComponentPropsWithRef} from "react";
 
-import {emptyStateVariants} from "../../styles";
-import React from "react";
+import {EmptyState as ChakraEmptyState} from "@chakra-ui/react";
 
 /* -------------------------------------------------------------------------------------------------
  * EmptyState Root
  * -----------------------------------------------------------------------------------------------*/
-interface EmptyStateRootProps extends ComponentPropsWithRef<"div">, EmptyStateVariants {}
+interface EmptyStateRootProps extends ComponentPropsWithRef<typeof ChakraEmptyState.Root> {}
 
-const EmptyStateRoot = ({children, className, ...rest}: EmptyStateRootProps) => {
+const EmptyStateRoot = ({children, ...props}: EmptyStateRootProps) => {
   return (
-    <div className={emptyStateVariants({className})} data-slot="empty-state" {...rest}>
-      {children || "No results found"}
-    </div>
+    <ChakraEmptyState.Root data-slot="empty-state" size="sm" {...props}>
+      <ChakraEmptyState.Content>{children || "No results found"}</ChakraEmptyState.Content>
+    </ChakraEmptyState.Root>
   );
 };
 

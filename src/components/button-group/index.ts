@@ -24,11 +24,4 @@ export type {ButtonGroupRootProps, ButtonGroupRootProps as ButtonGroupProps} fro
 /* -------------------------------------------------------------------------------------------------
  * Context
  * -----------------------------------------------------------------------------------------------*/
-export {ButtonGroupContext, BUTTON_GROUP_CHILD} from "./button-group";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {buttonGroupVariants} from "../../styles";
-
-export type {ButtonGroupVariants} from "../../styles";
+export {ButtonGroupContext} from "./button-group";

@@ -1,23 +1,29 @@
 "use client";
 
-import type {SwitchGroupVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {switchGroupVariants} from "../../styles";
+import {Box} from "@chakra-ui/react";
 import React from "react";
 
 /* -------------------------------------------------------------------------------------------------
  * Switch Group Root
  * -----------------------------------------------------------------------------------------------*/
-interface SwitchGroupRootProps extends ComponentPropsWithRef<"div">, SwitchGroupVariants {}
+interface SwitchGroupRootProps extends ComponentPropsWithRef<"div"> {
+  orientation?: "horizontal" | "vertical";
+}
 
-const SwitchGroupRoot = ({children, className, orientation, ...props}: SwitchGroupRootProps) => {
-  const slots = React.useMemo(() => switchGroupVariants({orientation}), [orientation]);
-
+const SwitchGroupRoot = ({children, orientation = "vertical", ...props}: SwitchGroupRootProps) => {
   return (
-    <div data-slot="switch-group" {...props} className={slots.base({className})}>
+    <Box
+      data-slot="switch-group"
+      data-orientation={orientation}
+      display="flex"
+      flexDirection={orientation === "horizontal" ? "row" : "column"}
+      gap="4"
+      {...props}
+    >
       {children}
-    </div>
+    </Box>
   );
 };
 

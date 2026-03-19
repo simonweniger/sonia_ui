@@ -1,49 +1,38 @@
 "use client";
 
-import type {SurfaceVariants} from "../surface";
-import type {DateRangePickerVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
-import type {DateValue} from "react-aria-components";
 
-import {dateRangePickerVariants} from "../../styles";
-import {mergeRefs} from "@react-aria/utils";
+import {DatePicker as ArkDatePicker} from "@ark-ui/react";
+import {Box} from "@chakra-ui/react";
 import React, {createContext, useContext, useEffect, useRef} from "react";
-import {
-  Button as ButtonPrimitive,
-  DateRangePicker as DateRangePickerPrimitive,
-  Popover as PopoverPrimitive,
-} from "react-aria-components";
 
-import {dataAttr} from "../../utils/assertion";
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {IconCalendar} from "../icons";
-import {SurfaceContext} from "../surface";
 
 /* -------------------------------------------------------------------------------------------------
  * DateRangePicker Context
  * -----------------------------------------------------------------------------------------------*/
-type DateRangePickerContext = {
-  slots?: ReturnType<typeof dateRangePickerVariants>;
+type DateRangePickerContextValue = {
   triggerRef: React.RefObject<HTMLButtonElement | null>;
 };
 
-const DateRangePickerContext = createContext<DateRangePickerContext>({
+const DateRangePickerContext = createContext<DateRangePickerContextValue>({
   triggerRef: {current: null},
 });
 
 /* -------------------------------------------------------------------------------------------------
  * DateRangePicker Root
  * -----------------------------------------------------------------------------------------------*/
-interface DateRangePickerRootProps<T extends DateValue>
-  extends ComponentPropsWithRef<typeof DateRangePickerPrimitive<T>>, DateRangePickerVariants {}
+interface DateRangePickerRootProps extends ComponentPropsWithRef<typeof ArkDatePicker.Root> {
+  isRequired?: boolean;
+}
 
-const DateRangePickerRoot = <T extends DateValue>({
+const DateRangePickerRoot = ({
   children,
   className,
   onOpenChange,
+  isRequired,
   ...props
-}: DateRangePickerRootProps<T>) => {
-  const slots = React.useMemo(() => dateRangePickerVariants(), []);
+}: DateRangePickerRootProps) => {
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const [isOpen, setIsOpen] = React.useState(false);
   const shouldRestoreFocusToTriggerRef = useRef(false);
@@ -64,67 +53,87 @@ const DateRangePickerRoot = <T extends DateValue>({
     };
   }, [isOpen]);
 
-  const handleOpenChange = (nextIsOpen: boolean) => {
-    setIsOpen(nextIsOpen);
+  const handleOpenChange = (details: {open: boolean}) => {
+    setIsOpen(details.open);
 
-    if (!nextIsOpen && shouldRestoreFocusToTriggerRef.current) {
+    if (!details.open && shouldRestoreFocusToTriggerRef.current) {
       window.requestAnimationFrame(() => {
         triggerRef.current?.focus();
       });
     }
 
     shouldRestoreFocusToTriggerRef.current = false;
-    onOpenChange?.(nextIsOpen);
+    onOpenChange?.(details);
   };
 
   return (
-    <DateRangePickerContext value={{slots, triggerRef}}>
-      <DateRangePickerPrimitive
-        data-required={dataAttr(props.isRequired)}
+    <DateRangePickerContext value={{triggerRef}}>
+      <ArkDatePicker.Root
+        data-required={isRequired ? "true" : undefined}
         data-slot="date-range-picker"
+        selectionMode="range"
         {...props}
-        className={composeTwRenderProps(className, slots?.base())}
+        className={className}
         onOpenChange={handleOpenChange}
+        style={{
+          display: "inline-flex",
+          flexDirection: "column",
+          gap: "0.25rem",
+          ...props.style,
+        }}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </DateRangePickerPrimitive>
+        {children}
+      </ArkDatePicker.Root>
     </DateRangePickerContext>
   );
 };
 
-DateRangePickerRoot.displayName = "HeroUI.DateRangePicker";
+DateRangePickerRoot.displayName = "DateRangePicker";
 
 /* -------------------------------------------------------------------------------------------------
  * DateRangePicker Trigger
  * -----------------------------------------------------------------------------------------------*/
-interface DateRangePickerTriggerProps extends ComponentPropsWithRef<typeof ButtonPrimitive> {}
+interface DateRangePickerTriggerProps extends ComponentPropsWithRef<typeof ArkDatePicker.Trigger> {}
 
 const DateRangePickerTrigger = React.forwardRef<HTMLButtonElement, DateRangePickerTriggerProps>(
   ({children, className, ...props}, ref) => {
-    const {slots, triggerRef} = useContext(DateRangePickerContext);
+    const {triggerRef} = useContext(DateRangePickerContext);
 
-    const contextRefCallback = React.useCallback(
+    const mergedRef = React.useCallback(
       (node: HTMLButtonElement | null) => {
         triggerRef.current = node;
+        if (typeof ref === "function") ref(node);
+        else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
       },
-      [triggerRef],
+      [triggerRef, ref],
     );
-    const mergedRef = mergeRefs(contextRefCallback, ref);
 
     return (
-      <ButtonPrimitive
+      <ArkDatePicker.Trigger
         ref={mergedRef}
-        className={composeTwRenderProps(className, slots?.trigger())}
+        className={className}
         data-slot="date-range-picker-trigger"
         {...props}
+        style={{
+          display: "inline-flex",
+          width: "100%",
+          alignItems: "center",
+          borderRadius: "var(--radius-xl)",
+          padding: "0.25rem",
+          fontSize: "0.875rem",
+          cursor: "pointer",
+          transition: "box-shadow 150ms",
+          WebkitTapHighlightColor: "transparent",
+          ...props.style,
+        }}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </ButtonPrimitive>
+        {children}
+      </ArkDatePicker.Trigger>
     );
   },
 );
 
-DateRangePickerTrigger.displayName = "HeroUI.DateRangePicker.Trigger";
+DateRangePickerTrigger.displayName = "DateRangePicker.Trigger";
 
 /* -------------------------------------------------------------------------------------------------
  * DateRangePicker Trigger Indicator
@@ -141,21 +150,26 @@ const DateRangePickerTriggerIndicator = ({
   className,
   ...props
 }: DateRangePickerTriggerIndicatorProps) => {
-  const {slots} = useContext(DateRangePickerContext);
-
   return (
-    <span
+    <Box
+      as="span"
       aria-hidden="true"
-      className={composeSlotClassName(slots?.triggerIndicator, className)}
+      className={className}
       data-slot="date-range-picker-trigger-indicator"
+      display="inline-flex"
+      w="4"
+      h="4"
+      alignItems="center"
+      justifyContent="center"
+      color="fg.muted"
       {...props}
     >
       {children || <IconCalendar />}
-    </span>
+    </Box>
   );
 };
 
-DateRangePickerTriggerIndicator.displayName = "HeroUI.DateRangePicker.TriggerIndicator";
+DateRangePickerTriggerIndicator.displayName = "DateRangePicker.TriggerIndicator";
 
 /* -------------------------------------------------------------------------------------------------
  * DateRangePicker Range Separator
@@ -167,30 +181,30 @@ const DateRangePickerRangeSeparator = ({
   className,
   ...props
 }: DateRangePickerRangeSeparatorProps) => {
-  const {slots} = useContext(DateRangePickerContext);
-
   return (
-    <span
+    <Box
+      as="span"
       aria-hidden="true"
-      className={composeSlotClassName(slots?.rangeSeparator, className)}
+      className={className}
       data-slot="date-range-picker-range-separator"
+      px="1"
+      color="fg.muted"
+      userSelect="none"
       {...props}
     >
       {children}
-    </span>
+    </Box>
   );
 };
 
-DateRangePickerRangeSeparator.displayName = "HeroUI.DateRangePicker.RangeSeparator";
+DateRangePickerRangeSeparator.displayName = "DateRangePicker.RangeSeparator";
 
 /* -------------------------------------------------------------------------------------------------
  * DateRangePicker Popover
  * -----------------------------------------------------------------------------------------------*/
-interface DateRangePickerPopoverProps extends Omit<
-  ComponentPropsWithRef<typeof PopoverPrimitive>,
-  "children"
-> {
+interface DateRangePickerPopoverProps extends ComponentPropsWithRef<typeof ArkDatePicker.Content> {
   children: React.ReactNode;
+  placement?: string;
 }
 
 const DateRangePickerPopover = ({
@@ -199,26 +213,34 @@ const DateRangePickerPopover = ({
   placement = "bottom",
   ...props
 }: DateRangePickerPopoverProps) => {
-  const {slots} = useContext(DateRangePickerContext);
-
   return (
-    <SurfaceContext
-      value={{
-        variant: "default" as SurfaceVariants["variant"],
-      }}
-    >
-      <PopoverPrimitive
+    <ArkDatePicker.Positioner>
+      <ArkDatePicker.Content
+        className={className}
+        data-slot="date-range-picker-popover"
         {...props}
-        className={composeTwRenderProps(className, slots?.popover())}
-        placement={placement}
+        style={{
+          maxWidth: "var(--trigger-width)",
+          transformOrigin: "var(--trigger-anchor-point)",
+          overflowX: "hidden",
+          overflowY: "auto",
+          overscrollBehavior: "contain",
+          backgroundColor: "var(--color-overlay)",
+          padding: "0.75rem",
+          boxShadow: "var(--shadow-overlay)",
+          borderRadius: "calc(var(--radius) * 2.5)",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          ...props.style,
+        }}
       >
         {children}
-      </PopoverPrimitive>
-    </SurfaceContext>
+      </ArkDatePicker.Content>
+    </ArkDatePicker.Positioner>
   );
 };
 
-DateRangePickerPopover.displayName = "HeroUI.DateRangePicker.Popover";
+DateRangePickerPopover.displayName = "DateRangePicker.Popover";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

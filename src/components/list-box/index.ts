@@ -28,10 +28,3 @@ export type ListBox = {
 export {ListBoxRoot};
 
 export type {ListBoxRootProps, ListBoxRootProps as ListBoxProps} from "./list-box";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {listboxVariants} from "../../styles";
-
-export type {ListBoxVariants} from "../../styles";

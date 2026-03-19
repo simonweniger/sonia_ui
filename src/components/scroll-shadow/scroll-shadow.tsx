@@ -1,11 +1,9 @@
 "use client";
 
-import type {ScrollShadowVariants} from "../../styles";
 import type {RefObject} from "react";
 
-import {scrollShadowVariants} from "../../styles";
-import {mergeRefs} from "@react-aria/utils";
-import {useMemo, useRef} from "react";
+import {Box} from "@chakra-ui/react";
+import {useRef} from "react";
 
 import {useSafeLayoutEffect} from "../../hooks/use-safe-layout-effect";
 
@@ -13,8 +11,7 @@ import {useScrollShadow} from "./use-scroll-shadow";
 
 export type ScrollShadowVisibility = "auto" | "both" | "top" | "bottom" | "left" | "right" | "none";
 
-export interface ScrollShadowRootProps
-  extends Omit<React.ComponentProps<"div">, "size">, ScrollShadowVariants {
+export interface ScrollShadowRootProps extends Omit<React.ComponentProps<typeof Box>, "size"> {
   /**
    * The shadow size in pixels
    * @default 40
@@ -40,6 +37,18 @@ export interface ScrollShadowRootProps
   isEnabled?: boolean;
 
   /**
+   * Whether to hide the scrollbar
+   * @default false
+   */
+  hideScrollBar?: boolean;
+
+  /**
+   * Scroll orientation
+   * @default "vertical"
+   */
+  orientation?: "vertical" | "horizontal";
+
+  /**
    * Callback invoked when shadow visibility changes
    */
   onVisibilityChange?: (visibility: ScrollShadowVisibility) => void;
@@ -55,7 +64,6 @@ export const ScrollShadowRoot = ({
   orientation = "vertical",
   ref,
   size = 40,
-  variant = "fade",
   visibility = "auto",
   ...props
 }: ScrollShadowRootProps) => {
@@ -92,32 +100,41 @@ export const ScrollShadowRoot = ({
     }
   }, [visibility, orientation]);
 
-  const slots = useMemo(
-    () =>
-      scrollShadowVariants({
-        hideScrollBar,
-        orientation,
-        variant,
-      }),
-    [orientation, hideScrollBar, variant],
-  );
+  // Merge refs
+  const mergedRef = (node: HTMLDivElement | null) => {
+    internalRef.current = node;
+    if (typeof ref === "function") {
+      ref(node);
+    } else if (ref) {
+      (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    }
+  };
 
   return (
-    <div
-      ref={mergeRefs(internalRef, ref)}
-      className={slots.base({className})}
+    <Box
+      ref={mergedRef}
+      className={className}
       data-orientation={orientation}
       data-scroll-shadow-size={size}
-      style={{
-        // @ts-expect-error - CSS variables are not typed
+      position="relative"
+      overflow={orientation === "vertical" ? "auto" : "auto"}
+      overflowY={orientation === "vertical" ? "auto" : undefined}
+      overflowX={orientation === "horizontal" ? "auto" : undefined}
+      css={{
         "--scroll-shadow-size": `${size}px`,
-        ...props.style,
+        ...(hideScrollBar
+          ? {
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+              "&::-webkit-scrollbar": {display: "none"},
+            }
+          : {}),
       }}
       {...props}
     >
       {children}
-    </div>
+    </Box>
   );
 };
 
-ScrollShadowRoot.displayName = "HeroUI.ScrollShadow";
+ScrollShadowRoot.displayName = "ScrollShadow";

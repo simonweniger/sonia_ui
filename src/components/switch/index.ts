@@ -35,10 +35,3 @@ export type {
   SwitchThumbProps,
   SwitchIconProps,
 } from "./switch";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {switchVariants} from "../../styles";
-
-export type {SwitchVariants} from "../../styles";

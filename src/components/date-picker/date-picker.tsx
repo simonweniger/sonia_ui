@@ -1,49 +1,38 @@
 "use client";
 
-import type {SurfaceVariants} from "../surface";
-import type {DatePickerVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
-import type {DateValue} from "react-aria-components";
 
-import {datePickerVariants} from "../../styles";
-import {mergeRefs} from "@react-aria/utils";
+import {DatePicker as ArkDatePicker} from "@ark-ui/react";
+import {Box} from "@chakra-ui/react";
 import React, {createContext, useContext, useEffect, useRef} from "react";
-import {
-  Button as ButtonPrimitive,
-  DatePicker as DatePickerPrimitive,
-  Popover as PopoverPrimitive,
-} from "react-aria-components";
 
-import {dataAttr} from "../../utils/assertion";
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {IconCalendar} from "../icons";
-import {SurfaceContext} from "../surface";
 
 /* -------------------------------------------------------------------------------------------------
  * DatePicker Context
  * -----------------------------------------------------------------------------------------------*/
-type DatePickerContext = {
-  slots?: ReturnType<typeof datePickerVariants>;
+type DatePickerContextValue = {
   triggerRef: React.RefObject<HTMLButtonElement | null>;
 };
 
-const DatePickerContext = createContext<DatePickerContext>({
+const DatePickerContext = createContext<DatePickerContextValue>({
   triggerRef: {current: null},
 });
 
 /* -------------------------------------------------------------------------------------------------
  * DatePicker Root
  * -----------------------------------------------------------------------------------------------*/
-interface DatePickerRootProps<T extends DateValue>
-  extends ComponentPropsWithRef<typeof DatePickerPrimitive<T>>, DatePickerVariants {}
+interface DatePickerRootProps extends ComponentPropsWithRef<typeof ArkDatePicker.Root> {
+  isRequired?: boolean;
+}
 
-const DatePickerRoot = <T extends DateValue>({
+const DatePickerRoot = ({
   children,
   className,
   onOpenChange,
+  isRequired,
   ...props
-}: DatePickerRootProps<T>) => {
-  const slots = React.useMemo(() => datePickerVariants(), []);
+}: DatePickerRootProps) => {
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const [isOpen, setIsOpen] = React.useState(false);
   const shouldRestoreFocusToTriggerRef = useRef(false);
@@ -64,67 +53,86 @@ const DatePickerRoot = <T extends DateValue>({
     };
   }, [isOpen]);
 
-  const handleOpenChange = (nextIsOpen: boolean) => {
-    setIsOpen(nextIsOpen);
+  const handleOpenChange = (details: {open: boolean}) => {
+    setIsOpen(details.open);
 
-    if (!nextIsOpen && shouldRestoreFocusToTriggerRef.current) {
+    if (!details.open && shouldRestoreFocusToTriggerRef.current) {
       window.requestAnimationFrame(() => {
         triggerRef.current?.focus();
       });
     }
 
     shouldRestoreFocusToTriggerRef.current = false;
-    onOpenChange?.(nextIsOpen);
+    onOpenChange?.(details);
   };
 
   return (
-    <DatePickerContext value={{slots, triggerRef}}>
-      <DatePickerPrimitive
-        data-required={dataAttr(props.isRequired)}
+    <DatePickerContext value={{triggerRef}}>
+      <ArkDatePicker.Root
+        data-required={isRequired ? "true" : undefined}
         data-slot="date-picker"
         {...props}
-        className={composeTwRenderProps(className, slots?.base())}
+        className={className}
         onOpenChange={handleOpenChange}
+        style={{
+          display: "inline-flex",
+          flexDirection: "column",
+          gap: "0.25rem",
+          ...props.style,
+        }}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </DatePickerPrimitive>
+        {children}
+      </ArkDatePicker.Root>
     </DatePickerContext>
   );
 };
 
-DatePickerRoot.displayName = "HeroUI.DatePicker";
+DatePickerRoot.displayName = "DatePicker";
 
 /* -------------------------------------------------------------------------------------------------
  * DatePicker Trigger
  * -----------------------------------------------------------------------------------------------*/
-interface DatePickerTriggerProps extends ComponentPropsWithRef<typeof ButtonPrimitive> {}
+interface DatePickerTriggerProps extends ComponentPropsWithRef<typeof ArkDatePicker.Trigger> {}
 
 const DatePickerTrigger = React.forwardRef<HTMLButtonElement, DatePickerTriggerProps>(
   ({children, className, ...props}, ref) => {
-    const {slots, triggerRef} = useContext(DatePickerContext);
+    const {triggerRef} = useContext(DatePickerContext);
 
-    const contextRefCallback = React.useCallback(
+    const mergedRef = React.useCallback(
       (node: HTMLButtonElement | null) => {
         triggerRef.current = node;
+        if (typeof ref === "function") ref(node);
+        else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
       },
-      [triggerRef],
+      [triggerRef, ref],
     );
-    const mergedRef = mergeRefs(contextRefCallback, ref);
 
     return (
-      <ButtonPrimitive
+      <ArkDatePicker.Trigger
         ref={mergedRef}
-        className={composeTwRenderProps(className, slots?.trigger())}
+        className={className}
         data-slot="date-picker-trigger"
         {...props}
+        style={{
+          display: "inline-flex",
+          width: "100%",
+          alignItems: "center",
+          borderRadius: "var(--radius-xl)",
+          padding: "0.25rem",
+          fontSize: "0.875rem",
+          cursor: "pointer",
+          transition: "box-shadow 150ms",
+          WebkitTapHighlightColor: "transparent",
+          ...props.style,
+        }}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </ButtonPrimitive>
+        {children}
+      </ArkDatePicker.Trigger>
     );
   },
 );
 
-DatePickerTrigger.displayName = "HeroUI.DatePicker.Trigger";
+DatePickerTrigger.displayName = "DatePicker.Trigger";
 
 /* -------------------------------------------------------------------------------------------------
  * DatePicker Trigger Indicator
@@ -138,30 +146,33 @@ const DatePickerTriggerIndicator = ({
   className,
   ...props
 }: DatePickerTriggerIndicatorProps) => {
-  const {slots} = useContext(DatePickerContext);
-
   return (
-    <span
+    <Box
+      as="span"
       aria-hidden="true"
-      className={composeSlotClassName(slots?.triggerIndicator, className)}
+      className={className}
       data-slot="date-picker-trigger-indicator"
+      display="inline-flex"
+      w="4"
+      h="4"
+      alignItems="center"
+      justifyContent="center"
+      color="fg.muted"
       {...props}
     >
       {children || <IconCalendar />}
-    </span>
+    </Box>
   );
 };
 
-DatePickerTriggerIndicator.displayName = "HeroUI.DatePicker.TriggerIndicator";
+DatePickerTriggerIndicator.displayName = "DatePicker.TriggerIndicator";
 
 /* -------------------------------------------------------------------------------------------------
  * DatePicker Popover
  * -----------------------------------------------------------------------------------------------*/
-interface DatePickerPopoverProps extends Omit<
-  ComponentPropsWithRef<typeof PopoverPrimitive>,
-  "children"
-> {
+interface DatePickerPopoverProps extends ComponentPropsWithRef<typeof ArkDatePicker.Content> {
   children: React.ReactNode;
+  placement?: string;
 }
 
 const DatePickerPopover = ({
@@ -170,26 +181,34 @@ const DatePickerPopover = ({
   placement = "bottom",
   ...props
 }: DatePickerPopoverProps) => {
-  const {slots} = useContext(DatePickerContext);
-
   return (
-    <SurfaceContext
-      value={{
-        variant: "default" as SurfaceVariants["variant"],
-      }}
-    >
-      <PopoverPrimitive
+    <ArkDatePicker.Positioner>
+      <ArkDatePicker.Content
+        className={className}
+        data-slot="date-picker-popover"
         {...props}
-        className={composeTwRenderProps(className, slots?.popover())}
-        placement={placement}
+        style={{
+          maxWidth: "var(--trigger-width)",
+          transformOrigin: "var(--trigger-anchor-point)",
+          overflowX: "hidden",
+          overflowY: "auto",
+          overscrollBehavior: "contain",
+          backgroundColor: "var(--color-overlay)",
+          padding: "0.75rem",
+          boxShadow: "var(--shadow-overlay)",
+          borderRadius: "calc(var(--radius) * 2.5)",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          ...props.style,
+        }}
       >
         {children}
-      </PopoverPrimitive>
-    </SurfaceContext>
+      </ArkDatePicker.Content>
+    </ArkDatePicker.Positioner>
   );
 };
 
-DatePickerPopover.displayName = "HeroUI.DatePicker.Popover";
+DatePickerPopover.displayName = "DatePicker.Popover";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

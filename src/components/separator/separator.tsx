@@ -1,34 +1,35 @@
 "use client";
 
-import type {SeparatorVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {separatorVariants} from "../../styles";
-import React from "react";
-import {Separator as SeparatorPrimitive} from "react-aria-components";
+import {Separator as ChakraSeparator} from "@chakra-ui/react";
 
 /* -------------------------------------------------------------------------------------------------
  * Separator Root
  * -----------------------------------------------------------------------------------------------*/
-interface SeparatorRootProps
-  extends ComponentPropsWithRef<typeof SeparatorPrimitive>, SeparatorVariants {}
+type SeparatorColor = "default" | "secondary" | "tertiary";
+
+const colorMap: Record<SeparatorColor, string> = {
+  default: "border",
+  secondary: "border/70",
+  tertiary: "border/50",
+};
+
+interface SeparatorRootProps extends ComponentPropsWithRef<typeof ChakraSeparator> {
+  orientation?: "horizontal" | "vertical";
+  separatorColor?: SeparatorColor;
+}
 
 const SeparatorRoot = ({
-  className,
   orientation = "horizontal",
-  variant,
+  separatorColor = "default",
   ...props
 }: SeparatorRootProps) => {
   return (
-    <SeparatorPrimitive
-      data-orientation={orientation}
+    <ChakraSeparator
       data-slot="separator"
       orientation={orientation}
-      className={separatorVariants({
-        orientation,
-        variant,
-        className,
-      })}
+      borderColor={colorMap[separatorColor]}
       {...props}
     />
   );

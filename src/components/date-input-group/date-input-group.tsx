@@ -1,38 +1,100 @@
 "use client";
 
-import type {DateInputGroupVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
-import type {
-  DateInputProps as DateInputPrimitiveProps,
-  DateSegmentProps as DateSegmentPrimitiveProps,
-  DateInputProps as TimeInputPrimitiveProps,
-  DateSegmentProps as TimeSegmentPrimitiveProps,
-} from "react-aria-components";
 
-import {dateInputGroupVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-import {
-  DateInput as DateInputPrimitive,
-  DateSegment as DateSegmentPrimitive,
-  Group as GroupPrimitive,
-} from "react-aria-components";
-
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
+import {DatePicker} from "@ark-ui/react";
+import {Box, Group} from "@chakra-ui/react";
+import React, {createContext} from "react";
 
 /* -------------------------------------------------------------------------------------------------
  * DateInputGroup Context
  * -----------------------------------------------------------------------------------------------*/
-type DateInputGroupContext = {
-  slots?: ReturnType<typeof dateInputGroupVariants>;
+type DateInputGroupContextValue = {
+  variant?: string;
+  fullWidth?: boolean;
 };
 
-const DateInputGroupContext = createContext<DateInputGroupContext>({});
+const DateInputGroupContext = createContext<DateInputGroupContextValue>({});
+
+/* -------------------------------------------------------------------------------------------------
+ * Style definitions
+ * -----------------------------------------------------------------------------------------------*/
+const groupBaseStyles = {
+  display: "inline-flex",
+  height: "9",
+  alignItems: "center",
+  overflow: "hidden",
+  rounded: "xl",
+  bg: "white",
+  color: "fg",
+  shadow: "field",
+  outline: "none",
+  borderWidth: "0px",
+  borderColor: "transparent",
+  fontSize: "sm",
+  transitionProperty: "common",
+  transitionDuration: "fast",
+  transitionTimingFunction: "ease",
+  _hover: {
+    bg: "bg.muted",
+    borderColor: "border.emphasized",
+  },
+  _focusWithin: {
+    ring: "2px",
+    ringColor: "accent",
+  },
+  _invalid: {
+    outline: "1px solid",
+    outlineColor: "danger",
+    bg: "bg.subtle",
+  },
+  _disabled: {
+    opacity: 0.5,
+    cursor: "not-allowed",
+    pointerEvents: "none" as const,
+  },
+} as const;
+
+const groupVariantStyles = {
+  primary: {
+    borderWidth: "1px",
+    borderColor: "border",
+    shadow: "field",
+  },
+  secondary: {
+    bg: "bg.muted",
+    shadow: "none",
+    borderColor: "transparent",
+    _hover: {
+      bg: "bg.emphasized",
+    },
+    _focusWithin: {
+      bg: "bg.muted",
+    },
+    _invalid: {
+      outline: "1px solid",
+      outlineColor: "danger",
+      bg: "bg.muted",
+    },
+  },
+} as const;
+
+const segmentStyles = {
+  display: "inline-block",
+  rounded: "md",
+  px: "0.5",
+  textAlign: "end" as const,
+  whiteSpace: "nowrap" as const,
+  outline: "none",
+} as const;
 
 /* -------------------------------------------------------------------------------------------------
  * DateInputGroup Root
  * -----------------------------------------------------------------------------------------------*/
-interface DateInputGroupRootProps
-  extends ComponentPropsWithRef<typeof GroupPrimitive>, DateInputGroupVariants {}
+interface DateInputGroupRootProps extends ComponentPropsWithRef<"div"> {
+  fullWidth?: boolean;
+  variant?: string;
+}
 
 const DateInputGroupRoot = ({
   children,
@@ -41,20 +103,21 @@ const DateInputGroupRoot = ({
   variant,
   ...props
 }: DateInputGroupRootProps) => {
-  const slots = React.useMemo(
-    () => dateInputGroupVariants({fullWidth, variant}),
-    [fullWidth, variant],
-  );
+  const resolvedVariantStyles =
+    variant === "secondary" ? groupVariantStyles.secondary : groupVariantStyles.primary;
 
   return (
-    <DateInputGroupContext value={{slots}}>
-      <GroupPrimitive
-        className={composeTwRenderProps(className, slots?.base())}
+    <DateInputGroupContext value={{fullWidth, variant}}>
+      <Group
+        className={className}
         data-slot="date-input-group"
+        {...groupBaseStyles}
+        {...resolvedVariantStyles}
+        width={fullWidth ? "100%" : undefined}
         {...props}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </GroupPrimitive>
+        {children}
+      </Group>
     </DateInputGroupContext>
   );
 };
@@ -65,38 +128,48 @@ const DateInputGroupRoot = ({
 interface DateInputGroupPrefixProps extends ComponentPropsWithRef<"div"> {}
 
 const DateInputGroupPrefix = ({children, className, ...props}: DateInputGroupPrefixProps) => {
-  const {slots} = useContext(DateInputGroupContext);
-
   return (
-    <div
-      className={composeSlotClassName(slots?.prefix, className)}
+    <Box
+      className={className}
       data-slot="date-input-group-prefix"
+      pointerEvents="none"
+      flexShrink={0}
+      color="fg.muted"
+      ml="3"
+      display="flex"
+      alignItems="center"
       {...props}
     >
       {children}
-    </div>
+    </Box>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * DateInputGroup Input
  * -----------------------------------------------------------------------------------------------*/
-interface DateInputGroupInputProps
-  extends
-    DateInputPrimitiveProps,
-    Partial<Omit<TimeInputPrimitiveProps, keyof DateInputPrimitiveProps>> {}
+interface DateInputGroupInputProps extends ComponentPropsWithRef<typeof DatePicker.Input> {}
 
 const DateInputGroupInput = ({className, ...props}: DateInputGroupInputProps) => {
-  const {slots} = useContext(DateInputGroupContext);
-
-  // TimeInput and DateInput have compatible interfaces
-  // React Aria Components will handle the correct primitive based on parent context (TimeField vs DateField)
-  // We use DateInputPrimitive as the default, but it will work with TimeField context
   return (
-    <DateInputPrimitive
-      className={composeTwRenderProps(className, slots?.input())}
+    <DatePicker.Input
+      className={className}
       data-slot="date-input-group-input"
-      {...(props as DateInputPrimitiveProps)}
+      style={{
+        display: "flex",
+        flex: "1",
+        cursor: "text",
+        alignItems: "center",
+        gap: "1px",
+        borderRadius: "0",
+        borderWidth: "0",
+        backgroundColor: "transparent",
+        paddingInline: "0.75rem",
+        paddingBlock: "0.5rem",
+        boxShadow: "none",
+        outline: "none",
+      }}
+      {...props}
     />
   );
 };
@@ -104,25 +177,22 @@ const DateInputGroupInput = ({className, ...props}: DateInputGroupInputProps) =>
 /* -------------------------------------------------------------------------------------------------
  * DateInputGroup Segment
  * -----------------------------------------------------------------------------------------------*/
-
-interface DateInputGroupSegmentProps
-  extends
-    DateSegmentPrimitiveProps,
-    Partial<Omit<TimeSegmentPrimitiveProps, keyof DateSegmentPrimitiveProps>> {
+interface DateInputGroupSegmentProps extends ComponentPropsWithRef<"span"> {
+  segment?: Record<string, unknown>;
   className?: string;
 }
 
 const DateInputGroupSegment = ({className, segment, ...props}: DateInputGroupSegmentProps) => {
-  const {slots} = useContext(DateInputGroupContext);
-
-  // TimeSegment and DateSegment have compatible interfaces
-  // React Aria Components will handle the correct primitive based on parent context
-  // We use DateSegmentPrimitive as the default, but it will work with TimeField context
   return (
-    <DateSegmentPrimitive
-      className={composeSlotClassName(slots?.segment, className)}
+    <Box
+      as="span"
+      className={className}
       data-slot="date-input-group-segment"
-      segment={segment}
+      {...segmentStyles}
+      _focus={{
+        bg: "accent.subtle",
+        color: "accent.fg",
+      }}
       {...props}
     />
   );
@@ -138,16 +208,24 @@ const DateInputGroupInputContainer = ({
   className,
   ...props
 }: DateInputGroupInputContainerProps) => {
-  const {slots} = useContext(DateInputGroupContext);
-
   return (
-    <div
-      className={composeSlotClassName(slots?.inputContainer, className)}
+    <Box
+      className={className}
       data-slot="date-input-group-input-container"
+      display="flex"
+      alignItems="center"
+      flex="1"
+      width="fit-content"
+      overflowX="auto"
+      overflowY="clip"
+      css={{
+        scrollbarWidth: "none",
+        "&::-webkit-scrollbar": {display: "none"},
+      }}
       {...props}
     >
       {children}
-    </div>
+    </Box>
   );
 };
 
@@ -157,16 +235,20 @@ const DateInputGroupInputContainer = ({
 interface DateInputGroupSuffixProps extends ComponentPropsWithRef<"div"> {}
 
 const DateInputGroupSuffix = ({children, className, ...props}: DateInputGroupSuffixProps) => {
-  const {slots} = useContext(DateInputGroupContext);
-
   return (
-    <div
-      className={composeSlotClassName(slots?.suffix, className)}
+    <Box
+      className={className}
       data-slot="date-input-group-suffix"
+      pointerEvents="none"
+      flexShrink={0}
+      color="fg.muted"
+      mr="3"
+      display="flex"
+      alignItems="center"
       {...props}
     >
       {children}
-    </div>
+    </Box>
   );
 };
 

@@ -26,9 +26,3 @@ export type {
   ListBoxItemRootProps as ListBoxItemProps,
   ListBoxItemIndicatorProps,
 } from "./list-box-item";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {listboxItemVariants} from "../../styles";
-export type {ListBoxItemVariants} from "../../styles";

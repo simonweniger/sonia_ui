@@ -1,93 +1,12 @@
 "use client";
 
-import type {ButtonProps} from "../button";
 import type {ReactNode} from "react";
-import type {
-  ToastOptions as RACToastOptions,
-  UNSTABLE_ToastQueue as ToastQueuePrimitiveType,
-} from "react-aria-components";
 
-import {UNSTABLE_ToastQueue as ToastQueuePrimitive} from "react-aria-components";
-import {flushSync} from "react-dom";
-
-import {DEFAULT_RAC_MAX_VISIBLE_TOAST, DEFAULT_TOAST_TIMEOUT} from "./constants";
+import {toaster} from "./toast";
+import {DEFAULT_TOAST_TIMEOUT} from "./constants";
 
 /* ------------------------------------------------------------------------------------------------
- * Toast Queue Options
- * --------------------------------------------------------------------------------------------- */
-export interface ToastQueueOptions {
-  /** The maximum number of toasts to display at a time (visual only). */
-  maxVisibleToasts?: number;
-  /** Function to wrap updates in (i.e. document.startViewTransition()). */
-  wrapUpdate?: (fn: () => void) => void;
-}
-
-/* ------------------------------------------------------------------------------------------------
- * Toast Queue
- * --------------------------------------------------------------------------------------------- */
-export class ToastQueue<T extends object = ToastContentValue> {
-  private queue: ToastQueuePrimitiveType<T>;
-  readonly maxVisibleToasts?: number;
-
-  constructor(options?: ToastQueueOptions) {
-    this.maxVisibleToasts = options?.maxVisibleToasts;
-    this.queue = new ToastQueuePrimitive<T>({
-      maxVisibleToasts: DEFAULT_RAC_MAX_VISIBLE_TOAST,
-      wrapUpdate: options?.wrapUpdate
-        ? options.wrapUpdate
-        : (fn: () => void) => {
-            if ("startViewTransition" in document) {
-              document.startViewTransition(() => {
-                flushSync(fn);
-              });
-            } else {
-              fn();
-            }
-          },
-    });
-  }
-
-  add(content: T, options?: RACToastOptions): string {
-    // Apply default timeout if not provided, but respect explicit 0 (persistent toast)
-    const timeout = options?.timeout !== undefined ? options.timeout : DEFAULT_TOAST_TIMEOUT;
-
-    return this.queue.add(content, {
-      ...options,
-      timeout,
-    });
-  }
-
-  close(key: string): void {
-    this.queue.close(key);
-  }
-
-  pauseAll(): void {
-    this.queue.pauseAll();
-  }
-
-  resumeAll(): void {
-    this.queue.resumeAll();
-  }
-
-  clear(): void {
-    this.queue.clear();
-  }
-
-  subscribe(fn: () => void): () => void {
-    return this.queue.subscribe(fn);
-  }
-
-  get visibleToasts() {
-    return this.queue.visibleToasts;
-  }
-
-  getQueue(): ToastQueuePrimitiveType<T> {
-    return this.queue;
-  }
-}
-
-/* ------------------------------------------------------------------------------------------------
- * Toast Queue Instance
+ * Toast Content Value
  * --------------------------------------------------------------------------------------------- */
 
 export interface ToastContentValue {
@@ -95,7 +14,6 @@ export interface ToastContentValue {
   title?: ReactNode | undefined;
   description?: ReactNode | undefined;
   variant?: "default" | "accent" | "success" | "warning" | "danger" | undefined;
-  actionProps?: ButtonProps | undefined;
   isLoading?: boolean | undefined;
 }
 
@@ -103,7 +21,6 @@ export interface HeroUIToastOptions {
   description?: ReactNode;
   indicator?: ReactNode;
   variant?: ToastContentValue["variant"];
-  actionProps?: ButtonProps;
   isLoading?: boolean;
   timeout?: number;
   onClose?: () => void;
@@ -115,33 +32,46 @@ export interface ToastPromiseOptions<T = unknown> {
   error: ((error: Error) => ReactNode) | ReactNode;
 }
 
-// Helper function to create toast
-function createToastFunction(queue: ToastQueue<ToastContentValue>) {
-  const toastFn = (message: ReactNode, options?: HeroUIToastOptions): string => {
-    // Use default timeout if not provided, but respect explicit 0 (persistent toast)
-    const timeout = options?.timeout !== undefined ? options.timeout : DEFAULT_TOAST_TIMEOUT;
+/* ------------------------------------------------------------------------------------------------
+ * Toast function (imperative API wrapping Chakra's toaster)
+ * --------------------------------------------------------------------------------------------- */
 
-    return queue.add(
-      {
-        title: message,
-        description: options?.description,
-        indicator: options?.indicator,
-        variant: options?.variant || "default",
-        actionProps: options?.actionProps,
-        isLoading: options?.isLoading,
+function mapVariantToType(
+  variant?: string,
+): "info" | "success" | "warning" | "error" | "loading" | undefined {
+  switch (variant) {
+    case "success":
+      return "success";
+    case "warning":
+      return "warning";
+    case "danger":
+      return "error";
+    case "accent":
+      return "info";
+    default:
+      return "info";
+  }
+}
+
+function createToastFunction() {
+  const toastFn = (message: ReactNode, options?: HeroUIToastOptions): string => {
+    const duration = options?.timeout !== undefined ? options.timeout : DEFAULT_TOAST_TIMEOUT;
+
+    const id = toaster.create({
+      title: message as string,
+      description: options?.description as string,
+      type: options?.isLoading ? "loading" : mapVariantToType(options?.variant),
+      duration,
+      onStatusChange: (details) => {
+        if (details.status === "unmounted") {
+          options?.onClose?.();
+        }
       },
-      {
-        timeout,
-        onClose: () => {
-          requestAnimationFrame(() => {
-            options?.onClose?.();
-          });
-        },
-      },
-    );
+    });
+
+    return id ?? "";
   };
 
-  // Variant methods
   toastFn.success = (message: ReactNode, options?: Omit<HeroUIToastOptions, "variant">): string => {
     return toastFn(message, {...options, variant: "success"});
   };
@@ -158,68 +88,41 @@ function createToastFunction(queue: ToastQueue<ToastContentValue>) {
     return toastFn(message, {...options, variant: "warning"});
   };
 
-  // Promise support
   toastFn.promise = <T>(
     promise: Promise<T> | (() => Promise<T>),
     options: ToastPromiseOptions<T>,
   ): string => {
     const promiseFn = typeof promise === "function" ? promise() : promise;
-    const loadingId = queue.add(
-      {
-        title: options.loading,
-        variant: "default",
-        isLoading: true,
-      },
-      {
-        timeout: 0, // Don't auto-close loading toasts
-      },
-    );
+
+    const id = toaster.create({
+      title: options.loading as string,
+      type: "loading",
+      duration: Infinity,
+    });
 
     promiseFn
       .then((data) => {
         const successMessage =
           typeof options.success === "function" ? options.success(data) : options.success;
 
-        queue.close(loadingId);
-
-        return toastFn.success(successMessage);
+        if (id) toaster.dismiss(id);
+        toastFn.success(successMessage);
       })
       .catch((error: Error) => {
         const errorMessage =
           typeof options.error === "function" ? options.error(error) : options.error;
 
-        queue.close(loadingId);
-
-        return toastFn.danger(errorMessage);
+        if (id) toaster.dismiss(id);
+        toastFn.danger(errorMessage);
       });
 
-    return loadingId;
+    return id ?? "";
   };
 
-  // Expose queue methods for advanced usage
-  toastFn.getQueue = () => queue.getQueue();
-  toastFn.close = (key: string) => queue.close(key);
-  toastFn.pauseAll = () => queue.pauseAll();
-  toastFn.resumeAll = () => queue.resumeAll();
-  toastFn.clear = () => queue.clear();
+  toastFn.close = (key: string) => toaster.dismiss(key);
+  toastFn.clear = () => toaster.dismiss();
 
-  return toastFn as typeof toastFn & {
-    success: typeof toastFn.success;
-    danger: typeof toastFn.danger;
-    info: typeof toastFn.info;
-    warning: typeof toastFn.warning;
-    promise: typeof toastFn.promise;
-    getQueue: () => ReturnType<typeof queue.getQueue>;
-    close: typeof queue.close;
-    pauseAll: typeof queue.pauseAll;
-    resumeAll: typeof queue.resumeAll;
-    clear: typeof queue.clear;
-  };
+  return toastFn;
 }
 
-const toastQueue = new ToastQueue<ToastContentValue>({
-  maxVisibleToasts: DEFAULT_RAC_MAX_VISIBLE_TOAST,
-});
-
-export const toast = createToastFunction(toastQueue);
-export {toastQueue};
+export const toast = createToastFunction();

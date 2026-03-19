@@ -22,10 +22,3 @@ export type Chip = {
 export {ChipRoot, ChipLabel};
 
 export type {ChipRootProps, ChipRootProps as ChipProps, ChipLabelProps} from "./chip";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {chipVariants} from "../../styles";
-
-export type {ChipVariants} from "../../styles";

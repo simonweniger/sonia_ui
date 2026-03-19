@@ -57,10 +57,3 @@ export type {
   AccordionIndicatorProps,
   AccordionBodyProps,
 } from "./accordion";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {accordionVariants} from "../../styles";
-
-export type {AccordionVariants} from "../../styles";

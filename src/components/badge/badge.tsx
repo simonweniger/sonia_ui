@@ -1,65 +1,60 @@
 "use client";
 
-import type {BadgeVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
+import type {SystemStyleObject} from "@chakra-ui/react";
 
-import {badgeVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-import {cx} from "tailwind-variants";
-
-import {composeSlotClassName} from "../../utils/compose";
+import {Badge as ChakraBadge, Box} from "@chakra-ui/react";
+import React from "react";
 
 /* -------------------------------------------------------------------------------------------------
- * Badge Context
+ * Placement Styles
  * -----------------------------------------------------------------------------------------------*/
-type BadgeContext = {
-  slots?: ReturnType<typeof badgeVariants>;
-};
+type BadgePlacement = "top-right" | "top-left" | "bottom-right" | "bottom-left";
 
-const BadgeContext = createContext<BadgeContext>({});
+const placementStyles: Record<string, SystemStyleObject> = {
+  "top-right": {position: "absolute", top: "0", right: "0", transform: "translate(25%, -25%)"},
+  "top-left": {position: "absolute", top: "0", left: "0", transform: "translate(-25%, -25%)"},
+  "bottom-right": {position: "absolute", right: "0", bottom: "0", transform: "translate(25%, 25%)"},
+  "bottom-left": {position: "absolute", bottom: "0", left: "0", transform: "translate(-25%, 25%)"},
+};
 
 /* -------------------------------------------------------------------------------------------------
  * Badge Anchor
  * -----------------------------------------------------------------------------------------------*/
-interface BadgeAnchorProps extends ComponentPropsWithRef<"span"> {
-  className?: string;
+interface BadgeAnchorProps extends ComponentPropsWithRef<typeof Box> {
   children: React.ReactNode;
 }
 
-const BadgeAnchor = ({children, className, ...props}: BadgeAnchorProps) => {
+const BadgeAnchor = ({children, ...props}: BadgeAnchorProps) => {
   return (
-    <span
-      {...props}
-      className={cx("badge-anchor", className) ?? undefined}
-      data-slot="badge-anchor"
-    >
+    <Box position="relative" display="inline-flex" flexShrink={0} data-slot="badge-anchor" {...props}>
       {children}
-    </span>
+    </Box>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Badge Root
+ *
+ * Uses the Chakra Badge recipe for variant/size/colorPalette styling.
+ * Supports HeroUI variant aliases: primary→solid, secondary→subtle, soft→subtle.
  * -----------------------------------------------------------------------------------------------*/
-interface BadgeRootProps extends Omit<ComponentPropsWithRef<"span">, "color">, BadgeVariants {
-  className?: string;
+type HeroUIBadgeVariant = "primary" | "secondary" | "soft";
+type RecipeBadgeVariant = "solid" | "subtle" | "outline" | "surface" | "plain";
+
+interface BadgeRootProps extends Omit<ComponentPropsWithRef<typeof ChakraBadge>, "variant"> {
   children?: React.ReactNode;
+  placement?: BadgePlacement;
+  variant?: RecipeBadgeVariant | HeroUIBadgeVariant;
 }
 
-const BadgeRoot = ({
-  children,
-  className,
-  color,
-  placement,
-  size,
-  variant,
-  ...props
-}: BadgeRootProps) => {
-  const slots = React.useMemo(
-    () => badgeVariants({color, placement, size, variant}),
-    [color, placement, size, variant],
-  );
+const VARIANT_MAP: Record<string, RecipeBadgeVariant> = {
+  primary: "solid",
+  secondary: "subtle",
+  soft: "subtle",
+};
 
+const BadgeRoot = ({children, placement, variant, ...props}: BadgeRootProps) => {
   const badgeChildren = React.useMemo(() => {
     if (typeof children === "string" || typeof children === "number") {
       return <BadgeLabel>{children}</BadgeLabel>;
@@ -68,33 +63,36 @@ const BadgeRoot = ({
     return children;
   }, [children]);
 
+  const resolvedVariant = (typeof variant === "string" && VARIANT_MAP[variant])
+    ? VARIANT_MAP[variant]
+    : variant;
+
+  const placementCss = placement && placementStyles[placement]
+    ? placementStyles[placement]
+    : undefined;
+
   return (
-    <BadgeContext value={{slots}}>
-      <span {...props} className={composeSlotClassName(slots.base, className)} data-slot="badge">
-        {badgeChildren}
-      </span>
-    </BadgeContext>
+    <ChakraBadge
+      data-slot="badge"
+      variant={resolvedVariant as RecipeBadgeVariant}
+      css={placementCss}
+      {...props}
+    >
+      {badgeChildren}
+    </ChakraBadge>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Badge Label
  * -----------------------------------------------------------------------------------------------*/
-interface BadgeLabelProps extends ComponentPropsWithRef<"span"> {
-  className?: string;
-}
+interface BadgeLabelProps extends ComponentPropsWithRef<"span"> {}
 
-const BadgeLabel = ({children, className, ...props}: BadgeLabelProps) => {
-  const {slots} = useContext(BadgeContext);
-
+const BadgeLabel = ({children, ...props}: BadgeLabelProps) => {
   return (
-    <span
-      className={composeSlotClassName(slots?.label, className)}
-      data-slot="badge-label"
-      {...props}
-    >
+    <Box as="span" data-slot="badge-label" px="0.5" {...props}>
       {children}
-    </span>
+    </Box>
   );
 };
 

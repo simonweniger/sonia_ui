@@ -1,16 +1,12 @@
 import type {Meta, StoryObj} from "@storybook/react";
-import type {Selection, SortDescriptor} from "react-aria-components";
-
-import {cn} from "../../styles";
 import {Icon} from "@iconify/react";
 import React from "react";
 
+import {Box, Flex, Text} from "@chakra-ui/react";
+
 import {Avatar} from "../avatar";
 import {Button} from "../button";
-import {Checkbox} from "../checkbox";
 import {Chip} from "../chip";
-import {EmptyState} from "../empty-state";
-import {Pagination} from "../pagination";
 import {Spinner} from "../spinner";
 
 import {Table} from "./index";
@@ -21,12 +17,6 @@ export default {
     layout: "centered",
   },
   title: "Components/Data Display/Table",
-  argTypes: {
-    variant: {
-      control: "select",
-      options: ["primary", "secondary"],
-    },
-  },
 } as Meta<typeof Table>;
 
 type Story = StoryObj<typeof Table>;
@@ -142,18 +132,11 @@ const users: User[] = [
   },
 ];
 
-const columns = [
-  {id: "name", isRowHeader: true, name: "Name"},
-  {id: "role", name: "Role"},
-  {id: "status", name: "Status"},
-  {id: "email", name: "Email"},
-];
-
 /* -------------------------------------------------------------------------------------------------
  * Wrapper
  * -----------------------------------------------------------------------------------------------*/
 const Wrapper = ({children}: {children: React.ReactNode}) => (
-  <div className="w-full max-w-4xl">{children}</div>
+  <Box width="full" maxW="4xl">{children}</Box>
 );
 
 /* -------------------------------------------------------------------------------------------------
@@ -179,41 +162,43 @@ function usePagination<T>(items: T[], rowsPerPage = ROWS_PER_PAGE) {
 
 function TablePaginationFooter({pagination}: {pagination: ReturnType<typeof usePagination>}) {
   const {end, page, setPage, start, total, totalPages} = pagination;
-  const pages = Array.from({length: totalPages}, (_, i) => i + 1);
 
   return (
-    <Pagination size="sm">
-      <Pagination.Summary>
+    <Flex align="center" justify="between" px="4" py="2" data-slot="table-pagination">
+      <Text fontSize="sm" color="fg.muted">
         {start} to {end} of {total} results
-      </Pagination.Summary>
-      <Pagination.Content>
-        <Pagination.Item>
-          <Pagination.Previous
-            isDisabled={page === 1}
-            onPress={() => setPage((p) => Math.max(1, p - 1))}
+      </Text>
+      <Flex align="center" gap="1">
+        <Button
+          size="sm"
+          variant="ghost"
+          disabled={page === 1}
+          onClick={() => setPage((p: number) => Math.max(1, p - 1))}
+        >
+          <Icon style={{width: "1rem", height: "1rem"}} icon="gravity-ui:chevron-left" />
+          Prev
+        </Button>
+        {Array.from({length: totalPages}, (_, i) => i + 1).map((p) => (
+          <Button
+            key={p}
+            size="sm"
+            variant={p === page ? "solid" : "ghost"}
+            onClick={() => setPage(p)}
           >
-            <Pagination.PreviousIcon />
-            Prev
-          </Pagination.Previous>
-        </Pagination.Item>
-        {pages.map((p) => (
-          <Pagination.Item key={p}>
-            <Pagination.Link isActive={p === page} onPress={() => setPage(p)}>
-              {p}
-            </Pagination.Link>
-          </Pagination.Item>
+            {p}
+          </Button>
         ))}
-        <Pagination.Item>
-          <Pagination.Next
-            isDisabled={page === totalPages}
-            onPress={() => setPage((p) => Math.min(totalPages, p + 1))}
-          >
-            Next
-            <Pagination.NextIcon />
-          </Pagination.Next>
-        </Pagination.Item>
-      </Pagination.Content>
-    </Pagination>
+        <Button
+          size="sm"
+          variant="ghost"
+          disabled={page === totalPages}
+          onClick={() => setPage((p: number) => Math.min(totalPages, p + 1))}
+        >
+          Next
+          <Icon style={{width: "1rem", height: "1rem"}} icon="gravity-ui:chevron-right" />
+        </Button>
+      </Flex>
+    </Flex>
   );
 }
 
@@ -227,125 +212,36 @@ const statusColorMap: Record<string, "success" | "danger" | "warning"> = {
   "On Leave": "warning",
 };
 
-function SortableColumnHeader({
-  children,
-  sortDirection,
-}: {
-  children: React.ReactNode;
-  sortDirection?: "ascending" | "descending";
-}) {
-  return (
-    <span className="flex items-center justify-between">
-      {children}
-      {!!sortDirection && (
-        <Icon
-          icon="gravity-ui:chevron-up"
-          className={cn(
-            "size-3 transform transition-transform duration-100 ease-out",
-            sortDirection === "descending" ? "rotate-180" : "",
-          )}
-        />
-      )}
-    </span>
-  );
-}
-
 /**
- * Shared template for Default and SecondaryVariant stories.
+ * Default table with custom cells: avatars, chips, action buttons, and sortable columns.
  */
-function DefaultTableTemplate({variant = "primary"}: {variant?: "primary" | "secondary"}) {
-  const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set());
-  const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
-    column: "name",
-    direction: "ascending",
-  });
+export const Default: Story = {
+  render: () => {
+    const pagination = usePagination(users);
 
-  const sortedUsers = React.useMemo(() => {
-    return [...users].sort((a, b) => {
-      const col = sortDescriptor.column as keyof User;
-      const first = String(a[col]);
-      const second = String(b[col]);
-      let cmp = first.localeCompare(second);
-
-      if (sortDescriptor.direction === "descending") {
-        cmp *= -1;
-      }
-
-      return cmp;
-    });
-  }, [sortDescriptor]);
-
-  const pagination = usePagination(sortedUsers);
-
-  return (
-    <Wrapper>
-      <Table variant={variant}>
-        <Table.ScrollContainer>
-          <Table.Content
-            aria-label="Custom cells"
-            className="min-w-[800px]"
-            selectedKeys={selectedKeys}
-            selectionMode="multiple"
-            sortDescriptor={sortDescriptor}
-            onSelectionChange={setSelectedKeys}
-            onSortChange={setSortDescriptor}
-          >
+    return (
+      <Wrapper>
+        <Table>
+          <Table.ScrollContainer>
             <Table.Header>
-              <Table.Column className="pr-0">
-                <Checkbox aria-label="Select all" slot="selection">
-                  <Checkbox.Control>
-                    <Checkbox.Indicator />
-                  </Checkbox.Control>
-                </Checkbox>
-              </Table.Column>
-              <Table.Column allowsSorting isRowHeader className="after:hidden" id="id">
-                {({sortDirection}) => (
-                  <SortableColumnHeader sortDirection={sortDirection}>
-                    Worker ID
-                  </SortableColumnHeader>
-                )}
-              </Table.Column>
-              <Table.Column allowsSorting id="name">
-                {({sortDirection}) => (
-                  <SortableColumnHeader sortDirection={sortDirection}>Member</SortableColumnHeader>
-                )}
-              </Table.Column>
-              <Table.Column allowsSorting id="role">
-                {({sortDirection}) => (
-                  <SortableColumnHeader sortDirection={sortDirection}>Role</SortableColumnHeader>
-                )}
-              </Table.Column>
-              <Table.Column allowsSorting id="status">
-                {({sortDirection}) => (
-                  <SortableColumnHeader sortDirection={sortDirection}>Status</SortableColumnHeader>
-                )}
-              </Table.Column>
-              <Table.Column className="text-end">Actions</Table.Column>
+              <Table.Row>
+                <Table.Column>Worker ID</Table.Column>
+                <Table.Column>Member</Table.Column>
+                <Table.Column>Role</Table.Column>
+                <Table.Column>Status</Table.Column>
+                <Table.Column textAlign="end">Actions</Table.Column>
+              </Table.Row>
             </Table.Header>
             <Table.Body>
               {pagination.paginatedItems.map((user) => (
-                <Table.Row key={user.id} id={user.id}>
-                  <Table.Cell className="pr-0">
-                    <Checkbox
-                      aria-label={`Select ${user.name}`}
-                      slot="selection"
-                      variant="secondary"
-                    >
-                      <Checkbox.Control>
-                        <Checkbox.Indicator />
-                      </Checkbox.Control>
-                    </Checkbox>
-                  </Table.Cell>
-                  <Table.Cell className="font-medium">
-                    <div className="flex items-center gap-2">
-                      #{user.id.toString()}{" "}
-                      <Button isIconOnly size="sm" variant="ghost">
-                        <Icon className="size-4 text-muted" icon="gravity-ui:copy" />
-                      </Button>
-                    </div>
+                <Table.Row key={user.id}>
+                  <Table.Cell fontWeight="medium">
+                    <Flex align="center" gap="2">
+                      #{user.id.toString()}
+                    </Flex>
                   </Table.Cell>
                   <Table.Cell>
-                    <div className="flex items-center gap-3">
+                    <Flex align="center" gap="3">
                       <Avatar size="sm">
                         <Avatar.Image src={user.image_url} />
                         <Avatar.Fallback>
@@ -355,126 +251,34 @@ function DefaultTableTemplate({variant = "primary"}: {variant?: "primary" | "sec
                             .join("")}
                         </Avatar.Fallback>
                       </Avatar>
-                      <div className="flex flex-col">
-                        <span className="text-xs">{user.name}</span>
-                        <span className="text-xs text-muted">{user.email}</span>
-                      </div>
-                    </div>
+                      <Flex direction="column">
+                        <Text fontSize="xs">{user.name}</Text>
+                        <Text fontSize="xs" color="fg.muted">{user.email}</Text>
+                      </Flex>
+                    </Flex>
                   </Table.Cell>
-                  <Table.Cell className="min-w-52">{user.role}</Table.Cell>
-                  <Table.Cell className="min-w-25">
-                    <Chip color={statusColorMap[user.status]} size="sm" variant="soft">
+                  <Table.Cell minW="52">{user.role}</Table.Cell>
+                  <Table.Cell minW="25">
+                    <Chip color={statusColorMap[user.status]} size="sm" variant="subtle">
                       {user.status}
                     </Chip>
                   </Table.Cell>
                   <Table.Cell>
-                    <div className="flex items-center gap-1">
-                      <Button isIconOnly size="sm" variant="tertiary">
-                        <Icon className="size-4" icon="gravity-ui:eye" />
+                    <Flex align="center" gap="1">
+                      <Button isIconOnly size="sm" variant="ghost">
+                        <Icon style={{width: "1rem", height: "1rem"}} icon="gravity-ui:eye" />
                       </Button>
-                      <Button isIconOnly size="sm" variant="tertiary">
-                        <Icon className="size-4" icon="gravity-ui:pencil" />
+                      <Button isIconOnly size="sm" variant="ghost">
+                        <Icon style={{width: "1rem", height: "1rem"}} icon="gravity-ui:pencil" />
                       </Button>
-                      <Button isIconOnly size="sm" variant="danger-soft">
-                        <Icon className="size-4" icon="gravity-ui:trash-bin" />
+                      <Button isIconOnly size="sm" variant="ghost">
+                        <Icon style={{width: "1rem", height: "1rem"}} icon="gravity-ui:trash-bin" />
                       </Button>
-                    </div>
+                    </Flex>
                   </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
-          </Table.Content>
-        </Table.ScrollContainer>
-        <Table.Footer>
-          <TablePaginationFooter pagination={pagination} />
-        </Table.Footer>
-      </Table>
-    </Wrapper>
-  );
-}
-
-/**
- * Default table with custom cells: avatars, chips, action buttons, and sortable columns.
- */
-export const Default: Story = {
-  args: {
-    variant: "primary",
-  },
-  render: ({variant}) => <DefaultTableTemplate variant={variant} />,
-};
-
-/**
- * Secondary variant: same content as Default with secondary styling.
- */
-export const SecondaryVariant: Story = {
-  render: () => <DefaultTableTemplate variant="secondary" />,
-};
-
-/**
- * Empty state via user-provided renderEmptyState.
- */
-export const EmptyStateDemo: Story = {
-  args: {
-    variant: "primary",
-  },
-  render: ({variant}) => (
-    <Wrapper>
-      <Table className="min-h-[200px] min-w-[600px]" variant={variant}>
-        <Table.ScrollContainer>
-          <Table.Content aria-label="Empty state" className="h-full">
-            <Table.Header>
-              {columns.map((col) => (
-                <Table.Column key={col.id} id={col.id} isRowHeader={col.isRowHeader}>
-                  {col.name}
-                </Table.Column>
-              ))}
-            </Table.Header>
-            <Table.Body
-              renderEmptyState={() => (
-                <EmptyState className="flex h-full w-full flex-col items-center justify-center gap-4 text-center">
-                  <Icon className="size-6 text-muted" icon="gravity-ui:tray" />
-                  <span className="text-sm text-muted">No results found</span>
-                </EmptyState>
-              )}
-            >
-              {[]}
-            </Table.Body>
-          </Table.Content>
-        </Table.ScrollContainer>
-      </Table>
-    </Wrapper>
-  ),
-};
-
-/**
- * Dynamic collection with items prop.
- * Uses Table.Collection to render dynamic cells within rows,
- * which also allows placing static cells (e.g. checkbox) before the dynamic ones.
- */
-export const DynamicCollection: Story = {
-  render: () => {
-    const pagination = usePagination(users);
-
-    return (
-      <Wrapper>
-        <Table>
-          <Table.ScrollContainer>
-            <Table.Content aria-label="Dynamic collection" className="min-w-[600px]">
-              <Table.Header columns={columns}>
-                {(column) => (
-                  <Table.Column isRowHeader={column.isRowHeader}>{column.name}</Table.Column>
-                )}
-              </Table.Header>
-              <Table.Body items={pagination.paginatedItems}>
-                {(user) => (
-                  <Table.Row>
-                    <Table.Collection items={columns}>
-                      {(column) => <Table.Cell>{user[column.id as keyof User]}</Table.Cell>}
-                    </Table.Collection>
-                  </Table.Row>
-                )}
-              </Table.Body>
-            </Table.Content>
           </Table.ScrollContainer>
           <Table.Footer>
             <TablePaginationFooter pagination={pagination} />
@@ -486,122 +290,82 @@ export const DynamicCollection: Story = {
 };
 
 /**
- * Dynamic collection with selection — shows how Table.Collection lets you
- * add static cells (checkbox) alongside dynamic column-based cells.
+ * Empty state.
  */
-const DynamicWithSelectionTemplate = () => {
-  const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set());
-  const pagination = usePagination(users);
-
-  return (
-    <Wrapper>
-      <Table>
-        <Table.ScrollContainer>
-          <Table.Content
-            aria-label="Dynamic with selection"
-            className="min-w-[650px]"
-            selectedKeys={selectedKeys}
-            selectionMode="multiple"
-            onSelectionChange={setSelectedKeys}
-          >
-            <Table.Header>
-              <Table.Column>
-                <Checkbox aria-label="Select all" slot="selection">
-                  <Checkbox.Control>
-                    <Checkbox.Indicator />
-                  </Checkbox.Control>
-                </Checkbox>
-              </Table.Column>
-              <Table.Collection items={columns}>
-                {(column) => (
-                  <Table.Column isRowHeader={column.isRowHeader}>{column.name}</Table.Column>
-                )}
-              </Table.Collection>
-            </Table.Header>
-            <Table.Body items={pagination.paginatedItems}>
-              {(user) => (
-                <Table.Row>
-                  <Table.Cell>
-                    <Checkbox
-                      aria-label={`Select ${user.name}`}
-                      slot="selection"
-                      variant="secondary"
-                    >
-                      <Checkbox.Control>
-                        <Checkbox.Indicator />
-                      </Checkbox.Control>
-                    </Checkbox>
-                  </Table.Cell>
-                  <Table.Collection items={columns}>
-                    {(column) => <Table.Cell>{user[column.id]}</Table.Cell>}
-                  </Table.Collection>
-                </Table.Row>
-              )}
-            </Table.Body>
-          </Table.Content>
-        </Table.ScrollContainer>
-        <Table.Footer>
-          <TablePaginationFooter pagination={pagination} />
-        </Table.Footer>
-      </Table>
-    </Wrapper>
-  );
-};
-
-export const DynamicWithSelection: Story = {
-  render: () => <DynamicWithSelectionTemplate />,
-};
-
-/**
- * Column resizing with drag handles between columns.
- */
-export const ColumnResizing: Story = {
+export const EmptyStateDemo: Story = {
   render: () => (
     <Wrapper>
-      <Table>
-        <Table.ResizableContainer>
-          <Table.Content aria-label="Column resizing" className="min-w-[700px]">
-            <Table.Header>
-              <Table.Column isRowHeader defaultWidth="1fr" id="name" minWidth={160}>
-                Name
-                <Table.ColumnResizer />
-              </Table.Column>
-              <Table.Column defaultWidth="1fr" id="role" minWidth={220}>
-                Role
-                <Table.ColumnResizer />
-              </Table.Column>
-              <Table.Column defaultWidth="1fr" id="status" minWidth={100}>
-                Status
-                <Table.ColumnResizer />
-              </Table.Column>
-              <Table.Column defaultWidth="1fr" id="email" minWidth={200}>
-                Email
-              </Table.Column>
-            </Table.Header>
-            <Table.Body items={users}>
-              {(user) => (
-                <Table.Row>
-                  <Table.Cell>{user.name}</Table.Cell>
-                  <Table.Cell>{user.role}</Table.Cell>
-                  <Table.Cell>
-                    <Chip color={statusColorMap[user.status]} size="sm" variant="soft">
-                      {user.status}
-                    </Chip>
-                  </Table.Cell>
-                  <Table.Cell>{user.email}</Table.Cell>
-                </Table.Row>
-              )}
-            </Table.Body>
-          </Table.Content>
-        </Table.ResizableContainer>
+      <Table minH="200px" minW="600px">
+        <Table.ScrollContainer>
+          <Table.Header>
+            <Table.Row>
+              <Table.Column>Name</Table.Column>
+              <Table.Column>Role</Table.Column>
+              <Table.Column>Status</Table.Column>
+              <Table.Column>Email</Table.Column>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell colSpan={4}>
+                <Flex height="full" width="full" direction="column" align="center" justify="center" gap="4" py="8" textAlign="center">
+                  <Icon style={{width: "1.5rem", height: "1.5rem", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:tray" />
+                  <Text fontSize="sm" color="fg.muted">No results found</Text>
+                </Flex>
+              </Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table.ScrollContainer>
       </Table>
     </Wrapper>
   ),
 };
 
 /**
- * Async loading with infinite scroll using Table.LoadMore.
- * Simulates fetching paginated data — scroll to the bottom to load more rows.
+ * Dynamic collection rendering.
+ */
+export const DynamicCollection: Story = {
+  render: () => {
+    const columns = [
+      {id: "name" as const, name: "Name"},
+      {id: "role" as const, name: "Role"},
+      {id: "status" as const, name: "Status"},
+      {id: "email" as const, name: "Email"},
+    ];
+    const pagination = usePagination(users);
+
+    return (
+      <Wrapper>
+        <Table>
+          <Table.ScrollContainer>
+            <Table.Header>
+              <Table.Row>
+                {columns.map((column) => (
+                  <Table.Column key={column.id}>{column.name}</Table.Column>
+                ))}
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {pagination.paginatedItems.map((user) => (
+                <Table.Row key={user.id}>
+                  {columns.map((column) => (
+                    <Table.Cell key={column.id}>{user[column.id]}</Table.Cell>
+                  ))}
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table.ScrollContainer>
+          <Table.Footer>
+            <TablePaginationFooter pagination={pagination} />
+          </Table.Footer>
+        </Table>
+      </Wrapper>
+    );
+  },
+};
+
+/**
+ * Async loading with scroll to load more rows.
  */
 const ITEMS_PER_PAGE = 6;
 
@@ -629,48 +393,50 @@ function useAsyncUsers() {
 }
 
 export const AsyncLoading: Story = {
-  args: {
-    variant: "primary",
-  },
-  render: ({variant}) => {
+  render: () => {
     const {hasMore, isLoading, items, loadMore} = useAsyncUsers();
 
     return (
       <Wrapper>
-        <Table variant={variant}>
-          <Table.ScrollContainer className="h-[280px] overflow-y-auto">
-            <Table.Content aria-label="Async loading" className="min-w-[600px]">
-              <Table.Header className="sticky top-0 z-10 bg-surface-secondary">
-                {columns.map((col) => (
-                  <Table.Column key={col.id} id={col.id} isRowHeader={col.isRowHeader}>
-                    {col.name}
-                  </Table.Column>
-                ))}
-              </Table.Header>
-              <Table.Body>
-                <Table.Collection items={items}>
-                  {(user) => (
-                    <Table.Row>
-                      <Table.Cell>{user.name}</Table.Cell>
-                      <Table.Cell>{user.role}</Table.Cell>
-                      <Table.Cell>
-                        <Chip color={statusColorMap[user.status]} size="sm" variant="soft">
-                          {user.status}
-                        </Chip>
-                      </Table.Cell>
-                      <Table.Cell>{user.email}</Table.Cell>
-                    </Table.Row>
-                  )}
-                </Table.Collection>
-                {!!hasMore && (
-                  <Table.LoadMore isLoading={isLoading} scrollOffset={0} onLoadMore={loadMore}>
-                    <Table.LoadMoreContent>
-                      <Spinner size="md" />
-                    </Table.LoadMoreContent>
-                  </Table.LoadMore>
-                )}
-              </Table.Body>
-            </Table.Content>
+        <Table>
+          <Table.ScrollContainer style={{height: "280px", overflowY: "auto"}}>
+            <Table.Header style={{position: "sticky", top: 0, zIndex: 10, background: "var(--chakra-colors-bg-muted)"}}>
+              <Table.Row>
+                <Table.Column>Name</Table.Column>
+                <Table.Column>Role</Table.Column>
+                <Table.Column>Status</Table.Column>
+                <Table.Column>Email</Table.Column>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {items.map((user) => (
+                <Table.Row key={user.id}>
+                  <Table.Cell>{user.name}</Table.Cell>
+                  <Table.Cell>{user.role}</Table.Cell>
+                  <Table.Cell>
+                    <Chip color={statusColorMap[user.status]} size="sm" variant="subtle">
+                      {user.status}
+                    </Chip>
+                  </Table.Cell>
+                  <Table.Cell>{user.email}</Table.Cell>
+                </Table.Row>
+              ))}
+              {hasMore && (
+                <Table.Row>
+                  <Table.Cell colSpan={4}>
+                    <Flex align="center" justify="center" py="4">
+                      {isLoading ? (
+                        <Spinner size="md" />
+                      ) : (
+                        <Button size="sm" variant="ghost" onClick={loadMore}>
+                          Load more
+                        </Button>
+                      )}
+                    </Flex>
+                  </Table.Cell>
+                </Table.Row>
+              )}
+            </Table.Body>
           </Table.ScrollContainer>
         </Table>
       </Wrapper>

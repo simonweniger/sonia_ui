@@ -1,29 +1,33 @@
 "use client";
 
-import type {FieldErrorVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {fieldErrorVariants} from "../../styles";
-import {FieldError as FieldErrorPrimitive} from "react-aria-components";
-
-import {composeTwRenderProps} from "../../utils/compose";
+import {Field} from "@chakra-ui/react";
 
 /* -------------------------------------------------------------------------------------------------
  * Field Error Root
  * -----------------------------------------------------------------------------------------------*/
-interface FieldErrorRootProps
-  extends ComponentPropsWithRef<typeof FieldErrorPrimitive>, FieldErrorVariants {}
+interface FieldErrorRootProps extends ComponentPropsWithRef<typeof Field.ErrorText> {}
 
-const FieldErrorRoot = ({children, className, ...rest}: FieldErrorRootProps) => {
+const FieldErrorRoot = ({children, ...props}: FieldErrorRootProps) => {
   return (
-    <FieldErrorPrimitive
-      data-visible
-      className={composeTwRenderProps(className, fieldErrorVariants())}
+    <Field.ErrorText
       data-slot="field-error"
-      {...rest}
+      h="0"
+      px="1"
+      fontSize="xs"
+      overflowWrap="break-word"
+      color="fg.error"
+      opacity={0}
+      css={{
+        "&[data-visible='true']": {height: "auto", opacity: 1},
+        transition:
+          "opacity 150ms ease-out, height 350ms ease",
+      }}
+      {...props}
     >
-      {(renderProps) => (typeof children === "function" ? children(renderProps) : children)}
-    </FieldErrorPrimitive>
+      {children}
+    </Field.ErrorText>
   );
 };
 

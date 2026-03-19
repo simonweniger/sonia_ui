@@ -20,10 +20,3 @@ export type SwitchGroup = {
 export {SwitchGroupRoot};
 
 export type {SwitchGroupRootProps, SwitchGroupRootProps as SwitchGroupProps} from "./switch-group";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {switchGroupVariants} from "../../styles";
-
-export type {SwitchGroupVariants} from "../../styles";

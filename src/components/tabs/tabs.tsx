@@ -1,57 +1,47 @@
 "use client";
 
-import type {TabsVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {tabsVariants} from "../../styles";
+import {Box, Tabs as ChakraTabs} from "@chakra-ui/react";
 import React, {createContext, useContext} from "react";
-import {
-  SelectionIndicator as SelectionIndicatorPrimitive,
-  TabList as TabListPrimitive,
-  TabPanel as TabPanelPrimitive,
-  Tab as TabPrimitive,
-  Tabs as TabsPrimitive,
-} from "react-aria-components";
-
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 
 /* -------------------------------------------------------------------------------------------------
- * Tabs Context
+ * Tabs Context — variant propagation
  * -----------------------------------------------------------------------------------------------*/
-type TabsContext = {
-  orientation?: "horizontal" | "vertical";
-  slots?: ReturnType<typeof tabsVariants>;
+type TabsVariant = "primary" | "secondary";
+
+type TabsContextValue = {
+  variant: TabsVariant;
 };
 
-const TabsContext = createContext<TabsContext>({});
+const TabsContext = createContext<TabsContextValue>({variant: "primary"});
 
 /* -------------------------------------------------------------------------------------------------
  * Tabs Root
  * -----------------------------------------------------------------------------------------------*/
-interface TabsRootProps extends ComponentPropsWithRef<typeof TabsPrimitive>, TabsVariants {
+interface TabsRootProps extends Omit<ComponentPropsWithRef<typeof ChakraTabs.Root>, "variant"> {
   children: React.ReactNode;
   className?: string;
+  variant?: TabsVariant;
 }
 
-const TabsRoot = ({
-  children,
-  className,
-  orientation = "horizontal",
-  variant,
-  ...props
-}: TabsRootProps) => {
-  const slots = React.useMemo(() => tabsVariants({variant}), [variant]);
-
+const TabsRoot = ({children, className, variant = "primary", ...props}: TabsRootProps) => {
   return (
-    <TabsContext value={{orientation, slots}}>
-      <TabsPrimitive
-        {...props}
-        className={composeTwRenderProps(className, slots.base())}
+    <TabsContext value={{variant}}>
+      <ChakraTabs.Root
+        className={className}
         data-slot="tabs"
-        orientation={orientation}
+        data-variant={variant}
+        display="flex"
+        gap="2"
+        css={{
+          "&[data-orientation=horizontal]": {flexDirection: "column"},
+          "&[data-orientation=vertical]": {flexDirection: "row"},
+        }}
+        {...props}
       >
         {children}
-      </TabsPrimitive>
+      </ChakraTabs.Root>
     </TabsContext>
   );
 };
@@ -64,76 +54,203 @@ interface TabListContainerProps extends ComponentPropsWithRef<"div"> {
 }
 
 const TabListContainer = ({children, className, ...props}: TabListContainerProps) => {
-  const {slots} = useContext(TabsContext);
-
   return (
-    <div
-      className={composeSlotClassName(slots?.tabListContainer, className)}
-      data-slot="tabs-list-container"
-      {...props}
-    >
+    <Box className={className} data-slot="tabs-list-container" position="relative" {...props}>
       {children}
-    </div>
+    </Box>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Tabs List
  * -----------------------------------------------------------------------------------------------*/
-interface TabListProps extends ComponentPropsWithRef<typeof TabListPrimitive<object>> {
+interface TabListProps extends ComponentPropsWithRef<typeof ChakraTabs.List> {
   children: React.ReactNode;
   className?: string;
 }
 
 const TabList = ({children, className, ...props}: TabListProps) => {
-  const {slots} = useContext(TabsContext);
+  const {variant} = useContext(TabsContext);
 
   return (
-    <TabListPrimitive
-      {...props}
-      className={composeTwRenderProps(className, slots?.tabList())}
+    <ChakraTabs.List
+      className={className}
       data-slot="tabs-list"
+      display="inline-flex"
+      {...(variant === "primary"
+        ? {
+            bg: "bg.muted",
+            p: "1",
+          }
+        : {
+            bg: "transparent",
+            p: "0",
+          })}
+      css={{
+        ...(variant === "primary"
+          ? {borderRadius: "calc(var(--chakra-radii-2xl) + 0.25rem)"}
+          : {}),
+        ...(variant === "secondary"
+          ? {
+              borderRadius: 0,
+              "&[data-orientation=horizontal]": {
+                borderBottom: "1px solid var(--chakra-colors-border)",
+                maxWidth: "100%",
+                overflowX: "auto",
+                overflowY: "clip",
+                scrollbarWidth: "none",
+                "&::-webkit-scrollbar": {display: "none"},
+              },
+              "&[data-orientation=vertical]": {
+                borderLeft: "1px solid var(--chakra-colors-border)",
+              },
+            }
+          : {}),
+        "&[data-orientation=horizontal]": {
+          width: "100%",
+          flexDirection: "row",
+          ...(variant === "secondary"
+            ? {
+                maxWidth: "100%",
+                overflowX: "auto",
+                overflowY: "clip",
+                scrollbarWidth: "none",
+                "&::-webkit-scrollbar": {display: "none"},
+              }
+            : {}),
+        },
+        "&[data-orientation=vertical]": {
+          flexDirection: "column",
+          gap: variant === "primary" ? "0.25rem" : undefined,
+          ...(variant === "primary"
+            ? {"& [data-slot=tabs-tab]": {minWidth: "5rem"}}
+            : {}),
+        },
+      }}
+      {...props}
     >
       {children}
-    </TabListPrimitive>
+    </ChakraTabs.List>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Tab
  * -----------------------------------------------------------------------------------------------*/
-interface TabProps extends ComponentPropsWithRef<typeof TabPrimitive> {
+interface TabProps extends ComponentPropsWithRef<typeof ChakraTabs.Trigger> {
   className?: string;
 }
 
 const Tab = ({children, className, ...props}: TabProps) => {
-  const {slots} = useContext(TabsContext);
+  const {variant} = useContext(TabsContext);
 
   return (
-    <TabPrimitive
-      {...props}
-      className={composeTwRenderProps(className, slots?.tab())}
+    <ChakraTabs.Trigger
+      className={className}
       data-slot="tabs-tab"
+      position="relative"
+      zIndex="1"
+      cursor="pointer"
+      display="flex"
+      h="8"
+      w="100%"
+      alignItems="center"
+      justifyContent="center"
+      rounded={variant === "secondary" ? "none" : "3xl"}
+      px="4"
+      textAlign="center"
+      fontSize="sm"
+      fontWeight="medium"
+      color="fg.muted"
+      outline="none"
+      css={{
+        WebkitTapHighlightColor: "transparent",
+        transition:
+          "color 150ms var(--ease-smooth, ease), background-color 150ms var(--ease-smooth, ease), box-shadow 150ms var(--ease-out, ease-out), opacity 150ms var(--ease-smooth, ease)",
+        /* Selected state */
+        '&[data-selected="true"]': {
+          color: variant === "secondary" ? "var(--chakra-colors-fg)" : "var(--chakra-colors-fg)",
+        },
+        /* Hide separator when this tab is selected */
+        '&[data-selected="true"] [data-slot=tabs-separator]': {opacity: 0},
+        /* Hide separator on the next tab after selected */
+        '&[data-selected="true"] + [data-slot=tabs-tab] [data-slot=tabs-separator]': {opacity: 0},
+        /* Hover when not selected or disabled */
+        "@media (hover: hover)": {
+          '&:not([data-selected="true"]):not([data-disabled="true"]):hover, &[data-hovered="true"]:not([data-selected="true"]):not([data-disabled="true"])':
+            {
+              opacity: 0.7,
+            },
+        },
+      }}
+      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
+      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
+      {...props}
     >
       {children}
-    </TabPrimitive>
+    </ChakraTabs.Trigger>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Tab Indicator
  * -----------------------------------------------------------------------------------------------*/
-interface TabIndicatorProps extends ComponentPropsWithRef<typeof SelectionIndicatorPrimitive> {
+interface TabIndicatorProps extends ComponentPropsWithRef<typeof ChakraTabs.Indicator> {
   className?: string;
 }
 
 const TabIndicator = ({className, ...props}: TabIndicatorProps) => {
-  const {slots} = useContext(TabsContext);
+  const {variant} = useContext(TabsContext);
+
+  if (variant === "secondary") {
+    return (
+      <ChakraTabs.Indicator
+        className={className}
+        data-slot="tabs-indicator"
+        bg="accent"
+        css={{
+          boxShadow: "none",
+          borderRadius: 0,
+          transitionDuration: "250ms",
+          transitionProperty: "translate, width, height",
+          transitionTimingFunction: "var(--ease-out-fluid, ease-out)",
+          /* Horizontal: bottom line */
+          "[data-orientation=horizontal] &": {
+            top: "auto",
+            bottom: 0,
+            height: "2px",
+          },
+          /* Vertical: left line */
+          "[data-orientation=vertical] &": {
+            left: 0,
+            top: 0,
+            width: "2px",
+            height: "100%",
+          },
+        }}
+        {...props}
+      />
+    );
+  }
 
   return (
-    <SelectionIndicatorPrimitive
-      className={composeSlotClassName(slots?.tabIndicator, className)}
+    <ChakraTabs.Indicator
+      className={className}
       data-slot="tabs-indicator"
+      position="absolute"
+      top="0"
+      left="0"
+      zIndex={-1}
+      rounded="3xl"
+      w="100%"
+      h="100%"
+      bg="surface"
+      shadow="surface"
+      css={{
+        transitionDuration: "250ms",
+        transitionProperty: "translate, width, height",
+        transitionTimingFunction: "var(--ease-out-fluid, ease-out)",
+      }}
       {...props}
     />
   );
@@ -142,22 +259,27 @@ const TabIndicator = ({className, ...props}: TabIndicatorProps) => {
 /* -------------------------------------------------------------------------------------------------
  * Tab Panel
  * -----------------------------------------------------------------------------------------------*/
-interface TabPanelProps extends Omit<ComponentPropsWithRef<typeof TabPanelPrimitive>, "children"> {
+interface TabPanelProps extends ComponentPropsWithRef<typeof ChakraTabs.Content> {
   children: React.ReactNode;
   className?: string;
 }
 
 const TabPanel = ({children, className, ...props}: TabPanelProps) => {
-  const {slots} = useContext(TabsContext);
-
   return (
-    <TabPanelPrimitive
-      {...props}
-      className={composeTwRenderProps(className, slots?.tabPanel())}
+    <ChakraTabs.Content
+      className={className}
       data-slot="tabs-panel"
+      w="100%"
+      p="2"
+      outline="none"
+      css={{
+        "&[data-orientation=horizontal]": {marginTop: "var(--chakra-spacing-4)"},
+        "&[data-orientation=vertical]": {marginLeft: "var(--chakra-spacing-4)"},
+      }}
+      {...props}
     >
       {children}
-    </TabPanelPrimitive>
+    </ChakraTabs.Content>
   );
 };
 
@@ -169,13 +291,39 @@ interface TabSeparatorProps extends ComponentPropsWithRef<"span"> {
 }
 
 const TabSeparator = ({className, ...props}: TabSeparatorProps) => {
-  const {slots} = useContext(TabsContext);
+  const {variant} = useContext(TabsContext);
+
+  if (variant === "secondary") {
+    return null;
+  }
 
   return (
-    <span
+    <Box
+      as="span"
       aria-hidden="true"
-      className={composeSlotClassName(slots?.separator, className)}
+      className={className}
       data-slot="tabs-separator"
+      position="absolute"
+      pointerEvents="none"
+      rounded="sm"
+      bg="fg.muted/25"
+      css={{
+        transition: "opacity 150ms var(--ease-smooth, ease)",
+        /* Horizontal tabs: vertical separator */
+        "[data-orientation=horizontal] &": {
+          left: 0,
+          top: "25%",
+          width: "1px",
+          height: "50%",
+        },
+        /* Vertical tabs: horizontal separator */
+        "[data-orientation=vertical] &": {
+          top: 0,
+          left: "5%",
+          width: "90%",
+          height: "1px",
+        },
+      }}
       {...props}
     />
   );

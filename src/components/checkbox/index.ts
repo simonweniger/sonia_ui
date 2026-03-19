@@ -32,10 +32,3 @@ export type {
   CheckboxIndicatorProps,
   CheckboxContentProps,
 } from "./checkbox";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {checkboxVariants} from "../../styles";
-
-export type {CheckboxVariants} from "../../styles";

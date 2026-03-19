@@ -2,27 +2,31 @@
 
 import type {ComponentPropsWithRef} from "react";
 
-import {listboxSectionVariants} from "../../styles";
+import {Box} from "@chakra-ui/react";
 import React from "react";
-import {ListBoxSection as ListBoxSectionPrimitive} from "react-aria-components";
 
 /* -------------------------------------------------------------------------------------------------
  * ListBox Section Root
  * -----------------------------------------------------------------------------------------------*/
-interface ListBoxSectionRootProps extends ComponentPropsWithRef<typeof ListBoxSectionPrimitive> {
+interface ListBoxSectionRootProps extends ComponentPropsWithRef<typeof Box> {
   className?: string;
 }
 
 const ListBoxSectionRoot = ({children, className, ...props}: ListBoxSectionRootProps) => {
-  const styles = React.useMemo(
-    () => listboxSectionVariants({class: typeof className === "string" ? className : undefined}),
-    [className],
-  );
-
   return (
-    <ListBoxSectionPrimitive className={styles} {...props}>
+    <Box
+      as="li"
+      role="group"
+      className={className}
+      data-slot="list-box-section"
+      display="flex"
+      flexDirection="column"
+      alignItems="flex-start"
+      gap="0"
+      {...props}
+    >
       {children}
-    </ListBoxSectionPrimitive>
+    </Box>
   );
 };
 

@@ -26,10 +26,3 @@ export type {
   BreadcrumbsRootProps as BreadcrumbsProps,
   BreadcrumbsItemProps,
 } from "./breadcrumbs";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {breadcrumbsVariants} from "../../styles";
-
-export type {BreadcrumbsVariants} from "../../styles";

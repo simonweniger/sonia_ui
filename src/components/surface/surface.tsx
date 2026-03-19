@@ -1,16 +1,15 @@
 "use client";
 
-import type {SurfaceVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {surfaceVariants} from "../../styles";
+import {Box} from "@chakra-ui/react";
 import React, {createContext} from "react";
 
 /* ------------------------------------------------------------------------------------------------
  * Surface Context
  * --------------------------------------------------------------------------------------------- */
 type SurfaceContext = {
-  variant?: SurfaceVariants["variant"];
+  variant?: "default" | "secondary" | "tertiary";
 };
 
 const SurfaceContext = createContext<SurfaceContext>({});
@@ -18,14 +17,29 @@ const SurfaceContext = createContext<SurfaceContext>({});
 /* ------------------------------------------------------------------------------------------------
  * Surface Root
  * --------------------------------------------------------------------------------------------- */
-interface SurfaceRootProps extends ComponentPropsWithRef<"div">, SurfaceVariants {}
+interface SurfaceRootProps extends ComponentPropsWithRef<"div"> {
+  variant?: "default" | "secondary" | "tertiary";
+}
 
-const SurfaceRoot = ({children, className, variant = "default", ...rest}: SurfaceRootProps) => {
+const SurfaceRoot = ({children, variant = "default", ...rest}: SurfaceRootProps) => {
   return (
     <SurfaceContext value={{variant}}>
-      <div className={surfaceVariants({variant, className})} data-slot="surface" {...rest}>
+      <Box
+        data-slot="surface"
+        data-variant={variant}
+        position="relative"
+        color="fg"
+        bg={
+          variant === "secondary"
+            ? "bg.subtle"
+            : variant === "tertiary"
+              ? "bg.muted"
+              : "surface"
+        }
+        {...rest}
+      >
         {children}
-      </div>
+      </Box>
     </SurfaceContext>
   );
 };

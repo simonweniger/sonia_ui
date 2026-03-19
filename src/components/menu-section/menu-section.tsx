@@ -2,33 +2,46 @@
 
 import type {ComponentPropsWithRef} from "react";
 
-import {menuSectionVariants} from "../../styles";
 import React from "react";
-import {MenuSection as MenuSectionPrimitive} from "react-aria-components";
+import {Menu as ChakraMenu} from "@chakra-ui/react";
 
 /* -------------------------------------------------------------------------------------------------
  * Menu Section Root
  * -----------------------------------------------------------------------------------------------*/
-interface MenuSectionRootProps extends ComponentPropsWithRef<typeof MenuSectionPrimitive> {
-  className?: string;
-}
+interface MenuSectionRootProps extends ComponentPropsWithRef<typeof ChakraMenu.ItemGroup> {}
 
 const MenuSectionRoot = ({children, className, ...props}: MenuSectionRootProps) => {
-  const styles = React.useMemo(
-    () => menuSectionVariants({class: typeof className === "string" ? className : undefined}),
-    [className],
-  );
-
   return (
-    <MenuSectionPrimitive className={styles} {...props}>
+    <ChakraMenu.ItemGroup
+      data-slot="menu-section"
+      className={className}
+      display="flex"
+      flexDir="column"
+      alignItems="flex-start"
+      gap="0"
+      {...props}
+    >
       {children}
-    </MenuSectionPrimitive>
+    </ChakraMenu.ItemGroup>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * Menu Section Label
+ * -----------------------------------------------------------------------------------------------*/
+interface MenuSectionLabelProps extends ComponentPropsWithRef<typeof ChakraMenu.ItemGroupLabel> {}
+
+const MenuSectionLabel = ({children, className, ...props}: MenuSectionLabelProps) => {
+  return (
+    <ChakraMenu.ItemGroupLabel data-slot="menu-section-label" className={className} {...props}>
+      {children}
+    </ChakraMenu.ItemGroupLabel>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/
-export {MenuSectionRoot};
+export {MenuSectionRoot, MenuSectionLabel};
 
-export type {MenuSectionRootProps};
+export type {MenuSectionRootProps, MenuSectionLabelProps};

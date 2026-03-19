@@ -20,10 +20,3 @@ export type Skeleton = {
 export {SkeletonRoot};
 
 export type {SkeletonRootProps, SkeletonRootProps as SkeletonProps} from "./skeleton";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {skeletonVariants} from "../../styles";
-
-export type {SkeletonVariants} from "../../styles";

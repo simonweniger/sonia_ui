@@ -1,69 +1,120 @@
 "use client";
 
-import type {AvatarVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
+import type {SystemStyleObject} from "@chakra-ui/react";
 
-import {avatarVariants} from "../../styles";
-import * as AvatarPrimitive from "@radix-ui/react-avatar";
-import React, {createContext} from "react";
+import {Avatar as ChakraAvatar} from "@chakra-ui/react";
+import React from "react";
 
-import {composeSlotClassName} from "../../utils/compose";
+/* -------------------------------------------------------------------------------------------------
+ * Size & Variant Style Maps
+ * -----------------------------------------------------------------------------------------------*/
+type AvatarSize = "sm" | "md" | "lg";
+type AvatarVariant = "default" | "soft";
+type AvatarColor = "default" | "accent" | "success" | "warning" | "danger";
 
-/* ------------------------------------------------------------------------------------------------
- * Avatar Context
- * --------------------------------------------------------------------------------------------- */
-type AvatarContext = {
-  slots?: ReturnType<typeof avatarVariants>;
+const avatarSizeStyles: Record<AvatarSize, SystemStyleObject> = {
+  sm: {boxSize: "8"},
+  md: {},
+  lg: {boxSize: "12"},
 };
 
-const AvatarContext = createContext<AvatarContext>({});
+const fallbackSizeStyles: Record<AvatarSize, SystemStyleObject> = {
+  sm: {},
+  md: {},
+  lg: {textStyle: "md"},
+};
+
+const fallbackColorStyles: Record<AvatarColor, SystemStyleObject> = {
+  default: {color: "fg"},
+  accent: {color: "accent"},
+  success: {color: "success"},
+  warning: {color: "warning"},
+  danger: {color: "danger"},
+};
+
+const softFallbackColorStyles: Record<AvatarColor, SystemStyleObject> = {
+  default: {color: "fg"},
+  accent: {bg: "accent.subtle", color: "accent.fg"},
+  success: {bg: "success.subtle", color: "success.fg"},
+  warning: {bg: "warning.subtle", color: "warning.fg"},
+  danger: {bg: "danger.subtle", color: "danger.fg"},
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * Avatar Context
+ * -----------------------------------------------------------------------------------------------*/
+type AvatarContextValue = {
+  size: AvatarSize;
+  variant: AvatarVariant;
+  colorScheme: AvatarColor;
+};
+
+const AvatarContext = React.createContext<AvatarContextValue>({
+  size: "md",
+  variant: "default",
+  colorScheme: "default",
+});
 
 /* -------------------------------------------------------------------------------------------------
  * Avatar Root
  * -----------------------------------------------------------------------------------------------*/
-interface AvatarRootProps
-  extends Omit<ComponentPropsWithRef<typeof AvatarPrimitive.Root>, "color">, AvatarVariants {}
+interface AvatarRootProps extends Omit<ComponentPropsWithRef<typeof ChakraAvatar.Root>, "variant" | "colorScheme"> {
+  avatarSize?: AvatarSize;
+  variant?: AvatarVariant;
+  colorScheme?: AvatarColor;
+}
 
-const AvatarRoot = ({children, className, color, size, variant, ...props}: AvatarRootProps) => {
-  const slots = React.useMemo(() => avatarVariants({color, size, variant}), [color, size, variant]);
+const AvatarRoot = ({
+  children,
+  avatarSize = "md",
+  variant = "default",
+  colorScheme = "default",
+  ...props
+}: AvatarRootProps) => {
+  const sizeProps = avatarSizeStyles[avatarSize] ?? {};
 
   return (
-    <AvatarContext value={{slots}}>
-      <AvatarPrimitive.Root className={slots.base({className})} {...props}>
+    <AvatarContext.Provider value={{size: avatarSize, variant, colorScheme}}>
+      <ChakraAvatar.Root
+        data-slot="avatar"
+        pos="relative"
+        display="flex"
+        boxSize="10"
+        flexShrink={0}
+        alignItems="center"
+        justifyContent="center"
+        overflow="hidden"
+        rounded="full"
+        bg={variant === "soft" ? "transparent" : "bg"}
+        {...sizeProps}
+        {...props}
+      >
         {children}
-      </AvatarPrimitive.Root>
-    </AvatarContext>
+      </ChakraAvatar.Root>
+    </AvatarContext.Provider>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Avatar Image
  * -----------------------------------------------------------------------------------------------*/
-interface AvatarImageProps extends ComponentPropsWithRef<typeof AvatarPrimitive.Image> {}
+interface AvatarImageProps extends ComponentPropsWithRef<typeof ChakraAvatar.Image> {}
 
-const AvatarImage = ({
-  className,
-  crossOrigin,
-  loading,
-  onError,
-  onLoad,
-  sizes,
-  src,
-  srcSet,
-  ...props
-}: AvatarImageProps) => {
-  const {slots} = React.useContext(AvatarContext);
-
+const AvatarImage = ({...props}: AvatarImageProps) => {
   return (
-    <AvatarPrimitive.Image
-      className={composeSlotClassName(slots?.image, className)}
-      crossOrigin={crossOrigin}
-      loading={loading}
-      sizes={sizes}
-      src={src}
-      srcSet={srcSet}
-      onError={onError}
-      onLoad={onLoad}
+    <ChakraAvatar.Image
+      data-slot="avatar-image"
+      pos="absolute"
+      inset="0"
+      aspectRatio="square"
+      boxSize="full"
+      css={{
+        transition: "opacity 250ms",
+        "@media (prefers-reduced-motion: reduce)": {
+          transition: "none",
+        },
+      }}
       {...props}
     />
   );
@@ -72,17 +123,29 @@ const AvatarImage = ({
 /* -------------------------------------------------------------------------------------------------
  * Avatar Fallback
  * -----------------------------------------------------------------------------------------------*/
-interface AvatarFallbackProps extends ComponentPropsWithRef<typeof AvatarPrimitive.Fallback> {
-  color?: AvatarVariants["color"];
-}
+interface AvatarFallbackProps extends ComponentPropsWithRef<typeof ChakraAvatar.Fallback> {}
 
-const AvatarFallback = ({className, color, ...props}: AvatarFallbackProps) => {
-  const {slots} = React.useContext(AvatarContext);
+const AvatarFallback = ({...props}: AvatarFallbackProps) => {
+  const {size, variant, colorScheme} = React.useContext(AvatarContext);
+
+  const colorProps =
+    variant === "soft"
+      ? softFallbackColorStyles[colorScheme] ?? {}
+      : fallbackColorStyles[colorScheme] ?? {};
+  const sizeProps = fallbackSizeStyles[size] ?? {};
 
   return (
-    <AvatarPrimitive.Fallback
-      className={composeSlotClassName(slots?.fallback, className, {color})}
+    <ChakraAvatar.Fallback
       data-slot="avatar-fallback"
+      display="flex"
+      boxSize="full"
+      alignItems="center"
+      justifyContent="center"
+      rounded="full"
+      bg={variant === "soft" ? undefined : "bg"}
+      textStyle="sm"
+      fontWeight="medium"
+      css={{...colorProps, ...sizeProps}}
       {...props}
     />
   );
@@ -93,4 +156,4 @@ const AvatarFallback = ({className, color, ...props}: AvatarFallbackProps) => {
  * -----------------------------------------------------------------------------------------------*/
 export {AvatarRoot, AvatarImage, AvatarFallback};
 
-export type {AvatarRootProps, AvatarImageProps, AvatarFallbackProps};
+export type {AvatarRootProps, AvatarImageProps, AvatarFallbackProps, AvatarSize, AvatarVariant, AvatarColor};

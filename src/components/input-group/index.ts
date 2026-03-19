@@ -41,10 +41,3 @@ export type {
   InputGroupPrefixProps,
   InputGroupSuffixProps,
 } from "./input-group";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {inputGroupVariants} from "../../styles";
-
-export type {InputGroupVariants} from "../../styles";

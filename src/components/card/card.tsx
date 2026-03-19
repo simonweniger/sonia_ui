@@ -1,67 +1,53 @@
 "use client";
 
-import type {SurfaceVariants} from "../surface";
-import type {CardVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
+import type {SystemStyleObject} from "@chakra-ui/react";
 
-import {cardVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-
-import {composeSlotClassName} from "../../utils/compose";
-import {SurfaceContext} from "../surface";
+import {Card as ChakraCard} from "@chakra-ui/react";
+import React from "react";
 
 /* -------------------------------------------------------------------------------------------------
- * Card Context
+ * Variant Style Maps
  * -----------------------------------------------------------------------------------------------*/
-interface CardContext {
-  slots?: ReturnType<typeof cardVariants>;
-}
+type CardVariant = "default" | "secondary" | "tertiary" | "transparent";
 
-const CardContext = createContext<CardContext>({});
+const cardVariantStyles: Record<CardVariant, SystemStyleObject> = {
+  default: {bg: "surface"},
+  secondary: {bg: "bg.muted"},
+  tertiary: {bg: "bg.subtle"},
+  transparent: {bg: "transparent", border: "none", shadow: "none"},
+};
 
 /* -------------------------------------------------------------------------------------------------
  * Card Root
  * -----------------------------------------------------------------------------------------------*/
-interface CardRootProps extends ComponentPropsWithRef<"div">, CardVariants {}
+interface CardRootProps extends Omit<ComponentPropsWithRef<typeof ChakraCard.Root>, "variant"> {
+  variant?: CardVariant;
+}
 
-const CardRoot = ({children, className, variant = "default", ...props}: CardRootProps) => {
-  const slots = React.useMemo(() => cardVariants({variant}), [variant]);
-
-  const content = (
-    <div className={slots.base({className})} data-slot="card" {...props}>
-      {children}
-    </div>
-  );
+const CardRoot = ({children, variant = "default", ...props}: CardRootProps) => {
+  const variantProps = cardVariantStyles[variant] ?? {};
 
   return (
-    <CardContext value={{slots}}>
-      {variant === "transparent" ? (
-        content
-      ) : (
-        // Allows inner components to apply "on-surface" colors for proper contrast
-        <SurfaceContext
-          value={{
-            variant: variant as SurfaceVariants["variant"],
-          }}
-        >
-          {content}
-        </SurfaceContext>
-      )}
-    </CardContext>
+    <ChakraCard.Root
+      data-slot="card"
+      p="4"
+      {...variantProps}
+      {...props}
+    >
+      {children}
+    </ChakraCard.Root>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Card Header
  * -----------------------------------------------------------------------------------------------*/
-interface CardHeaderProps extends ComponentPropsWithRef<"div"> {}
+interface CardHeaderProps extends ComponentPropsWithRef<typeof ChakraCard.Header> {}
 
-const CardHeader = ({className, ...props}: CardHeaderProps) => {
-  const {slots} = useContext(CardContext);
-
+const CardHeader = ({...props}: CardHeaderProps) => {
   return (
-    <div
-      className={composeSlotClassName(slots?.header, className)}
+    <ChakraCard.Header
       data-slot="card-header"
       {...props}
     />
@@ -71,49 +57,45 @@ const CardHeader = ({className, ...props}: CardHeaderProps) => {
 /* -------------------------------------------------------------------------------------------------
  * Card Title
  * -----------------------------------------------------------------------------------------------*/
-interface CardTitleProps extends ComponentPropsWithRef<"h3"> {}
+interface CardTitleProps extends ComponentPropsWithRef<typeof ChakraCard.Title> {}
 
-const CardTitle = ({children, className, ...props}: CardTitleProps) => {
-  const {slots} = useContext(CardContext);
-
+const CardTitle = ({children, ...props}: CardTitleProps) => {
   return (
-    <h3 className={composeSlotClassName(slots?.title, className)} data-slot="card-title" {...props}>
+    <ChakraCard.Title
+      data-slot="card-title"
+      {...props}
+    >
       {children}
-    </h3>
+    </ChakraCard.Title>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Card Description
  * -----------------------------------------------------------------------------------------------*/
-interface CardDescriptionProps extends ComponentPropsWithRef<"p"> {}
+interface CardDescriptionProps extends ComponentPropsWithRef<typeof ChakraCard.Description> {}
 
-const CardDescription = ({children, className, ...props}: CardDescriptionProps) => {
-  const {slots} = useContext(CardContext);
-
+const CardDescription = ({children, ...props}: CardDescriptionProps) => {
   return (
-    <p
-      className={composeSlotClassName(slots?.description, className)}
+    <ChakraCard.Description
       data-slot="card-description"
       {...props}
     >
       {children}
-    </p>
+    </ChakraCard.Description>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Card Content
  * -----------------------------------------------------------------------------------------------*/
-interface CardContentProps extends ComponentPropsWithRef<"div"> {}
+interface CardContentProps extends ComponentPropsWithRef<typeof ChakraCard.Body> {}
 
-const CardContent = ({className, ...props}: CardContentProps) => {
-  const {slots} = useContext(CardContext);
-
+const CardContent = ({...props}: CardContentProps) => {
   return (
-    <div
-      className={composeSlotClassName(slots?.content, className)}
+    <ChakraCard.Body
       data-slot="card-content"
+      gap="1"
       {...props}
     />
   );
@@ -122,14 +104,11 @@ const CardContent = ({className, ...props}: CardContentProps) => {
 /* -------------------------------------------------------------------------------------------------
  * Card Footer
  * -----------------------------------------------------------------------------------------------*/
-interface CardFooterProps extends ComponentPropsWithRef<"div"> {}
+interface CardFooterProps extends ComponentPropsWithRef<typeof ChakraCard.Footer> {}
 
-const CardFooter = ({className, ...props}: CardFooterProps) => {
-  const {slots} = useContext(CardContext);
-
+const CardFooter = ({...props}: CardFooterProps) => {
   return (
-    <div
-      className={composeSlotClassName(slots?.footer, className)}
+    <ChakraCard.Footer
       data-slot="card-footer"
       {...props}
     />
@@ -148,4 +127,5 @@ export type {
   CardDescriptionProps,
   CardContentProps,
   CardFooterProps,
+  CardVariant,
 };

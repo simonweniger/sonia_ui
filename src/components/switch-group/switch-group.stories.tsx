@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from "@storybook/react";
 
+import {Box} from "@chakra-ui/react";
 import React from "react";
 
 import {Button} from "../button";
@@ -26,19 +27,19 @@ export const Default: Story = {
         <Switch.Control>
           <Switch.Thumb />
         </Switch.Control>
-        <Label className="text-sm">Allow Notifications</Label>
+        <Label fontSize="sm">Allow Notifications</Label>
       </Switch>
       <Switch name="marketing">
         <Switch.Control>
           <Switch.Thumb />
         </Switch.Control>
-        <Label className="text-sm">Marketing emails</Label>
+        <Label fontSize="sm">Marketing emails</Label>
       </Switch>
       <Switch name="social">
         <Switch.Control>
           <Switch.Thumb />
         </Switch.Control>
-        <Label className="text-sm">Social media updates</Label>
+        <Label fontSize="sm">Social media updates</Label>
       </Switch>
     </SwitchGroup>
   ),
@@ -46,26 +47,28 @@ export const Default: Story = {
 
 export const Horizontal: Story = {
   render: () => (
-    <SwitchGroup className="overflow-x-auto" orientation="horizontal">
+    <Box overflow="auto">
+    <SwitchGroup orientation="horizontal">
       <Switch name="notifications">
         <Switch.Control>
           <Switch.Thumb />
         </Switch.Control>
-        <Label className="text-sm">Notifications</Label>
+        <Label fontSize="sm">Notifications</Label>
       </Switch>
       <Switch name="marketing">
         <Switch.Control>
           <Switch.Thumb />
         </Switch.Control>
-        <Label className="text-sm">Marketing</Label>
+        <Label fontSize="sm">Marketing</Label>
       </Switch>
       <Switch name="social">
         <Switch.Control>
           <Switch.Thumb />
         </Switch.Control>
-        <Label className="text-sm">Social</Label>
+        <Label fontSize="sm">Social</Label>
       </Switch>
     </SwitchGroup>
+    </Box>
   ),
 };
 
@@ -83,31 +86,31 @@ export const Form: Story = {
     };
 
     return (
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      <Box as="form" display="flex" flexDirection="column" gap="4" onSubmit={handleSubmit}>
         <SwitchGroup>
           <Switch name="notifications" value="on">
             <Switch.Control>
               <Switch.Thumb />
             </Switch.Control>
-            <Label className="text-sm">Enable notifications</Label>
+            <Label fontSize="sm">Enable notifications</Label>
           </Switch>
-          <Switch defaultSelected name="newsletter" value="on">
+          <Switch defaultChecked name="newsletter" value="on">
             <Switch.Control>
               <Switch.Thumb />
             </Switch.Control>
-            <Label className="text-sm">Subscribe to newsletter</Label>
+            <Label fontSize="sm">Subscribe to newsletter</Label>
           </Switch>
           <Switch name="marketing" value="on">
             <Switch.Control>
               <Switch.Thumb />
             </Switch.Control>
-            <Label className="text-sm">Receive marketing updates</Label>
+            <Label fontSize="sm">Receive marketing updates</Label>
           </Switch>
         </SwitchGroup>
-        <Button className="mt-4" size="sm" type="submit" variant="primary">
+        <Button mt="4" size="sm" type="submit" variant="solid">
           Submit
         </Button>
-      </form>
+      </Box>
     );
   },
 };

@@ -1,8 +1,9 @@
-import type {Selection} from "@react-types/shared";
 import type {Meta, StoryObj} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
 import * as React from "react";
+
+import {Box, Flex, Text} from "@chakra-ui/react";
 
 import {Avatar} from "../avatar";
 import {Button} from "../button";
@@ -10,8 +11,6 @@ import {Description} from "../description";
 import {Header} from "../header";
 import {Kbd} from "../kbd";
 import {Label} from "../label";
-import {Separator} from "../separator";
-
 import {Dropdown} from "./index";
 
 const meta: Meta<typeof Dropdown> = {
@@ -28,75 +27,75 @@ type Story = StoryObj<typeof Dropdown>;
 
 export const Default: Story = {
   render: () => (
-    <Dropdown>
-      <Button aria-label="Menu" variant="secondary">
-        Actions
-      </Button>
-      <Dropdown.Popover>
-        <Dropdown.Menu onAction={(key) => alert(`Selected: ${key}`)}>
-          <Dropdown.Section>
-            <Dropdown.Item id="new-file" textValue="New file">
-              <Label>New file</Label>
-            </Dropdown.Item>
-            <Dropdown.Item id="copy-link" textValue="Copy link">
-              <Label>Copy link</Label>
-            </Dropdown.Item>
-            <Dropdown.Item id="edit-file" textValue="Edit file">
-              <Label>Edit file</Label>
-            </Dropdown.Item>
-          </Dropdown.Section>
-          <Separator />
-          <Dropdown.Section>
-            <Dropdown.Item id="delete-file" textValue="Delete file" variant="danger">
-              <Label>Delete file</Label>
-            </Dropdown.Item>
-          </Dropdown.Section>
-        </Dropdown.Menu>
-      </Dropdown.Popover>
+    <Dropdown onSelect={(details) => alert(`Selected: ${details.value}`)}>
+      <Dropdown.Trigger>
+        <Button aria-label="Menu" variant="secondary">
+          Actions
+        </Button>
+      </Dropdown.Trigger>
+      <Dropdown.Content>
+        <Dropdown.Section>
+          <Dropdown.Item value="new-file">
+            <Label>New file</Label>
+          </Dropdown.Item>
+          <Dropdown.Item value="copy-link">
+            <Label>Copy link</Label>
+          </Dropdown.Item>
+          <Dropdown.Item value="edit-file">
+            <Label>Edit file</Label>
+          </Dropdown.Item>
+        </Dropdown.Section>
+        <Dropdown.Separator />
+        <Dropdown.Section>
+          <Dropdown.Item value="delete-file">
+            <Label color="fg.error">Delete file</Label>
+          </Dropdown.Item>
+        </Dropdown.Section>
+      </Dropdown.Content>
     </Dropdown>
   ),
 };
 
 export const WithSingleSelection: Story = {
   render: () => {
-    const [selected, setSelected] = React.useState<Selection>(new Set(["apple"]));
+    const [value, setValue] = React.useState("apple");
 
     return (
       <Dropdown>
-        <Button aria-label="Menu" variant="secondary">
-          Fruit
-        </Button>
-        <Dropdown.Popover className="min-w-[256px]">
-          <Dropdown.Menu
-            selectedKeys={selected}
-            selectionMode="single"
-            onSelectionChange={setSelected}
-          >
-            <Dropdown.Section>
-              <Header>Select a fruit</Header>
-              <Dropdown.Item id="apple" textValue="Apple">
+        <Dropdown.Trigger>
+          <Button aria-label="Menu" variant="secondary">
+            Fruit
+          </Button>
+        </Dropdown.Trigger>
+        <Dropdown.Content minW="256px">
+          <Dropdown.Section>
+            <Header>Select a fruit</Header>
+            <Dropdown.RadioItemGroup value={value} onValueChange={(details) => setValue(details.value)}>
+              <Dropdown.RadioItem value="apple">
                 <Dropdown.ItemIndicator />
                 <Label>Apple</Label>
-              </Dropdown.Item>
-              <Dropdown.Item id="banana" textValue="Banana">
+              </Dropdown.RadioItem>
+              <Dropdown.RadioItem value="banana">
                 <Dropdown.ItemIndicator />
                 <Label>Banana</Label>
-              </Dropdown.Item>
-              <Dropdown.Item id="cherry" textValue="Cherry">
+              </Dropdown.RadioItem>
+              <Dropdown.RadioItem value="cherry">
                 <Dropdown.ItemIndicator />
                 <Label>Cherry</Label>
-              </Dropdown.Item>
-            </Dropdown.Section>
-            <Dropdown.Item id="orange" textValue="Orange">
+              </Dropdown.RadioItem>
+            </Dropdown.RadioItemGroup>
+          </Dropdown.Section>
+          <Dropdown.RadioItemGroup value={value} onValueChange={(details) => setValue(details.value)}>
+            <Dropdown.RadioItem value="orange">
               <Dropdown.ItemIndicator />
               <Label>Orange</Label>
-            </Dropdown.Item>
-            <Dropdown.Item id="pear" textValue="Pear">
+            </Dropdown.RadioItem>
+            <Dropdown.RadioItem value="pear">
               <Dropdown.ItemIndicator />
               <Label>Pear</Label>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown.Popover>
+            </Dropdown.RadioItem>
+          </Dropdown.RadioItemGroup>
+        </Dropdown.Content>
       </Dropdown>
     );
   },
@@ -104,15 +103,14 @@ export const WithSingleSelection: Story = {
 
 export const SingleWithCustomIndicator: Story = {
   render: () => {
-    const [selected, setSelected] = React.useState<Selection>(new Set(["apple"]));
+    const [value, setValue] = React.useState("apple");
 
     const CustomCheckmarkIcon = (
       <svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
         <path
-          className="text-accent"
           clipRule="evenodd"
           d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14m3.1-8.55a.75.75 0 1 0-1.2-.9L7.419 8.858L6.03 7.47a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.13-.08z"
-          fill="currentColor"
+          fill="var(--chakra-colors-accent)"
           fillRule="evenodd"
         />
       </svg>
@@ -120,50 +118,40 @@ export const SingleWithCustomIndicator: Story = {
 
     return (
       <Dropdown>
-        <Button aria-label="Menu" variant="secondary">
-          Fruits
-        </Button>
-        <Dropdown.Popover className="min-w-[256px]">
-          <Dropdown.Menu
-            selectedKeys={selected}
-            selectionMode="single"
-            onSelectionChange={setSelected}
-          >
-            <Dropdown.Section>
-              <Header>Select a fruit</Header>
-              <Dropdown.Item id="apple" textValue="Apple">
-                <Dropdown.ItemIndicator>
-                  {({isSelected}) => (isSelected ? CustomCheckmarkIcon : null)}
-                </Dropdown.ItemIndicator>
+        <Dropdown.Trigger>
+          <Button aria-label="Menu" variant="secondary">
+            Fruits
+          </Button>
+        </Dropdown.Trigger>
+        <Dropdown.Content minW="256px">
+          <Dropdown.Section>
+            <Header>Select a fruit</Header>
+            <Dropdown.RadioItemGroup value={value} onValueChange={(details) => setValue(details.value)}>
+              <Dropdown.RadioItem value="apple">
+                <Dropdown.ItemIndicator>{CustomCheckmarkIcon}</Dropdown.ItemIndicator>
                 <Label>Apple</Label>
-              </Dropdown.Item>
-              <Dropdown.Item id="banana" textValue="Banana">
-                <Dropdown.ItemIndicator>
-                  {({isSelected}) => (isSelected ? CustomCheckmarkIcon : null)}
-                </Dropdown.ItemIndicator>
+              </Dropdown.RadioItem>
+              <Dropdown.RadioItem value="banana">
+                <Dropdown.ItemIndicator>{CustomCheckmarkIcon}</Dropdown.ItemIndicator>
                 <Label>Banana</Label>
-              </Dropdown.Item>
-              <Dropdown.Item id="cherry" textValue="Cherry">
-                <Dropdown.ItemIndicator>
-                  {({isSelected}) => (isSelected ? CustomCheckmarkIcon : null)}
-                </Dropdown.ItemIndicator>
+              </Dropdown.RadioItem>
+              <Dropdown.RadioItem value="cherry">
+                <Dropdown.ItemIndicator>{CustomCheckmarkIcon}</Dropdown.ItemIndicator>
                 <Label>Cherry</Label>
-              </Dropdown.Item>
-            </Dropdown.Section>
-            <Dropdown.Item id="orange" textValue="Orange">
-              <Dropdown.ItemIndicator>
-                {({isSelected}) => (isSelected ? CustomCheckmarkIcon : null)}
-              </Dropdown.ItemIndicator>
+              </Dropdown.RadioItem>
+            </Dropdown.RadioItemGroup>
+          </Dropdown.Section>
+          <Dropdown.RadioItemGroup value={value} onValueChange={(details) => setValue(details.value)}>
+            <Dropdown.RadioItem value="orange">
+              <Dropdown.ItemIndicator>{CustomCheckmarkIcon}</Dropdown.ItemIndicator>
               <Label>Orange</Label>
-            </Dropdown.Item>
-            <Dropdown.Item id="pear" textValue="Pear">
-              <Dropdown.ItemIndicator>
-                {({isSelected}) => (isSelected ? CustomCheckmarkIcon : null)}
-              </Dropdown.ItemIndicator>
+            </Dropdown.RadioItem>
+            <Dropdown.RadioItem value="pear">
+              <Dropdown.ItemIndicator>{CustomCheckmarkIcon}</Dropdown.ItemIndicator>
               <Label>Pear</Label>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown.Popover>
+            </Dropdown.RadioItem>
+          </Dropdown.RadioItemGroup>
+        </Dropdown.Content>
       </Dropdown>
     );
   },
@@ -171,44 +159,60 @@ export const SingleWithCustomIndicator: Story = {
 
 export const WithMultipleSelection: Story = {
   render: () => {
-    const [selected, setSelected] = React.useState<Selection>(new Set(["apple"]));
+    const [checked, setChecked] = React.useState({apple: true, banana: false, cherry: false, orange: false, pear: false});
 
     return (
-      <Dropdown>
-        <Button aria-label="Menu" variant="secondary">
-          Preferred Fruits
-        </Button>
-        <Dropdown.Popover className="min-w-[256px]">
-          <Dropdown.Menu
-            selectedKeys={selected}
-            selectionMode="multiple"
-            onSelectionChange={setSelected}
+      <Dropdown closeOnSelect={false}>
+        <Dropdown.Trigger>
+          <Button aria-label="Menu" variant="secondary">
+            Preferred Fruits
+          </Button>
+        </Dropdown.Trigger>
+        <Dropdown.Content minW="256px">
+          <Dropdown.Section>
+            <Header>Select a fruit</Header>
+            <Dropdown.CheckboxItem
+              value="apple"
+              checked={checked.apple}
+              onCheckedChange={(v) => setChecked((p) => ({...p, apple: Boolean(v)}))}
+            >
+              <Dropdown.ItemIndicator />
+              <Label>Apple</Label>
+            </Dropdown.CheckboxItem>
+            <Dropdown.CheckboxItem
+              value="banana"
+              checked={checked.banana}
+              onCheckedChange={(v) => setChecked((p) => ({...p, banana: Boolean(v)}))}
+            >
+              <Dropdown.ItemIndicator />
+              <Label>Banana</Label>
+            </Dropdown.CheckboxItem>
+            <Dropdown.CheckboxItem
+              value="cherry"
+              checked={checked.cherry}
+              onCheckedChange={(v) => setChecked((p) => ({...p, cherry: Boolean(v)}))}
+            >
+              <Dropdown.ItemIndicator />
+              <Label>Cherry</Label>
+            </Dropdown.CheckboxItem>
+          </Dropdown.Section>
+          <Dropdown.CheckboxItem
+            value="orange"
+            checked={checked.orange}
+            onCheckedChange={(v) => setChecked((p) => ({...p, orange: Boolean(v)}))}
           >
-            <Dropdown.Section>
-              <Header>Select a fruit</Header>
-              <Dropdown.Item id="apple" textValue="Apple">
-                <Dropdown.ItemIndicator />
-                <Label>Apple</Label>
-              </Dropdown.Item>
-              <Dropdown.Item id="banana" textValue="Banana">
-                <Dropdown.ItemIndicator />
-                <Label>Banana</Label>
-              </Dropdown.Item>
-              <Dropdown.Item id="cherry" textValue="Cherry">
-                <Dropdown.ItemIndicator />
-                <Label>Cherry</Label>
-              </Dropdown.Item>
-            </Dropdown.Section>
-            <Dropdown.Item id="orange" textValue="Orange">
-              <Dropdown.ItemIndicator />
-              <Label>Orange</Label>
-            </Dropdown.Item>
-            <Dropdown.Item id="pear" textValue="Pear">
-              <Dropdown.ItemIndicator />
-              <Label>Pear</Label>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown.Popover>
+            <Dropdown.ItemIndicator />
+            <Label>Orange</Label>
+          </Dropdown.CheckboxItem>
+          <Dropdown.CheckboxItem
+            value="pear"
+            checked={checked.pear}
+            onCheckedChange={(v) => setChecked((p) => ({...p, pear: Boolean(v)}))}
+          >
+            <Dropdown.ItemIndicator />
+            <Label>Pear</Label>
+          </Dropdown.CheckboxItem>
+        </Dropdown.Content>
       </Dropdown>
     );
   },
@@ -216,106 +220,112 @@ export const WithMultipleSelection: Story = {
 
 export const WithSectionLevelSelection: Story = {
   render: () => {
-    const [textStyles, setTextStyles] = React.useState<Selection>(new Set(["bold", "italic"]));
-    const [textAlignment, setTextAlignment] = React.useState<Selection>(new Set(["left"]));
+    const [textStyles, setTextStyles] = React.useState({bold: true, italic: true, underline: false});
+    const [textAlignment, setTextAlignment] = React.useState("left");
 
     return (
-      <Dropdown>
-        <Button aria-label="Menu" variant="secondary">
-          Styles
-        </Button>
-        <Dropdown.Popover className="min-w-[256px]">
-          <Dropdown.Menu>
-            <Dropdown.Section>
-              <Header>Actions</Header>
-              <Dropdown.Item id="cut" textValue="Cut">
-                <Label>Cut</Label>
-                <Kbd className="ms-auto" slot="keyboard" variant="light">
-                  <Kbd.Abbr keyValue="command" />
-                  <Kbd.Content>X</Kbd.Content>
-                </Kbd>
-              </Dropdown.Item>
-              <Dropdown.Item id="copy" textValue="Copy">
-                <Label>Copy</Label>
-                <Kbd className="ms-auto" slot="keyboard" variant="light">
-                  <Kbd.Abbr keyValue="command" />
-                  <Kbd.Content>C</Kbd.Content>
-                </Kbd>
-              </Dropdown.Item>
-              <Dropdown.Item id="paste" textValue="Paste">
-                <Label>Paste</Label>
-                <Kbd className="ms-auto" slot="keyboard" variant="light">
-                  <Kbd.Abbr keyValue="command" />
-                  <Kbd.Content>U</Kbd.Content>
-                </Kbd>
-              </Dropdown.Item>
-            </Dropdown.Section>
-            <Separator />
-            <Dropdown.Section
-              selectedKeys={textStyles}
-              selectionMode="multiple"
-              onSelectionChange={setTextStyles}
+      <Dropdown closeOnSelect={false}>
+        <Dropdown.Trigger>
+          <Button aria-label="Menu" variant="secondary">
+            Styles
+          </Button>
+        </Dropdown.Trigger>
+        <Dropdown.Content minW="256px">
+          <Dropdown.Section>
+            <Header>Actions</Header>
+            <Dropdown.Item value="cut">
+              <Label>Cut</Label>
+              <Kbd ms="auto" slot="keyboard" variant="plain">
+                <Kbd.Abbr keyValue="command" />
+                <Kbd.Content>X</Kbd.Content>
+              </Kbd>
+            </Dropdown.Item>
+            <Dropdown.Item value="copy">
+              <Label>Copy</Label>
+              <Kbd ms="auto" slot="keyboard" variant="plain">
+                <Kbd.Abbr keyValue="command" />
+                <Kbd.Content>C</Kbd.Content>
+              </Kbd>
+            </Dropdown.Item>
+            <Dropdown.Item value="paste">
+              <Label>Paste</Label>
+              <Kbd ms="auto" slot="keyboard" variant="plain">
+                <Kbd.Abbr keyValue="command" />
+                <Kbd.Content>U</Kbd.Content>
+              </Kbd>
+            </Dropdown.Item>
+          </Dropdown.Section>
+          <Dropdown.Separator />
+          <Dropdown.Section>
+            <Header>Text Style</Header>
+            <Dropdown.CheckboxItem
+              value="bold"
+              checked={textStyles.bold}
+              onCheckedChange={(v) => setTextStyles((p) => ({...p, bold: Boolean(v)}))}
             >
-              <Header>Text Style</Header>
-              <Dropdown.Item id="bold" textValue="Bold">
-                <Dropdown.ItemIndicator />
-                <Label>Bold</Label>
-                <Kbd className="ms-auto" slot="keyboard" variant="light">
-                  <Kbd.Abbr keyValue="command" />
-                  <Kbd.Content>B</Kbd.Content>
-                </Kbd>
-              </Dropdown.Item>
-              <Dropdown.Item id="italic" textValue="Italic">
-                <Dropdown.ItemIndicator />
-                <Label>Italic</Label>
-                <Kbd className="ms-auto" slot="keyboard" variant="light">
-                  <Kbd.Abbr keyValue="command" />
-                  <Kbd.Content>I</Kbd.Content>
-                </Kbd>
-              </Dropdown.Item>
-              <Dropdown.Item id="underline" textValue="Underline">
-                <Dropdown.ItemIndicator />
-                <Label>Underline</Label>
-                <Kbd className="ms-auto" slot="keyboard" variant="light">
-                  <Kbd.Abbr keyValue="command" />
-                  <Kbd.Content>U</Kbd.Content>
-                </Kbd>
-              </Dropdown.Item>
-            </Dropdown.Section>
-            <Separator />
-            <Dropdown.Section
-              selectedKeys={textAlignment}
-              selectionMode="single"
-              onSelectionChange={setTextAlignment}
+              <Dropdown.ItemIndicator />
+              <Label>Bold</Label>
+              <Kbd ms="auto" slot="keyboard" variant="plain">
+                <Kbd.Abbr keyValue="command" />
+                <Kbd.Content>B</Kbd.Content>
+              </Kbd>
+            </Dropdown.CheckboxItem>
+            <Dropdown.CheckboxItem
+              value="italic"
+              checked={textStyles.italic}
+              onCheckedChange={(v) => setTextStyles((p) => ({...p, italic: Boolean(v)}))}
             >
-              <Header>Text Alignment</Header>
-              <Dropdown.Item id="left" textValue="Left">
-                <Dropdown.ItemIndicator type="dot" />
+              <Dropdown.ItemIndicator />
+              <Label>Italic</Label>
+              <Kbd ms="auto" slot="keyboard" variant="plain">
+                <Kbd.Abbr keyValue="command" />
+                <Kbd.Content>I</Kbd.Content>
+              </Kbd>
+            </Dropdown.CheckboxItem>
+            <Dropdown.CheckboxItem
+              value="underline"
+              checked={textStyles.underline}
+              onCheckedChange={(v) => setTextStyles((p) => ({...p, underline: Boolean(v)}))}
+            >
+              <Dropdown.ItemIndicator />
+              <Label>Underline</Label>
+              <Kbd ms="auto" slot="keyboard" variant="plain">
+                <Kbd.Abbr keyValue="command" />
+                <Kbd.Content>U</Kbd.Content>
+              </Kbd>
+            </Dropdown.CheckboxItem>
+          </Dropdown.Section>
+          <Dropdown.Separator />
+          <Dropdown.Section>
+            <Header>Text Alignment</Header>
+            <Dropdown.RadioItemGroup value={textAlignment} onValueChange={(details) => setTextAlignment(details.value)}>
+              <Dropdown.RadioItem value="left">
+                <Dropdown.ItemIndicator />
                 <Label>Left</Label>
-                <Kbd className="ms-auto" slot="keyboard" variant="light">
+                <Kbd ms="auto" slot="keyboard" variant="plain">
                   <Kbd.Abbr keyValue="alt" />
                   <Kbd.Content>A</Kbd.Content>
                 </Kbd>
-              </Dropdown.Item>
-              <Dropdown.Item id="center" textValue="Center">
-                <Dropdown.ItemIndicator type="dot" />
+              </Dropdown.RadioItem>
+              <Dropdown.RadioItem value="center">
+                <Dropdown.ItemIndicator />
                 <Label>Center</Label>
-                <Kbd className="ms-auto" slot="keyboard" variant="light">
+                <Kbd ms="auto" slot="keyboard" variant="plain">
                   <Kbd.Abbr keyValue="alt" />
                   <Kbd.Content>H</Kbd.Content>
                 </Kbd>
-              </Dropdown.Item>
-              <Dropdown.Item id="right" textValue="Right">
-                <Dropdown.ItemIndicator type="dot" />
+              </Dropdown.RadioItem>
+              <Dropdown.RadioItem value="right">
+                <Dropdown.ItemIndicator />
                 <Label>Right</Label>
-                <Kbd className="ms-auto" slot="keyboard" variant="light">
+                <Kbd ms="auto" slot="keyboard" variant="plain">
                   <Kbd.Abbr keyValue="alt" />
                   <Kbd.Content>D</Kbd.Content>
                 </Kbd>
-              </Dropdown.Item>
-            </Dropdown.Section>
-          </Dropdown.Menu>
-        </Dropdown.Popover>
+              </Dropdown.RadioItem>
+            </Dropdown.RadioItemGroup>
+          </Dropdown.Section>
+        </Dropdown.Content>
       </Dropdown>
     );
   },
@@ -323,489 +333,456 @@ export const WithSectionLevelSelection: Story = {
 
 export const WithKeyboardShortcuts: Story = {
   render: () => (
-    <Dropdown>
-      <Button aria-label="Menu" variant="secondary">
-        Actions
-      </Button>
-      <Dropdown.Popover>
-        <Dropdown.Menu onAction={(key) => alert(`Selected: ${key}`)}>
-          <Dropdown.Item id="new" textValue="New">
-            <Label>New</Label>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>N</Kbd.Content>
-            </Kbd>
-          </Dropdown.Item>
-          <Dropdown.Item id="open" textValue="Open">
-            <Label>Open</Label>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>O</Kbd.Content>
-            </Kbd>
-          </Dropdown.Item>
-          <Dropdown.Item id="save" textValue="Save">
-            <Label>Save</Label>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>S</Kbd.Content>
-            </Kbd>
-          </Dropdown.Item>
-          <Dropdown.Item id="delete" textValue="Delete" variant="danger">
-            <Label>Delete</Label>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Abbr keyValue="shift" />
-              <Kbd.Content>D</Kbd.Content>
-            </Kbd>
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown.Popover>
+    <Dropdown onSelect={(details) => alert(`Selected: ${details.value}`)}>
+      <Dropdown.Trigger>
+        <Button aria-label="Menu" variant="secondary">
+          Actions
+        </Button>
+      </Dropdown.Trigger>
+      <Dropdown.Content>
+        <Dropdown.Item value="new">
+          <Label>New</Label>
+          <Kbd ms="auto" slot="keyboard" variant="plain">
+            <Kbd.Abbr keyValue="command" />
+            <Kbd.Content>N</Kbd.Content>
+          </Kbd>
+        </Dropdown.Item>
+        <Dropdown.Item value="open">
+          <Label>Open</Label>
+          <Kbd ms="auto" slot="keyboard" variant="plain">
+            <Kbd.Abbr keyValue="command" />
+            <Kbd.Content>O</Kbd.Content>
+          </Kbd>
+        </Dropdown.Item>
+        <Dropdown.Item value="save">
+          <Label>Save</Label>
+          <Kbd ms="auto" slot="keyboard" variant="plain">
+            <Kbd.Abbr keyValue="command" />
+            <Kbd.Content>S</Kbd.Content>
+          </Kbd>
+        </Dropdown.Item>
+        <Dropdown.Item value="delete">
+          <Label color="fg.error">Delete</Label>
+          <Kbd ms="auto" slot="keyboard" variant="plain">
+            <Kbd.Abbr keyValue="command" />
+            <Kbd.Abbr keyValue="shift" />
+            <Kbd.Content>D</Kbd.Content>
+          </Kbd>
+        </Dropdown.Item>
+      </Dropdown.Content>
     </Dropdown>
   ),
 };
 
 export const WithIcons: Story = {
   render: () => (
-    <Dropdown>
-      <Button aria-label="Menu" variant="secondary">
-        Actions
-      </Button>
-      <Dropdown.Popover>
-        <Dropdown.Menu onAction={(key) => alert(`Selected: ${key}`)}>
-          <Dropdown.Item id="new-file" textValue="New file">
-            <Icon className="size-4 shrink-0 text-muted" icon="gravity-ui:square-plus" />
-            <Label>New file</Label>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>N</Kbd.Content>
-            </Kbd>
-          </Dropdown.Item>
-          <Dropdown.Item id="open-file" textValue="Open file">
-            <Icon className="size-4 shrink-0 text-muted" icon="gravity-ui:folder-open" />
-            <Label>Open file</Label>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>O</Kbd.Content>
-            </Kbd>
-          </Dropdown.Item>
-          <Dropdown.Item id="save-file" textValue="Save file">
-            <Icon className="size-4 shrink-0 text-muted" icon="gravity-ui:floppy-disk" />
-            <Label>Save file</Label>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>S</Kbd.Content>
-            </Kbd>
-          </Dropdown.Item>
-          <Dropdown.Item id="delete-file" textValue="Delete file" variant="danger">
-            <Icon className="size-4 shrink-0 text-danger" icon="gravity-ui:trash-bin" />
-            <Label>Delete file</Label>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Abbr keyValue="shift" />
-              <Kbd.Content>D</Kbd.Content>
-            </Kbd>
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown.Popover>
-    </Dropdown>
-  ),
-};
-
-export const LongPressTrigger: Story = {
-  render: () => (
-    <Dropdown trigger="longPress">
-      <Button aria-label="Menu" variant="secondary">
-        Long Press
-      </Button>
-      <Dropdown.Popover>
-        <Dropdown.Menu>
-          <Dropdown.Item id="new-file" textValue="New file">
-            <Label>New file</Label>
-          </Dropdown.Item>
-          <Dropdown.Item id="open-file" textValue="Open file">
-            <Label>Open file</Label>
-          </Dropdown.Item>
-          <Dropdown.Item id="save-file" textValue="Save file">
-            <Label>Save file</Label>
-          </Dropdown.Item>
-          <Dropdown.Item id="delete-file" textValue="Delete file" variant="danger">
-            <Label>Delete file</Label>
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown.Popover>
+    <Dropdown onSelect={(details) => alert(`Selected: ${details.value}`)}>
+      <Dropdown.Trigger>
+        <Button aria-label="Menu" variant="secondary">
+          Actions
+        </Button>
+      </Dropdown.Trigger>
+      <Dropdown.Content>
+        <Dropdown.Item value="new-file">
+          <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:square-plus" />
+          <Label>New file</Label>
+          <Kbd ms="auto" slot="keyboard" variant="plain">
+            <Kbd.Abbr keyValue="command" />
+            <Kbd.Content>N</Kbd.Content>
+          </Kbd>
+        </Dropdown.Item>
+        <Dropdown.Item value="open-file">
+          <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:folder-open" />
+          <Label>Open file</Label>
+          <Kbd ms="auto" slot="keyboard" variant="plain">
+            <Kbd.Abbr keyValue="command" />
+            <Kbd.Content>O</Kbd.Content>
+          </Kbd>
+        </Dropdown.Item>
+        <Dropdown.Item value="save-file">
+          <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:floppy-disk" />
+          <Label>Save file</Label>
+          <Kbd ms="auto" slot="keyboard" variant="plain">
+            <Kbd.Abbr keyValue="command" />
+            <Kbd.Content>S</Kbd.Content>
+          </Kbd>
+        </Dropdown.Item>
+        <Dropdown.Item value="delete-file">
+          <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-error)"}} icon="gravity-ui:trash-bin" />
+          <Label color="fg.error">Delete file</Label>
+          <Kbd ms="auto" slot="keyboard" variant="plain">
+            <Kbd.Abbr keyValue="command" />
+            <Kbd.Abbr keyValue="shift" />
+            <Kbd.Content>D</Kbd.Content>
+          </Kbd>
+        </Dropdown.Item>
+      </Dropdown.Content>
     </Dropdown>
   ),
 };
 
 export const WithDescriptions: Story = {
   render: () => (
-    <Dropdown>
-      <Button aria-label="Menu" variant="secondary">
-        Actions
-      </Button>
-      <Dropdown.Popover>
-        <Dropdown.Menu onAction={(key) => alert(`Selected: ${key}`)}>
-          <Dropdown.Item id="new-file" textValue="New file">
-            <div className="flex h-8 items-start justify-center pt-px">
-              <Icon className="size-4 shrink-0 text-muted" icon="gravity-ui:square-plus" />
-            </div>
-            <div className="flex flex-col">
-              <Label>New file</Label>
-              <Description>Create a new file</Description>
-            </div>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>N</Kbd.Content>
-            </Kbd>
-          </Dropdown.Item>
-          <Dropdown.Item id="open-file" textValue="Open file">
-            <div className="flex h-8 items-start justify-center pt-px">
-              <Icon className="size-4 shrink-0 text-muted" icon="gravity-ui:folder-open" />
-            </div>
-            <div className="flex flex-col">
-              <Label>Open file</Label>
-              <Description>Open an existing file</Description>
-            </div>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>O</Kbd.Content>
-            </Kbd>
-          </Dropdown.Item>
-          <Dropdown.Item id="save-file" textValue="Save file">
-            <div className="flex h-8 items-start justify-center pt-px">
-              <Icon className="size-4 shrink-0 text-muted" icon="gravity-ui:floppy-disk" />
-            </div>
-            <div className="flex flex-col">
-              <Label>Save file</Label>
-              <Description>Save the current file</Description>
-            </div>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>S</Kbd.Content>
-            </Kbd>
-          </Dropdown.Item>
-          <Dropdown.Item id="delete-file" textValue="Delete file" variant="danger">
-            <div className="flex h-8 items-start justify-center pt-px">
-              <Icon className="size-4 shrink-0 text-danger" icon="gravity-ui:trash-bin" />
-            </div>
-            <div className="flex flex-col">
-              <Label>Delete file</Label>
-              <Description>Move to trash</Description>
-            </div>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Abbr keyValue="shift" />
-              <Kbd.Content>D</Kbd.Content>
-            </Kbd>
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown.Popover>
+    <Dropdown onSelect={(details) => alert(`Selected: ${details.value}`)}>
+      <Dropdown.Trigger>
+        <Button aria-label="Menu" variant="secondary">
+          Actions
+        </Button>
+      </Dropdown.Trigger>
+      <Dropdown.Content>
+        <Dropdown.Item value="new-file">
+          <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
+            <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:square-plus" />
+          </Flex>
+          <Flex direction="column">
+            <Label>New file</Label>
+            <Description>Create a new file</Description>
+          </Flex>
+          <Kbd ms="auto" slot="keyboard" variant="plain">
+            <Kbd.Abbr keyValue="command" />
+            <Kbd.Content>N</Kbd.Content>
+          </Kbd>
+        </Dropdown.Item>
+        <Dropdown.Item value="open-file">
+          <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
+            <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:folder-open" />
+          </Flex>
+          <Flex direction="column">
+            <Label>Open file</Label>
+            <Description>Open an existing file</Description>
+          </Flex>
+          <Kbd ms="auto" slot="keyboard" variant="plain">
+            <Kbd.Abbr keyValue="command" />
+            <Kbd.Content>O</Kbd.Content>
+          </Kbd>
+        </Dropdown.Item>
+        <Dropdown.Item value="save-file">
+          <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
+            <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:floppy-disk" />
+          </Flex>
+          <Flex direction="column">
+            <Label>Save file</Label>
+            <Description>Save the current file</Description>
+          </Flex>
+          <Kbd ms="auto" slot="keyboard" variant="plain">
+            <Kbd.Abbr keyValue="command" />
+            <Kbd.Content>S</Kbd.Content>
+          </Kbd>
+        </Dropdown.Item>
+        <Dropdown.Item value="delete-file">
+          <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
+            <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-error)"}} icon="gravity-ui:trash-bin" />
+          </Flex>
+          <Flex direction="column">
+            <Label color="fg.error">Delete file</Label>
+            <Description>Move to trash</Description>
+          </Flex>
+          <Kbd ms="auto" slot="keyboard" variant="plain">
+            <Kbd.Abbr keyValue="command" />
+            <Kbd.Abbr keyValue="shift" />
+            <Kbd.Content>D</Kbd.Content>
+          </Kbd>
+        </Dropdown.Item>
+      </Dropdown.Content>
     </Dropdown>
   ),
 };
 
 export const WithSections: Story = {
   render: () => (
-    <Dropdown>
-      <Dropdown.Trigger
-        aria-label="Menu"
-        className="button button-md button--secondary button--icon-only data-[focus-visible=true]:status-focused"
-      >
-        <Icon className="outline-none" icon="gravity-ui:ellipsis-vertical" />
+    <Dropdown onSelect={(details) => alert(`Selected: ${details.value}`)}>
+      <Dropdown.Trigger aria-label="Menu">
+        <Button isIconOnly aria-label="Menu" variant="secondary">
+          <Icon style={{outline: "none"}} icon="gravity-ui:ellipsis-vertical" />
+        </Button>
       </Dropdown.Trigger>
-      <Dropdown.Popover>
-        <Dropdown.Menu onAction={(key) => alert(`Selected: ${key}`)}>
-          <Dropdown.Section>
-            <Header>Actions</Header>
-            <Dropdown.Item id="new-file" textValue="New file">
-              <div className="flex h-8 items-start justify-center pt-px">
-                <Icon className="size-4 shrink-0 text-muted" icon="gravity-ui:square-plus" />
-              </div>
-              <div className="flex flex-col">
-                <Label>New file</Label>
-                <Description>Create a new file</Description>
-              </div>
-              <Kbd className="ms-auto" slot="keyboard" variant="light">
-                <Kbd.Abbr keyValue="command" />
-                <Kbd.Content>N</Kbd.Content>
-              </Kbd>
-            </Dropdown.Item>
-            <Dropdown.Item id="edit-file" textValue="Edit file">
-              <div className="flex h-8 items-start justify-center pt-px">
-                <Icon className="size-4 shrink-0 text-muted" icon="gravity-ui:pencil" />
-              </div>
-              <div className="flex flex-col">
-                <Label>Edit file</Label>
-                <Description>Make changes</Description>
-              </div>
-              <Kbd className="ms-auto" slot="keyboard" variant="light">
-                <Kbd.Abbr keyValue="command" />
-                <Kbd.Content>E</Kbd.Content>
-              </Kbd>
-            </Dropdown.Item>
-          </Dropdown.Section>
-          <Separator />
-          <Dropdown.Section>
-            <Header>Danger zone</Header>
-            <Dropdown.Item id="delete-file" textValue="Delete file" variant="danger">
-              <div className="flex h-8 items-start justify-center pt-px">
-                <Icon className="size-4 shrink-0 text-danger" icon="gravity-ui:trash-bin" />
-              </div>
-              <div className="flex flex-col">
-                <Label>Delete file</Label>
-                <Description>Move to trash</Description>
-              </div>
-              <Kbd className="ms-auto" slot="keyboard" variant="light">
-                <Kbd.Abbr keyValue="command" />
-                <Kbd.Abbr keyValue="shift" />
-                <Kbd.Content>D</Kbd.Content>
-              </Kbd>
-            </Dropdown.Item>
-          </Dropdown.Section>
-        </Dropdown.Menu>
-      </Dropdown.Popover>
+      <Dropdown.Content>
+        <Dropdown.Section>
+          <Header>Actions</Header>
+          <Dropdown.Item value="new-file">
+            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:square-plus" />
+            </Flex>
+            <Flex direction="column">
+              <Label>New file</Label>
+              <Description>Create a new file</Description>
+            </Flex>
+            <Kbd ms="auto" slot="keyboard" variant="plain">
+              <Kbd.Abbr keyValue="command" />
+              <Kbd.Content>N</Kbd.Content>
+            </Kbd>
+          </Dropdown.Item>
+          <Dropdown.Item value="edit-file">
+            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:pencil" />
+            </Flex>
+            <Flex direction="column">
+              <Label>Edit file</Label>
+              <Description>Make changes</Description>
+            </Flex>
+            <Kbd ms="auto" slot="keyboard" variant="plain">
+              <Kbd.Abbr keyValue="command" />
+              <Kbd.Content>E</Kbd.Content>
+            </Kbd>
+          </Dropdown.Item>
+        </Dropdown.Section>
+        <Dropdown.Separator />
+        <Dropdown.Section>
+          <Header>Danger zone</Header>
+          <Dropdown.Item value="delete-file">
+            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-error)"}} icon="gravity-ui:trash-bin" />
+            </Flex>
+            <Flex direction="column">
+              <Label color="fg.error">Delete file</Label>
+              <Description>Move to trash</Description>
+            </Flex>
+            <Kbd ms="auto" slot="keyboard" variant="plain">
+              <Kbd.Abbr keyValue="command" />
+              <Kbd.Abbr keyValue="shift" />
+              <Kbd.Content>D</Kbd.Content>
+            </Kbd>
+          </Dropdown.Item>
+        </Dropdown.Section>
+      </Dropdown.Content>
     </Dropdown>
   ),
 };
 
 export const WithDisabledItems: Story = {
   render: () => (
-    <Dropdown>
-      <Button isIconOnly aria-label="Menu" variant="secondary">
-        <Icon className="outline-none" icon="gravity-ui:bars" />
-      </Button>
-      <Dropdown.Popover className="min-w-[220px]">
-        <Dropdown.Menu disabledKeys={["delete-file"]} onAction={(key) => alert(`Selected: ${key}`)}>
-          <Dropdown.Section>
-            <Header>Actions</Header>
-            <Dropdown.Item id="new-file" textValue="New file">
-              <div className="flex h-8 items-start justify-center pt-px">
-                <Icon className="size-4 shrink-0 text-muted" icon="gravity-ui:square-plus" />
-              </div>
-              <div className="flex flex-col">
-                <Label>New file</Label>
-                <Description>Create a new file</Description>
-              </div>
-              <Kbd className="ms-auto" slot="keyboard" variant="light">
-                <Kbd.Abbr keyValue="command" />
-                <Kbd.Content>N</Kbd.Content>
-              </Kbd>
-            </Dropdown.Item>
-            <Dropdown.Item id="edit-file" textValue="Edit file">
-              <div className="flex h-8 items-start justify-center pt-px">
-                <Icon className="size-4 shrink-0 text-muted" icon="gravity-ui:pencil" />
-              </div>
-              <div className="flex flex-col">
-                <Label>Edit file</Label>
-                <Description>Make changes</Description>
-              </div>
-              <Kbd className="ms-auto" slot="keyboard" variant="light">
-                <Kbd.Abbr keyValue="command" />
-                <Kbd.Content>E</Kbd.Content>
-              </Kbd>
-            </Dropdown.Item>
-          </Dropdown.Section>
-          <Separator />
-          <Dropdown.Section>
-            <Header>Danger zone</Header>
-            <Dropdown.Item id="delete-file" textValue="Delete file" variant="danger">
-              <div className="flex h-8 items-start justify-center pt-px">
-                <Icon className="size-4 shrink-0 text-danger" icon="gravity-ui:trash-bin" />
-              </div>
-              <div className="flex flex-col">
-                <Label>Delete file</Label>
-                <Description>Move to trash</Description>
-              </div>
-              <Kbd className="ms-auto" slot="keyboard" variant="light">
-                <Kbd.Abbr keyValue="command" />
-                <Kbd.Abbr keyValue="shift" />
-                <Kbd.Content>D</Kbd.Content>
-              </Kbd>
-            </Dropdown.Item>
-          </Dropdown.Section>
-        </Dropdown.Menu>
-      </Dropdown.Popover>
+    <Dropdown onSelect={(details) => alert(`Selected: ${details.value}`)}>
+      <Dropdown.Trigger>
+        <Button isIconOnly aria-label="Menu" variant="secondary">
+          <Icon style={{outline: "none"}} icon="gravity-ui:bars" />
+        </Button>
+      </Dropdown.Trigger>
+      <Dropdown.Content minW="220px">
+        <Dropdown.Section>
+          <Header>Actions</Header>
+          <Dropdown.Item value="new-file">
+            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:square-plus" />
+            </Flex>
+            <Flex direction="column">
+              <Label>New file</Label>
+              <Description>Create a new file</Description>
+            </Flex>
+            <Kbd ms="auto" slot="keyboard" variant="plain">
+              <Kbd.Abbr keyValue="command" />
+              <Kbd.Content>N</Kbd.Content>
+            </Kbd>
+          </Dropdown.Item>
+          <Dropdown.Item value="edit-file">
+            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:pencil" />
+            </Flex>
+            <Flex direction="column">
+              <Label>Edit file</Label>
+              <Description>Make changes</Description>
+            </Flex>
+            <Kbd ms="auto" slot="keyboard" variant="plain">
+              <Kbd.Abbr keyValue="command" />
+              <Kbd.Content>E</Kbd.Content>
+            </Kbd>
+          </Dropdown.Item>
+        </Dropdown.Section>
+        <Dropdown.Separator />
+        <Dropdown.Section>
+          <Header>Danger zone</Header>
+          <Dropdown.Item value="delete-file" disabled>
+            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-error)"}} icon="gravity-ui:trash-bin" />
+            </Flex>
+            <Flex direction="column">
+              <Label color="fg.error">Delete file</Label>
+              <Description>Move to trash</Description>
+            </Flex>
+            <Kbd ms="auto" slot="keyboard" variant="plain">
+              <Kbd.Abbr keyValue="command" />
+              <Kbd.Abbr keyValue="shift" />
+              <Kbd.Content>D</Kbd.Content>
+            </Kbd>
+          </Dropdown.Item>
+        </Dropdown.Section>
+      </Dropdown.Content>
     </Dropdown>
   ),
 };
 
 export const WithSubmenus: Story = {
   render: () => (
-    <Dropdown>
-      <Button aria-label="Menu" variant="secondary">
-        Share
-      </Button>
-      <Dropdown.Popover>
-        <Dropdown.Menu onAction={(key) => alert(`Selected: ${key}`)}>
-          <Dropdown.Item id="copy-link" textValue="Copy Link">
-            <Label>Copy Link</Label>
-          </Dropdown.Item>
-          <Dropdown.Item id="facebook" textValue="Facebook">
-            <Label>Facebook</Label>
-          </Dropdown.Item>
-          <Dropdown.Item id="twitter" textValue="Twitter">
-            <Label>X / Twitter</Label>
-          </Dropdown.Item>
-          <Dropdown.SubmenuTrigger>
-            <Dropdown.Item id="share" textValue="Share">
-              <Label>Other</Label>
-              <Dropdown.SubmenuIndicator />
+    <Dropdown onSelect={(details) => alert(`Selected: ${details.value}`)}>
+      <Dropdown.Trigger>
+        <Button aria-label="Menu" variant="secondary">
+          Share
+        </Button>
+      </Dropdown.Trigger>
+      <Dropdown.Content>
+        <Dropdown.Item value="copy-link">
+          <Label>Copy Link</Label>
+        </Dropdown.Item>
+        <Dropdown.Item value="facebook">
+          <Label>Facebook</Label>
+        </Dropdown.Item>
+        <Dropdown.Item value="twitter">
+          <Label>X / Twitter</Label>
+        </Dropdown.Item>
+        <Dropdown.Root positioning={{placement: "right-start", gutter: -2}}>
+          <Dropdown.TriggerItem>
+            <Label>Other</Label>
+            <Icon style={{width: "0.75rem", height: "0.75rem", marginLeft: "auto", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:chevron-right" />
+          </Dropdown.TriggerItem>
+          <Dropdown.Content>
+            <Dropdown.Item value="whatsapp">
+              <Label>WhatsApp</Label>
             </Dropdown.Item>
-            <Dropdown.Popover>
-              <Dropdown.Menu>
-                <Dropdown.Item id="whatsapp" textValue="WhatsApp">
-                  <Label>WhatsApp</Label>
+            <Dropdown.Item value="telegram">
+              <Label>Telegram</Label>
+            </Dropdown.Item>
+            <Dropdown.Item value="discord">
+              <Label>Discord</Label>
+            </Dropdown.Item>
+            <Dropdown.Root positioning={{placement: "right-start", gutter: -2}}>
+              <Dropdown.TriggerItem>
+                <Label>Email</Label>
+                <Icon style={{width: "0.75rem", height: "0.75rem", marginLeft: "auto", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:chevron-right" />
+              </Dropdown.TriggerItem>
+              <Dropdown.Content>
+                <Dropdown.Item value="work">
+                  <Label>Work email</Label>
                 </Dropdown.Item>
-                <Dropdown.Item id="telegram" textValue="Telegram">
-                  <Label>Telegram</Label>
+                <Dropdown.Item value="personal">
+                  <Label>Personal email</Label>
                 </Dropdown.Item>
-                <Dropdown.Item id="discord" textValue="Discord">
-                  <Label>Discord</Label>
-                </Dropdown.Item>
-                <Dropdown.SubmenuTrigger>
-                  <Dropdown.Item id="email" textValue="Email">
-                    <Label>Email</Label>
-                    <Dropdown.SubmenuIndicator />
-                  </Dropdown.Item>
-                  <Dropdown.Popover>
-                    <Dropdown.Menu>
-                      <Dropdown.Item id="work" textValue="Work email">
-                        <Label>Work email</Label>
-                      </Dropdown.Item>
-                      <Dropdown.Item id="personal" textValue="Personal email">
-                        <Label>Personal email</Label>
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown.Popover>
-                </Dropdown.SubmenuTrigger>
-              </Dropdown.Menu>
-            </Dropdown.Popover>
-          </Dropdown.SubmenuTrigger>
-        </Dropdown.Menu>
-      </Dropdown.Popover>
+              </Dropdown.Content>
+            </Dropdown.Root>
+          </Dropdown.Content>
+        </Dropdown.Root>
+      </Dropdown.Content>
     </Dropdown>
   ),
 };
 
 export const WithCustomSubmenuIndicator: Story = {
   render: () => (
-    <Dropdown>
-      <Button aria-label="Menu" variant="secondary">
-        Share
-      </Button>
-      <Dropdown.Popover>
-        <Dropdown.Menu onAction={(key) => alert(`Selected: ${key}`)}>
-          <Dropdown.Item id="copy-link" textValue="Copy Link">
-            <Label>Copy Link</Label>
-          </Dropdown.Item>
-          <Dropdown.Item id="facebook" textValue="Facebook">
-            <Label>Facebook</Label>
-          </Dropdown.Item>
-          <Dropdown.SubmenuTrigger>
-            <Dropdown.Item id="share" textValue="Share">
-              <Label>More options</Label>
-              <Dropdown.SubmenuIndicator>
-                <Icon className="size-3.5 text-muted" icon="gravity-ui:arrow-right" />
-              </Dropdown.SubmenuIndicator>
+    <Dropdown onSelect={(details) => alert(`Selected: ${details.value}`)}>
+      <Dropdown.Trigger>
+        <Button aria-label="Menu" variant="secondary">
+          Share
+        </Button>
+      </Dropdown.Trigger>
+      <Dropdown.Content>
+        <Dropdown.Item value="copy-link">
+          <Label>Copy Link</Label>
+        </Dropdown.Item>
+        <Dropdown.Item value="facebook">
+          <Label>Facebook</Label>
+        </Dropdown.Item>
+        <Dropdown.Root positioning={{placement: "right-start", gutter: -2}}>
+          <Dropdown.TriggerItem>
+            <Label>More options</Label>
+            <Icon style={{width: "0.875rem", height: "0.875rem", marginLeft: "auto", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:arrow-right" />
+          </Dropdown.TriggerItem>
+          <Dropdown.Content>
+            <Dropdown.Item value="whatsapp">
+              <Label>WhatsApp</Label>
             </Dropdown.Item>
-            <Dropdown.Popover>
-              <Dropdown.Menu>
-                <Dropdown.Item id="whatsapp" textValue="WhatsApp">
-                  <Label>WhatsApp</Label>
-                </Dropdown.Item>
-                <Dropdown.Item id="telegram" textValue="Telegram">
-                  <Label>Telegram</Label>
-                </Dropdown.Item>
-                <Dropdown.SubmenuTrigger>
-                  <Dropdown.Item id="email" textValue="Email">
-                    <Label>Email</Label>
-                    <Dropdown.SubmenuIndicator>
-                      <svg
-                        className="size-3.5 text-muted"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M9 18l6-6-6-6" />
-                      </svg>
-                    </Dropdown.SubmenuIndicator>
-                  </Dropdown.Item>
-                  <Dropdown.Popover>
-                    <Dropdown.Menu>
-                      <Dropdown.Item id="work" textValue="Work email">
-                        <Label>Work email</Label>
-                      </Dropdown.Item>
-                      <Dropdown.Item id="personal" textValue="Personal email">
-                        <Label>Personal email</Label>
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown.Popover>
-                </Dropdown.SubmenuTrigger>
-                <Dropdown.Item id="discord" textValue="Discord">
-                  <Label>Discord</Label>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown.Popover>
-          </Dropdown.SubmenuTrigger>
-          <Dropdown.SubmenuTrigger>
-            <Dropdown.Item id="other" textValue="Other">
-              <Label>Other (default indicator)</Label>
-              <Dropdown.SubmenuIndicator />
+            <Dropdown.Item value="telegram">
+              <Label>Telegram</Label>
             </Dropdown.Item>
-            <Dropdown.Popover>
-              <Dropdown.Menu>
-                <Dropdown.Item id="sms" textValue="SMS">
-                  <Label>SMS</Label>
+            <Dropdown.Root positioning={{placement: "right-start", gutter: -2}}>
+              <Dropdown.TriggerItem>
+                <Label>Email</Label>
+                <svg
+                  style={{width: "0.875rem", height: "0.875rem", marginLeft: "auto", color: "var(--chakra-colors-fg-muted)"}}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </Dropdown.TriggerItem>
+              <Dropdown.Content>
+                <Dropdown.Item value="work">
+                  <Label>Work email</Label>
                 </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown.Popover>
-          </Dropdown.SubmenuTrigger>
-        </Dropdown.Menu>
-      </Dropdown.Popover>
+                <Dropdown.Item value="personal">
+                  <Label>Personal email</Label>
+                </Dropdown.Item>
+              </Dropdown.Content>
+            </Dropdown.Root>
+            <Dropdown.Item value="discord">
+              <Label>Discord</Label>
+            </Dropdown.Item>
+          </Dropdown.Content>
+        </Dropdown.Root>
+        <Dropdown.Root positioning={{placement: "right-start", gutter: -2}}>
+          <Dropdown.TriggerItem>
+            <Label>Other (default indicator)</Label>
+            <Icon style={{width: "0.75rem", height: "0.75rem", marginLeft: "auto", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:chevron-right" />
+          </Dropdown.TriggerItem>
+          <Dropdown.Content>
+            <Dropdown.Item value="sms">
+              <Label>SMS</Label>
+            </Dropdown.Item>
+          </Dropdown.Content>
+        </Dropdown.Root>
+      </Dropdown.Content>
     </Dropdown>
   ),
 };
 
 export const Controlled: Story = {
   render: () => {
-    const [selected, setSelected] = React.useState<Selection>(new Set(["bold"]));
+    const [checked, setChecked] = React.useState({bold: true, italic: false, underline: false});
 
-    const selectedItems = Array.from(selected);
+    const selectedItems = Object.entries(checked)
+      .filter(([, v]) => v)
+      .map(([k]) => k);
 
     return (
-      <div className="min-w-sm space-y-4">
-        <Dropdown>
-          <Button aria-label="Menu" variant="secondary">
-            Actions
-          </Button>
-          <Dropdown.Popover>
-            <Dropdown.Menu
-              selectedKeys={selected}
-              selectionMode="multiple"
-              onSelectionChange={setSelected}
+      <Box minW="sm" spaceY="4">
+        <Dropdown closeOnSelect={false}>
+          <Dropdown.Trigger>
+            <Button aria-label="Menu" variant="secondary">
+              Actions
+            </Button>
+          </Dropdown.Trigger>
+          <Dropdown.Content>
+            <Dropdown.CheckboxItem
+              value="bold"
+              checked={checked.bold}
+              onCheckedChange={(v) => setChecked((p) => ({...p, bold: Boolean(v)}))}
             >
-              <Dropdown.Item id="bold" textValue="Bold">
-                <Label>Bold</Label>
-                <Dropdown.ItemIndicator />
-              </Dropdown.Item>
-              <Dropdown.Item id="italic" textValue="Italic">
-                <Label>Italic</Label>
-                <Dropdown.ItemIndicator />
-              </Dropdown.Item>
-              <Dropdown.Item id="underline" textValue="Underline">
-                <Label>Underline</Label>
-                <Dropdown.ItemIndicator />
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown.Popover>
+              <Dropdown.ItemIndicator />
+              <Label>Bold</Label>
+            </Dropdown.CheckboxItem>
+            <Dropdown.CheckboxItem
+              value="italic"
+              checked={checked.italic}
+              onCheckedChange={(v) => setChecked((p) => ({...p, italic: Boolean(v)}))}
+            >
+              <Dropdown.ItemIndicator />
+              <Label>Italic</Label>
+            </Dropdown.CheckboxItem>
+            <Dropdown.CheckboxItem
+              value="underline"
+              checked={checked.underline}
+              onCheckedChange={(v) => setChecked((p) => ({...p, underline: Boolean(v)}))}
+            >
+              <Dropdown.ItemIndicator />
+              <Label>Underline</Label>
+            </Dropdown.CheckboxItem>
+          </Dropdown.Content>
         </Dropdown>
-        <p className="text-sm text-muted">
+        <Text fontSize="sm" color="fg.muted">
           Selected: {selectedItems.length > 0 ? selectedItems.join(", ") : "None"}
-        </p>
-      </div>
+        </Text>
+      </Box>
     );
   },
 };
@@ -815,32 +792,32 @@ export const ControlledOpenState: Story = {
     const [open, setOpen] = React.useState(false);
 
     return (
-      <div className="min-w-sm space-y-4">
-        <p className="text-sm text-muted">
+      <Box minW="sm" spaceY="4">
+        <Text fontSize="sm" color="fg.muted">
           Dropdown is: <strong>{open ? "open" : "closed"}</strong>
-        </p>
-        <Dropdown isOpen={open} onOpenChange={setOpen}>
-          <Button aria-label="Menu" variant="secondary">
-            Actions
-          </Button>
-          <Dropdown.Popover>
-            <Dropdown.Menu>
-              <Dropdown.Item id="new-file" textValue="New file">
-                <Label>New file</Label>
-              </Dropdown.Item>
-              <Dropdown.Item id="open-file" textValue="Open file">
-                <Label>Open file</Label>
-              </Dropdown.Item>
-              <Dropdown.Item id="save-file" textValue="Save file">
-                <Label>Save file</Label>
-              </Dropdown.Item>
-              <Dropdown.Item id="delete-file" textValue="Delete file" variant="danger">
-                <Label>Delete file</Label>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown.Popover>
+        </Text>
+        <Dropdown open={open} onOpenChange={(details) => setOpen(details.open)}>
+          <Dropdown.Trigger>
+            <Button aria-label="Menu" variant="secondary">
+              Actions
+            </Button>
+          </Dropdown.Trigger>
+          <Dropdown.Content>
+            <Dropdown.Item value="new-file">
+              <Label>New file</Label>
+            </Dropdown.Item>
+            <Dropdown.Item value="open-file">
+              <Label>Open file</Label>
+            </Dropdown.Item>
+            <Dropdown.Item value="save-file">
+              <Label>Save file</Label>
+            </Dropdown.Item>
+            <Dropdown.Item value="delete-file">
+              <Label color="fg.error">Delete file</Label>
+            </Dropdown.Item>
+          </Dropdown.Content>
         </Dropdown>
-      </div>
+      </Box>
     );
   },
 };
@@ -848,58 +825,56 @@ export const ControlledOpenState: Story = {
 export const CustomTrigger: Story = {
   render: () => (
     <Dropdown>
-      <Dropdown.Trigger className="rounded-full">
+      <Dropdown.Trigger style={{borderRadius: "var(--chakra-radii-full)"}}>
         <Avatar>
           <Avatar.Image
             alt="Junior Garcia"
             src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
           />
-          <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+          <Avatar.Fallback>JD</Avatar.Fallback>
         </Avatar>
       </Dropdown.Trigger>
-      <Dropdown.Popover>
-        <div className="px-3 pt-3 pb-1">
-          <div className="flex items-center gap-2">
+      <Dropdown.Content>
+        <Box px="3" pt="3" pb="1">
+          <Flex align="center" gap="2">
             <Avatar size="sm">
               <Avatar.Image
                 alt="Jane"
                 src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
               />
-              <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+              <Avatar.Fallback>JD</Avatar.Fallback>
             </Avatar>
-            <div className="flex flex-col gap-0">
-              <p className="text-sm leading-5 font-medium">Jane Doe</p>
-              <p className="text-xs leading-none text-muted">jane@example.com</p>
-            </div>
-          </div>
-        </div>
-        <Dropdown.Menu>
-          <Dropdown.Item id="dashboard" textValue="Dashboard">
-            <Label>Dashboard</Label>
-          </Dropdown.Item>
-          <Dropdown.Item id="profile" textValue="Profile">
-            <Label>Profile</Label>
-          </Dropdown.Item>
-          <Dropdown.Item id="settings" textValue="Settings">
-            <div className="flex w-full items-center justify-between gap-2">
-              <Label>Settings</Label>
-              <Icon className="size-3.5 text-muted" icon="gravity-ui:gear" />
-            </div>
-          </Dropdown.Item>
-          <Dropdown.Item id="new-project" textValue="New project">
-            <div className="flex w-full items-center justify-between gap-2">
-              <Label>Create Team</Label>
-              <Icon className="size-3.5 text-muted" icon="gravity-ui:persons" />
-            </div>
-          </Dropdown.Item>
-          <Dropdown.Item id="logout" textValue="Logout" variant="danger">
-            <div className="flex w-full items-center justify-between gap-2">
-              <Label>Log Out</Label>
-              <Icon className="size-3.5 text-danger" icon="gravity-ui:arrow-right-from-square" />
-            </div>
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown.Popover>
+            <Flex direction="column" gap="0">
+              <Text fontSize="sm" lineHeight="5" fontWeight="medium">Jane Doe</Text>
+              <Text fontSize="xs" lineHeight="none" color="fg.muted">jane@example.com</Text>
+            </Flex>
+          </Flex>
+        </Box>
+        <Dropdown.Item value="dashboard">
+          <Label>Dashboard</Label>
+        </Dropdown.Item>
+        <Dropdown.Item value="profile">
+          <Label>Profile</Label>
+        </Dropdown.Item>
+        <Dropdown.Item value="settings">
+          <Flex width="full" align="center" justify="space-between" gap="2">
+            <Label>Settings</Label>
+            <Icon style={{width: "0.875rem", height: "0.875rem", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:gear" />
+          </Flex>
+        </Dropdown.Item>
+        <Dropdown.Item value="new-project">
+          <Flex width="full" align="center" justify="space-between" gap="2">
+            <Label>Create Team</Label>
+            <Icon style={{width: "0.875rem", height: "0.875rem", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:persons" />
+          </Flex>
+        </Dropdown.Item>
+        <Dropdown.Item value="logout">
+          <Flex width="full" align="center" justify="space-between" gap="2">
+            <Label color="fg.error">Log Out</Label>
+            <Icon style={{width: "0.875rem", height: "0.875rem", color: "var(--chakra-colors-fg-error)"}} icon="gravity-ui:arrow-right-from-square" />
+          </Flex>
+        </Dropdown.Item>
+      </Dropdown.Content>
     </Dropdown>
   ),
 };

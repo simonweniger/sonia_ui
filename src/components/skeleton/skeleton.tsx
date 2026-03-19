@@ -1,31 +1,44 @@
 "use client";
 
-import type {SkeletonVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {skeletonVariants} from "../../styles";
-import React from "react";
-
-import {useCSSVariable} from "../../hooks/use-css-variable";
+import {Skeleton as ChakraSkeleton} from "@chakra-ui/react";
 
 /* -------------------------------------------------------------------------------------------------
  * Skeleton Root
  * -----------------------------------------------------------------------------------------------*/
-interface SkeletonRootProps
-  extends Omit<ComponentPropsWithRef<"div">, "children">, SkeletonVariants {}
+type SkeletonAnimation = "shimmer" | "pulse" | "none";
 
-const SkeletonRoot = ({animationType, className, ...props}: SkeletonRootProps) => {
-  // Use the new hook to get CSS variable value with SSR support
-  const resolvedAnimationType = useCSSVariable("--skeleton-animation", animationType);
-  const slots = React.useMemo(
-    () =>
-      skeletonVariants({
-        animationType: resolvedAnimationType as SkeletonVariants["animationType"],
-      }),
-    [resolvedAnimationType],
+interface SkeletonRootProps extends ComponentPropsWithRef<typeof ChakraSkeleton> {
+  animation?: SkeletonAnimation;
+}
+
+const shimmerCss = {
+  "&::after": {
+    content: '""',
+    position: "absolute" as const,
+    inset: 0,
+    transform: "translateX(-100%)",
+    background:
+      "linear-gradient(90deg, transparent 0%, var(--chakra-colors-bg-subtle, rgba(255,255,255,0.5)) 50%, transparent 100%)",
+    animation: "shimmer 1.5s infinite",
+  },
+  "@keyframes shimmer": {
+    "100%": {transform: "translateX(100%)"},
+  },
+};
+
+const SkeletonRoot = ({animation = "shimmer", ...props}: SkeletonRootProps) => {
+  const isShimmer = animation === "shimmer";
+
+  return (
+    <ChakraSkeleton
+      data-slot="skeleton"
+      variant={isShimmer ? "none" : animation}
+      css={isShimmer ? shimmerCss : undefined}
+      {...props}
+    />
   );
-
-  return <div className={slots.base({className})} {...props} />;
 };
 
 /* -------------------------------------------------------------------------------------------------

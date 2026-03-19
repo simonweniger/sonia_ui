@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from "@storybook/react";
 
-import {Icon} from "@iconify/react";
+import {Box, Text} from "@chakra-ui/react";
 import React from "react";
 
 import {Description} from "../description";
@@ -26,7 +26,7 @@ export const Default: Story = {
         <Switch.Thumb />
       </Switch.Control>
       <Switch.Content>
-        <Label className="text-sm">Enable notifications</Label>
+        <Label fontSize="sm">Enable notifications</Label>
       </Switch.Content>
     </Switch>
   ),
@@ -34,12 +34,12 @@ export const Default: Story = {
 
 export const Disabled: Story = {
   render: () => (
-    <Switch isDisabled>
+    <Switch disabled>
       <Switch.Control>
         <Switch.Thumb />
       </Switch.Control>
       <Switch.Content>
-        <Label className="text-sm">Enable notifications</Label>
+        <Label fontSize="sm">Enable notifications</Label>
       </Switch.Content>
     </Switch>
   ),
@@ -47,12 +47,12 @@ export const Disabled: Story = {
 
 export const DefaultSelected: Story = {
   render: () => (
-    <Switch defaultSelected>
+    <Switch defaultChecked>
       <Switch.Control>
         <Switch.Thumb />
       </Switch.Control>
       <Switch.Content>
-        <Label className="text-sm">Enable notifications</Label>
+        <Label fontSize="sm">Enable notifications</Label>
       </Switch.Content>
     </Switch>
   ),
@@ -60,7 +60,7 @@ export const DefaultSelected: Story = {
 
 export const DisabledDefaultSelected: Story = {
   render: () => (
-    <Switch defaultSelected isDisabled>
+    <Switch defaultChecked disabled>
       <Switch.Control>
         <Switch.Thumb />
       </Switch.Control>
@@ -70,20 +70,20 @@ export const DisabledDefaultSelected: Story = {
 
 export const Controlled: Story = {
   render: function ControlledSwitch() {
-    const [isSelected, setIsSelected] = React.useState(false);
+    const [checked, setChecked] = React.useState(false);
 
     return (
-      <div className="flex flex-col gap-4">
-        <Switch isSelected={isSelected} onChange={setIsSelected}>
+      <Box display="flex" flexDirection="column" gap="4">
+        <Switch checked={checked} onCheckedChange={(e) => setChecked(!!e.checked)}>
           <Switch.Control>
             <Switch.Thumb />
           </Switch.Control>
           <Switch.Content>
-            <Label className="text-sm">Enable notifications</Label>
+            <Label fontSize="sm">Enable notifications</Label>
           </Switch.Content>
         </Switch>
-        <p className="text-sm text-muted">Switch is {isSelected ? "on" : "off"}</p>
-      </div>
+        <Text fontSize="sm" color="fg.muted">Switch is {checked ? "on" : "off"}</Text>
+      </Box>
     );
   },
 };
@@ -100,13 +100,13 @@ export const WithoutLabel: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className="flex gap-6">
+    <Box display="flex" gap="6">
       <Switch size="sm">
         <Switch.Control>
           <Switch.Thumb />
         </Switch.Control>
         <Switch.Content>
-          <Label className="text-xs">Small</Label>
+          <Label fontSize="xs">Small</Label>
         </Switch.Content>
       </Switch>
       <Switch size="md">
@@ -114,7 +114,7 @@ export const Sizes: Story = {
           <Switch.Thumb />
         </Switch.Control>
         <Switch.Content>
-          <Label className="text-sm">Medium</Label>
+          <Label fontSize="sm">Medium</Label>
         </Switch.Content>
       </Switch>
       <Switch size="lg">
@@ -122,17 +122,19 @@ export const Sizes: Story = {
           <Switch.Thumb />
         </Switch.Control>
         <Switch.Content>
-          <Label className="text-base">Large</Label>
+          <Label fontSize="md">Large</Label>
         </Switch.Content>
       </Switch>
-    </div>
+    </Box>
   ),
 };
 
 export const LabelBefore: Story = {
   render: () => (
     <Switch>
-      <Label className="text-sm">Enable notifications</Label>
+      <Switch.Content>
+        <Label fontSize="sm">Enable notifications</Label>
+      </Switch.Content>
       <Switch.Control>
         <Switch.Thumb />
       </Switch.Control>
@@ -142,116 +144,16 @@ export const LabelBefore: Story = {
 
 export const WithDescription: Story = {
   render: () => (
-    <div className="max-w-sm">
+    <Box maxW="sm">
       <Switch>
         <Switch.Control>
           <Switch.Thumb />
         </Switch.Control>
         <Switch.Content>
-          <Label className="text-sm">Public profile</Label>
+          <Label fontSize="sm">Public profile</Label>
           <Description>Allow others to see your profile information</Description>
         </Switch.Content>
       </Switch>
-    </div>
-  ),
-};
-
-export const WithCustomStyles: Story = {
-  render: () => (
-    <Switch>
-      {({isSelected}) => (
-        <>
-          <Switch.Control
-            className={`h-[31px] w-[51px] bg-blue-500 ${isSelected ? "bg-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.5)]" : ""}`}
-          >
-            <Switch.Thumb
-              className={`size-[27px] bg-white shadow-sm ${isSelected ? "ms-[22px] shadow-lg" : ""}`}
-            >
-              <Switch.Icon>
-                <Icon
-                  className={`size-4 ${isSelected ? "text-cyan-600" : "text-blue-600"}`}
-                  icon={isSelected ? "gravity-ui:check" : "gravity-ui:power"}
-                />
-              </Switch.Icon>
-            </Switch.Thumb>
-          </Switch.Control>
-        </>
-      )}
-    </Switch>
-  ),
-};
-
-export const WithIcons: Story = {
-  render: () => {
-    const icons = {
-      lock: {
-        off: "gravity-ui:volume-fill",
-        on: "gravity-ui:volume-slash-fill",
-        selectedControlClass: "bg-blue-500",
-        selectedIconClass: "text-blue-600",
-      },
-      microphone: {
-        off: "gravity-ui:microphone",
-        on: "gravity-ui:microphone-slash",
-        selectedControlClass: "bg-red-500",
-        selectedIconClass: "text-red-600",
-      },
-      check: {
-        off: "gravity-ui:power",
-        on: "gravity-ui:check",
-        selectedControlClass: "bg-green-500",
-        selectedIconClass: "text-green-600",
-      },
-      darkMode: {
-        off: "gravity-ui:moon",
-        on: "gravity-ui:sun",
-        selectedControlClass: "",
-        selectedIconClass: "",
-      },
-      notification: {
-        off: "gravity-ui:bell-slash",
-        on: "gravity-ui:bell-fill",
-        selectedControlClass: "bg-purple-500",
-        selectedIconClass: "text-purple-600",
-      },
-    };
-
-    return (
-      <div className="flex gap-3">
-        {Object.entries(icons).map(([key, value]) => (
-          <Switch key={key} defaultSelected size="lg">
-            {({isSelected}) => (
-              <>
-                <Switch.Control className={isSelected ? value.selectedControlClass : ""}>
-                  <Switch.Thumb>
-                    <Switch.Icon>
-                      <Icon
-                        className={`${isSelected ? `opacity-100 ${value.selectedIconClass}` : "opacity-70"} size-3 text-inherit`}
-                        icon={isSelected ? value.on : value.off}
-                      />
-                    </Switch.Icon>
-                  </Switch.Thumb>
-                </Switch.Control>
-              </>
-            )}
-          </Switch>
-        ))}
-      </div>
-    );
-  },
-};
-
-export const RenderProps: Story = {
-  render: () => (
-    <Switch>
-      {({isSelected}) => (
-        <>
-          <Switch.Control>
-            <Switch.Thumb />
-          </Switch.Control>
-          <Label className="text-sm">{isSelected ? "Enabled" : "Disabled"}</Label>
-        </>
-      )}
-    </Switch>
+    </Box>
   ),
 };

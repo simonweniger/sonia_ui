@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from "@storybook/react";
 
+import {Box} from "@chakra-ui/react";
 import React from "react";
 
 import {Label} from "../label";
@@ -8,20 +9,16 @@ import {Slider} from "./index";
 
 const meta: Meta<typeof Slider> = {
   argTypes: {
-    isDisabled: {
+    disabled: {
       control: {type: "boolean"},
-    },
-    orientation: {
-      control: {type: "select"},
-      options: ["horizontal", "vertical"],
     },
   },
   component: Slider,
   decorators: [
     (Story) => (
-      <div className="w-96 p-8">
+      <Box w="96" p="8">
         <Story />
-      </div>
+      </Box>
     ),
   ],
   parameters: {
@@ -37,34 +34,12 @@ type Story = StoryObj<typeof Slider>;
 export const Default: Story = {
   render: (args) => {
     return (
-      <Slider defaultValue={30} {...args}>
+      <Slider defaultValue={[30]} {...args}>
         <Label>Volume</Label>
         <Slider.Output />
         <Slider.Track>
           <Slider.Fill />
-          <Slider.Thumb />
-        </Slider.Track>
-      </Slider>
-    );
-  },
-};
-
-export const Vertical: Story = {
-  decorators: [
-    (Story) => (
-      <div className="h-96 p-8">
-        <Story />
-      </div>
-    ),
-  ],
-  render: (args) => {
-    return (
-      <Slider defaultValue={30} orientation="vertical" {...args}>
-        <Label>Volume</Label>
-        <Slider.Output />
-        <Slider.Track>
-          <Slider.Fill />
-          <Slider.Thumb />
+          <Slider.Thumb index={0} />
         </Slider.Track>
       </Slider>
     );
@@ -74,12 +49,28 @@ export const Vertical: Story = {
 export const Disabled: Story = {
   render: (args) => {
     return (
-      <Slider isDisabled defaultValue={30} {...args}>
+      <Slider disabled defaultValue={[30]} {...args}>
         <Label>Volume</Label>
         <Slider.Output />
         <Slider.Track>
           <Slider.Fill />
-          <Slider.Thumb />
+          <Slider.Thumb index={0} />
+        </Slider.Track>
+      </Slider>
+    );
+  },
+};
+
+export const WithSteps: Story = {
+  render: (args) => {
+    return (
+      <Slider defaultValue={[40]} min={0} max={100} step={10} {...args}>
+        <Label>Brightness</Label>
+        <Slider.Output />
+        <Slider.Track>
+          <Slider.Fill />
+          <Slider.Steps count={10} />
+          <Slider.Thumb index={0} />
         </Slider.Track>
       </Slider>
     );
@@ -91,23 +82,17 @@ export const Range: Story = {
     return (
       <Slider
         defaultValue={[100, 500]}
-        formatOptions={{style: "currency", currency: "USD"}}
-        maxValue={1000}
-        minValue={0}
+        max={1000}
+        min={0}
         step={50}
         {...args}
       >
         <Label>Price Range</Label>
         <Slider.Output />
         <Slider.Track>
-          {({state}) => (
-            <>
-              <Slider.Fill />
-              {state.values.map((_, i) => (
-                <Slider.Thumb key={i} index={i} />
-              ))}
-            </>
-          )}
+          <Slider.Fill />
+          <Slider.Thumb index={0} />
+          <Slider.Thumb index={1} />
         </Slider.Track>
       </Slider>
     );

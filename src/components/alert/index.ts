@@ -35,10 +35,3 @@ export type {
   AlertTitleProps,
   AlertDescriptionProps,
 } from "./alert";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {alertVariants} from "../../styles";
-
-export type {AlertVariants} from "../../styles";

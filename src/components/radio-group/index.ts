@@ -20,10 +20,3 @@ export type RadioGroup = {
 export {RadioGroupRoot};
 
 export type {RadioGroupRootProps, RadioGroupRootProps as RadioGroupProps} from "./radio-group";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {radioGroupVariants} from "../../styles";
-
-export type {RadioGroupVariants} from "../../styles";

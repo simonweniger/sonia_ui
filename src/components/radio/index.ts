@@ -32,10 +32,3 @@ export type {
   RadioIndicatorProps,
   RadioContentProps,
 } from "./radio";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {radioVariants} from "../../styles";
-
-export type {RadioVariants} from "../../styles";

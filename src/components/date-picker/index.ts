@@ -37,10 +37,3 @@ export type {
   DatePickerTriggerIndicatorProps,
   DatePickerPopoverProps,
 } from "./date-picker";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {datePickerVariants} from "../../styles";
-
-export type {DatePickerVariants} from "../../styles";

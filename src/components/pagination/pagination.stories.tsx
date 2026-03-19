@@ -1,6 +1,7 @@
 import type {PaginationProps} from "./index";
 import type {Meta} from "@storybook/react";
 
+import {Box, Flex, Text} from "@chakra-ui/react";
 import {Icon} from "@iconify/react";
 import React from "react";
 
@@ -69,12 +70,12 @@ const SizesTemplate = (props: PaginationProps) => {
   const sizes = ["sm", "md", "lg"] as const;
 
   return (
-    <div className="flex flex-col gap-8">
+    <Flex direction="column" gap="8">
       {sizes.map((size, index) => (
         <React.Fragment key={size}>
-          <div className="flex flex-col gap-2">
-            <span className="text-sm font-semibold text-muted capitalize">{size}</span>
-            <Pagination {...props} size={size}>
+          <Flex direction="column" gap="2">
+            <Text fontSize="sm" fontWeight="semibold" color="fg.muted" textTransform="capitalize">{size}</Text>
+            <Pagination {...props} className={`pagination-${size}`}>
               <Pagination.Content>
                 <Pagination.Item>
                   <Pagination.Previous>
@@ -99,11 +100,11 @@ const SizesTemplate = (props: PaginationProps) => {
                 </Pagination.Item>
               </Pagination.Content>
             </Pagination>
-          </div>
+          </Flex>
           {index < sizes.length - 1 && <Separator />}
         </React.Fragment>
       ))}
-    </div>
+    </Flex>
   );
 };
 
@@ -192,7 +193,7 @@ export const SimplePrevNext = {
  * With Summary
  * -----------------------------------------------------------------------------------------------*/
 const WithSummaryTemplate = (props: PaginationProps) => (
-  <div className="w-full min-w-[640px]">
+  <Box w="full" minW="640px">
     <Pagination {...props}>
       <Pagination.Summary>Showing 1-10 of 120 results</Pagination.Summary>
       <Pagination.Content>
@@ -231,7 +232,7 @@ const WithSummaryTemplate = (props: PaginationProps) => (
         </Pagination.Item>
       </Pagination.Content>
     </Pagination>
-  </div>
+  </Box>
 );
 
 export const WithSummary = {
@@ -323,14 +324,14 @@ const ControlledTemplate = (props: PaginationProps) => {
   const endItem = Math.min(page * itemsPerPage, totalItems);
 
   return (
-    <div className="w-full min-w-[640px]">
+    <Box w="full" minW="640px">
       <Pagination {...props}>
         <Pagination.Summary>
           Showing {startItem}-{endItem} of {totalItems} results
         </Pagination.Summary>
         <Pagination.Content>
           <Pagination.Item>
-            <Pagination.Previous isDisabled={page === 1} onPress={() => setPage((p) => p - 1)}>
+            <Pagination.Previous disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
               <Pagination.PreviousIcon />
               <span>Previous</span>
             </Pagination.Previous>
@@ -342,21 +343,21 @@ const ControlledTemplate = (props: PaginationProps) => {
               </Pagination.Item>
             ) : (
               <Pagination.Item key={p}>
-                <Pagination.Link isActive={p === page} onPress={() => setPage(p)}>
+                <Pagination.Link isActive={p === page} onClick={() => setPage(p)}>
                   {p}
                 </Pagination.Link>
               </Pagination.Item>
             ),
           )}
           <Pagination.Item>
-            <Pagination.Next isDisabled={page === totalPages} onPress={() => setPage((p) => p + 1)}>
+            <Pagination.Next disabled={page === totalPages} onClick={() => setPage((p) => p + 1)}>
               <span>Next</span>
               <Pagination.NextIcon />
             </Pagination.Next>
           </Pagination.Item>
         </Pagination.Content>
       </Pagination>
-    </div>
+    </Box>
   );
 };
 
@@ -372,7 +373,7 @@ const DisabledTemplate = (props: PaginationProps) => (
   <Pagination {...props}>
     <Pagination.Content>
       <Pagination.Item>
-        <Pagination.Previous isDisabled>
+        <Pagination.Previous disabled>
           <Pagination.PreviousIcon />
           <span>Previous</span>
         </Pagination.Previous>

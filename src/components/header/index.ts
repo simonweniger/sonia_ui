@@ -17,8 +17,3 @@ export type Header = {
 export {HeaderRoot};
 
 export type {HeaderRootProps, HeaderRootProps as HeaderProps} from "./header";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {headerVariants} from "../../styles";

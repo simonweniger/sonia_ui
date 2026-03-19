@@ -1,14 +1,13 @@
-import type {DateValue} from "@internationalized/date";
 import type {Meta, StoryObj} from "@storybook/react";
 
+import {DatePicker as ArkDatePicker, type DateValue as ArkDateValue} from "@ark-ui/react/date-picker";
+import {Flex} from "@chakra-ui/react";
 import {Icon} from "@iconify/react";
-import {getLocalTimeZone, today} from "@internationalized/date";
 import React, {useState} from "react";
 
 import {Button} from "../button";
 import {DateField} from "../date-field";
 import {Description} from "../description";
-import {FieldError} from "../field-error";
 import {Form} from "../form";
 import {Label} from "../label";
 import {RangeCalendar} from "../range-calendar";
@@ -27,11 +26,6 @@ const meta: Meta<typeof DateRangePicker> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-type DateRange = {
-  start: DateValue;
-  end: DateValue;
-};
-
 const RangeCalendarContent = () => (
   <RangeCalendar aria-label="Selected range">
     <RangeCalendar.Header>
@@ -42,14 +36,30 @@ const RangeCalendarContent = () => (
       <RangeCalendar.NavButton slot="previous" />
       <RangeCalendar.NavButton slot="next" />
     </RangeCalendar.Header>
-    <RangeCalendar.Grid>
-      <RangeCalendar.GridHeader>
-        {(day) => <RangeCalendar.HeaderCell>{day}</RangeCalendar.HeaderCell>}
-      </RangeCalendar.GridHeader>
-      <RangeCalendar.GridBody>
-        {(date) => <RangeCalendar.Cell date={date} />}
-      </RangeCalendar.GridBody>
-    </RangeCalendar.Grid>
+    <ArkDatePicker.Context>
+      {(api) => (
+        <RangeCalendar.Grid>
+          <RangeCalendar.GridHeader>
+            <ArkDatePicker.TableRow>
+              {api.weekDays.map((day) => (
+                <RangeCalendar.HeaderCell key={day.long}>{day.short}</RangeCalendar.HeaderCell>
+              ))}
+            </ArkDatePicker.TableRow>
+          </RangeCalendar.GridHeader>
+          <RangeCalendar.GridBody>
+            {api.weeks.map((week, i) => (
+              <ArkDatePicker.TableRow key={i}>
+                {week.map((date) => (
+                  <ArkDatePicker.TableCell key={date.toString()} value={date}>
+                    <RangeCalendar.Cell>{date.day}</RangeCalendar.Cell>
+                  </ArkDatePicker.TableCell>
+                ))}
+              </ArkDatePicker.TableRow>
+            ))}
+          </RangeCalendar.GridBody>
+        </RangeCalendar.Grid>
+      )}
+    </ArkDatePicker.Context>
     <RangeCalendar.YearPickerGrid>
       <RangeCalendar.YearPickerGridBody>
         {({year}) => <RangeCalendar.YearPickerCell year={year} />}
@@ -61,14 +71,8 @@ const RangeCalendarContent = () => (
 const DateRangePickerField = ({showDescription = false}: {showDescription?: boolean}) => (
   <>
     <Label>Trip dates</Label>
-    <DateField.Group fullWidth>
-      <DateField.Input slot="start">
-        {(segment) => <DateField.Segment segment={segment} />}
-      </DateField.Input>
-      <DateRangePicker.RangeSeparator />
-      <DateField.Input slot="end">
-        {(segment) => <DateField.Segment segment={segment} />}
-      </DateField.Input>
+    <DateField.Group>
+      <DateField.Input />
       <DateField.Suffix>
         <DateRangePicker.Trigger>
           <DateRangePicker.TriggerIndicator />
@@ -84,7 +88,7 @@ const DateRangePickerField = ({showDescription = false}: {showDescription?: bool
 
 export const Default: Story = {
   render: () => (
-    <DateRangePicker className="w-[320px]" endName="endDate" startName="startDate">
+    <DateRangePicker style={{width: "320px"}} name="dates">
       <DateRangePickerField />
     </DateRangePicker>
   ),
@@ -92,108 +96,47 @@ export const Default: Story = {
 
 export const Controlled: Story = {
   render: () => {
-    const start = today(getLocalTimeZone());
-    const [value, setValue] = useState<DateRange | null>({end: start.add({days: 4}), start});
+    const [value, setValue] = useState<ArkDateValue[]>([]);
 
     return (
-      <div className="flex w-[320px] flex-col gap-2">
+      <Flex w="320px" direction="column" gap="2">
         <DateRangePicker
-          endName="endDate"
-          startName="startDate"
+          name="dates"
+          selectionMode="range"
           value={value}
-          onChange={(nextValue) => setValue(nextValue as DateRange | null)}
+          onValueChange={(details) => setValue(details.value)}
         >
           <DateRangePickerField showDescription />
         </DateRangePicker>
         <Description>
           Current value:{" "}
-          {value ? `${value.start.toString()} -> ${value.end.toString()}` : "(empty)"}
+          {value.length >= 2
+            ? `${value[0]?.toString()} -> ${value[1]?.toString()}`
+            : "(empty)"}
         </Description>
-      </div>
+      </Flex>
     );
   },
 };
 
 export const Disabled: Story = {
-  render: () => {
-    const start = today(getLocalTimeZone());
-
-    return (
-      <DateRangePicker
-        isDisabled
-        className="w-[320px]"
-        endName="endDate"
-        startName="startDate"
-        value={{end: start.add({days: 4}), start}}
-      >
-        <DateRangePickerField />
-      </DateRangePicker>
-    );
-  },
-};
-
-export const WithValidation: Story = {
-  render: () => {
-    const [value, setValue] = useState<DateRange | null>(null);
-    const currentDate = today(getLocalTimeZone());
-    const isInvalid =
-      value != null && (value.start.compare(currentDate) < 0 || value.end.compare(value.start) < 0);
-
-    return (
-      <DateRangePicker
-        isRequired
-        className="w-[320px]"
-        endName="endDate"
-        isInvalid={isInvalid}
-        minValue={currentDate}
-        startName="startDate"
-        value={value}
-        onChange={(nextValue) => setValue(nextValue as DateRange | null)}
-      >
-        <Label>Booking period</Label>
-        <DateField.Group fullWidth>
-          <DateField.Input slot="start">
-            {(segment) => <DateField.Segment segment={segment} />}
-          </DateField.Input>
-          <DateRangePicker.RangeSeparator />
-          <DateField.Input slot="end">
-            {(segment) => <DateField.Segment segment={segment} />}
-          </DateField.Input>
-          <DateField.Suffix>
-            <DateRangePicker.Trigger>
-              <DateRangePicker.TriggerIndicator />
-            </DateRangePicker.Trigger>
-          </DateField.Suffix>
-        </DateField.Group>
-        {isInvalid ? (
-          <FieldError>Select a valid range starting today or later.</FieldError>
-        ) : (
-          <Description>Choose a check-in and check-out date.</Description>
-        )}
-        <DateRangePicker.Popover>
-          <RangeCalendarContent />
-        </DateRangePicker.Popover>
-      </DateRangePicker>
-    );
-  },
+  render: () => (
+    <DateRangePicker disabled style={{width: "320px"}} name="dates">
+      <DateRangePickerField />
+    </DateRangePicker>
+  ),
 };
 
 export const WithCustomIndicator: Story = {
   render: () => (
-    <DateRangePicker className="w-[320px]" endName="endDate" startName="startDate">
+    <DateRangePicker style={{width: "320px"}} name="dates">
       <Label>Trip dates</Label>
-      <DateField.Group fullWidth>
-        <DateField.Input slot="start">
-          {(segment) => <DateField.Segment segment={segment} />}
-        </DateField.Input>
-        <DateRangePicker.RangeSeparator />
-        <DateField.Input slot="end">
-          {(segment) => <DateField.Segment segment={segment} />}
-        </DateField.Input>
+      <DateField.Group>
+        <DateField.Input />
         <DateField.Suffix>
           <DateRangePicker.Trigger>
             <DateRangePicker.TriggerIndicator>
-              <Icon className="size-4" icon="gravity-ui:chevron-down" />
+              <Icon style={{width: "16px", height: "16px"}} icon="gravity-ui:chevron-down" />
             </DateRangePicker.TriggerIndicator>
           </DateRangePicker.Trigger>
         </DateField.Suffix>
@@ -210,63 +153,48 @@ export const WithCustomIndicator: Story = {
 
 export const FormExample: Story = {
   render: () => {
-    const [value, setValue] = useState<DateRange | null>(null);
+    const [value, setValue] = useState<ArkDateValue[]>([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const currentDate = today(getLocalTimeZone());
-    const isInvalid =
-      value != null && (value.start.compare(currentDate) < 0 || value.end.compare(value.start) < 0);
 
     const handleSubmit = (event: React.FormEvent) => {
       event.preventDefault();
-      if (!value || isInvalid) return;
+      if (value.length < 2) return;
 
       setIsSubmitting(true);
 
       setTimeout(() => {
-        setValue(null);
+        setValue([]);
         setIsSubmitting(false);
       }, 1200);
     };
 
     return (
-      <Form className="flex w-[320px] flex-col gap-3" onSubmit={handleSubmit}>
+      <Form style={{display: "flex", width: "320px", flexDirection: "column", gap: "12px"}} onSubmit={handleSubmit}>
         <DateRangePicker
           isRequired
-          endName="tripEndDate"
-          isInvalid={isInvalid}
-          minValue={currentDate}
-          startName="tripStartDate"
+          name="tripDates"
+          selectionMode="range"
           value={value}
-          onChange={(nextValue) => setValue(nextValue as DateRange | null)}
+          onValueChange={(details) => setValue(details.value)}
         >
           <Label>Trip dates</Label>
-          <DateField.Group fullWidth>
-            <DateField.Input slot="start">
-              {(segment) => <DateField.Segment segment={segment} />}
-            </DateField.Input>
-            <DateRangePicker.RangeSeparator />
-            <DateField.Input slot="end">
-              {(segment) => <DateField.Segment segment={segment} />}
-            </DateField.Input>
+          <DateField.Group>
+            <DateField.Input />
             <DateField.Suffix>
               <DateRangePicker.Trigger>
                 <DateRangePicker.TriggerIndicator />
               </DateRangePicker.Trigger>
             </DateField.Suffix>
           </DateField.Group>
-          {isInvalid ? (
-            <FieldError>Please choose a valid range in the future.</FieldError>
-          ) : (
-            <Description>Select your check-in and check-out dates.</Description>
-          )}
+          <Description>Select your check-in and check-out dates.</Description>
           <DateRangePicker.Popover>
             <RangeCalendarContent />
           </DateRangePicker.Popover>
         </DateRangePicker>
         <Button
-          className="w-full"
-          isDisabled={!value || isInvalid}
-          isPending={isSubmitting}
+          style={{width: "100%"}}
+          isDisabled={value.length < 2}
+          loading={isSubmitting}
           type="submit"
         >
           {isSubmitting ? "Submitting..." : "Submit"}

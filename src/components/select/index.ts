@@ -13,9 +13,9 @@ export const Select = Object.assign(SelectRoot, {
   Popover: SelectPopover,
 });
 
-export type Select<T extends object = object> = {
-  Props: ComponentProps<typeof SelectRoot<T>>;
-  RootProps: ComponentProps<typeof SelectRoot<T>>;
+export type Select = {
+  Props: ComponentProps<typeof SelectRoot>;
+  RootProps: ComponentProps<typeof SelectRoot>;
   TriggerProps: ComponentProps<typeof SelectTrigger>;
   ValueProps: ComponentProps<typeof SelectValue>;
   IndicatorProps: ComponentProps<typeof SelectIndicator>;
@@ -35,10 +35,3 @@ export type {
   SelectIndicatorProps,
   SelectPopoverProps,
 } from "./select";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {selectVariants} from "../../styles";
-
-export type {SelectVariants} from "../../styles";

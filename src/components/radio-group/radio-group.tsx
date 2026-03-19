@@ -1,31 +1,52 @@
 "use client";
 
-import type {RadioGroupVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {radioGroupVariants} from "../../styles";
+import {RadioGroup as ChakraRadioGroup} from "@chakra-ui/react";
 import React from "react";
-import {RadioGroup as RadioGroupPrimitive} from "react-aria-components";
-
-import {composeTwRenderProps} from "../../utils/compose";
 
 /* -------------------------------------------------------------------------------------------------
  * Radio Group Root
  * -----------------------------------------------------------------------------------------------*/
-interface RadioGroupRootProps
-  extends ComponentPropsWithRef<typeof RadioGroupPrimitive>, RadioGroupVariants {}
+interface RadioGroupRootProps extends Omit<ComponentPropsWithRef<typeof ChakraRadioGroup.Root>, 'variant'> {
+  variant?: string;
+}
 
-const RadioGroupRoot = ({children, className, variant, ...props}: RadioGroupRootProps) => {
-  const styles = React.useMemo(() => radioGroupVariants({variant}), [variant]);
-
+const RadioGroupRoot = ({children, variant, ...props}: RadioGroupRootProps) => {
   return (
-    <RadioGroupPrimitive
+    <ChakraRadioGroup.Root
       data-slot="radio-group"
+      data-variant={variant}
+      display="flex"
+      flexDirection="column"
+      css={{
+        "&[data-orientation=vertical] [data-slot=radio]": {
+          marginTop: "1rem",
+        },
+        "&[data-orientation=horizontal]": {
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "1rem",
+        },
+        /* Secondary variant overrides */
+        "&[data-variant=secondary] [data-slot=radio-control]": {
+          shadow: "none",
+          bg: "bg.muted",
+        },
+        "&[data-variant=secondary] [data-slot=radio]:hover [data-slot=radio-control], &[data-variant=secondary] [data-slot=radio][data-hovered=true] [data-slot=radio-control]": {
+          borderColor: "border.emphasized",
+        },
+        "&[data-variant=secondary] [data-slot=radio]:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] [data-slot=radio-indicator]:empty::before": {
+          bg: "bg.muted",
+        },
+        "&[data-variant=secondary] [data-slot=radio]:hover:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] [data-slot=radio-indicator]:empty::before, &[data-variant=secondary] [data-slot=radio][data-hovered=true]:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] [data-slot=radio-indicator]:empty::before": {
+          bg: "bg.muted/80",
+        },
+      }}
       {...props}
-      className={composeTwRenderProps(className, styles)}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-    </RadioGroupPrimitive>
+      {children}
+    </ChakraRadioGroup.Root>
   );
 };
 

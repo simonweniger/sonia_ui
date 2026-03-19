@@ -1,25 +1,27 @@
 "use client";
 
-import type {ErrorMessageVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
-import type {TextProps} from "react-aria-components";
 
-import {errorMessageVariants} from "../../styles";
-import {Text} from "react-aria-components";
+import {Text} from "@chakra-ui/react";
 
 /* -------------------------------------------------------------------------------------------------
  * Error Message Root
  * -----------------------------------------------------------------------------------------------*/
-interface ErrorMessageRootProps
-  extends ComponentPropsWithRef<typeof Text>, TextProps, ErrorMessageVariants {}
+interface ErrorMessageRootProps extends ComponentPropsWithRef<typeof Text> {}
 
-const ErrorMessageRoot = ({children, className, ...rest}: ErrorMessageRootProps) => {
+const ErrorMessageRoot = ({children, ...props}: ErrorMessageRootProps) => {
   return (
     <Text
-      className={errorMessageVariants({className})}
       data-slot="error-message"
-      slot="errorMessage"
-      {...rest}
+      color="fg.error"
+      fontSize="xs"
+      h="auto"
+      overflowWrap="break-word"
+      css={{
+        transition:
+          "opacity 150ms ease-out, height 350ms ease",
+      }}
+      {...props}
     >
       {children}
     </Text>

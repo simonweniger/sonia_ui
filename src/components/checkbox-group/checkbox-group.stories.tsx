@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from "@storybook/react";
 
+import {Box, Flex} from "@chakra-ui/react";
 import React from "react";
 
 import {Button} from "../button";
@@ -66,20 +67,16 @@ export const WithCustomIndicator: Story = {
       <Checkbox value="notifications">
         <Checkbox.Control>
           <Checkbox.Indicator>
-            {({isSelected}) =>
-              isSelected ? (
-                <svg
-                  aria-hidden="true"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : null
-            }
+            <svg
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+            >
+              <path d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </Checkbox.Indicator>
         </Checkbox.Control>
         <Checkbox.Content>
@@ -90,20 +87,16 @@ export const WithCustomIndicator: Story = {
       <Checkbox value="newsletter">
         <Checkbox.Control>
           <Checkbox.Indicator>
-            {({isSelected}) =>
-              isSelected ? (
-                <svg
-                  aria-hidden="true"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : null
-            }
+            <svg
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+            >
+              <path d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </Checkbox.Indicator>
         </Checkbox.Control>
         <Checkbox.Content>
@@ -123,11 +116,10 @@ export const Indeterminate: Story = {
     return (
       <div>
         <Checkbox
-          isIndeterminate={selected.length > 0 && selected.length < allOptions.length}
-          isSelected={selected.length === allOptions.length}
+          checked={selected.length === allOptions.length ? true : selected.length > 0 ? "indeterminate" : false}
           name="select-all"
-          onChange={(isSelected: boolean) => {
-            setSelected(isSelected ? allOptions : []);
+          onCheckedChange={(e) => {
+            setSelected(e.checked ? allOptions : []);
           }}
         >
           <Checkbox.Control>
@@ -137,8 +129,8 @@ export const Indeterminate: Story = {
             <Label>Select all</Label>
           </Checkbox.Content>
         </Checkbox>
-        <div className="ml-6 flex flex-col gap-2">
-          <CheckboxGroup value={selected} onChange={setSelected}>
+        <Box ml="6" display="flex" flexDirection="column" gap="2">
+          <CheckboxGroup value={selected} onValueChange={setSelected}>
             <Checkbox value="coding">
               <Checkbox.Control>
                 <Checkbox.Indicator />
@@ -164,7 +156,7 @@ export const Indeterminate: Story = {
               </Checkbox.Content>
             </Checkbox>
           </CheckboxGroup>
-        </div>
+        </Box>
       </div>
     );
   },
@@ -174,7 +166,6 @@ export const Validation: Story = {
   render: () => {
     return (
       <Form
-        className="flex flex-col gap-4 px-4"
         onSubmit={(e) => {
           e.preventDefault();
 
@@ -184,36 +175,38 @@ export const Validation: Story = {
           alert(`Selected preferences: ${values.join(", ")}`);
         }}
       >
-        <CheckboxGroup isRequired name="preferences">
-          <Label>Preferences</Label>
-          <Description>Select at least one preference</Description>
-          <Checkbox value="email">
-            <Checkbox.Control>
-              <Checkbox.Indicator />
-            </Checkbox.Control>
-            <Checkbox.Content>
-              <Label>Email notifications</Label>
-            </Checkbox.Content>
-          </Checkbox>
-          <Checkbox value="sms">
-            <Checkbox.Control>
-              <Checkbox.Indicator />
-            </Checkbox.Control>
-            <Checkbox.Content>
-              <Label>SMS notifications</Label>
-            </Checkbox.Content>
-          </Checkbox>
-          <Checkbox value="push">
-            <Checkbox.Control>
-              <Checkbox.Indicator />
-            </Checkbox.Control>
-            <Checkbox.Content>
-              <Label>Push notifications</Label>
-            </Checkbox.Content>
-          </Checkbox>
-          <FieldError>Please select at least one notification method.</FieldError>
-        </CheckboxGroup>
-        <Button type="submit">Submit</Button>
+        <Flex direction="column" gap="4" px="4">
+          <CheckboxGroup name="preferences">
+            <Label>Preferences</Label>
+            <Description>Select at least one preference</Description>
+            <Checkbox value="email">
+              <Checkbox.Control>
+                <Checkbox.Indicator />
+              </Checkbox.Control>
+              <Checkbox.Content>
+                <Label>Email notifications</Label>
+              </Checkbox.Content>
+            </Checkbox>
+            <Checkbox value="sms">
+              <Checkbox.Control>
+                <Checkbox.Indicator />
+              </Checkbox.Control>
+              <Checkbox.Content>
+                <Label>SMS notifications</Label>
+              </Checkbox.Content>
+            </Checkbox>
+            <Checkbox value="push">
+              <Checkbox.Control>
+                <Checkbox.Indicator />
+              </Checkbox.Control>
+              <Checkbox.Content>
+                <Label>Push notifications</Label>
+              </Checkbox.Content>
+            </Checkbox>
+            <FieldError>Please select at least one notification method.</FieldError>
+          </CheckboxGroup>
+          <Button type="submit">Submit</Button>
+        </Flex>
       </Form>
     );
   },
@@ -225,10 +218,10 @@ export const Controlled: Story = {
 
     return (
       <CheckboxGroup
-        className="min-w-[320px]"
+        minW="320px"
         name="skills"
         value={selected}
-        onChange={setSelected}
+        onValueChange={setSelected}
       >
         <Label>Your skills</Label>
         <Checkbox value="coding">
@@ -255,7 +248,7 @@ export const Controlled: Story = {
             <Label>Writing</Label>
           </Checkbox.Content>
         </Checkbox>
-        <Label className="my-4 text-sm text-muted">Selected: {selected.join(", ") || "None"}</Label>
+        <Label my="4" fontSize="sm" color="fg.muted">Selected: {selected.join(", ") || "None"}</Label>
       </CheckboxGroup>
     );
   },
@@ -263,7 +256,7 @@ export const Controlled: Story = {
 
 export const Disabled: Story = {
   render: () => (
-    <CheckboxGroup isDisabled name="disabled-features">
+    <CheckboxGroup disabled name="disabled-features">
       <Label>Features</Label>
       <Description>Feature selection is temporarily disabled</Description>
       <Checkbox value="feature1">

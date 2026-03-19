@@ -26,13 +26,6 @@ export {KbdRoot, KbdAbbr, KbdContent};
 export type {KbdRootProps, KbdAbbrProps, KbdContentProps, KbdRootProps as KbdProps} from "./kbd";
 
 /* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {kbdVariants} from "../../styles";
-
-export type {KbdVariants} from "../../styles";
-
-/* -------------------------------------------------------------------------------------------------
  * Constants
  * -----------------------------------------------------------------------------------------------*/
 export {kbdKeysMap, kbdKeysLabelMap} from "./kbd.constants";

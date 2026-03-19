@@ -1,81 +1,39 @@
 import type {ComponentProps} from "react";
 
-import {
-  ToastActionButton,
-  ToastCloseButton,
-  ToastContent,
-  ToastDescription,
-  ToastIndicator,
-  ToastProvider,
-  Toast as ToastRoot,
-  ToastTitle,
-} from "./toast";
-import {ToastQueue, toast, toastQueue} from "./toast-queue";
+import {ToastRoot, toaster} from "./toast";
 
 /* -------------------------------------------------------------------------------------------------
  * Compound Component
  * -----------------------------------------------------------------------------------------------*/
 export const Toast = Object.assign(ToastRoot, {
-  Provider: ToastProvider,
-  Content: ToastContent,
-  Indicator: ToastIndicator,
-  Title: ToastTitle,
-  Description: ToastDescription,
-  ActionButton: ToastActionButton,
-  CloseButton: ToastCloseButton,
-  Queue: ToastQueue,
-  toast,
+  Root: ToastRoot,
+  toaster,
 });
 
 export type Toast = {
   Props: ComponentProps<typeof ToastRoot>;
-  ProviderProps: ComponentProps<typeof ToastProvider>;
-  ContentProps: ComponentProps<typeof ToastContent>;
-  IndicatorProps: ComponentProps<typeof ToastIndicator>;
-  TitleProps: ComponentProps<typeof ToastTitle>;
-  DescriptionProps: ComponentProps<typeof ToastDescription>;
-  ActionProps: ComponentProps<typeof ToastActionButton>;
-  CloseButtonProps: ComponentProps<typeof ToastCloseButton>;
+  RootProps: ComponentProps<typeof ToastRoot>;
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Named Component
  * -----------------------------------------------------------------------------------------------*/
-export {
-  ToastProvider,
-  ToastContent,
-  ToastIndicator,
-  ToastTitle,
-  ToastDescription,
-  ToastActionButton,
-  ToastCloseButton,
-};
+export {ToastRoot, toaster};
+
+export type {ToastRootProps} from "./toast";
+
+/* -------------------------------------------------------------------------------------------------
+ * Toast function (imperative API)
+ * -----------------------------------------------------------------------------------------------*/
+export {toast} from "./toast-queue";
 
 export type {
-  ToastCloseButtonProps,
-  ToastProviderProps,
-  ToastContentProps,
-  ToastDescriptionProps,
-  ToastIndicatorProps,
-  ToastProps,
-  ToastTitleProps,
-} from "./toast";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {toastVariants} from "../../styles";
-
-export type {ToastVariants} from "../../styles";
-
-/* -------------------------------------------------------------------------------------------------
- * Utilities
- * -----------------------------------------------------------------------------------------------*/
-export {ToastQueue, toast, toastQueue};
+  ToastContentValue,
+  HeroUIToastOptions,
+  ToastPromiseOptions,
+} from "./toast-queue";
 
 /* -------------------------------------------------------------------------------------------------
  * Constants
  * -----------------------------------------------------------------------------------------------*/
 export {DEFAULT_MAX_VISIBLE_TOAST, DEFAULT_GAP, DEFAULT_TOAST_TIMEOUT} from "./constants";
-
-export type {ToastQueueOptions, ToastContentValue} from "./toast-queue";

@@ -1,37 +1,148 @@
 "use client";
 
-import type {InputGroupVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {inputGroupVariants} from "../../styles";
+import {Box, Group, Input, Textarea} from "@chakra-ui/react";
 import React, {createContext, useContext} from "react";
-import {
-  Group as GroupPrimitive,
-  Input as InputPrimitive,
-  TextArea as TextAreaPrimitive,
-} from "react-aria-components";
 
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {TextFieldContext} from "../textfield";
 
 /* -------------------------------------------------------------------------------------------------
  * InputGroup Context
  * -----------------------------------------------------------------------------------------------*/
 type InputGroupContext = {
-  slots?: ReturnType<typeof inputGroupVariants>;
+  variant?: string;
+  fullWidth?: boolean;
 };
 
 const InputGroupContext = createContext<InputGroupContext>({});
 
 /* -------------------------------------------------------------------------------------------------
+ * Style definitions
+ * -----------------------------------------------------------------------------------------------*/
+const groupBaseStyles = {
+  display: "inline-flex",
+  minHeight: "9",
+  alignItems: "center",
+  overflow: "hidden",
+  rounded: "xl",
+  bg: "white",
+  color: "fg",
+  shadow: "field",
+  outline: "none",
+  borderWidth: "0px",
+  borderColor: "transparent",
+  fontSize: "sm",
+  transitionProperty: "common",
+  transitionDuration: "fast",
+  transitionTimingFunction: "ease",
+  _hover: {
+    bg: "bg.muted",
+    borderColor: "border.emphasized",
+  },
+  _focusWithin: {
+    ring: "2px",
+    ringColor: "accent",
+    borderColor: "accent",
+    bg: "bg.subtle",
+  },
+  _invalid: {
+    outline: "1px solid",
+    outlineColor: "danger",
+    bg: "bg.subtle",
+  },
+  _disabled: {
+    opacity: 0.5,
+    cursor: "not-allowed",
+    pointerEvents: "none" as const,
+  },
+} as const;
+
+const groupVariantStyles = {
+  primary: {
+    borderWidth: "1px",
+    borderColor: "border",
+    shadow: "field",
+  },
+  secondary: {
+    bg: "bg.muted",
+    shadow: "none",
+    borderColor: "transparent",
+    _hover: {
+      bg: "bg.emphasized",
+    },
+    _focusWithin: {
+      bg: "bg.muted",
+    },
+    _invalid: {
+      outline: "1px solid",
+      outlineColor: "danger",
+      bg: "bg.muted",
+    },
+  },
+} as const;
+
+const inputStyles = {
+  flex: "1",
+  rounded: "none",
+  borderWidth: "0",
+  bg: "transparent",
+  px: "3",
+  py: "2",
+  fontSize: {base: "md", sm: "sm"},
+  shadow: "none",
+  outline: "none",
+  _placeholder: {color: "fg.muted"},
+  _focus: {outline: "none"},
+  _focusVisible: {outline: "none"},
+} as const;
+
+const prefixStyles = {
+  display: "flex",
+  height: "100%",
+  alignItems: "center",
+  justifyContent: "center",
+  roundedLeft: "xl",
+  roundedRight: "none",
+  bg: "transparent",
+  px: "3",
+  color: "fg.muted",
+  borderWidth: "0px",
+  borderRightWidth: "0px",
+  borderColor: "transparent",
+  transitionProperty: "common",
+  transitionDuration: "fast",
+  transitionTimingFunction: "ease",
+} as const;
+
+const suffixStyles = {
+  display: "flex",
+  height: "100%",
+  alignItems: "center",
+  justifyContent: "center",
+  roundedLeft: "none",
+  roundedRight: "xl",
+  bg: "transparent",
+  px: "3",
+  color: "fg.muted",
+  borderWidth: "0px",
+  borderLeftWidth: "0px",
+  borderColor: "transparent",
+  transitionProperty: "common",
+  transitionDuration: "fast",
+  transitionTimingFunction: "ease",
+} as const;
+
+/* -------------------------------------------------------------------------------------------------
  * InputGroup Root
  * -----------------------------------------------------------------------------------------------*/
-interface InputGroupRootProps
-  extends ComponentPropsWithRef<typeof GroupPrimitive>, InputGroupVariants {}
+interface InputGroupRootProps extends Omit<ComponentPropsWithRef<"div">, "size"> {
+  fullWidth?: boolean;
+  variant?: string;
+}
 
 const InputGroupRoot = ({
   children,
-  className,
   fullWidth,
   onClick,
   variant,
@@ -40,11 +151,8 @@ const InputGroupRoot = ({
   const textFieldContext = useContext(TextFieldContext);
   const resolvedVariant = variant ?? textFieldContext?.variant;
   const groupRef = React.useRef<HTMLDivElement>(null);
-
-  const slots = React.useMemo(
-    () => inputGroupVariants({fullWidth, variant: resolvedVariant}),
-    [fullWidth, resolvedVariant],
-  );
+  const resolvedVariantStyles =
+    resolvedVariant === "secondary" ? groupVariantStyles.secondary : groupVariantStyles.primary;
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement;
@@ -58,16 +166,20 @@ const InputGroupRoot = ({
   };
 
   return (
-    <InputGroupContext value={{slots}}>
-      <GroupPrimitive
+    <InputGroupContext value={{variant: resolvedVariant, fullWidth}}>
+      <Group
         {...props}
         ref={groupRef}
-        className={composeTwRenderProps(className, slots?.base())}
         data-slot="input-group"
+        data-variant={resolvedVariant}
+        data-full-width={fullWidth || undefined}
+        {...groupBaseStyles}
+        {...resolvedVariantStyles}
+        width={fullWidth ? "100%" : undefined}
         onClick={handleClick}
       >
-        {(renderProps) => (typeof children === "function" ? children(renderProps) : children)}
-      </GroupPrimitive>
+        {children}
+      </Group>
     </InputGroupContext>
   );
 };
@@ -75,18 +187,10 @@ const InputGroupRoot = ({
 /* -------------------------------------------------------------------------------------------------
  * InputGroup Input
  * -----------------------------------------------------------------------------------------------*/
-interface InputGroupInputProps extends ComponentPropsWithRef<typeof InputPrimitive> {}
+interface InputGroupInputProps extends Omit<ComponentPropsWithRef<typeof Input>, "size"> {}
 
-const InputGroupInput = ({className, ...props}: InputGroupInputProps) => {
-  const {slots} = useContext(InputGroupContext);
-
-  return (
-    <InputPrimitive
-      className={composeTwRenderProps(className, slots?.input())}
-      data-slot="input-group-input"
-      {...props}
-    />
-  );
+const InputGroupInput = ({...props}: InputGroupInputProps) => {
+  return <Input data-slot="input-group-input" {...inputStyles} {...props} />;
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -94,32 +198,26 @@ const InputGroupInput = ({className, ...props}: InputGroupInputProps) => {
  * -----------------------------------------------------------------------------------------------*/
 interface InputGroupPrefixProps extends ComponentPropsWithRef<"div"> {}
 
-const InputGroupPrefix = ({children, className, ...props}: InputGroupPrefixProps) => {
-  const {slots} = useContext(InputGroupContext);
-
+const InputGroupPrefix = ({children, ...props}: InputGroupPrefixProps) => {
   return (
-    <div
-      className={composeSlotClassName(slots?.prefix, className)}
-      data-slot="input-group-prefix"
-      {...props}
-    >
+    <Box data-slot="input-group-prefix" {...prefixStyles} {...props}>
       {children}
-    </div>
+    </Box>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * InputGroup TextArea
  * -----------------------------------------------------------------------------------------------*/
-interface InputGroupTextAreaProps extends ComponentPropsWithRef<typeof TextAreaPrimitive> {}
+interface InputGroupTextAreaProps extends ComponentPropsWithRef<"textarea"> {}
 
-const InputGroupTextArea = ({className, ...props}: InputGroupTextAreaProps) => {
-  const {slots} = useContext(InputGroupContext);
-
+const InputGroupTextArea = ({...props}: InputGroupTextAreaProps) => {
   return (
-    <TextAreaPrimitive
-      className={composeTwRenderProps(className, slots?.input())}
+    <Textarea
       data-slot="input-group-textarea"
+      {...inputStyles}
+      minHeight="38px"
+      resize="vertical"
       {...props}
     />
   );
@@ -130,17 +228,11 @@ const InputGroupTextArea = ({className, ...props}: InputGroupTextAreaProps) => {
  * -----------------------------------------------------------------------------------------------*/
 interface InputGroupSuffixProps extends ComponentPropsWithRef<"div"> {}
 
-const InputGroupSuffix = ({children, className, ...props}: InputGroupSuffixProps) => {
-  const {slots} = useContext(InputGroupContext);
-
+const InputGroupSuffix = ({children, ...props}: InputGroupSuffixProps) => {
   return (
-    <div
-      className={composeSlotClassName(slots?.suffix, className)}
-      data-slot="input-group-suffix"
-      {...props}
-    >
+    <Box data-slot="input-group-suffix" {...suffixStyles} {...props}>
       {children}
-    </div>
+    </Box>
   );
 };
 

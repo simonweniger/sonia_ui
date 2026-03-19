@@ -1,29 +1,37 @@
 "use client";
 
-import type {InputVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {inputVariants} from "../../styles";
-import React, {useContext} from "react";
-import {Input as InputPrimitive} from "react-aria-components";
+import {Input as ChakraInput} from "@chakra-ui/react";
+import {useContext} from "react";
 
-import {composeTwRenderProps} from "../../utils";
 import {TextFieldContext} from "../textfield";
 
 /* -------------------------------------------------------------------------------------------------
  * Input Root
  * -----------------------------------------------------------------------------------------------*/
-interface InputRootProps extends ComponentPropsWithRef<typeof InputPrimitive>, InputVariants {}
+type InputVariant = "primary" | "secondary";
 
-const InputRoot = ({className, fullWidth, variant: variantProp, ...rest}: InputRootProps) => {
+const variantMap: Record<InputVariant, "outline" | "subtle"> = {
+  primary: "outline",
+  secondary: "subtle",
+};
+
+interface InputRootProps extends Omit<ComponentPropsWithRef<typeof ChakraInput>, "variant"> {
+  fullWidth?: boolean;
+  variant?: InputVariant;
+}
+
+const InputRoot = ({fullWidth, variant: variantProp, ...rest}: InputRootProps) => {
   const context = useContext(TextFieldContext);
-  // Use variant from context if not explicitly provided
-  const variant = variantProp ?? context.variant;
+  const variant = variantProp ?? (context.variant as InputVariant | undefined);
+  const chakraVariant = variantMap[variant ?? "primary"];
 
   return (
-    <InputPrimitive
-      className={composeTwRenderProps(className, inputVariants({fullWidth, variant}))}
+    <ChakraInput
       data-slot="input"
+      variant={chakraVariant}
+      width={fullWidth ? "100%" : undefined}
       {...rest}
     />
   );

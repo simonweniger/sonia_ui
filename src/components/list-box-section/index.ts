@@ -20,10 +20,3 @@ export type {
   ListBoxSectionRootProps,
   ListBoxSectionRootProps as ListBoxSectionProps,
 } from "./list-box-section";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {listboxSectionVariants} from "../../styles";
-
-export type {ListBoxSectionVariants} from "../../styles";

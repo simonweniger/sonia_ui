@@ -1,207 +1,381 @@
 "use client";
 
-import type {TableVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {tableVariants} from "../../styles";
+import {Box, Table as ChakraTable, chakra} from "@chakra-ui/react";
 import React, {createContext, useContext} from "react";
-import {
-  Cell as CellPrimitive,
-  Collection as CollectionPrimitive,
-  Column as ColumnPrimitive,
-  ColumnResizer as ColumnResizerPrimitive,
-  ResizableTableContainer as ResizableTableContainerPrimitive,
-  Row as RowPrimitive,
-  TableBody as TableBodyPrimitive,
-  TableHeader as TableHeaderPrimitive,
-  TableLoadMoreItem as TableLoadMoreItemPrimitive,
-  Table as TablePrimitive,
-} from "react-aria-components";
-import {cx} from "tailwind-variants";
-
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 
 /* -------------------------------------------------------------------------------------------------
- * Table Context
+ * Table Context — variant propagation
  * -----------------------------------------------------------------------------------------------*/
-const TableContext = createContext<{
-  slots?: ReturnType<typeof tableVariants>;
-}>({});
+type TableVariant = "primary" | "secondary";
+
+type TableContextValue = {
+  variant: TableVariant;
+};
+
+const TableContext = createContext<TableContextValue>({variant: "primary"});
 
 /* -------------------------------------------------------------------------------------------------
  * Table Root
  * -----------------------------------------------------------------------------------------------*/
-interface TableRootProps extends ComponentPropsWithRef<"div">, TableVariants {
+interface TableRootProps extends Omit<ComponentPropsWithRef<typeof ChakraTable.Root>, "variant"> {
   className?: string;
   children?: React.ReactNode;
+  variant?: TableVariant;
 }
 
-const TableRoot = React.forwardRef<HTMLDivElement, TableRootProps>(
-  ({children, className, variant, ...props}, ref) => {
-    const slots = React.useMemo(() => tableVariants({variant}), [variant]);
-
+const TableRoot = React.forwardRef<HTMLTableElement, TableRootProps>(
+  ({children, className, variant = "primary", ...props}, ref) => {
     return (
-      <TableContext value={{slots}}>
-        <div ref={ref} className={slots.base({className})} data-slot="table" {...props}>
+      <TableContext value={{variant}}>
+        <ChakraTable.Root
+          ref={ref}
+          className={className}
+          data-slot="table"
+          data-variant={variant}
+          position="relative"
+          display="grid"
+          w="100%"
+          overflow="clip"
+          css={{
+            gridTemplateColumns: "minmax(0, 1fr)",
+            ...(variant === "primary"
+              ? {
+                  bg: "bg.muted",
+                  paddingInline: "0.25rem",
+                  paddingBottom: "0.25rem",
+                  borderRadius: "calc(var(--chakra-radii-2xl) * 1.25)",
+                }
+              : {}),
+          }}
+          {...props}
+        >
           {children}
-        </div>
+        </ChakraTable.Root>
       </TableContext>
     );
   },
 );
 
-TableRoot.displayName = "HeroUI.Table";
+TableRoot.displayName = "Table";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Scroll Container
  * -----------------------------------------------------------------------------------------------*/
-interface TableScrollContainerProps extends ComponentPropsWithRef<"div"> {}
+interface TableScrollContainerProps extends ComponentPropsWithRef<typeof ChakraTable.ScrollArea> {}
 
 const TableScrollContainer = React.forwardRef<HTMLDivElement, TableScrollContainerProps>(
   ({className, ...props}, ref) => {
-    const {slots} = useContext(TableContext);
-
     return (
-      <div
+      <ChakraTable.ScrollArea
         ref={ref}
-        className={composeSlotClassName(slots?.scrollContainer, className)}
+        className={className}
         data-slot="table-scroll-container"
+        overflowX="auto"
+        css={{
+          scrollbarWidth: "thin",
+          scrollbarColor: "oklch(0% 0 0 / 0.15) transparent",
+          "&::-webkit-scrollbar": {width: "6px"},
+          "&::-webkit-scrollbar-track": {background: "transparent"},
+          "&::-webkit-scrollbar-thumb": {
+            background: "oklch(0% 0 0 / 0.15)",
+            borderRadius: "3px",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            background: "oklch(0% 0 0 / 0.25)",
+          },
+        }}
         {...props}
       />
     );
   },
 );
 
-TableScrollContainer.displayName = "HeroUI.Table.ScrollContainer";
+TableScrollContainer.displayName = "Table.ScrollContainer";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Content
  * -----------------------------------------------------------------------------------------------*/
-interface TableContentProps extends Omit<
-  ComponentPropsWithRef<typeof TablePrimitive>,
-  "className"
-> {
+interface TableContentProps extends ComponentPropsWithRef<"table"> {
   className?: string;
 }
 
 function TableContent({className, ...props}: TableContentProps) {
-  const {slots} = useContext(TableContext);
-
   return (
-    <TablePrimitive
-      className={composeTwRenderProps(className, slots?.content())}
+    <chakra.table
+      className={className}
       data-slot="table-content"
+      w="100%"
+      borderCollapse="separate"
+      borderSpacing="0"
+      fontSize="sm"
+      overflow="clip"
       {...props}
     />
   );
 }
 
-(TableContent as React.FC).displayName = "HeroUI.Table.Content";
+(TableContent as React.FC).displayName = "Table.Content";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Header
  * -----------------------------------------------------------------------------------------------*/
-interface TableHeaderProps<T extends object> extends ComponentPropsWithRef<
-  typeof TableHeaderPrimitive<T>
-> {}
+interface TableHeaderProps extends ComponentPropsWithRef<typeof ChakraTable.Header> {}
 
-function TableHeader<T extends object>({className, ...props}: TableHeaderProps<T>) {
-  const {slots} = useContext(TableContext);
+function TableHeader({className, ...props}: TableHeaderProps) {
+  const {variant} = useContext(TableContext);
 
   return (
-    <TableHeaderPrimitive
-      className={composeTwRenderProps(className, slots?.header())}
+    <ChakraTable.Header
+      className={className}
       data-slot="table-header"
+      css={{
+        borderBottom: "1px solid",
+        borderColor: "border/50",
+        bg: "bg.muted",
+        ...(variant === "secondary"
+          ? {
+              borderBottom: "none",
+              bg: "transparent",
+            }
+          : {}),
+      }}
       {...props}
     />
   );
 }
 
-(TableHeader as React.FC).displayName = "HeroUI.Table.Header";
+(TableHeader as React.FC).displayName = "Table.Header";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Column
  * -----------------------------------------------------------------------------------------------*/
-interface TableColumnProps extends ComponentPropsWithRef<typeof ColumnPrimitive> {}
+interface TableColumnProps extends ComponentPropsWithRef<typeof ChakraTable.ColumnHeader> {}
 
 const TableColumn = React.forwardRef<HTMLTableCellElement, TableColumnProps>(
   ({className, ...props}, ref) => {
-    const {slots} = useContext(TableContext);
+    const {variant} = useContext(TableContext);
 
     return (
-      <ColumnPrimitive
+      <ChakraTable.ColumnHeader
         ref={ref}
-        className={composeTwRenderProps(className, slots?.column())}
+        className={className}
         data-slot="table-column"
+        position="relative"
+        px="4"
+        py="2.5"
+        textAlign="left"
+        fontSize="xs"
+        fontWeight="medium"
+        color="fg.muted"
+        css={{
+          /* Column separator */
+          "&::after": {
+            content: '""',
+            pointerEvents: "none",
+            position: "absolute",
+            top: "50%",
+            right: 0,
+            height: "1rem",
+            width: "1px",
+            transform: "translateY(-50%)",
+            borderRadius: "1px",
+            bg: "border",
+          },
+          "&:last-child:not(:only-child)::after": {
+            content: "none",
+          },
+          /* Hide separator when resizer present */
+          "&:has([data-slot=table-column-resizer])::after": {
+            content: "none",
+          },
+          /* Sortable */
+          '&[data-allows-sorting="true"]': {
+            cursor: "pointer",
+          },
+          '@media (hover: hover)': {
+            '&[data-allows-sorting="true"]:hover, &[data-allows-sorting="true"][data-hovered="true"]': {
+              color: "fg",
+            },
+          },
+          /* Focus visible */
+          '&:focus-visible, &[data-focus-visible="true"]': {
+            borderRadius: "var(--chakra-radii-lg)",
+            outline: "none",
+            boxShadow: "inset 0 0 0 2px var(--chakra-colors-accent)",
+          },
+          /* Secondary variant: column cells get bg */
+          ...(variant === "secondary"
+            ? {
+                bg: "bg.muted",
+                "&:first-child": {
+                  borderTopLeftRadius: "var(--chakra-radii-2xl)",
+                  borderBottomLeftRadius: "var(--chakra-radii-2xl)",
+                },
+                "&:last-child": {
+                  borderTopRightRadius: "var(--chakra-radii-2xl)",
+                  borderBottomRightRadius: "var(--chakra-radii-2xl)",
+                },
+              }
+            : {}),
+        }}
         {...props}
       />
     );
   },
 );
 
-TableColumn.displayName = "HeroUI.Table.Column";
+TableColumn.displayName = "Table.Column";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Body
  * -----------------------------------------------------------------------------------------------*/
-interface TableBodyProps<T extends object> extends ComponentPropsWithRef<
-  typeof TableBodyPrimitive<T>
-> {}
+interface TableBodyProps extends ComponentPropsWithRef<typeof ChakraTable.Body> {}
 
-function TableBody<T extends object>({className, ...props}: TableBodyProps<T>) {
-  const {slots} = useContext(TableContext);
+function TableBody({className, ...props}: TableBodyProps) {
+  const {variant} = useContext(TableContext);
 
   return (
-    <TableBodyPrimitive
-      className={composeTwRenderProps(className, slots?.body())}
+    <ChakraTable.Body
+      className={className}
       data-slot="table-body"
+      css={{
+        /* Non-virtualized: round corners via first/last cells */
+        "& tr:first-child td:first-child": {borderTopLeftRadius: "var(--chakra-radii-2xl)"},
+        "& tr:first-child td:last-child": {borderTopRightRadius: "var(--chakra-radii-2xl)"},
+        "& tr:last-child td:first-child": {borderBottomLeftRadius: "var(--chakra-radii-2xl)"},
+        "& tr:last-child td:last-child": {borderBottomRightRadius: "var(--chakra-radii-2xl)"},
+        /* Virtualized: body gets rounding */
+        "&:not(tbody)": {
+          position: "relative",
+          height: "100%",
+          overflow: "clip",
+          borderRadius: "var(--chakra-radii-2xl)",
+        },
+        /* Secondary variant: no rounding, no shadow */
+        ...(variant === "secondary"
+          ? {
+              boxShadow: "none",
+              "& tr:first-child td:first-child, & tr:first-child td:last-child, & tr:last-child td:first-child, & tr:last-child td:last-child": {
+                borderRadius: 0,
+              },
+              "&:not(tbody)": {
+                overflow: "visible",
+                borderRadius: 0,
+              },
+            }
+          : {}),
+      }}
       {...props}
     />
   );
 }
 
-(TableBody as React.FC).displayName = "HeroUI.Table.Body";
+(TableBody as React.FC).displayName = "Table.Body";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Row
  * -----------------------------------------------------------------------------------------------*/
-interface TableRowProps<T extends object> extends ComponentPropsWithRef<typeof RowPrimitive<T>> {}
+interface TableRowProps extends ComponentPropsWithRef<typeof ChakraTable.Row> {}
 
-function TableRow<T extends object>({className, ...props}: TableRowProps<T>) {
-  const {slots} = useContext(TableContext);
+function TableRow({className, ...props}: TableRowProps) {
+  const {variant} = useContext(TableContext);
 
   return (
-    <RowPrimitive
-      className={composeTwRenderProps(className, slots?.row())}
+    <ChakraTable.Row
+      className={className}
       data-slot="table-row"
+      position="relative"
+      h="100%"
+      css={{
+        /* Last row: no bottom border */
+        "&:last-child [data-slot=table-cell]": {
+          borderBottom: "none",
+        },
+        /* Hover */
+        "@media (hover: hover)": {
+          "&:hover [data-slot=table-cell], &[data-hovered=true] [data-slot=table-cell]": {
+            bg: variant === "secondary" ? "bg.subtle/50" : "surface/40",
+          },
+        },
+        /* Selected */
+        '&[data-selected="true"] [data-slot=table-cell]': {
+          bg: "surface/10",
+        },
+        /* Disabled */
+        '&[aria-disabled="true"], &[data-disabled="true"]': {
+          opacity: 0.5,
+          cursor: "not-allowed",
+          pointerEvents: "none",
+        },
+        /* Focus visible */
+        '&:focus-visible, &[data-focus-visible="true"]': {
+          outline: "none",
+          boxShadow: "inset 0 0 0 2px var(--chakra-colors-accent)",
+        },
+        /* Dragging */
+        '&[data-dragging="true"]': {
+          opacity: 0.5,
+        },
+        /* Drop target */
+        '&[data-drop-target="true"] [data-slot=table-cell]': {
+          bg: "accent.subtle",
+        },
+        /* Secondary variant: transparent cells + different hover */
+        ...(variant === "secondary"
+          ? {
+              "& [data-slot=table-cell]": {
+                bg: "transparent",
+                borderBottom: "1px solid",
+                borderColor: "border/30",
+              },
+            }
+          : {}),
+      }}
       {...props}
     />
   );
 }
 
-(TableRow as React.FC).displayName = "HeroUI.Table.Row";
+(TableRow as React.FC).displayName = "Table.Row";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Cell
  * -----------------------------------------------------------------------------------------------*/
-interface TableCellProps extends ComponentPropsWithRef<typeof CellPrimitive> {}
+interface TableCellProps extends ComponentPropsWithRef<typeof ChakraTable.Cell> {}
 
 const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({className, ...props}, ref) => {
-    const {slots} = useContext(TableContext);
-
     return (
-      <CellPrimitive
+      <ChakraTable.Cell
         ref={ref}
-        className={composeTwRenderProps(className, slots?.cell())}
+        className={className}
         data-slot="table-cell"
+        h="100%"
+        bg="surface"
+        px="4"
+        py="3"
+        verticalAlign="middle"
+        fontSize="sm"
+        color="fg"
+        borderBottom="1px solid"
+        css={{
+          borderColor: "border/30",
+          /* Focus visible */
+          '&:focus-visible, &[data-focus-visible="true"]': {
+            borderRadius: "var(--chakra-radii-lg)",
+            outline: "none",
+            boxShadow: "inset 0 0 0 2px var(--chakra-colors-accent)",
+          },
+        }}
         {...props}
       />
     );
   },
 );
 
-TableCell.displayName = "HeroUI.Table.Cell";
+TableCell.displayName = "Table.Cell";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Footer
@@ -212,86 +386,42 @@ interface TableFooterProps extends ComponentPropsWithRef<"div"> {
 
 const TableFooter = React.forwardRef<HTMLDivElement, TableFooterProps>(
   ({className, ...props}, ref) => {
-    const {slots} = useContext(TableContext);
-
     return (
-      <div
+      <Box
         ref={ref}
-        className={composeSlotClassName(slots?.footer, className)}
+        className={className}
         data-slot="table-footer"
+        display="flex"
+        alignItems="center"
+        px="4"
+        py="2.5"
         {...props}
       />
     );
   },
 );
 
-TableFooter.displayName = "HeroUI.Table.Footer";
+TableFooter.displayName = "Table.Footer";
 
 /* -------------------------------------------------------------------------------------------------
- * Table Resizable Container
+ * Table Collection (pass-through for dynamic cell rendering)
  * -----------------------------------------------------------------------------------------------*/
-interface TableResizableContainerProps extends ComponentPropsWithRef<
-  typeof ResizableTableContainerPrimitive
-> {}
-
-const TableResizableContainer = React.forwardRef<HTMLDivElement, TableResizableContainerProps>(
-  ({className, ...props}, ref) => {
-    return (
-      <ResizableTableContainerPrimitive
-        ref={ref}
-        className={cx("table__resizable-container", className)}
-        data-slot="table-resizable-container"
-        {...props}
-      />
-    );
-  },
-);
-
-TableResizableContainer.displayName = "HeroUI.Table.ResizableContainer";
-
-/* -------------------------------------------------------------------------------------------------
- * Table Column Resizer
- * -----------------------------------------------------------------------------------------------*/
-interface TableColumnResizerProps extends ComponentPropsWithRef<typeof ColumnResizerPrimitive> {}
-
-const TableColumnResizer = React.forwardRef<HTMLDivElement, TableColumnResizerProps>(
-  ({className, ...props}, ref) => {
-    const {slots} = useContext(TableContext);
-
-    return (
-      <ColumnResizerPrimitive
-        ref={ref}
-        className={composeTwRenderProps(className, slots?.columnResizer())}
-        data-slot="table-column-resizer"
-        {...props}
-      />
-    );
-  },
-);
-
-TableColumnResizer.displayName = "HeroUI.Table.ColumnResizer";
+const TableCollection = ({children}: {children: React.ReactNode}) => <>{children}</>;
 
 /* -------------------------------------------------------------------------------------------------
  * Table Load More Item
  * -----------------------------------------------------------------------------------------------*/
-interface TableLoadMoreItemProps extends ComponentPropsWithRef<typeof TableLoadMoreItemPrimitive> {}
+interface TableLoadMoreItemProps extends ComponentPropsWithRef<typeof ChakraTable.Row> {}
 
 const TableLoadMoreItem = React.forwardRef<HTMLTableRowElement, TableLoadMoreItemProps>(
   ({className, ...props}, ref) => {
-    const {slots} = useContext(TableContext);
-
     return (
-      <TableLoadMoreItemPrimitive
-        ref={ref}
-        className={composeSlotClassName(slots?.loadMore, className)}
-        data-slot="table-load-more"
-        {...props}
-      />
+      <ChakraTable.Row ref={ref} className={className} data-slot="table-load-more" {...props} />
     );
   },
 );
 
-TableLoadMoreItem.displayName = "HeroUI.Table.LoadMore";
+TableLoadMoreItem.displayName = "Table.LoadMore";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Load More Content
@@ -300,30 +430,102 @@ interface TableLoadMoreContentProps extends ComponentPropsWithRef<"div"> {}
 
 const TableLoadMoreContent = React.forwardRef<HTMLDivElement, TableLoadMoreContentProps>(
   ({className, ...props}, ref) => {
-    const {slots} = useContext(TableContext);
-
     return (
-      <div
+      <Box
         ref={ref}
-        className={composeSlotClassName(slots?.loadMoreContent, className)}
+        className={className}
         data-slot="table-load-more-content"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        gap="2"
+        py="2"
         {...props}
       />
     );
   },
 );
 
-TableLoadMoreContent.displayName = "HeroUI.Table.LoadMoreContent";
+TableLoadMoreContent.displayName = "Table.LoadMoreContent";
+
+/* -------------------------------------------------------------------------------------------------
+ * Table Resizable Container
+ * -----------------------------------------------------------------------------------------------*/
+interface TableResizableContainerProps extends ComponentPropsWithRef<"div"> {}
+
+const TableResizableContainer = React.forwardRef<HTMLDivElement, TableResizableContainerProps>(
+  ({className, ...props}, ref) => {
+    return (
+      <Box
+        ref={ref}
+        className={className}
+        data-slot="table-resizable-container"
+        position="relative"
+        overflow="auto"
+        {...props}
+      />
+    );
+  },
+);
+
+TableResizableContainer.displayName = "Table.ResizableContainer";
+
+/* -------------------------------------------------------------------------------------------------
+ * Table Column Resizer
+ * -----------------------------------------------------------------------------------------------*/
+interface TableColumnResizerProps extends ComponentPropsWithRef<"div"> {}
+
+const TableColumnResizer = React.forwardRef<HTMLDivElement, TableColumnResizerProps>(
+  ({className, ...props}, ref) => {
+    return (
+      <Box
+        ref={ref}
+        className={className}
+        data-slot="table-column-resizer"
+        position="absolute"
+        top="50%"
+        right="0"
+        h="4"
+        w="px"
+        transform="translateY(-50%)"
+        rounded="sm"
+        bg="border"
+        boxSizing="content-box"
+        border="none"
+        outline="none"
+        css={{
+          translate: "50%",
+          cursor: "col-resize",
+          touchAction: "none",
+          paddingInline: "0.5rem",
+          backgroundClip: "content-box",
+          '&[data-hovered="true"], &:hover': {
+            height: "100%",
+            width: "2px",
+            bg: "accent",
+          },
+          '&[data-resizing="true"]': {
+            height: "100%",
+            width: "2px",
+            bg: "accent",
+          },
+          '&[data-focus-visible="true"], &:focus-visible': {
+            height: "100%",
+            width: "2px",
+            bg: "accent",
+          },
+        }}
+        {...props}
+      />
+    );
+  },
+);
+
+TableColumnResizer.displayName = "Table.ColumnResizer";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/
-// Re-export Collection from React Aria for dynamic cell rendering within rows.
-// Users wrap their dynamic cells in <Table.Collection items={columns}> when they
-// need to render additional static cells (e.g. checkbox, drag handle) alongside
-// dynamic column-based cells.
-const TableCollection = CollectionPrimitive;
-
 export {
   TableRoot,
   TableScrollContainer,

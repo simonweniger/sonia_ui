@@ -25,10 +25,3 @@ export type {TextFieldRootProps, TextFieldRootProps as TextFieldProps} from "./t
  * Context
  * -----------------------------------------------------------------------------------------------*/
 export {TextFieldContext} from "./textfield";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {textFieldVariants} from "../../styles";
-
-export type {TextFieldVariants} from "../../styles";

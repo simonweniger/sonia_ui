@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from "@storybook/react";
 
+import {Box, Flex, Text} from "@chakra-ui/react";
 import React from "react";
 
 import {Surface} from "../surface";
@@ -23,63 +24,66 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex w-[240px] flex-col gap-2">
+    <Flex w="240px" direction="column" gap="2">
       <Input fullWidth placeholder="Primary input" variant="primary" />
       <Input fullWidth placeholder="Secondary input" variant="secondary" />
-    </div>
+    </Flex>
   ),
 };
 
 export const FullWidth: Story = {
   render: () => (
-    <div className="w-[400px] space-y-3">
+    <Box w="400px" spaceY="3">
       <Input fullWidth placeholder="Full width input" />
-      <div className="flex h-[180px] items-center justify-center rounded-3xl bg-surface p-4">
-        <Surface className="w-full">
-          <Input fullWidth placeholder="Full width input on surface" variant="secondary" />
-        </Surface>
-      </div>
-    </div>
+      <Flex h="180px" align="center" justify="center" rounded="3xl" bg="surface" p="4">
+        <Box w="full">
+          <Surface>
+            <Input fullWidth placeholder="Full width input on surface" variant="secondary" />
+          </Surface>
+        </Box>
+      </Flex>
+    </Box>
   ),
 };
 
 export const OnSurfaces: Story = {
   render: () => (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted">Default Surface</p>
-        <Surface className="flex min-w-[320px] flex-col gap-3 rounded-3xl p-6" variant="default">
-          <Input className="w-full" placeholder="Your name" variant="primary" />
-          <Input className="w-full" placeholder="Your name" variant="secondary" />
-        </Surface>
-      </div>
+    <Flex direction="column" gap="8">
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" fontWeight="medium" color="fg.muted">Default Surface</Text>
+        <Flex minW="320px" direction="column" gap="3" rounded="3xl" p="6">
+          <Surface variant="default">
+            <Flex direction="column" gap="3">
+              <Input w="full" placeholder="Your name" variant="primary" />
+              <Input w="full" placeholder="Your name" variant="secondary" />
+            </Flex>
+          </Surface>
+        </Flex>
+      </Flex>
 
-      <div className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted">Secondary Surface</p>
-        <Surface className="flex min-w-[320px] flex-col gap-3 rounded-3xl p-6" variant="secondary">
-          <Input className="w-full" placeholder="Your name" variant="primary" />
-          <Input className="w-full" placeholder="Your name" variant="secondary" />
-        </Surface>
-      </div>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" fontWeight="medium" color="fg.muted">Secondary Surface</Text>
+        <Flex minW="320px" direction="column" gap="3" rounded="3xl" p="6">
+          <Surface variant="secondary">
+            <Flex direction="column" gap="3">
+              <Input w="full" placeholder="Your name" variant="primary" />
+              <Input w="full" placeholder="Your name" variant="secondary" />
+            </Flex>
+          </Surface>
+        </Flex>
+      </Flex>
 
-      <div className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted">Tertiary Surface</p>
-        <Surface className="flex min-w-[320px] flex-col gap-3 rounded-3xl p-6" variant="tertiary">
-          <Input className="w-full" placeholder="Your name" variant="primary" />
-          <Input className="w-full" placeholder="Your name" variant="secondary" />
-        </Surface>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted">Transparent Surface</p>
-        <Surface
-          className="flex min-w-[320px] flex-col gap-3 rounded-3xl border p-6"
-          variant="transparent"
-        >
-          <Input className="w-full" placeholder="Your name" variant="primary" />
-          <Input className="w-full" placeholder="Your name" variant="secondary" />
-        </Surface>
-      </div>
-    </div>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" fontWeight="medium" color="fg.muted">Tertiary Surface</Text>
+        <Flex minW="320px" direction="column" gap="3" rounded="3xl" p="6">
+          <Surface variant="tertiary">
+            <Flex direction="column" gap="3">
+              <Input w="full" placeholder="Your name" variant="primary" />
+              <Input w="full" placeholder="Your name" variant="secondary" />
+            </Flex>
+          </Surface>
+        </Flex>
+      </Flex>
+    </Flex>
   ),
 };

@@ -3,6 +3,8 @@ import type {Meta, StoryObj} from "@storybook/react";
 import {Icon} from "@iconify/react";
 import React from "react";
 
+import {Box, chakra, Flex, Grid, Text} from "@chakra-ui/react";
+
 import {Avatar} from "../avatar";
 import {Button} from "../button";
 import {CloseButton} from "../close-button";
@@ -18,7 +20,7 @@ const meta = {
   argTypes: {
     variant: {
       control: {type: "select"},
-      options: ["transparent", "default", "secondary", "tertiary"],
+      options: ["subtle", "elevated", "outline"],
     },
   },
   component: Card,
@@ -33,12 +35,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args) => (
-    <Card className="w-[400px]" {...args}>
+    <Card width="400px" {...args}>
       <Icon
         aria-label="Dollar sign icon"
-        className="text-primary size-6"
         icon="gravity-ui:circle-dollar"
         role="img"
+        style={{color: "var(--chakra-colors-primary)", width: "24px", height: "24px"}}
       />
       <Card.Header>
         <Card.Title>Become an Acme Creator!</Card.Title>
@@ -64,93 +66,106 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
-      <Card className="w-[320px]" variant="transparent">
+    <Flex direction="column" gap="4">
+      <Card width="320px" variant="transparent">
         <Card.Header>
           <Card.Title>Transparent</Card.Title>
           <Card.Description>Minimal prominence with transparent background</Card.Description>
         </Card.Header>
         <Card.Content>
-          <p>Use for less important content or nested cards</p>
+          <Text>Use for less important content or nested cards</Text>
         </Card.Content>
       </Card>
 
-      <Card className="w-[320px]" variant="default">
+      <Card width="320px" variant="default">
         <Card.Header>
           <Card.Title>Default</Card.Title>
           <Card.Description>Standard card appearance (bg-surface)</Card.Description>
         </Card.Header>
         <Card.Content>
-          <p>The default card variant for most use cases</p>
+          <Text>The default card variant for most use cases</Text>
         </Card.Content>
       </Card>
 
-      <Card className="w-[320px]" variant="secondary">
+      <Card width="320px" variant="secondary">
         <Card.Header>
           <Card.Title>Secondary</Card.Title>
           <Card.Description>Medium prominence (bg-surface-secondary)</Card.Description>
         </Card.Header>
         <Card.Content>
-          <p>Use to draw moderate attention</p>
+          <Text>Use to draw moderate attention</Text>
         </Card.Content>
       </Card>
 
-      <Card className="w-[320px]" variant="tertiary">
+      <Card width="320px" variant="tertiary">
         <Card.Header>
           <Card.Title>Tertiary</Card.Title>
           <Card.Description>Higher prominence (bg-surface-tertiary)</Card.Description>
         </Card.Header>
         <Card.Content>
-          <p>Use for primary or featured content</p>
+          <Text>Use for primary or featured content</Text>
         </Card.Content>
       </Card>
-    </div>
+    </Flex>
   ),
 };
 
 export const Horizontal: Story = {
   render: (args) => (
-    <Card className="w-full items-stretch md:flex-row" {...args}>
-      <img
+    <Card width="full" alignItems="stretch" flexDirection={{md: "row"}} {...args}>
+      <chakra.img
         alt="Porsche 911 Golden Edition"
-        className="pointer-events-none aspect-square w-full rounded-3xl object-cover select-none md:max-w-[136px]"
+        pointerEvents="none"
+        aspectRatio="square"
+        width="full"
+        rounded="3xl"
+        objectFit="cover"
+        userSelect="none"
+        maxW={{md: "136px"}}
         loading="lazy"
         src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/components/card/porsche-911.png"
       />
-      <div className="flex flex-1 flex-col gap-3">
-        <Card.Header className="gap-1">
+      <Flex flex="1" direction="column" gap="3">
+        <Card.Header gap="1">
           <Card.Title>Get the new Porsche 911 golden edition</Card.Title>
           <Card.Description>
             Experience unmatched luxury and performance with the Porsche 911 Golden Edition—where
             sleek design meets cutting-edge tech and pure driving thrill.
           </Card.Description>
         </Card.Header>
-        <Card.Footer className="mt-auto flex w-full flex-row items-center justify-between">
-          <div className="flex flex-col">
-            <span
+        <Card.Footer mt="auto" display="flex" width="full" flexDirection="row" alignItems="center" justifyContent="space-between">
+          <Flex direction="column">
+            <Text
               aria-label="Price: 36,799 US dollars"
-              className="text-sm font-medium text-foreground"
+              fontSize="sm"
+              fontWeight="medium"
+              color="fg"
             >
               $36,799
-            </span>
-            <span aria-label="Available stock: 11 units" className="text-xs text-muted">
+            </Text>
+            <Text aria-label="Available stock: 11 units" fontSize="xs" color="fg.muted">
               11 available
-            </span>
-          </div>
+            </Text>
+          </Flex>
           <Button>Buy Now</Button>
         </Card.Footer>
-      </div>
+      </Flex>
     </Card>
   ),
 };
 
 export const WithAvatar: Story = {
   render: (args) => (
-    <div className="flex gap-4">
-      <Card className="w-[200px] gap-2" {...args}>
-        <img
+    <Flex gap="4">
+      <Card width="200px" gap="2" {...args}>
+        <chakra.img
           alt="Indie Hackers community"
-          className="pointer-events-none aspect-square w-14 rounded-2xl object-cover select-none"
+          pointerEvents="none"
+          aspectRatio="square"
+          width="14"
+          rounded="2xl"
+          objectFit="cover"
+          userSelect="none"
           loading="lazy"
           src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo1.jpg"
         />
@@ -158,22 +173,27 @@ export const WithAvatar: Story = {
           <Card.Title>Indie Hackers</Card.Title>
           <Card.Description>148 members</Card.Description>
         </Card.Header>
-        <Card.Footer className="flex gap-2">
-          <Avatar aria-label="Martha's profile picture" className="size-5">
+        <Card.Footer display="flex" gap="2">
+          <Avatar aria-label="Martha's profile picture" boxSize="5">
             <Avatar.Image
               alt="Martha's avatar"
               src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg"
             />
-            <Avatar.Fallback className="text-xs">IH</Avatar.Fallback>
+            <Avatar.Fallback fontSize="xs">IH</Avatar.Fallback>
           </Avatar>
-          <span className="text-xs">By Martha</span>
+          <Text fontSize="xs">By Martha</Text>
         </Card.Footer>
       </Card>
 
-      <Card className="w-[200px] gap-2" {...args}>
-        <img
+      <Card width="200px" gap="2" {...args}>
+        <chakra.img
           alt="AI Builders community"
-          className="pointer-events-none aspect-square w-14 rounded-2xl object-cover select-none"
+          pointerEvents="none"
+          aspectRatio="square"
+          width="14"
+          rounded="2xl"
+          objectFit="cover"
+          userSelect="none"
           loading="lazy"
           src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo2.jpg"
         />
@@ -181,18 +201,18 @@ export const WithAvatar: Story = {
           <Card.Title>AI Builders</Card.Title>
           <Card.Description>362 members</Card.Description>
         </Card.Header>
-        <Card.Footer className="flex gap-2">
-          <Avatar aria-label="John's profile picture" className="size-5">
+        <Card.Footer display="flex" gap="2">
+          <Avatar aria-label="John's profile picture" boxSize="5">
             <Avatar.Image
               alt="John's avatar - blue themed"
               src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
             />
-            <Avatar.Fallback className="text-xs">B</Avatar.Fallback>
+            <Avatar.Fallback fontSize="xs">B</Avatar.Fallback>
           </Avatar>
-          <span className="text-xs">By John</span>
+          <Text fontSize="xs">By John</Text>
         </Card.Footer>
       </Card>
-    </div>
+    </Flex>
   ),
 };
 
@@ -201,62 +221,69 @@ export const WithImages: Story = {
     layout: "fullscreen",
   },
   render: (args) => (
-    <div className="flex w-full items-center justify-center">
-      <div className="grid w-full max-w-2xl grid-cols-12 gap-4 p-4">
+    <Flex width="full" align="center" justify="center">
+      <Grid width="full" maxW="2xl" gridTemplateColumns="repeat(12, 1fr)" gap="4" p="4">
         {/* Row 1: Large Product Card - Available Soon */}
-        <Card className="col-span-12 flex h-auto min-h-[152px] flex-col sm:flex-row" {...args}>
-          <div className="relative h-[140px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[120px] sm:w-[120px]">
-            <img
+        <Card gridColumn="span 12" display="flex" height="auto" minH="152px" flexDirection={{base: "column", sm: "row"}} {...args}>
+          <Box position="relative" height={{base: "140px", sm: "120px"}} width={{base: "full", sm: "120px"}} flexShrink={0} overflow="hidden" rounded="2xl">
+            <chakra.img
               alt="Cherries"
-              className="pointer-events-none absolute inset-0 h-full w-full scale-125 object-cover select-none"
+              pointerEvents="none"
+              position="absolute"
+              inset="0"
+              height="full"
+              width="full"
+              transform="scale(1.25)"
+              objectFit="cover"
+              userSelect="none"
               loading="lazy"
               src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/cherries.jpeg"
             />
-          </div>
-          <div className="flex flex-1 flex-col gap-3">
-            <Card.Header className="gap-1">
-              <Card.Title className="pr-8">Become an ACME Creator!</Card.Title>
+          </Box>
+          <Flex flex="1" direction="column" gap="3">
+            <Card.Header gap="1">
+              <Card.Title pr="8">Become an ACME Creator!</Card.Title>
               <Card.Description>
                 Lorem ipsum dolor sit amet consectetur. Sed arcu donec id aliquam dolor sed amet
                 faucibus etiam.
               </Card.Description>
-              <CloseButton aria-label="Close banner" className="absolute top-3 right-3" />
+              <CloseButton aria-label="Close banner" position="absolute" top="3" right="3" />
             </Card.Header>
-            <Card.Footer className="mt-auto flex w-full flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex flex-col">
-                <span className="text-sm font-medium text-foreground">Only 10 spots</span>
-                <span className="text-xs text-muted">Submission ends Oct 10.</span>
-              </div>
-              <Button className="w-full sm:w-auto">Apply Now</Button>
+            <Card.Footer mt="auto" display="flex" width="full" flexDirection={{base: "column", sm: "row"}} alignItems={{base: "flex-start", sm: "center"}} justifyContent={{sm: "space-between"}} gap="3">
+              <Flex direction="column">
+                <Text fontSize="sm" fontWeight="medium" color="fg">Only 10 spots</Text>
+                <Text fontSize="xs" color="fg.muted">Submission ends Oct 10.</Text>
+              </Flex>
+              <Button width={{base: "full", sm: "auto"}}>Apply Now</Button>
             </Card.Footer>
-          </div>
+          </Flex>
         </Card>
 
         {/* Row 2 */}
-        <div className="col-span-12 grid grid-cols-12 gap-4">
+        <Grid gridColumn="span 12" gridTemplateColumns="repeat(12, 1fr)" gap="4">
           {/* Left Column */}
-          <div className="col-span-12 grid grid-cols-12 gap-4 lg:col-span-6">
+          <Grid gridColumn={{base: "span 12", lg: "span 6"}} gridTemplateColumns="repeat(12, 1fr)" gap="4">
             {/* Top Card */}
-            <Card className="col-span-12">
-              <div className="absolute top-3 right-3 z-10">
+            <Card gridColumn="span 12">
+              <Box position="absolute" top="3" right="3" zIndex="10">
                 <CloseButton aria-label="Close notification" />
-              </div>
-              <Card.Header className="gap-3">
+              </Box>
+              <Card.Header gap="3">
                 <Icon
                   aria-label="Dollar sign icon"
-                  className="text-primary size-8 shrink-0"
                   icon="gravity-ui:circle-dollar"
                   role="img"
+                  style={{color: "var(--chakra-colors-primary)", width: "32px", height: "32px", flexShrink: 0}}
                 />
-                <div className="flex flex-col gap-1">
-                  <span className="text-xs font-medium text-muted uppercase">PAYMENT</span>
-                  <Card.Title className="pr-8 text-sm sm:text-base">
+                <Flex direction="column" gap="1">
+                  <Text fontSize="xs" fontWeight="medium" color="fg.muted" textTransform="uppercase">PAYMENT</Text>
+                  <Card.Title pr="8" fontSize={{base: "sm", sm: "md"}}>
                     You can now withdraw on crypto
                   </Card.Title>
-                  <Card.Description className="text-xs sm:text-sm">
+                  <Card.Description fontSize={{base: "xs", sm: "sm"}}>
                     Add your wallet in settings to withdraw
                   </Card.Description>
-                </div>
+                </Flex>
               </Card.Header>
               <Card.Footer>
                 <Link aria-label="Go to settings" href="#" rel="noopener noreferrer">
@@ -266,11 +293,11 @@ export const WithImages: Story = {
               </Card.Footer>
             </Card>
             {/* Bottom cards */}
-            <div className="col-span-12 grid grid-cols-12 gap-4">
+            <Grid gridColumn="span 12" gridTemplateColumns="repeat(12, 1fr)" gap="4">
               {/* Left Card */}
-              <Card className="col-span-12 gap-2 sm:col-span-6">
+              <Card gridColumn={{base: "span 12", sm: "span 6"}} gap="2">
                 <Card.Header>
-                  <Avatar className="size-[56px] rounded-xl">
+                  <Avatar boxSize="56px" borderRadius="xl">
                     <Avatar.Image
                       alt="Demo 1"
                       src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo1.jpg"
@@ -278,25 +305,25 @@ export const WithImages: Story = {
                     <Avatar.Fallback>JK</Avatar.Fallback>
                   </Avatar>
                 </Card.Header>
-                <Card.Content className="mt-1">
-                  <p className="text-sm leading-4 font-medium">Indie Hackers</p>
-                  <p className="text-xs text-muted">148 members</p>
+                <Card.Content mt="1">
+                  <Text fontSize="sm" lineHeight="4" fontWeight="medium">Indie Hackers</Text>
+                  <Text fontSize="xs" color="fg.muted">148 members</Text>
                 </Card.Content>
-                <Card.Footer className="flex items-center gap-2">
-                  <Avatar className="size-4">
+                <Card.Footer display="flex" alignItems="center" gap="2">
+                  <Avatar boxSize="4">
                     <Avatar.Image
                       alt="John"
                       src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg"
                     />
                     <Avatar.Fallback>JK</Avatar.Fallback>
                   </Avatar>
-                  <p className="text-xs text-muted">By John</p>
+                  <Text fontSize="xs" color="fg.muted">By John</Text>
                 </Card.Footer>
               </Card>
               {/* Right Card */}
-              <Card className="col-span-12 gap-2 sm:col-span-6">
+              <Card gridColumn={{base: "span 12", sm: "span 6"}} gap="2">
                 <Card.Header>
-                  <Avatar className="size-[56px] rounded-xl">
+                  <Avatar boxSize="56px" borderRadius="xl">
                     <Avatar.Image
                       alt="Demo 2"
                       src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo2.jpg"
@@ -304,50 +331,63 @@ export const WithImages: Story = {
                     <Avatar.Fallback>AB</Avatar.Fallback>
                   </Avatar>
                 </Card.Header>
-                <Card.Content className="mt-1">
-                  <p className="text-sm leading-4 font-medium">AI Builders</p>
-                  <p className="text-xs text-muted">362 members</p>
+                <Card.Content mt="1">
+                  <Text fontSize="sm" lineHeight="4" fontWeight="medium">AI Builders</Text>
+                  <Text fontSize="xs" color="fg.muted">362 members</Text>
                 </Card.Content>
-                <Card.Footer className="flex items-center gap-2">
-                  <Avatar className="size-4">
+                <Card.Footer display="flex" alignItems="center" gap="2">
+                  <Avatar boxSize="4">
                     <Avatar.Image
                       alt="John"
                       src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
                     />
                     <Avatar.Fallback>M</Avatar.Fallback>
                   </Avatar>
-                  <p className="text-xs text-muted">By Martha</p>
+                  <Text fontSize="xs" color="fg.muted">By Martha</Text>
                 </Card.Footer>
               </Card>
-            </div>
-          </div>
+            </Grid>
+          </Grid>
           {/* Right Column */}
-          <Card className="col-span-12 min-h-[200px] rounded-3xl lg:col-span-6" {...args}>
+          <Card gridColumn={{base: "span 12", lg: "span 6"}} minH="200px" rounded="3xl" {...args}>
             {/* Background image */}
-            <img
+            <chakra.img
               alt="NEO Home Robot"
               aria-hidden="true"
-              className="absolute inset-0 h-full w-full object-cover"
+              position="absolute"
+              inset="0"
+              height="full"
+              width="full"
+              objectFit="cover"
               src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/neo2.jpeg"
             />
 
             {/* Header */}
-            <Card.Header className="z-10 text-white">
-              <Card.Title className="text-xs font-semibold tracking-wide text-black/70">
+            <Card.Header zIndex="10" color="white">
+              <Card.Title fontSize="xs" fontWeight="semibold" letterSpacing="wide" color="black/70">
                 NEO
               </Card.Title>
-              <Card.Description className="text-sm leading-5 font-medium text-black/50">
+              <Card.Description fontSize="sm" lineHeight="5" fontWeight="medium" color="black/50">
                 Home Robot
               </Card.Description>
             </Card.Header>
 
             {/* Bottom gradient blur overlay */}
-            <div
+            <Box
               aria-hidden="true"
-              className="pointer-events-none absolute right-0 bottom-0 left-0 h-[64px]"
+              pointerEvents="none"
+              position="absolute"
+              right="0"
+              bottom="0"
+              left="0"
+              height="64px"
             >
-              <div
-                className="absolute inset-0 h-[100%] rounded-b-[inherit] backdrop-blur-sm"
+              <Box
+                position="absolute"
+                inset="0"
+                height="100%"
+                borderBottomRadius="inherit"
+                backdropFilter="blur(4px)"
                 style={{
                   WebkitMaskImage: "linear-gradient(to top, black 30%, transparent)",
                   maskImage: "linear-gradient(to top, black 30%, transparent)",
@@ -355,41 +395,56 @@ export const WithImages: Story = {
                   maskSize: "100% 100%",
                 }}
               />
-            </div>
+            </Box>
             {/* Footer */}
-            <Card.Footer className="z-10 mt-auto flex items-center justify-between">
-              <div>
-                <div className="text-sm font-medium text-black">Available soon</div>
-                <div className="text-xs text-black/60">Get notified</div>
-              </div>
-              <Button className="bg-white text-black" size="sm" variant="tertiary">
+            <Card.Footer zIndex="10" mt="auto" display="flex" alignItems="center" justifyContent="space-between">
+              <Box>
+                <Text fontSize="sm" fontWeight="medium" color="black">Available soon</Text>
+                <Text fontSize="xs" color="black/60">Get notified</Text>
+              </Box>
+              <Button bg="white" color="black" size="sm" variant="ghost">
                 Notify me
               </Button>
             </Card.Footer>
           </Card>
-        </div>
+        </Grid>
 
         {/* Row 3 */}
-        <div className="col-span-12 grid grid-cols-12 gap-4">
+        <Grid gridColumn="span 12" gridTemplateColumns="repeat(12, 1fr)" gap="4">
           {/* Left Column: Card */}
           <Card
-            className="relative col-span-12 h-[250px] sm:h-[300px] md:col-span-8 md:h-[350px]"
+            position="relative"
+            gridColumn={{base: "span 12", md: "span 8"}}
+            height={{base: "250px", sm: "300px", md: "350px"}}
             {...args}
           >
-            <img
+            <chakra.img
               alt="NEO Home Robot"
               aria-hidden="true"
-              className="absolute inset-0 h-full w-full object-cover"
+              position="absolute"
+              inset="0"
+              height="full"
+              width="full"
+              objectFit="cover"
               src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/neo1.jpeg"
             />
 
             {/* Bottom gradient blur overlay */}
-            <div
+            <Box
               aria-hidden="true"
-              className="pointer-events-none absolute right-0 bottom-0 left-0 h-16 sm:h-20"
+              pointerEvents="none"
+              position="absolute"
+              right="0"
+              bottom="0"
+              left="0"
+              height={{base: "16", sm: "20"}}
             >
-              <div
-                className="absolute inset-0 h-[100%] rounded-b-[inherit] backdrop-blur-sm"
+              <Box
+                position="absolute"
+                inset="0"
+                height="100%"
+                borderBottomRadius="inherit"
+                backdropFilter="blur(4px)"
                 style={{
                   WebkitMaskImage: "linear-gradient(to top, black 30%, transparent)",
                   maskImage: "linear-gradient(to top, black 30%, transparent)",
@@ -397,63 +452,86 @@ export const WithImages: Story = {
                   maskSize: "100% 100%",
                 }}
               />
-            </div>
-            <Card.Footer className="z-10 mt-auto flex items-end justify-between">
-              <div>
-                <div className="text-base font-medium text-black sm:text-lg">NEO</div>
-                <div className="text-xs font-medium text-black/50 sm:text-sm">$499/m</div>
-              </div>
-              <Button className="bg-white text-black" size="sm" variant="tertiary">
+            </Box>
+            <Card.Footer zIndex="10" mt="auto" display="flex" alignItems="flex-end" justifyContent="space-between">
+              <Box>
+                <Text fontSize={{base: "md", sm: "lg"}} fontWeight="medium" color="black">NEO</Text>
+                <Text fontSize={{base: "xs", sm: "sm"}} fontWeight="medium" color="black/50">$499/m</Text>
+              </Box>
+              <Button bg="white" color="black" size="sm" variant="ghost">
                 Get now
               </Button>
             </Card.Footer>
           </Card>
 
           {/* Right Column: Cards Stack */}
-          <div className="col-span-12 flex flex-col gap-2 md:col-span-4 md:justify-between md:gap-0">
+          <Flex
+            gridColumn={{base: "span 12", md: "span 4"}}
+            direction="column"
+            gap={{base: "2", md: "0"}}
+            justifyContent={{md: "space-between"}}
+          >
             {/* 1 */}
-            <Card className="flex flex-row gap-3 p-1" variant="transparent">
-              <img
+            <Card display="flex" flexDirection="row" gap="3" p="1" variant="secondary">
+              <chakra.img
                 alt="Futuristic Robot"
-                className="aspect-square h-16 w-16 shrink-0 rounded-xl object-cover select-none sm:h-20 sm:w-20"
+                aspectRatio="square"
+                height={{base: "16", sm: "20"}}
+                width={{base: "16", sm: "20"}}
+                flexShrink={0}
+                rounded="xl"
+                objectFit="cover"
+                userSelect="none"
                 loading="lazy"
                 src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/robot1.jpeg"
               />
-              <div className="flex flex-1 flex-col justify-center gap-1">
-                <Card.Title className="text-sm">Bridging the Future</Card.Title>
-                <Card.Description className="text-xs">Today, 6:30 PM</Card.Description>
-              </div>
+              <Flex flex="1" direction="column" justify="center" gap="1">
+                <Card.Title fontSize="sm">Bridging the Future</Card.Title>
+                <Card.Description fontSize="xs">Today, 6:30 PM</Card.Description>
+              </Flex>
             </Card>
             {/* 2 */}
-            <Card className="flex flex-row gap-3 p-1" variant="transparent">
-              <img
+            <Card display="flex" flexDirection="row" gap="3" p="1" variant="secondary">
+              <chakra.img
                 alt="Avocado"
-                className="aspect-square h-16 w-16 shrink-0 rounded-xl object-cover select-none sm:h-20 sm:w-20"
+                aspectRatio="square"
+                height={{base: "16", sm: "20"}}
+                width={{base: "16", sm: "20"}}
+                flexShrink={0}
+                rounded="xl"
+                objectFit="cover"
+                userSelect="none"
                 loading="lazy"
                 src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/avocado.jpeg"
               />
-              <div className="flex flex-1 flex-col justify-center gap-1">
-                <Card.Title className="text-sm">Avocado Hackathon</Card.Title>
-                <Card.Description className="text-xs">Wed, 4:30 PM</Card.Description>
-              </div>
+              <Flex flex="1" direction="column" justify="center" gap="1">
+                <Card.Title fontSize="sm">Avocado Hackathon</Card.Title>
+                <Card.Description fontSize="xs">Wed, 4:30 PM</Card.Description>
+              </Flex>
             </Card>
             {/* 3 */}
-            <Card className="flex flex-row gap-3 p-1" variant="transparent">
-              <img
+            <Card display="flex" flexDirection="row" gap="3" p="1" variant="secondary">
+              <chakra.img
                 alt="Sound Electro event"
-                className="aspect-square h-16 w-16 shrink-0 rounded-xl object-cover select-none sm:h-20 sm:w-20"
+                aspectRatio="square"
+                height={{base: "16", sm: "20"}}
+                width={{base: "16", sm: "20"}}
+                flexShrink={0}
+                rounded="xl"
+                objectFit="cover"
+                userSelect="none"
                 loading="lazy"
                 src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/oranges.jpeg"
               />
-              <div className="flex flex-1 flex-col justify-center gap-1">
-                <Card.Title className="text-sm">Sound Electro | Beyond art</Card.Title>
-                <Card.Description className="text-xs">Fri, 8:00 PM</Card.Description>
-              </div>
+              <Flex flex="1" direction="column" justify="center" gap="1">
+                <Card.Title fontSize="sm">Sound Electro | Beyond art</Card.Title>
+                <Card.Description fontSize="xs">Fri, 8:00 PM</Card.Description>
+              </Flex>
             </Card>
-          </div>
-        </div>
-      </div>
-    </div>
+          </Flex>
+        </Grid>
+      </Grid>
+    </Flex>
   ),
 };
 
@@ -473,29 +551,29 @@ export const WithForm: Story = {
     };
 
     return (
-      <Card className="w-full max-w-md" {...args}>
+      <Card width="full" maxW="md" {...args}>
         <Card.Header>
           <Card.Title>Login</Card.Title>
           <Card.Description>Enter your credentials to access your account</Card.Description>
         </Card.Header>
         <Form onSubmit={onSubmit}>
           <Card.Content>
-            <div className="flex flex-col gap-4">
-              <TextField name="email" type="email">
+            <Flex direction="column" gap="4">
+              <TextField>
                 <Label>Email</Label>
-                <Input placeholder="email@example.com" variant="secondary" />
+                <Input name="email" type="email" placeholder="email@example.com" variant="secondary" />
               </TextField>
-              <TextField name="password" type="password">
+              <TextField>
                 <Label>Password</Label>
-                <Input placeholder="••••••••" variant="secondary" />
+                <Input name="password" type="password" placeholder="••••••••" variant="secondary" />
               </TextField>
-            </div>
+            </Flex>
           </Card.Content>
-          <Card.Footer className="mt-4 flex flex-col gap-2">
-            <Button className="w-full" type="submit">
+          <Card.Footer mt="4" display="flex" flexDirection="column" gap="2">
+            <Button width="full" type="submit">
               Sign In
             </Button>
-            <Link className="text-center text-sm" href="#">
+            <Link textAlign="center" fontSize="sm" href="#">
               Forgot password?
             </Link>
           </Card.Footer>

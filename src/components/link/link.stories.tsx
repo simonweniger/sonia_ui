@@ -1,9 +1,9 @@
 import type {LinkProps} from "./index";
 import type {Meta} from "@storybook/react";
 
+import {Flex, Text} from "@chakra-ui/react";
 import React from "react";
 
-import {buttonVariants} from "../button/index";
 import {ExternalLinkIcon} from "../icons";
 
 import {Link} from "./index";
@@ -18,12 +18,12 @@ export default {
 } as Meta<typeof Link>;
 
 const DefaultTemplate = (_props: Link["RootProps"]) => (
-  <div className="flex items-center gap-4">
+  <Flex align="center" gap="4">
     <Link href="#">
       Call to action
       <Link.Icon />
     </Link>
-    <Link isDisabled href="#">
+    <Link aria-disabled="true" href="#">
       Call to action
       <Link.Icon />
     </Link>
@@ -31,39 +31,38 @@ const DefaultTemplate = (_props: Link["RootProps"]) => (
       href="https://heroui.com"
       rel="noopener noreferrer"
       target="_blank"
-      className={buttonVariants({
-        className: "gap-0 px-3 py-0.5 no-underline",
-        size: "md",
-        variant: "tertiary",
-      })}
+      gap="0"
+      px="3"
+      py="0.5"
+      textDecoration="none"
     >
       HeroUI
-      <Link.Icon className="h-2 w-2" />
+      <Link.Icon style={{height: "0.5rem", width: "0.5rem"}} />
     </Link>
-  </div>
+  </Flex>
 );
 
 const CustomIconTemplate = (_props: Link["RootProps"]) => (
-  <div className="flex items-center gap-4">
+  <Flex align="center" gap="4">
     <Link href="#">
       External Link
       <Link.Icon>
-        <ExternalLinkIcon className="h-3 w-3" />
+        <ExternalLinkIcon style={{height: "0.75rem", width: "0.75rem"}} />
       </Link.Icon>
     </Link>
     <Link href="#">
       <Link.Icon>
-        <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+        <svg style={{height: "1rem", width: "1rem"}} fill="currentColor" viewBox="0 0 20 20">
           <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
         </svg>
       </Link.Icon>
       Info Link
     </Link>
-  </div>
+  </Flex>
 );
 
 const IconPlacementTemplate = (_props: Link["RootProps"]) => (
-  <div className="flex flex-col gap-4">
+  <Flex direction="column" gap="4">
     <Link href="#">
       Icon at end (default)
       <Link.Icon />
@@ -72,57 +71,57 @@ const IconPlacementTemplate = (_props: Link["RootProps"]) => (
       <Link.Icon />
       Icon at start
     </Link>
-  </div>
+  </Flex>
 );
 
 const UnderlineVariantsTemplate = (_props: LinkProps) => (
-  <div className="flex flex-col gap-6">
-    <div className="flex flex-col gap-2">
-      <p className="text-sm text-muted">Always visible underline</p>
-      <Link className="underline" href="#">
+  <Flex direction="column" gap="6">
+    <Flex direction="column" gap="2">
+      <Text fontSize="sm" color="fg.muted">Always visible underline</Text>
+      <Link textDecoration="underline" href="#">
         Underline always visible
         <Link.Icon />
       </Link>
-    </div>
+    </Flex>
 
-    <div className="flex flex-col gap-2">
-      <p className="text-sm text-muted">Underline visible on hover</p>
-      <Link className="no-underline hover:underline" href="#">
+    <Flex direction="column" gap="2">
+      <Text fontSize="sm" color="fg.muted">Underline visible on hover</Text>
+      <Link textDecoration="none" _hover={{textDecoration: "underline"}} href="#">
         Hover to see the underline
         <Link.Icon />
       </Link>
-    </div>
+    </Flex>
 
-    <div className="flex flex-col gap-2">
-      <p className="text-sm text-muted">No underline</p>
-      <Link className="no-underline" href="#">
+    <Flex direction="column" gap="2">
+      <Text fontSize="sm" color="fg.muted">No underline</Text>
+      <Link textDecoration="none" href="#">
         Link without any underline
         <Link.Icon />
       </Link>
-    </div>
+    </Flex>
 
-    <div className="flex flex-col gap-2">
-      <p className="text-sm text-muted">Changing the underline offset</p>
-      <div className="flex flex-col gap-3">
-        <Link className="underline-offset-1 hover:underline" href="#">
+    <Flex direction="column" gap="2">
+      <Text fontSize="sm" color="fg.muted">Changing the underline offset</Text>
+      <Flex direction="column" gap="3">
+        <Link textUnderlineOffset="1px" textDecoration="none" _hover={{textDecoration: "underline"}} href="#">
           Offset 1 (1px space)
           <Link.Icon />
         </Link>
-        <Link className="underline-offset-2 hover:underline" href="#">
+        <Link textUnderlineOffset="2px" textDecoration="none" _hover={{textDecoration: "underline"}} href="#">
           Offset 2 (2px space)
           <Link.Icon />
         </Link>
-        <Link className="underline-offset-3 hover:underline" href="#">
+        <Link textUnderlineOffset="3px" textDecoration="none" _hover={{textDecoration: "underline"}} href="#">
           Offset 3 (3px space)
           <Link.Icon />
         </Link>
-        <Link className="underline-offset-4 hover:underline" href="#">
+        <Link textUnderlineOffset="4px" textDecoration="none" _hover={{textDecoration: "underline"}} href="#">
           Offset 4 (4px space)
           <Link.Icon />
         </Link>
-      </div>
-    </div>
-  </div>
+      </Flex>
+    </Flex>
+  </Flex>
 );
 
 export const Default = {

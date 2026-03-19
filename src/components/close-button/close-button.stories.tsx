@@ -2,18 +2,15 @@ import type {CloseButtonProps} from "./index";
 import type {Meta} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
+import {Flex, Text} from "@chakra-ui/react";
 import React, {useState} from "react";
 
 import {CloseButton} from "./index";
 
 export default {
   argTypes: {
-    isDisabled: {
+    disabled: {
       control: "boolean",
-    },
-    variant: {
-      control: "select",
-      options: ["default"],
     },
   },
   component: CloseButton,
@@ -24,37 +21,36 @@ export default {
 } as Meta<typeof CloseButton>;
 
 const defaultArgs: CloseButtonProps = {
-  variant: "default",
-  isDisabled: false,
+  disabled: false,
 };
 
 const Template = (args: CloseButtonProps) => (
-  <div className="flex gap-3">
+  <Flex gap="3">
     <CloseButton {...args} />
-  </div>
+  </Flex>
 );
 
 const TemplateWithCustomIcon = (args: CloseButtonProps) => (
-  <div className="flex gap-3">
+  <Flex gap="3">
     <CloseButton {...args}>
       <Icon icon="gravity-ui:circle-xmark" />
     </CloseButton>
-  </div>
+  </Flex>
 );
 
 const InteractiveTemplate = (args: CloseButtonProps) => {
   const [count, setCount] = useState(0);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
+    <Flex direction="column" align="center" justify="center" gap="4">
       <CloseButton
         {...args}
         aria-label={`Close (clicked ${count} times)`}
-        onPress={() => setCount(count + 1)}
+        onClick={() => setCount(count + 1)}
       />
 
-      <span className="text-sm">Clicked: {count} times</span>
-    </div>
+      <Text as="span" fontSize="sm">Clicked: {count} times</Text>
+    </Flex>
   );
 };
 

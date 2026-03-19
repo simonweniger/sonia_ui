@@ -1,171 +1,114 @@
 "use client";
 
-import type {Booleanish} from "../../utils/assertion";
-import type {SurfaceVariants} from "../surface";
-import type {SelectVariants} from "../../styles";
-import type {ComponentPropsWithRef} from "react";
+import type {ComponentPropsWithRef, ReactNode, RefAttributes} from "react";
 
-import {selectVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-import {
-  Button as ButtonPrimitive,
-  Popover as PopoverPrimitive,
-  Select as SelectPrimitive,
-  SelectStateContext,
-  SelectValue as SelectValuePrimitive,
-} from "react-aria-components";
+import type {CollectionItem, SelectRootProps as ChakraSelectRootProps} from "@chakra-ui/react";
 
-import {dataAttr} from "../../utils/assertion";
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
+import {Portal, Select as ChakraSelect} from "@chakra-ui/react";
+import React from "react";
+
 import {IconChevronDown} from "../icons";
-import {SurfaceContext} from "../surface";
-
-/* -------------------------------------------------------------------------------------------------
- * Select Context
- * -----------------------------------------------------------------------------------------------*/
-type SelectContext = {
-  slots?: ReturnType<typeof selectVariants>;
-};
-
-const SelectContext = createContext<SelectContext>({});
 
 /* -------------------------------------------------------------------------------------------------
  * Select Root
  * -----------------------------------------------------------------------------------------------*/
-interface SelectRootProps<T extends object, M extends "single" | "multiple" = "single">
-  extends ComponentPropsWithRef<typeof SelectPrimitive<T, M>>, SelectVariants {
-  items?: Iterable<T, M>;
+interface SelectRootProps<T extends CollectionItem = CollectionItem>
+  extends ChakraSelectRootProps<T>,
+    RefAttributes<HTMLDivElement> {
+  fullWidth?: boolean;
+  children?: ReactNode;
 }
 
-const SelectRoot = <T extends object = object, M extends "single" | "multiple" = "single">({
+function SelectRoot<T extends CollectionItem = CollectionItem>({
   children,
-  className,
   fullWidth,
-  variant,
   ...props
-}: SelectRootProps<T, M>) => {
-  const slots = React.useMemo(() => selectVariants({fullWidth, variant}), [fullWidth, variant]);
-
+}: SelectRootProps<T>) {
   return (
-    <SelectContext value={{slots}}>
-      <SelectPrimitive
-        data-slot="select"
-        {...props}
-        className={composeTwRenderProps(className, slots?.base())}
-      >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </SelectPrimitive>
-    </SelectContext>
+    <ChakraSelect.Root
+      data-slot="select"
+      width={fullWidth ? "100%" : undefined}
+      {...(props as ChakraSelectRootProps<T>)}
+    >
+      {children}
+    </ChakraSelect.Root>
   );
-};
+}
 
 /* -------------------------------------------------------------------------------------------------
  * Select Trigger
  * -----------------------------------------------------------------------------------------------*/
-interface SelectTriggerProps extends ComponentPropsWithRef<typeof ButtonPrimitive> {}
+interface SelectTriggerProps extends ComponentPropsWithRef<typeof ChakraSelect.Trigger> {}
 
-const SelectTrigger = ({children, className, ...props}: SelectTriggerProps) => {
-  const {slots} = useContext(SelectContext);
-
+const SelectTrigger = ({children, ...props}: SelectTriggerProps) => {
   return (
-    <ButtonPrimitive
-      className={composeTwRenderProps(className, slots?.trigger())}
-      data-slot="select-trigger"
-      {...props}
-    >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-    </ButtonPrimitive>
+    <ChakraSelect.Trigger data-slot="select-trigger" {...props}>
+      {children}
+    </ChakraSelect.Trigger>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Select Value
  * -----------------------------------------------------------------------------------------------*/
-interface SelectValueProps extends ComponentPropsWithRef<typeof SelectValuePrimitive> {}
+interface SelectValueProps extends ComponentPropsWithRef<typeof ChakraSelect.ValueText> {}
 
-const SelectValue = ({children, className, ...props}: SelectValueProps) => {
-  const {slots} = useContext(SelectContext);
-
+const SelectValue = ({children, ...props}: SelectValueProps) => {
   return (
-    <SelectValuePrimitive
-      className={composeTwRenderProps(className, slots?.value())}
+    <ChakraSelect.ValueText
       data-slot="select-value"
+      flex="1"
+      textAlign="left"
+      fontSize={{base: "md", sm: "sm"}}
+      css={{overflowWrap: "break-word"}}
       {...props}
     >
       {children}
-    </SelectValuePrimitive>
+    </ChakraSelect.ValueText>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Select Indicator
  * -----------------------------------------------------------------------------------------------*/
-interface SelectIndicatorProps extends ComponentPropsWithRef<"svg"> {
-  className?: string;
-}
+interface SelectIndicatorProps extends ComponentPropsWithRef<typeof ChakraSelect.Indicator> {}
 
-const SelectIndicator = ({children, className, ...props}: SelectIndicatorProps) => {
-  const {slots} = useContext(SelectContext);
-  const state = useContext(SelectStateContext);
-
-  if (children && React.isValidElement(children)) {
-    return React.cloneElement(
-      children as React.ReactElement<{
-        className?: string;
-        "data-slot"?: "select-indicator";
-        "data-open"?: Booleanish;
-      }>,
-      {
-        ...props,
-        className: composeSlotClassName(slots?.indicator, className),
-        "data-slot": "select-indicator",
-        "data-open": dataAttr(state?.isOpen),
-      },
-    );
-  }
-
+const SelectIndicator = ({children, ...props}: SelectIndicatorProps) => {
   return (
-    <IconChevronDown
-      className={composeSlotClassName(slots?.indicator, className)}
-      data-open={dataAttr(state?.isOpen)}
-      data-slot="select-default-indicator"
+    <ChakraSelect.Indicator
+      data-slot="select-indicator"
+      css={{
+        transition: "transform 150ms",
+        "&[data-open=true]": {transform: "rotate(180deg)"},
+      }}
       {...props}
-    />
+    >
+      {children ?? <IconChevronDown />}
+    </ChakraSelect.Indicator>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
- * Select Popover
+ * Select Popover (Content)
  * -----------------------------------------------------------------------------------------------*/
-interface SelectPopoverProps extends Omit<
-  ComponentPropsWithRef<typeof PopoverPrimitive>,
-  "children"
-> {
-  children: React.ReactNode;
-}
+interface SelectPopoverProps extends ComponentPropsWithRef<typeof ChakraSelect.Content> {}
 
-const SelectPopover = ({
-  children,
-  className,
-  placement = "bottom",
-  ...props
-}: SelectPopoverProps) => {
-  const {slots} = useContext(SelectContext);
-
+const SelectPopover = ({children, ...props}: SelectPopoverProps) => {
   return (
-    <SurfaceContext
-      value={{
-        variant: "default" as SurfaceVariants["variant"],
-      }}
-    >
-      <PopoverPrimitive
-        {...props}
-        className={composeTwRenderProps(className, slots?.popover())}
-        placement={placement}
-      >
-        {children}
-      </PopoverPrimitive>
-    </SurfaceContext>
+    <Portal>
+      <ChakraSelect.Positioner>
+        <ChakraSelect.Content
+          data-slot="select-popover"
+          css={{
+            minWidth: "var(--trigger-width)",
+            transformOrigin: "var(--trigger-anchor-point)",
+          }}
+          {...props}
+        >
+          {children}
+        </ChakraSelect.Content>
+      </ChakraSelect.Positioner>
+    </Portal>
   );
 };
 

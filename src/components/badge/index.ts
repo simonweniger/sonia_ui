@@ -29,10 +29,3 @@ export type {
   BadgeLabelProps,
   BadgeAnchorProps,
 } from "./badge";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {badgeVariants} from "../../styles";
-
-export type {BadgeVariants} from "../../styles";

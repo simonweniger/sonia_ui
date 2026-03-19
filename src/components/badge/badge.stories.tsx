@@ -2,6 +2,7 @@ import type {BadgeProps} from "./index";
 import type {Meta} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
+import {Box, Flex, Text} from "@chakra-ui/react";
 import React from "react";
 
 import {Avatar} from "../avatar";
@@ -11,21 +12,13 @@ import {Badge} from "./index";
 
 export default {
   argTypes: {
-    color: {
+    variant: {
       control: "select",
-      options: ["default", "accent", "success", "warning", "danger"],
-    },
-    placement: {
-      control: "select",
-      options: ["top-right", "top-left", "bottom-right", "bottom-left"],
+      options: ["solid", "subtle", "outline"],
     },
     size: {
       control: "select",
       options: ["sm", "md", "lg"],
-    },
-    variant: {
-      control: "select",
-      options: ["primary", "secondary", "soft"],
     },
   },
   component: Badge,
@@ -38,10 +31,8 @@ export default {
 const AVATAR_URL = "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg";
 
 const defaultArgs: BadgeProps = {
-  color: "accent",
-  placement: "top-right",
+  variant: "solid",
   size: "sm",
-  variant: "primary",
 };
 
 const Template = (props: BadgeProps) => (
@@ -54,8 +45,8 @@ const Template = (props: BadgeProps) => (
 );
 
 const SizesTemplate = (props: BadgeProps) => (
-  <div className="flex items-center gap-8">
-    <div className="flex flex-col items-center gap-2">
+  <Flex align="center" gap="8">
+    <Flex direction="column" align="center" gap="2">
       <Badge.Anchor>
         <Avatar size="lg">
           <Avatar.Image src={AVATAR_URL} />
@@ -64,9 +55,9 @@ const SizesTemplate = (props: BadgeProps) => (
           99+
         </Badge>
       </Badge.Anchor>
-      <span className="text-xs text-muted">Large</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
+      <Text as="span" fontSize="xs" color="fg.muted">Large</Text>
+    </Flex>
+    <Flex direction="column" align="center" gap="2">
       <Badge.Anchor>
         <Avatar size="md">
           <Avatar.Image src={AVATAR_URL} />
@@ -75,9 +66,9 @@ const SizesTemplate = (props: BadgeProps) => (
           99+
         </Badge>
       </Badge.Anchor>
-      <span className="text-xs text-muted">Medium</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
+      <Text as="span" fontSize="xs" color="fg.muted">Medium</Text>
+    </Flex>
+    <Flex direction="column" align="center" gap="2">
       <Badge.Anchor>
         <Avatar size="sm">
           <Avatar.Image src={AVATAR_URL} />
@@ -86,185 +77,165 @@ const SizesTemplate = (props: BadgeProps) => (
           99+
         </Badge>
       </Badge.Anchor>
-      <span className="text-xs text-muted">Small</span>
-    </div>
-  </div>
+      <Text as="span" fontSize="xs" color="fg.muted">Small</Text>
+    </Flex>
+  </Flex>
 );
 
-const ColorsTemplate = (props: BadgeProps) => {
-  const colors = ["accent", "default", "success", "warning", "danger"] as const;
+const ColorPalettesTemplate = (props: BadgeProps) => {
+  const palettes = ["accent", "gray", "green", "orange", "red"] as const;
 
   return (
-    <div className="flex items-center gap-8">
-      {colors.map((color) => (
-        <div key={color} className="flex flex-col items-center gap-2">
+    <Flex align="center" gap="8">
+      {palettes.map((palette) => (
+        <Flex key={palette} direction="column" align="center" gap="2">
           <Badge.Anchor>
             <Avatar>
               <Avatar.Image src={AVATAR_URL} />
             </Avatar>
-            <Badge {...props} color={color} />
+            <Badge {...props} colorPalette={palette} />
           </Badge.Anchor>
-          <span className="text-xs text-muted capitalize">{color}</span>
-        </div>
+          <Text as="span" fontSize="xs" color="fg.muted" textTransform="capitalize">{palette}</Text>
+        </Flex>
       ))}
-    </div>
+    </Flex>
   );
 };
 
 const WithContentTemplate = (props: BadgeProps) => (
-  <div className="flex items-center gap-8">
-    <div className="flex flex-col items-center gap-2">
+  <Flex align="center" gap="8">
+    <Flex direction="column" align="center" gap="2">
       <Badge.Anchor>
         <Avatar>
           <Avatar.Image src={AVATAR_URL} />
         </Avatar>
-        <Badge {...props} color="danger">
+        <Badge {...props} colorPalette="red">
           5
         </Badge>
       </Badge.Anchor>
-      <span className="text-xs text-muted">Number</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
+      <Text as="span" fontSize="xs" color="fg.muted">Number</Text>
+    </Flex>
+    <Flex direction="column" align="center" gap="2">
       <Badge.Anchor>
         <Avatar>
           <Avatar.Image src={AVATAR_URL} />
         </Avatar>
-        <Badge {...props} color="danger">
+        <Badge {...props} colorPalette="red">
           New
         </Badge>
       </Badge.Anchor>
-      <span className="text-xs text-muted">Text</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
+      <Text as="span" fontSize="xs" color="fg.muted">Text</Text>
+    </Flex>
+    <Flex direction="column" align="center" gap="2">
       <Badge.Anchor>
         <Avatar>
           <Avatar.Image src={AVATAR_URL} />
         </Avatar>
-        <Badge {...props} color="danger">
+        <Badge {...props} colorPalette="red">
           99+
         </Badge>
       </Badge.Anchor>
-      <span className="text-xs text-muted">Overflow</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
+      <Text as="span" fontSize="xs" color="fg.muted">Overflow</Text>
+    </Flex>
+    <Flex direction="column" align="center" gap="2">
       <Badge.Anchor>
         <Avatar>
           <Avatar.Image src={AVATAR_URL} />
         </Avatar>
-        <Badge {...props} color="accent">
+        <Badge {...props} colorPalette="accent">
           <Icon icon="gravity-ui:bell" />
         </Badge>
       </Badge.Anchor>
-      <span className="text-xs text-muted">Icon</span>
-    </div>
-  </div>
+      <Text as="span" fontSize="xs" color="fg.muted">Icon</Text>
+    </Flex>
+  </Flex>
 );
 
-const PlacementsTemplate = () => {
-  const placements = ["top-right", "top-left", "bottom-right", "bottom-left"] as const;
-
-  return (
-    <div className="flex items-center gap-8">
-      {placements.map((placement) => (
-        <div key={placement} className="flex flex-col items-center gap-2">
-          <Badge.Anchor>
-            <Avatar>
-              <Avatar.Image src={AVATAR_URL} />
-            </Avatar>
-            <Badge color="accent" placement={placement} size="sm" />
-          </Badge.Anchor>
-          <span className="text-xs text-muted">{placement}</span>
-        </div>
-      ))}
-    </div>
-  );
-};
-
 const VariantsTemplate = () => {
-  const variants = ["primary", "secondary", "soft"] as const;
-  const colors = ["accent", "default", "success", "warning", "danger"] as const;
+  const variants = ["solid", "subtle", "outline"] as const;
+  const palettes = ["accent", "gray", "green", "orange", "red"] as const;
 
   return (
-    <div className="flex flex-col gap-8">
+    <Flex direction="column" gap="8">
       {variants.map((variant, index) => (
         <React.Fragment key={variant}>
-          <div className="flex flex-col gap-4">
-            <h3 className="text-sm font-semibold text-muted capitalize">{variant}</h3>
-            <div className="flex items-center gap-8">
-              {colors.map((color) => (
-                <div key={color} className="flex flex-col items-center gap-2">
+          <Flex direction="column" gap="4">
+            <Box as="h3" fontSize="sm" fontWeight="semibold" color="fg.muted" textTransform="capitalize">{variant}</Box>
+            <Flex align="center" gap="8">
+              {palettes.map((palette) => (
+                <Flex key={palette} direction="column" align="center" gap="2">
                   <Badge.Anchor>
                     <Avatar>
                       <Avatar.Image src={AVATAR_URL} />
                     </Avatar>
-                    <Badge color={color} size="sm" variant={variant}>
+                    <Badge colorPalette={palette} size="sm" variant={variant}>
                       5
                     </Badge>
                   </Badge.Anchor>
-                  <span className="text-xs text-muted capitalize">{color}</span>
-                </div>
+                  <Text as="span" fontSize="xs" color="fg.muted" textTransform="capitalize">{palette}</Text>
+                </Flex>
               ))}
-            </div>
-          </div>
+            </Flex>
+          </Flex>
           {index < variants.length - 1 && <Separator />}
         </React.Fragment>
       ))}
-    </div>
+    </Flex>
   );
 };
 
 const DotBadgeTemplate = () => {
-  const colors = ["accent", "success", "warning", "danger"] as const;
+  const palettes = ["accent", "green", "orange", "red"] as const;
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-4">
-        <h3 className="text-sm font-semibold text-muted">Status Indicators</h3>
-        <div className="flex items-center gap-8">
-          {colors.map((color) => (
-            <Badge.Anchor key={color}>
+    <Flex direction="column" gap="8">
+      <Flex direction="column" gap="4">
+        <Box as="h3" fontSize="sm" fontWeight="semibold" color="fg.muted">Status Indicators</Box>
+        <Flex align="center" gap="8">
+          {palettes.map((palette) => (
+            <Badge.Anchor key={palette}>
               <Avatar size="sm">
                 <Avatar.Image src={AVATAR_URL} />
               </Avatar>
-              <Badge color={color} placement="bottom-right" size="sm" />
+              <Badge colorPalette={palette} size="sm" />
             </Badge.Anchor>
           ))}
-        </div>
-      </div>
+        </Flex>
+      </Flex>
       <Separator />
-      <div className="flex flex-col gap-4">
-        <h3 className="text-sm font-semibold text-muted">Sizes</h3>
-        <div className="flex items-center gap-8">
-          <div className="flex flex-col items-center gap-2">
+      <Flex direction="column" gap="4">
+        <Box as="h3" fontSize="sm" fontWeight="semibold" color="fg.muted">Sizes</Box>
+        <Flex align="center" gap="8">
+          <Flex direction="column" align="center" gap="2">
             <Badge.Anchor>
               <Avatar size="lg">
                 <Avatar.Image src={AVATAR_URL} />
               </Avatar>
-              <Badge color="success" placement="bottom-right" size="lg" />
+              <Badge colorPalette="green" size="lg" />
             </Badge.Anchor>
-            <span className="text-xs text-muted">Large</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
+            <Text as="span" fontSize="xs" color="fg.muted">Large</Text>
+          </Flex>
+          <Flex direction="column" align="center" gap="2">
             <Badge.Anchor>
               <Avatar size="md">
                 <Avatar.Image src={AVATAR_URL} />
               </Avatar>
-              <Badge color="success" placement="bottom-right" size="md" />
+              <Badge colorPalette="green" size="md" />
             </Badge.Anchor>
-            <span className="text-xs text-muted">Medium</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
+            <Text as="span" fontSize="xs" color="fg.muted">Medium</Text>
+          </Flex>
+          <Flex direction="column" align="center" gap="2">
             <Badge.Anchor>
               <Avatar size="sm">
                 <Avatar.Image src={AVATAR_URL} />
               </Avatar>
-              <Badge color="success" placement="bottom-right" size="sm" />
+              <Badge colorPalette="green" size="sm" />
             </Badge.Anchor>
-            <span className="text-xs text-muted">Small</span>
-          </div>
-        </div>
-      </div>
-    </div>
+            <Text as="span" fontSize="xs" color="fg.muted">Small</Text>
+          </Flex>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };
 
@@ -278,18 +249,14 @@ export const Sizes = {
   render: SizesTemplate,
 };
 
-export const Colors = {
+export const ColorPalettes = {
   args: defaultArgs,
-  render: ColorsTemplate,
+  render: ColorPalettesTemplate,
 };
 
 export const WithContent = {
   args: defaultArgs,
   render: WithContentTemplate,
-};
-
-export const Placements = {
-  render: PlacementsTemplate,
 };
 
 export const Variants = {

@@ -1,39 +1,26 @@
 "use client";
 
-import type {Booleanish} from "../../utils/assertion";
-import type {SurfaceVariants} from "../surface";
-import type {AutocompleteVariants} from "../../styles";
 import type {ComponentPropsWithRef, RefObject} from "react";
 
-import {autocompleteVariants} from "../../styles";
-import {mergeRefs} from "@react-aria/utils";
+import {Combobox} from "@ark-ui/react";
 import React, {createContext, useContext, useRef} from "react";
-import {
-  Autocomplete as AutocompletePrimitive,
-  Button as ButtonPrimitive,
-  Group as GroupPrimitive,
-  Popover as PopoverPrimitive,
-  Select as SelectPrimitive,
-  SelectStateContext,
-  SelectValue as SelectValuePrimitive,
-} from "react-aria-components";
 
-import {dataAttr} from "../../utils/assertion";
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {CloseIcon, IconChevronDown} from "../icons";
-import {SurfaceContext} from "../surface";
 
 /* -------------------------------------------------------------------------------------------------
  * Autocomplete Context
  * -----------------------------------------------------------------------------------------------*/
-type AutocompleteContext = {
-  slots?: ReturnType<typeof autocompleteVariants>;
+type AutocompleteVariant = "primary" | "secondary";
+
+type AutocompleteContextValue = {
+  variant: AutocompleteVariant;
   onClear?: () => void;
   triggerRef: RefObject<HTMLElement | null>;
   clearButtonRef: RefObject<HTMLButtonElement | null>;
 };
 
-const AutocompleteContext = createContext<AutocompleteContext>({
+const AutocompleteContext = createContext<AutocompleteContextValue>({
+  variant: "primary",
   triggerRef: {current: null} as RefObject<HTMLElement | null>,
   clearButtonRef: {current: null} as RefObject<HTMLButtonElement | null>,
 });
@@ -41,37 +28,41 @@ const AutocompleteContext = createContext<AutocompleteContext>({
 /* -------------------------------------------------------------------------------------------------
  * Autocomplete Root
  * -----------------------------------------------------------------------------------------------*/
-interface AutocompleteRootProps<T extends object, M extends "single" | "multiple" = "single">
-  extends ComponentPropsWithRef<typeof SelectPrimitive<T, M>>, AutocompleteVariants {
-  items?: Iterable<T, M>;
-  // Handler that is called when the clear button is pressed.
+interface AutocompleteRootProps extends ComponentPropsWithRef<typeof Combobox.Root> {
+  className?: string;
   onClear?: () => void;
+  variant?: AutocompleteVariant;
+  fullWidth?: boolean;
 }
 
-const AutocompleteRoot = <T extends object = object, M extends "single" | "multiple" = "single">({
+const AutocompleteRoot = ({
   children,
   className,
-  fullWidth,
   onClear,
-  variant,
+  variant = "primary",
+  fullWidth,
   ...props
-}: AutocompleteRootProps<T, M>) => {
-  const slots = React.useMemo(
-    () => autocompleteVariants({fullWidth, variant}),
-    [fullWidth, variant],
-  );
+}: AutocompleteRootProps) => {
   const triggerRef = useRef<HTMLElement | null>(null);
   const clearButtonRef = useRef<HTMLButtonElement | null>(null);
 
   return (
-    <AutocompleteContext value={{slots, triggerRef, clearButtonRef, onClear}}>
-      <SelectPrimitive
+    <AutocompleteContext value={{variant, triggerRef, clearButtonRef, onClear}}>
+      <Combobox.Root
+        className={className}
         data-slot="autocomplete"
+        data-variant={variant}
         {...props}
-        className={composeTwRenderProps(className, slots?.base())}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.25rem",
+          ...(fullWidth ? {width: "100%"} : {}),
+          ...props.style,
+        }}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </SelectPrimitive>
+        {children}
+      </Combobox.Root>
     </AutocompleteContext>
   );
 };
@@ -79,199 +70,341 @@ const AutocompleteRoot = <T extends object = object, M extends "single" | "multi
 /* -------------------------------------------------------------------------------------------------
  * Autocomplete Trigger
  * -----------------------------------------------------------------------------------------------*/
-interface AutocompleteTriggerProps extends ComponentPropsWithRef<typeof GroupPrimitive> {}
+interface AutocompleteTriggerProps extends ComponentPropsWithRef<typeof Combobox.Control> {}
 
-const AutocompleteTrigger = React.forwardRef<HTMLDivElement, AutocompleteTriggerProps>(
-  ({children, className, onClick, ...props}, ref) => {
-    const {clearButtonRef, slots, triggerRef} = useContext(AutocompleteContext);
-    const state = useContext(SelectStateContext);
+const AutocompleteTrigger = ({children, className, ...props}: AutocompleteTriggerProps) => {
+  const {variant} = useContext(AutocompleteContext);
 
-    // Callback ref to update context ref
-    const contextRefCallback = React.useCallback(
-      (node: HTMLDivElement | null) => {
-        triggerRef.current = node;
-      },
-      [triggerRef],
-    );
-
-    // Merge context ref callback with user-provided ref
-    const mergedRef = mergeRefs(contextRefCallback, ref);
-
-    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-      // Don't toggle if clicking the clear button
-      if (clearButtonRef.current?.contains(e.target as Node)) {
-        return;
-      }
-      onClick?.(e);
-      state?.toggle();
-    };
-
-    return (
-      <GroupPrimitive
-        ref={mergedRef}
-        className={composeTwRenderProps(className, slots?.trigger())}
-        data-slot="autocomplete-trigger"
-        onClick={handleClick}
-        {...props}
-      >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </GroupPrimitive>
-    );
-  },
-);
-
-AutocompleteTrigger.displayName = "AutocompleteTrigger";
-
-/* -------------------------------------------------------------------------------------------------
- * Autocomplete Value
- * -----------------------------------------------------------------------------------------------*/
-interface AutocompleteValueProps extends ComponentPropsWithRef<typeof SelectValuePrimitive> {}
-
-const AutocompleteValue = ({children, className, ...props}: AutocompleteValueProps) => {
-  const {slots} = useContext(AutocompleteContext);
+  const isSecondary = variant === "secondary";
 
   return (
-    <SelectValuePrimitive
-      className={composeTwRenderProps(className, slots?.value())}
-      data-slot="autocomplete-value"
+    <Combobox.Control
+      className={className}
+      data-slot="autocomplete-trigger"
       {...props}
+      style={{
+        position: "relative",
+        isolation: "isolate",
+        display: "inline-flex",
+        alignItems: "center",
+        minHeight: "2.25rem",
+        borderRadius: "var(--chakra-radii-xl, 0.75rem)",
+        borderWidth: "1px",
+        borderStyle: "solid",
+        borderColor: "var(--chakra-colors-border, hsl(0 0% 89%))",
+        backgroundColor: isSecondary
+          ? "var(--chakra-colors-bg-muted, hsl(0 0% 96%))"
+          : "var(--chakra-colors-bg, #fff)",
+        paddingInline: "0.75rem",
+        paddingBlock: "0.5rem",
+        fontSize: "0.875rem",
+        color: "var(--chakra-colors-fg, hsl(0 0% 9%))",
+        boxShadow: isSecondary ? "none" : undefined,
+        outline: "none",
+        userSelect: "none",
+        cursor: "pointer",
+        WebkitTapHighlightColor: "transparent",
+        transition:
+          "background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease-out",
+        ...props.style,
+      }}
     >
       {children}
-    </SelectValuePrimitive>
+    </Combobox.Control>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * Autocomplete Value (Input)
+ * -----------------------------------------------------------------------------------------------*/
+interface AutocompleteValueProps extends ComponentPropsWithRef<typeof Combobox.Input> {}
+
+const AutocompleteValue = ({className, ...props}: AutocompleteValueProps) => {
+  return (
+    <Combobox.Input
+      className={className}
+      data-slot="autocomplete-value"
+      {...props}
+      style={{
+        flex: 1,
+        textAlign: "left",
+        fontSize: "0.875rem",
+        color: "currentColor",
+        overflowWrap: "break-word",
+        background: "transparent",
+        border: "none",
+        outline: "none",
+        padding: 0,
+        margin: 0,
+        width: "100%",
+        minWidth: 0,
+        fontFamily: "inherit",
+        ...props.style,
+      }}
+    />
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Autocomplete Indicator
  * -----------------------------------------------------------------------------------------------*/
-interface AutocompleteIndicatorProps extends ComponentPropsWithRef<"svg"> {
+interface AutocompleteIndicatorProps {
+  children?: React.ReactNode;
   className?: string;
 }
 
-const AutocompleteIndicator = ({children, className, ...props}: AutocompleteIndicatorProps) => {
-  const {slots} = useContext(AutocompleteContext);
-  const state = useContext(SelectStateContext);
+const AutocompleteIndicator = ({children, className}: AutocompleteIndicatorProps) => {
+  const indicatorStyle: React.CSSProperties = {
+    display: "flex",
+    flexShrink: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    color: "var(--chakra-colors-fg-muted, hsl(0 0% 45%))",
+    transition: "transform 150ms ease",
+    cursor: "pointer",
+    marginLeft: "auto",
+    pointerEvents: "none",
+  };
 
   if (children && React.isValidElement(children)) {
     return React.cloneElement(
       children as React.ReactElement<{
         className?: string;
+        style?: React.CSSProperties;
         "data-slot"?: "autocomplete-indicator";
-        "data-open"?: Booleanish;
       }>,
       {
-        ...props,
-        className: composeSlotClassName(slots?.indicator, className),
+        className,
+        style: indicatorStyle,
         "data-slot": "autocomplete-indicator",
-        "data-open": dataAttr(state?.isOpen),
       },
     );
   }
 
   return (
-    <ButtonPrimitive>
+    <Combobox.Trigger
+      style={indicatorStyle}
+      data-slot="autocomplete-indicator"
+    >
       <IconChevronDown
-        className={composeSlotClassName(slots?.indicator, className)}
-        data-open={dataAttr(state?.isOpen)}
+        className={className}
         data-slot="autocomplete-default-indicator"
-        {...props}
+        style={{
+          width: "1rem",
+          height: "1rem",
+        }}
       />
-    </ButtonPrimitive>
+    </Combobox.Trigger>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Autocomplete Popover
  * -----------------------------------------------------------------------------------------------*/
-interface AutocompletePopoverProps extends Omit<
-  ComponentPropsWithRef<typeof PopoverPrimitive>,
-  "children"
-> {
+interface AutocompletePopoverProps extends ComponentPropsWithRef<typeof Combobox.Content> {
   children: React.ReactNode;
 }
 
-const AutocompletePopover = ({
-  children,
-  className,
-  placement = "bottom",
-  ...props
-}: AutocompletePopoverProps) => {
-  const {slots, triggerRef} = useContext(AutocompleteContext);
-
+const AutocompletePopover = ({children, className, ...props}: AutocompletePopoverProps) => {
   return (
-    <SurfaceContext
-      value={{
-        variant: "default" as SurfaceVariants["variant"],
-      }}
-    >
-      <PopoverPrimitive
-        {...props}
-        className={composeTwRenderProps(className, slots?.popover())}
+    <Combobox.Positioner>
+      <Combobox.Content
+        className={className}
         data-slot="autocomplete-popover"
-        placement={placement}
-        triggerRef={triggerRef}
+        {...props}
+        style={{
+          overflowY: "auto",
+          overscrollBehavior: "contain",
+          borderRadius: "1.5rem",
+          backgroundColor: "var(--chakra-colors-overlay, #fff)",
+          padding: 0,
+          fontSize: "0.875rem",
+          boxShadow:
+            "var(--chakra-shadows-overlay, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1))",
+          scrollPaddingBlock: "0.25rem",
+          ...props.style,
+        }}
       >
         {children}
-      </PopoverPrimitive>
-    </SurfaceContext>
+      </Combobox.Content>
+    </Combobox.Positioner>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * Autocomplete Item Group
+ * -----------------------------------------------------------------------------------------------*/
+interface AutocompleteItemGroupProps extends ComponentPropsWithRef<typeof Combobox.ItemGroup> {}
+
+const AutocompleteItemGroup = ({children, className, ...props}: AutocompleteItemGroupProps) => {
+  return (
+    <Combobox.ItemGroup
+      className={className}
+      data-slot="autocomplete-item-group"
+      {...props}
+      style={{
+        padding: "0.375rem",
+        outline: "none",
+        ...props.style,
+      }}
+    >
+      {children}
+    </Combobox.ItemGroup>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * Autocomplete Item
+ * -----------------------------------------------------------------------------------------------*/
+interface AutocompleteItemProps extends ComponentPropsWithRef<typeof Combobox.Item> {}
+
+const AutocompleteItem = ({children, className, ...props}: AutocompleteItemProps) => {
+  return (
+    <Combobox.Item
+      className={className}
+      data-slot="autocomplete-item"
+      {...props}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "0.5rem",
+        paddingInline: "0.625rem",
+        paddingBlock: "0.375rem",
+        borderRadius: "calc(1.5rem - 0.375rem)",
+        fontSize: "0.875rem",
+        color: "var(--chakra-colors-fg, hsl(0 0% 9%))",
+        cursor: "pointer",
+        outline: "none",
+        userSelect: "none",
+        transition: "background-color 100ms ease",
+        ...props.style,
+      }}
+    >
+      {children}
+    </Combobox.Item>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * Autocomplete Item Text
+ * -----------------------------------------------------------------------------------------------*/
+interface AutocompleteItemTextProps extends ComponentPropsWithRef<typeof Combobox.ItemText> {}
+
+const AutocompleteItemText = ({children, className, ...props}: AutocompleteItemTextProps) => {
+  return (
+    <Combobox.ItemText
+      className={className}
+      data-slot="autocomplete-item-text"
+      {...props}
+      style={{
+        flex: 1,
+        pointerEvents: "none",
+        ...props.style,
+      }}
+    >
+      {children}
+    </Combobox.ItemText>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * Autocomplete Item Indicator
+ * -----------------------------------------------------------------------------------------------*/
+interface AutocompleteItemIndicatorProps
+  extends ComponentPropsWithRef<typeof Combobox.ItemIndicator> {}
+
+const AutocompleteItemIndicator = ({
+  children,
+  className,
+  ...props
+}: AutocompleteItemIndicatorProps) => {
+  return (
+    <Combobox.ItemIndicator
+      className={className}
+      data-slot="autocomplete-item-indicator"
+      {...props}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+        ...props.style,
+      }}
+    >
+      {children}
+    </Combobox.ItemIndicator>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Autocomplete Filter
  * -----------------------------------------------------------------------------------------------*/
-interface AutocompleteFilterProps extends ComponentPropsWithRef<typeof AutocompletePrimitive> {}
+interface AutocompleteFilterProps extends ComponentPropsWithRef<"div"> {}
 
 const AutocompleteFilter = ({children, ...props}: AutocompleteFilterProps) => {
   return (
-    <AutocompletePrimitive data-slot="autocomplete-filter" {...props}>
+    <div
+      data-slot="autocomplete-filter"
+      {...props}
+      style={{
+        paddingInline: "0.75rem",
+        paddingBlock: "0.25rem",
+        outline: "none",
+        ...props.style,
+      }}
+    >
       {children}
-    </AutocompletePrimitive>
+    </div>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Autocomplete Clear Button
  * -----------------------------------------------------------------------------------------------*/
-interface AutocompleteClearButtonProps extends ComponentPropsWithRef<"button"> {}
+interface AutocompleteClearButtonProps extends ComponentPropsWithRef<typeof Combobox.ClearTrigger> {}
 
-const AutocompleteClearButton = ({
-  className,
-  onClick,
-  ref,
-  ...props
-}: AutocompleteClearButtonProps) => {
-  const {slots} = useContext(AutocompleteContext);
-  const state = useContext(SelectStateContext);
-  const {clearButtonRef, onClear} = useContext(AutocompleteContext);
+const AutocompleteClearButton = ({className, onClick, ...props}: AutocompleteClearButtonProps) => {
+  const {onClear} = useContext(AutocompleteContext);
 
-  const clearButtonRefCallback = React.useCallback(
-    (node: HTMLButtonElement | null) => {
-      clearButtonRef.current = node;
-    },
-    [clearButtonRef],
-  );
-
-  // Merge context ref callback with user-provided ref
-  const mergedRef = mergeRefs(clearButtonRefCallback, ref);
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    state?.selectionManager.setSelectedKeys(new Set());
+  const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     onClear?.();
     onClick?.(e);
   };
 
   return (
-    <button
-      ref={mergedRef}
-      className={slots?.clearButton({className})}
-      data-empty={dataAttr(state?.selectionManager.selectedKeys.size === 0)}
+    <Combobox.ClearTrigger
+      className={className}
       data-slot="autocomplete-clear-button"
       onClick={handleClick}
       {...props}
+      style={{
+        position: "relative",
+        isolation: "isolate",
+        display: "inline-flex",
+        width: "1.25rem",
+        height: "1.25rem",
+        flexShrink: 0,
+        alignSelf: "center",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: "0.75rem",
+        padding: "0.25rem",
+        color: "var(--chakra-colors-fg-muted, hsl(0 0% 45%))",
+        cursor: "pointer",
+        userSelect: "none",
+        backgroundColor: "transparent",
+        border: "none",
+        outline: "none",
+        WebkitTapHighlightColor: "transparent",
+        transition: "opacity 150ms ease, background-color 100ms ease, transform 100ms ease",
+        ...props.style,
+      }}
     >
-      <CloseIcon data-slot="autocomplete-clear-button-icon" />
-    </button>
+      <CloseIcon
+        data-slot="autocomplete-clear-button-icon"
+        style={{width: "0.875rem", height: "0.875rem"}}
+      />
+    </Combobox.ClearTrigger>
   );
 };
 
@@ -286,6 +419,10 @@ export {
   AutocompletePopover,
   AutocompleteFilter,
   AutocompleteClearButton,
+  AutocompleteItem,
+  AutocompleteItemText,
+  AutocompleteItemIndicator,
+  AutocompleteItemGroup,
 };
 
 export type {
@@ -296,4 +433,8 @@ export type {
   AutocompletePopoverProps,
   AutocompleteFilterProps,
   AutocompleteClearButtonProps,
+  AutocompleteItemProps,
+  AutocompleteItemTextProps,
+  AutocompleteItemIndicatorProps,
+  AutocompleteItemGroupProps,
 };

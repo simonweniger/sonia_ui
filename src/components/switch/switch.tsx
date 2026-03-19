@@ -1,79 +1,93 @@
 "use client";
 
-import type {SwitchVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {switchVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-import {Switch as SwitchPrimitive} from "react-aria-components";
-
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
-
-/* -------------------------------------------------------------------------------------------------
- * Switch Context
- * -----------------------------------------------------------------------------------------------*/
-interface SwitchContext {
-  slots?: ReturnType<typeof switchVariants>;
-}
-
-const SwitchContext = createContext<SwitchContext>({});
+import {Box, Switch as ChakraSwitch} from "@chakra-ui/react";
+import React from "react";
 
 /* -------------------------------------------------------------------------------------------------
  * Switch Root
  * -----------------------------------------------------------------------------------------------*/
-interface SwitchRootProps extends ComponentPropsWithRef<typeof SwitchPrimitive>, SwitchVariants {}
+interface SwitchRootProps extends ComponentPropsWithRef<typeof ChakraSwitch.Root> {}
 
-const SwitchRoot = ({children, className, size, ...props}: SwitchRootProps) => {
-  const slots = React.useMemo(() => switchVariants({size}), [size]);
-
+const SwitchRoot = ({children, ...props}: SwitchRootProps) => {
   return (
-    <SwitchContext value={{slots}}>
-      <SwitchPrimitive
-        data-slot="switch"
-        {...props}
-        className={composeTwRenderProps(className, slots.base())}
-      >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </SwitchPrimitive>
-    </SwitchContext>
+    <ChakraSwitch.Root
+      data-slot="switch"
+      css={{
+        /* Disabled + Checked: reduce thumb opacity */
+        "&:is(:disabled, [data-disabled=true], [aria-disabled=true]):is([aria-checked=true], [data-state=checked])":
+          {
+            "& [data-slot=switch-thumb]": {
+              opacity: 0.4,
+            },
+          },
+      }}
+      {...props}
+    >
+      <ChakraSwitch.HiddenInput />
+      {children}
+    </ChakraSwitch.Root>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Switch Control
  * -----------------------------------------------------------------------------------------------*/
-interface SwitchControlProps extends ComponentPropsWithRef<"span"> {}
+interface SwitchControlProps extends ComponentPropsWithRef<typeof ChakraSwitch.Control> {}
 
-const SwitchControl = ({children, className, ...props}: SwitchControlProps) => {
-  const {slots} = useContext(SwitchContext);
-
+const SwitchControl = ({children, ...props}: SwitchControlProps) => {
   return (
-    <span
-      className={composeSlotClassName(slots?.control, className)}
+    <ChakraSwitch.Control
       data-slot="switch-control"
+      css={{
+        /* Hover (unchecked) */
+        "[data-slot=switch]:hover &, [data-slot=switch][data-hovered=true] &": {
+          bg: "bg.emphasized/80",
+        },
+        /* Checked + Hover */
+        "[data-slot=switch]:is([aria-checked=true], [data-state=checked]):hover &, [data-slot=switch]:is([aria-checked=true], [data-state=checked])[data-hovered=true] &":
+          {
+            bg: "colorPalette.solid/90",
+          },
+        /* Checked + Pressed */
+        "[data-slot=switch]:is([aria-checked=true], [data-state=checked]):active &, [data-slot=switch]:is([aria-checked=true], [data-state=checked])[data-pressed=true] &":
+          {
+            bg: "colorPalette.solid/90",
+          },
+      }}
       {...props}
     >
       {children}
-    </span>
+    </ChakraSwitch.Control>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Switch Thumb
  * -----------------------------------------------------------------------------------------------*/
-interface SwitchThumbProps extends ComponentPropsWithRef<"span"> {}
+interface SwitchThumbProps extends ComponentPropsWithRef<typeof ChakraSwitch.Thumb> {}
 
-const SwitchThumb = ({children, className, ...props}: SwitchThumbProps) => {
-  const {slots} = useContext(SwitchContext);
-
+const SwitchThumb = ({children, ...props}: SwitchThumbProps) => {
   return (
-    <span
-      className={composeSlotClassName(slots?.thumb, className)}
+    <ChakraSwitch.Thumb
       data-slot="switch-thumb"
+      css={{
+        /* Horizontal stretch on press — anchored to the side the thumb sits on.
+           The bouncy spring-back uses the recipe's cubic-bezier(0.34, 1.56, 0.64, 1). */
+        "[data-slot=switch]:active &, [data-slot=switch][data-pressed=true] &": {
+          transform: "scaleX(1.15) scaleY(0.9)",
+          transformOrigin: "left center",
+        },
+        "[data-slot=switch]:is([aria-checked=true], [data-state=checked]):active &, [data-slot=switch]:is([aria-checked=true], [data-state=checked])[data-pressed=true] &":
+          {
+            transformOrigin: "right center",
+          },
+      }}
       {...props}
     >
       {children}
-    </span>
+    </ChakraSwitch.Thumb>
   );
 };
 
@@ -82,17 +96,20 @@ const SwitchThumb = ({children, className, ...props}: SwitchThumbProps) => {
  * -----------------------------------------------------------------------------------------------*/
 interface SwitchIconProps extends ComponentPropsWithRef<"span"> {}
 
-const SwitchIcon = ({children, className, ...props}: SwitchIconProps) => {
-  const {slots} = useContext(SwitchContext);
-
+const SwitchIcon = ({children, ...props}: SwitchIconProps) => {
   return (
-    <span
-      className={composeSlotClassName(slots?.icon, className)}
+    <Box
+      as="span"
       data-slot="switch-icon"
+      display="flex"
+      width="100%"
+      height="100%"
+      alignItems="center"
+      justifyContent="center"
       {...props}
     >
       {children}
-    </span>
+    </Box>
   );
 };
 
@@ -101,17 +118,17 @@ const SwitchIcon = ({children, className, ...props}: SwitchIconProps) => {
  * -----------------------------------------------------------------------------------------------*/
 interface SwitchContentProps extends ComponentPropsWithRef<"div"> {}
 
-const SwitchContent = ({children, className, ...props}: SwitchContentProps) => {
-  const {slots} = useContext(SwitchContext);
-
+const SwitchContent = ({children, ...props}: SwitchContentProps) => {
   return (
-    <div
-      className={composeSlotClassName(slots?.content, className)}
+    <Box
       data-slot="switch-content"
+      display="flex"
+      flexDirection="column"
+      gap="0"
       {...props}
     >
       {children}
-    </div>
+    </Box>
   );
 };
 

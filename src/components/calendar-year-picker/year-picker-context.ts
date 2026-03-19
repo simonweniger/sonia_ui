@@ -1,6 +1,6 @@
 "use client";
 
-import type {DateValue} from "react-aria-components";
+import type {DateValue} from "@internationalized/date";
 
 import {createContext, useContext} from "react";
 

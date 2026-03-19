@@ -47,10 +47,3 @@ export type {
   SearchFieldSearchIconProps,
   SearchFieldClearButtonProps,
 } from "./search-field";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {searchFieldVariants} from "../../styles";
-
-export type {SearchFieldVariants} from "../../styles";

@@ -1,183 +1,140 @@
 "use client";
 
-import type {SurfaceVariants} from "../surface";
-import type {PopoverVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {popoverVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-import {
-  Dialog as DialogPrimitive,
-  Heading as HeadingPrimitive,
-  OverlayArrow,
-  Popover as PopoverPrimitive,
-  DialogTrigger as PopoverTriggerPrimitive,
-  Pressable as PressablePrimitive,
-} from "react-aria-components";
-
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
-import {SurfaceContext} from "../surface";
-
-/* -------------------------------------------------------------------------------------------------
- * Popover Context
- * -----------------------------------------------------------------------------------------------*/
-type PopoverContext = {
-  slots?: ReturnType<typeof popoverVariants>;
-};
-
-const PopoverContext = createContext<PopoverContext>({});
+import React from "react";
+import {Popover as ChakraPopover} from "@chakra-ui/react";
 
 /* -------------------------------------------------------------------------------------------------
  * Popover Root
  * -----------------------------------------------------------------------------------------------*/
-type PopoverRootProps = ComponentPropsWithRef<typeof PopoverTriggerPrimitive>;
+interface PopoverRootProps extends ComponentPropsWithRef<typeof ChakraPopover.Root> {}
 
-const PopoverRoot = ({
-  children,
-  ...props
-}: ComponentPropsWithRef<typeof PopoverTriggerPrimitive>) => {
-  const slots = React.useMemo(() => popoverVariants(), []);
-
+const PopoverRoot = ({children, ...props}: PopoverRootProps) => {
   return (
-    <PopoverContext value={{slots}}>
-      <PopoverTriggerPrimitive data-slot="popover-root" {...props}>
-        {children}
-      </PopoverTriggerPrimitive>
-    </PopoverContext>
+    <ChakraPopover.Root data-slot="popover-root" {...props}>
+      {children}
+    </ChakraPopover.Root>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Popover Content
  * -----------------------------------------------------------------------------------------------*/
-interface PopoverContentProps
-  extends Omit<ComponentPropsWithRef<typeof PopoverPrimitive>, "children">, PopoverVariants {
-  children: React.ReactNode;
-}
+interface PopoverContentProps extends ComponentPropsWithRef<typeof ChakraPopover.Content> {}
 
 const PopoverContent = ({children, className, ...props}: PopoverContentProps) => {
-  const {slots} = useContext(PopoverContext);
-
   return (
-    <PopoverContext value={{slots}}>
-      <SurfaceContext
-        value={{
-          variant: "default" as SurfaceVariants["variant"],
-        }}
-      >
-        <PopoverPrimitive {...props} className={composeTwRenderProps(className, slots?.base())}>
-          {children}
-        </PopoverPrimitive>
-      </SurfaceContext>
-    </PopoverContext>
+    <ChakraPopover.Content
+      data-slot="popover-content"
+      className={className}
+      p="0"
+      css={{transformOrigin: "var(--trigger-anchor-point)"}}
+      {...props}
+    >
+      {children}
+    </ChakraPopover.Content>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Popover Arrow
  * -----------------------------------------------------------------------------------------------*/
-type PopoverArrowProps = Omit<ComponentPropsWithRef<typeof OverlayArrow>, "children"> & {
-  children?: React.ReactNode;
-};
+interface PopoverArrowProps extends ComponentPropsWithRef<typeof ChakraPopover.Arrow> {}
 
-const PopoverArrow = ({children, className, ...props}: PopoverArrowProps) => {
-  const defaultArrow = (
-    <svg data-slot="popover-overlay-arrow" height={12} viewBox="0 0 12 12" width={12}>
-      <path d="M0 0 Q6 9 12 0" />
-    </svg>
-  );
-
-  const arrow = React.isValidElement(children)
-    ? React.cloneElement(
-        children as React.ReactElement<{
-          className?: string;
-          "data-slot"?: "popover-overlay-arrow";
-        }>,
-        {
-          "data-slot": "popover-overlay-arrow",
-        },
-      )
-    : defaultArrow;
-
+const PopoverArrow = ({className, ...props}: PopoverArrowProps) => {
   return (
-    <OverlayArrow data-slot="popover-overlay-arrow-group" {...props} className={className}>
-      {arrow}
-    </OverlayArrow>
+    <ChakraPopover.Arrow data-slot="popover-arrow" className={className} {...props}>
+      <ChakraPopover.ArrowTip />
+    </ChakraPopover.Arrow>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
- * Popover Dialog
+ * Popover Body
  * -----------------------------------------------------------------------------------------------*/
-type PopoverDialogProps = Omit<ComponentPropsWithRef<typeof DialogPrimitive>, "children"> & {
-  children: React.ReactNode;
-};
+interface PopoverBodyProps extends ComponentPropsWithRef<typeof ChakraPopover.Body> {}
 
-const PopoverDialog = ({children, className, ...props}: PopoverDialogProps) => {
-  const {slots} = useContext(PopoverContext);
-
+const PopoverBody = ({children, className, ...props}: PopoverBodyProps) => {
   return (
-    <DialogPrimitive
-      data-slot="popover-dialog"
+    <ChakraPopover.Body
+      data-slot="popover-body"
+      className={className}
+      p="4"
+      outline="none"
       {...props}
-      className={composeSlotClassName(slots?.dialog, className)}
     >
       {children}
-    </DialogPrimitive>
+    </ChakraPopover.Body>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Popover Trigger
  * -----------------------------------------------------------------------------------------------*/
-type PopoverTriggerProps = ComponentPropsWithRef<"div">;
+interface PopoverTriggerProps extends ComponentPropsWithRef<typeof ChakraPopover.Trigger> {}
 
 const PopoverTrigger = ({children, className, ...props}: PopoverTriggerProps) => {
-  const {slots} = useContext(PopoverContext);
-
   return (
-    <PressablePrimitive>
-      <div
-        className={composeSlotClassName(slots?.trigger, className)}
-        data-slot="popover-trigger"
-        role="button"
-        {...props}
-      >
-        {children}
-      </div>
-    </PressablePrimitive>
+    <ChakraPopover.Trigger
+      data-slot="popover-trigger"
+      className={className}
+      cursor="pointer"
+      css={{
+        transition:
+          "color 150ms var(--ease-smooth), background-color 150ms var(--ease-smooth), box-shadow 150ms var(--ease-out)",
+      }}
+      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
+      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
+      {...props}
+    >
+      {children}
+    </ChakraPopover.Trigger>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Popover Heading
  * -----------------------------------------------------------------------------------------------*/
-type PopoverHeadingProps = ComponentPropsWithRef<typeof HeadingPrimitive> & {};
+interface PopoverHeadingProps extends ComponentPropsWithRef<typeof ChakraPopover.Header> {}
 
 const PopoverHeading = ({children, className, ...props}: PopoverHeadingProps) => {
-  const {slots} = useContext(PopoverContext);
-
   return (
-    <HeadingPrimitive
-      slot="title"
+    <ChakraPopover.Header
+      data-slot="popover-heading"
+      className={className}
+      fontWeight="medium"
       {...props}
-      className={composeSlotClassName(slots?.heading, className)}
     >
       {children}
-    </HeadingPrimitive>
+    </ChakraPopover.Header>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * Popover CloseTrigger
+ * -----------------------------------------------------------------------------------------------*/
+interface PopoverCloseTriggerProps extends ComponentPropsWithRef<typeof ChakraPopover.CloseTrigger> {}
+
+const PopoverCloseTrigger = ({children, className, ...props}: PopoverCloseTriggerProps) => {
+  return (
+    <ChakraPopover.CloseTrigger data-slot="popover-close-trigger" className={className} {...props}>
+      {children}
+    </ChakraPopover.CloseTrigger>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/
-export {PopoverRoot, PopoverTrigger, PopoverDialog, PopoverArrow, PopoverContent, PopoverHeading};
+export {PopoverRoot, PopoverTrigger, PopoverBody, PopoverArrow, PopoverContent, PopoverHeading, PopoverCloseTrigger};
 
 export type {
   PopoverRootProps,
   PopoverTriggerProps,
-  PopoverDialogProps,
+  PopoverBodyProps,
   PopoverArrowProps,
   PopoverContentProps,
   PopoverHeadingProps,
+  PopoverCloseTriggerProps,
 };

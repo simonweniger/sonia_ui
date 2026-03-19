@@ -1,25 +1,23 @@
 "use client";
 
-import type {DescriptionVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
-import type {TextProps} from "react-aria-components";
 
-import {descriptionVariants} from "../../styles";
-import {Text} from "react-aria-components";
+import {Text} from "@chakra-ui/react";
 
 /* -------------------------------------------------------------------------------------------------
  * Description Root
  * -----------------------------------------------------------------------------------------------*/
-interface DescriptionRootProps
-  extends ComponentPropsWithRef<typeof Text>, TextProps, DescriptionVariants {}
+interface DescriptionRootProps extends ComponentPropsWithRef<typeof Text> {}
 
-const DescriptionRoot = ({children, className, ...rest}: DescriptionRootProps) => {
+const DescriptionRoot = ({children, ...props}: DescriptionRootProps) => {
   return (
     <Text
-      className={descriptionVariants({className})}
       data-slot="description"
-      slot="description"
-      {...rest}
+      color="fg.muted"
+      fontSize="xs"
+      textWrap="wrap"
+      overflowWrap="break-word"
+      {...props}
     >
       {children}
     </Text>

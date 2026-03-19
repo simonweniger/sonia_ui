@@ -5,21 +5,23 @@ import type {ComponentProps} from "react";
 import {MenuItem, MenuItemIndicator} from "../menu-item";
 import {MenuSection} from "../menu-section";
 
-import {MenuRoot} from "./menu";
+import {MenuContent, MenuRoot} from "./menu";
 
 /* -------------------------------------------------------------------------------------------------
  * Compound Component
  * -----------------------------------------------------------------------------------------------*/
 export const Menu = Object.assign(MenuRoot, {
   Root: MenuRoot,
+  Content: MenuContent,
   Item: MenuItem,
   ItemIndicator: MenuItemIndicator,
   Section: MenuSection,
 });
 
-export type Menu<T extends object = object> = {
-  Props: ComponentProps<typeof MenuRoot<T>>;
-  RootProps: ComponentProps<typeof MenuRoot<T>>;
+export type Menu = {
+  Props: ComponentProps<typeof MenuRoot>;
+  RootProps: ComponentProps<typeof MenuRoot>;
+  ContentProps: ComponentProps<typeof MenuContent>;
   ItemProps: ComponentProps<typeof MenuItemRoot>;
   SectionProps: ComponentProps<typeof MenuSectionRoot>;
 };
@@ -27,13 +29,6 @@ export type Menu<T extends object = object> = {
 /* -------------------------------------------------------------------------------------------------
  * Named Component
  * -----------------------------------------------------------------------------------------------*/
-export {MenuRoot};
+export {MenuRoot, MenuContent};
 
-export type {MenuRootProps, MenuRootProps as MenuProps} from "./menu";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {menuVariants} from "../../styles";
-
-export type {MenuVariants} from "../../styles";
+export type {MenuRootProps, MenuRootProps as MenuProps, MenuContentProps} from "./menu";

@@ -4,6 +4,10 @@ import {
   AutocompleteClearButton,
   AutocompleteFilter,
   AutocompleteIndicator,
+  AutocompleteItem,
+  AutocompleteItemGroup,
+  AutocompleteItemIndicator,
+  AutocompleteItemText,
   AutocompletePopover,
   AutocompleteRoot,
   AutocompleteTrigger,
@@ -21,17 +25,25 @@ export const Autocomplete = Object.assign(AutocompleteRoot, {
   Popover: AutocompletePopover,
   Filter: AutocompleteFilter,
   ClearButton: AutocompleteClearButton,
+  Item: AutocompleteItem,
+  ItemText: AutocompleteItemText,
+  ItemIndicator: AutocompleteItemIndicator,
+  ItemGroup: AutocompleteItemGroup,
 });
 
-export type Autocomplete<T extends object = object, M extends "single" | "multiple" = "single"> = {
-  Props: ComponentProps<typeof AutocompleteRoot<T, M>>;
-  RootProps: ComponentProps<typeof AutocompleteRoot<T, M>>;
+export type Autocomplete = {
+  Props: ComponentProps<typeof AutocompleteRoot>;
+  RootProps: ComponentProps<typeof AutocompleteRoot>;
   TriggerProps: ComponentProps<typeof AutocompleteTrigger>;
   ValueProps: ComponentProps<typeof AutocompleteValue>;
   IndicatorProps: ComponentProps<typeof AutocompleteIndicator>;
   PopoverProps: ComponentProps<typeof AutocompletePopover>;
   FilterProps: ComponentProps<typeof AutocompleteFilter>;
   ClearButtonProps: ComponentProps<typeof AutocompleteClearButton>;
+  ItemProps: ComponentProps<typeof AutocompleteItem>;
+  ItemTextProps: ComponentProps<typeof AutocompleteItemText>;
+  ItemIndicatorProps: ComponentProps<typeof AutocompleteItemIndicator>;
+  ItemGroupProps: ComponentProps<typeof AutocompleteItemGroup>;
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -40,6 +52,10 @@ export type Autocomplete<T extends object = object, M extends "single" | "multip
 export {
   AutocompleteClearButton,
   AutocompleteFilter,
+  AutocompleteItem,
+  AutocompleteItemGroup,
+  AutocompleteItemIndicator,
+  AutocompleteItemText,
   AutocompleteTrigger,
   AutocompleteIndicator,
   AutocompletePopover,
@@ -56,11 +72,8 @@ export type {
   AutocompletePopoverProps,
   AutocompleteFilterProps,
   AutocompleteClearButtonProps,
+  AutocompleteItemProps,
+  AutocompleteItemTextProps,
+  AutocompleteItemIndicatorProps,
+  AutocompleteItemGroupProps,
 } from "./autocomplete";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {autocompleteVariants} from "../../styles";
-
-export type {AutocompleteVariants} from "../../styles";

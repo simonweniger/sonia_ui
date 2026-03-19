@@ -90,10 +90,3 @@ export type {
   TableLoadMoreContentProps,
   TableResizableContainerProps,
 } from "./table";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {tableVariants} from "../../styles";
-
-export type {TableVariants} from "../../styles";

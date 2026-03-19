@@ -1,6 +1,7 @@
 import type {SpinnerProps} from "./index";
 import type {Meta} from "@storybook/react";
 
+import {Flex, Text} from "@chakra-ui/react";
 import React from "react";
 
 import {Spinner} from "./index";
@@ -26,55 +27,55 @@ export default {
 const defaultArgs: SpinnerProps = {};
 
 const Template = (props: SpinnerProps) => (
-  <div className="flex items-center gap-3">
+  <Flex align="center" gap="3">
     <Spinner {...props} />
-  </div>
+  </Flex>
 );
 
 const ColorsTemplate = (props: SpinnerProps) => (
-  <div className="flex items-center gap-8">
-    <div className="flex flex-col items-center gap-2">
+  <Flex align="center" gap="8">
+    <Flex direction="column" align="center" gap="2">
       <Spinner color="accent" {...props} />
-      <span className="text-xs text-muted">Accent</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
+      <Text as="span" fontSize="xs" color="fg.muted">Accent</Text>
+    </Flex>
+    <Flex direction="column" align="center" gap="2">
       <Spinner color="current" {...props} />
-      <span className="text-xs text-muted">Current</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
+      <Text as="span" fontSize="xs" color="fg.muted">Current</Text>
+    </Flex>
+    <Flex direction="column" align="center" gap="2">
       <Spinner color="success" {...props} />
-      <span className="text-xs text-muted">Success</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
+      <Text as="span" fontSize="xs" color="fg.muted">Success</Text>
+    </Flex>
+    <Flex direction="column" align="center" gap="2">
       <Spinner color="warning" {...props} />
-      <span className="text-xs text-muted">Warning</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
+      <Text as="span" fontSize="xs" color="fg.muted">Warning</Text>
+    </Flex>
+    <Flex direction="column" align="center" gap="2">
       <Spinner color="danger" {...props} />
-      <span className="text-xs text-muted">Danger</span>
-    </div>
-  </div>
+      <Text as="span" fontSize="xs" color="fg.muted">Danger</Text>
+    </Flex>
+  </Flex>
 );
 
 const SizesTemplate = (props: SpinnerProps) => (
-  <div className="flex items-center gap-8">
-    <div className="flex flex-col items-center gap-2">
+  <Flex align="center" gap="8">
+    <Flex direction="column" align="center" gap="2">
       <Spinner size="sm" {...props} />
-      <span className="text-xs text-muted">Small</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
+      <Text as="span" fontSize="xs" color="fg.muted">Small</Text>
+    </Flex>
+    <Flex direction="column" align="center" gap="2">
       <Spinner size="md" {...props} />
-      <span className="text-xs text-muted">Medium</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
+      <Text as="span" fontSize="xs" color="fg.muted">Medium</Text>
+    </Flex>
+    <Flex direction="column" align="center" gap="2">
       <Spinner size="lg" {...props} />
-      <span className="text-xs text-muted">Large</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
+      <Text as="span" fontSize="xs" color="fg.muted">Large</Text>
+    </Flex>
+    <Flex direction="column" align="center" gap="2">
       <Spinner size="xl" {...props} />
-      <span className="text-xs text-muted">Extra Large</span>
-    </div>
-  </div>
+      <Text as="span" fontSize="xs" color="fg.muted">Extra Large</Text>
+    </Flex>
+  </Flex>
 );
 
 export const Default = {

@@ -1,81 +1,97 @@
 "use client";
 
-import type {SurfaceVariants} from "../surface";
-import type {AlertVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
+import type {SystemStyleObject} from "@chakra-ui/react";
 
-import {alertVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
+import {Alert as ChakraAlert, Box} from "@chakra-ui/react";
+import React from "react";
 
-import {composeSlotClassName} from "../../utils/compose";
-import {DangerIcon, InfoIcon, SuccessIcon, WarningIcon} from "../icons";
-import {SurfaceContext} from "../surface";
+/* ------------------------------------------------------------------------------------------------
+ * Variant Style Maps
+ * --------------------------------------------------------------------------------------------- */
+type AlertVariant = "default" | "accent" | "success" | "warning" | "danger";
+
+const indicatorVariantStyles: Record<AlertVariant, SystemStyleObject> = {
+  default: {color: "fg"},
+  accent: {color: "accent"},
+  success: {color: "success"},
+  warning: {color: "warning"},
+  danger: {color: "danger"},
+};
+
+const titleVariantStyles: Record<AlertVariant, SystemStyleObject> = {
+  default: {color: "fg"},
+  accent: {color: "accent"},
+  success: {color: "success"},
+  warning: {color: "warning"},
+  danger: {color: "danger"},
+};
 
 /* ------------------------------------------------------------------------------------------------
  * Alert Context
  * --------------------------------------------------------------------------------------------- */
-type AlertContext = {
-  slots?: ReturnType<typeof alertVariants>;
-  status?: "default" | "accent" | "success" | "warning" | "danger";
-};
-
-const AlertContext = createContext<AlertContext>({});
+const AlertContext = React.createContext<{variant: AlertVariant}>({variant: "default"});
 
 /* ------------------------------------------------------------------------------------------------
  * Alert Root
  * --------------------------------------------------------------------------------------------- */
-interface AlertRootProps extends ComponentPropsWithRef<"div">, AlertVariants {}
+interface AlertRootProps extends Omit<ComponentPropsWithRef<typeof ChakraAlert.Root>, "variant"> {
+  variant?: AlertVariant;
+}
 
-const AlertRoot = ({children, className, status, ...rest}: AlertRootProps) => {
-  const slots = React.useMemo(() => alertVariants({status}), [status]);
-
+const AlertRoot = ({children, variant = "default", ...rest}: AlertRootProps) => {
   return (
-    <AlertContext value={{slots, status}}>
-      <SurfaceContext
-        value={{
-          variant: "default" as SurfaceVariants["variant"],
-        }}
+    <AlertContext.Provider value={{variant}}>
+      <ChakraAlert.Root
+        data-slot="alert-root"
+        display="flex"
+        w="full"
+        flexDir="row"
+        alignItems="flex-start"
+        justifyContent="flex-start"
+        gap="4"
+        rounded="3xl"
+        bg="surface"
+        px="4"
+        py="3"
+        shadow="surface"
+        {...rest}
       >
-        <div className={slots?.base({className})} data-slot="alert-root" {...rest}>
-          {children}
-        </div>
-      </SurfaceContext>
-    </AlertContext>
+        {children}
+      </ChakraAlert.Root>
+    </AlertContext.Provider>
   );
 };
 
 /* ------------------------------------------------------------------------------------------------
  * Alert Indicator
  * --------------------------------------------------------------------------------------------- */
-type AlertIndicatorProps = ComponentPropsWithRef<"div">;
+type AlertIndicatorProps = ComponentPropsWithRef<typeof ChakraAlert.Indicator>;
 
-const AlertIndicator = ({children, className, ...rest}: AlertIndicatorProps) => {
-  const {slots, status} = useContext(AlertContext);
-
-  // Map status to default icons
-  const getDefaultIcon = () => {
-    switch (status) {
-      case "accent":
-        return <InfoIcon data-slot="alert-default-icon" />;
-      case "success":
-        return <SuccessIcon data-slot="alert-default-icon" />;
-      case "warning":
-        return <WarningIcon data-slot="alert-default-icon" />;
-      case "danger":
-        return <DangerIcon data-slot="alert-default-icon" />;
-      default:
-        return <InfoIcon data-slot="alert-default-icon" />;
-    }
-  };
+const AlertIndicator = ({children, ...rest}: AlertIndicatorProps) => {
+  const {variant} = React.useContext(AlertContext);
+  const variantProps = indicatorVariantStyles[variant] ?? {};
 
   return (
-    <div
-      className={composeSlotClassName(slots?.indicator, className)}
+    <ChakraAlert.Indicator
       data-slot="alert-indicator"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      p="1"
+      userSelect="none"
+      {...variantProps}
+      css={{
+        "& [data-slot='alert-default-icon']": {
+          boxSizing: "content-box",
+          width: "1rem",
+          height: "1rem",
+        },
+      }}
       {...rest}
     >
-      {children ?? getDefaultIcon()}
-    </div>
+      {children}
+    </ChakraAlert.Indicator>
   );
 };
 
@@ -84,51 +100,60 @@ const AlertIndicator = ({children, className, ...rest}: AlertIndicatorProps) => 
  * --------------------------------------------------------------------------------------------- */
 type AlertContentProps = ComponentPropsWithRef<"div">;
 
-const AlertContent = ({children, className, ...rest}: AlertContentProps) => {
-  const {slots} = useContext(AlertContext);
-
+const AlertContent = ({children, ...rest}: AlertContentProps) => {
   return (
-    <div
-      className={composeSlotClassName(slots?.content, className)}
+    <Box
       data-slot="alert-content"
+      display="flex"
+      h="full"
+      flexGrow={1}
+      flexDir="column"
+      alignItems="flex-start"
       {...rest}
     >
       {children}
-    </div>
+    </Box>
   );
 };
 
 /* ------------------------------------------------------------------------------------------------
  * Alert Title
  * --------------------------------------------------------------------------------------------- */
-type AlertTitleProps = ComponentPropsWithRef<"p">;
+type AlertTitleProps = ComponentPropsWithRef<typeof ChakraAlert.Title>;
 
-const AlertTitle = ({children, className, ...rest}: AlertTitleProps) => {
-  const {slots} = useContext(AlertContext);
+const AlertTitle = ({children, ...rest}: AlertTitleProps) => {
+  const {variant} = React.useContext(AlertContext);
+  const variantProps = titleVariantStyles[variant] ?? {};
 
   return (
-    <p className={composeSlotClassName(slots?.title, className)} data-slot="alert-title" {...rest}>
+    <ChakraAlert.Title
+      data-slot="alert-title"
+      textStyle="sm"
+      lineHeight="1.5rem"
+      fontWeight="medium"
+      {...variantProps}
+      {...rest}
+    >
       {children}
-    </p>
+    </ChakraAlert.Title>
   );
 };
 
 /* ------------------------------------------------------------------------------------------------
  * Alert Description
  * --------------------------------------------------------------------------------------------- */
-type AlertDescriptionProps = ComponentPropsWithRef<"span">;
+type AlertDescriptionProps = ComponentPropsWithRef<typeof ChakraAlert.Description>;
 
-const AlertDescription = ({children, className, ...rest}: AlertDescriptionProps) => {
-  const {slots} = useContext(AlertContext);
-
+const AlertDescription = ({children, ...rest}: AlertDescriptionProps) => {
   return (
-    <span
-      className={composeSlotClassName(slots?.description, className)}
+    <ChakraAlert.Description
       data-slot="alert-description"
+      textStyle="sm"
+      color="fg.muted"
       {...rest}
     >
       {children}
-    </span>
+    </ChakraAlert.Description>
   );
 };
 
@@ -143,4 +168,5 @@ export type {
   AlertContentProps,
   AlertTitleProps,
   AlertDescriptionProps,
+  AlertVariant,
 };

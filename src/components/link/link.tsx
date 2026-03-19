@@ -1,39 +1,22 @@
 "use client";
 
-import type {LinkVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {linkVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-import {Link as LinkPrimitive} from "react-aria-components";
+import {Box, Link as ChakraLink} from "@chakra-ui/react";
+import React from "react";
 
-import {dataAttr} from "../../utils/assertion";
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {ExternalLinkIcon} from "../icons";
-
-/* ------------------------------------------------------------------------------------------------
- * Link Context
- * --------------------------------------------------------------------------------------------- */
-type LinkContext = {
-  slots?: ReturnType<typeof linkVariants>;
-};
-
-const LinkContext = createContext<LinkContext>({});
 
 /* ------------------------------------------------------------------------------------------------
  * Link Root
  * --------------------------------------------------------------------------------------------- */
-interface LinkRootProps extends ComponentPropsWithRef<typeof LinkPrimitive>, LinkVariants {}
+interface LinkRootProps extends ComponentPropsWithRef<typeof ChakraLink> {}
 
-const LinkRoot = ({children, className, ...props}: LinkRootProps) => {
-  const slots = React.useMemo(() => linkVariants(), []);
-
+const LinkRoot = ({children, ...props}: LinkRootProps) => {
   return (
-    <LinkContext value={{slots}}>
-      <LinkPrimitive {...props} className={composeTwRenderProps(className, slots?.base())}>
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
-      </LinkPrimitive>
-    </LinkContext>
+    <ChakraLink data-slot="link" {...props}>
+      {children}
+    </ChakraLink>
   );
 };
 
@@ -42,18 +25,27 @@ const LinkRoot = ({children, className, ...props}: LinkRootProps) => {
  * --------------------------------------------------------------------------------------------- */
 type LinkIconProps = ComponentPropsWithRef<"span">;
 
-const LinkIcon = ({children, className, ...rest}: LinkIconProps) => {
-  const {slots} = useContext(LinkContext);
-
+const LinkIcon = ({children, ...props}: LinkIconProps) => {
   return (
-    <span
-      className={composeSlotClassName(slots?.icon, className)}
-      data-default-icon={dataAttr(!children)}
+    <Box
+      as="span"
       data-slot="link-icon"
-      {...rest}
+      pointerEvents="none"
+      display="inline-flex"
+      boxSize="2"
+      flexShrink={0}
+      alignItems="center"
+      justifyContent="center"
+      color="current"
+      opacity={0.6}
+      css={{
+        transition: "opacity 150ms ease-out",
+        "& svg": {transform: "translateZ(0)"},
+      }}
+      {...props}
     >
       {children ?? <ExternalLinkIcon data-slot="link-default-icon" />}
-    </span>
+    </Box>
   );
 };
 

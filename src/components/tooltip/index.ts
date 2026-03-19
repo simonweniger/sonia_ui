@@ -32,10 +32,3 @@ export type {
   TooltipContentProps,
   TooltipTriggerProps,
 } from "./tooltip";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {tooltipVariants} from "../../styles";
-
-export type {TooltipVariants} from "../../styles";

@@ -1,66 +1,86 @@
 "use client";
 
-import type {ButtonVariants} from "../../styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {buttonVariants} from "../../styles";
+import {Button as ChakraButton} from "@chakra-ui/react";
 import {useContext} from "react";
-import {Button as ButtonPrimitive} from "react-aria-components";
 
-import {composeTwRenderProps} from "../../utils";
-import {BUTTON_GROUP_CHILD, ButtonGroupContext} from "../button-group";
+import {ButtonGroupContext} from "../button-group";
+
+/* -------------------------------------------------------------------------------------------------
+ * Semantic variant aliases → recipe variant + colorPalette
+ * -----------------------------------------------------------------------------------------------*/
+type VariantAlias = {variant: string; colorPalette?: string};
+
+const VARIANT_ALIASES: Record<string, VariantAlias> = {
+  primary: {variant: "solid", colorPalette: "accent"},
+  danger: {variant: "solid", colorPalette: "red"},
+};
+
+type RecipeVariant = "solid" | "subtle" | "surface" | "outline" | "ghost" | "plain" | "glass" | "secondary" | "tertiary" | "danger-soft";
+type AliasVariant = "primary" | "danger";
+type ButtonVariant = RecipeVariant | AliasVariant;
+type ButtonSize = "sm" | "md" | "lg";
 
 /* -------------------------------------------------------------------------------------------------
  * Button Root
  * -----------------------------------------------------------------------------------------------*/
-interface ButtonRootProps extends ComponentPropsWithRef<typeof ButtonPrimitive>, ButtonVariants {
-  [BUTTON_GROUP_CHILD]?: boolean;
+interface ButtonRootProps extends Omit<ComponentPropsWithRef<typeof ChakraButton>, "variant" | "size"> {
+  fullWidth?: boolean;
+  isIconOnly?: boolean;
+  isDisabled?: boolean;
+  variant?: ButtonVariant | ComponentPropsWithRef<typeof ChakraButton>["variant"];
+  size?: ButtonSize | ComponentPropsWithRef<typeof ChakraButton>["size"];
 }
 
 const ButtonRoot = ({
   children,
-  className,
   fullWidth,
   isDisabled,
   isIconOnly,
   size,
-  slot,
-  style,
   variant,
-  [BUTTON_GROUP_CHILD]: isButtonGroupChild,
+  colorPalette: colorPaletteProp,
   ...rest
 }: ButtonRootProps) => {
   const buttonGroupContext = useContext(ButtonGroupContext);
 
-  // Only use context if this button is a direct child of ButtonGroup
-  const shouldUseContext = isButtonGroupChild === true;
+  const finalSize = size ?? buttonGroupContext?.size;
+  const finalVariant = variant ?? buttonGroupContext?.variant;
+  const finalIsDisabled = isDisabled ?? buttonGroupContext?.isDisabled;
+  const finalFullWidth = fullWidth ?? buttonGroupContext?.fullWidth;
+  const finalColorPalette = colorPaletteProp ?? buttonGroupContext?.colorPalette;
 
-  // Merge props with precedence: direct props > context props
-  const finalSize = size ?? (shouldUseContext ? buttonGroupContext?.size : undefined);
-  const finalVariant = variant ?? (shouldUseContext ? buttonGroupContext?.variant : undefined);
-  const finalIsDisabled =
-    isDisabled ?? (shouldUseContext ? buttonGroupContext?.isDisabled : undefined);
-  const finalFullWidth =
-    fullWidth ?? (shouldUseContext ? buttonGroupContext?.fullWidth : undefined);
+  const alias =
+    typeof finalVariant === "string"
+      ? VARIANT_ALIASES[finalVariant]
+      : undefined;
 
-  const styles = buttonVariants({
-    fullWidth: finalFullWidth,
-    isIconOnly,
-    size: finalSize,
-    variant: finalVariant,
-  });
+  const resolvedVariant = (alias?.variant ?? finalVariant) as ComponentPropsWithRef<typeof ChakraButton>["variant"];
 
   return (
-    <ButtonPrimitive
-      className={composeTwRenderProps(className, styles)}
+    <ChakraButton
       data-slot="button"
-      isDisabled={finalIsDisabled}
-      slot={slot}
-      style={style}
+      data-variant={resolvedVariant}
+      disabled={finalIsDisabled}
+      size={finalSize as ComponentPropsWithRef<typeof ChakraButton>["size"]}
+      variant={resolvedVariant}
+      colorPalette={finalColorPalette ?? alias?.colorPalette ?? "accent"}
+      width={finalFullWidth ? "100%" : undefined}
+      px={isIconOnly ? "0" : undefined}
+      minW={isIconOnly ? "auto" : undefined}
+      css={isIconOnly ? {
+        aspectRatio: "1/1",
+        /* Inside button groups, icon-only buttons should match group height, not be square */
+        "[data-slot='button-group'] &": {
+          aspectRatio: "auto",
+          paddingInline: "var(--chakra-spacing-3)",
+        },
+      } : undefined}
       {...rest}
     >
-      {(renderProps) => (typeof children === "function" ? children(renderProps) : children)}
-    </ButtonPrimitive>
+      {children}
+    </ChakraButton>
   );
 };
 

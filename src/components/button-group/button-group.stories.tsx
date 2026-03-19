@@ -1,6 +1,7 @@
 import type {Meta, StoryObj} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
+import {Box, Flex, Text} from "@chakra-ui/react";
 import React from "react";
 
 import {Button} from "../button";
@@ -36,38 +37,38 @@ export const Default: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Small</p>
+    <Flex direction="column" gap="6">
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Small</Text>
         <ButtonGroup size="sm">
           <Button>First</Button>
           <Button>Second</Button>
           <Button>Third</Button>
         </ButtonGroup>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Medium (default)</p>
+      </Flex>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Medium (default)</Text>
         <ButtonGroup size="md">
           <Button>First</Button>
           <Button>Second</Button>
           <Button>Third</Button>
         </ButtonGroup>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Large</p>
+      </Flex>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Large</Text>
         <ButtonGroup size="lg">
           <Button>First</Button>
           <Button>Second</Button>
           <Button>Third</Button>
         </ButtonGroup>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   ),
 };
 
 export const FullWidth: Story = {
   render: () => (
-    <div className="w-[400px] space-y-3">
+    <Box width="400px" spaceY="3">
       <ButtonGroup fullWidth>
         <Button>First</Button>
         <Button>Second</Button>
@@ -84,94 +85,94 @@ export const FullWidth: Story = {
           <Icon icon="gravity-ui:text-align-right" />
         </Button>
       </ButtonGroup>
-    </div>
+    </Box>
   ),
 };
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Primary</p>
+    <Flex direction="column" gap="6">
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Primary</Text>
         <ButtonGroup variant="primary">
           <Button>First</Button>
           <Button>Second</Button>
           <Button>Third</Button>
         </ButtonGroup>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Secondary</p>
+      </Flex>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Secondary</Text>
         <ButtonGroup variant="secondary">
           <Button>First</Button>
           <Button>Second</Button>
           <Button>Third</Button>
         </ButtonGroup>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Tertiary</p>
+      </Flex>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Tertiary</Text>
         <ButtonGroup variant="tertiary">
           <Button>First</Button>
           <Button>Second</Button>
           <Button>Third</Button>
         </ButtonGroup>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Outline</p>
+      </Flex>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Outline</Text>
         <ButtonGroup variant="outline">
           <Button>First</Button>
           <Button>Second</Button>
           <Button>Third</Button>
         </ButtonGroup>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Ghost</p>
+      </Flex>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Ghost</Text>
         <ButtonGroup variant="ghost">
           <Button>First</Button>
           <Button>Second</Button>
           <Button>Third</Button>
         </ButtonGroup>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Danger</p>
+      </Flex>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Danger</Text>
         <ButtonGroup variant="danger">
           <Button>First</Button>
           <Button>Second</Button>
           <Button>Third</Button>
         </ButtonGroup>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   ),
 };
 
 export const Disabled: Story = {
   render: () => (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">All buttons disabled</p>
+    <Flex direction="column" gap="6">
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">All buttons disabled</Text>
         <ButtonGroup isDisabled>
           <Button>First</Button>
           <Button>Second</Button>
           <Button>Third</Button>
         </ButtonGroup>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Group disabled, but one button overrides</p>
+      </Flex>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Group disabled, but one button overrides</Text>
         <ButtonGroup isDisabled>
           <Button>First</Button>
           <Button>Second</Button>
           <Button isDisabled={false}>Third (enabled)</Button>
         </ButtonGroup>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   ),
 };
 
 export const WithIcons: Story = {
   render: () => (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">With icons</p>
-        <ButtonGroup variant="secondary">
+    <Flex direction="column" gap="6">
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">With icons</Text>
+        <ButtonGroup variant="subtle">
           <Button>
             <Icon icon="gravity-ui:globe" />
             Search
@@ -185,10 +186,10 @@ export const WithIcons: Story = {
             Delete
           </Button>
         </ButtonGroup>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Icon only buttons</p>
-        <ButtonGroup variant="tertiary">
+      </Flex>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Icon only buttons</Text>
+        <ButtonGroup variant="ghost">
           <Button isIconOnly>
             <Icon icon="gravity-ui:globe" />
           </Button>
@@ -199,8 +200,8 @@ export const WithIcons: Story = {
             <Icon icon="gravity-ui:trash-bin" />
           </Button>
         </ButtonGroup>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   ),
 };
 
@@ -216,62 +217,62 @@ export const WithoutSeparator: Story = {
 
 export const Examples: Story = {
   render: () => (
-    <div className="flex flex-col items-start gap-8">
+    <Flex direction="column" align="start" gap="8">
       {/* Single button with dropdown */}
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Single button with dropdown</p>
-        <ButtonGroup>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Single button with dropdown</Text>
+        <ButtonGroup variant="primary">
           <Button>Merge pull request</Button>
           <Dropdown>
-            <Button isIconOnly aria-label="More options">
-              <Icon icon="gravity-ui:chevron-down" />
-            </Button>
-            <Dropdown.Popover className="max-w-[290px]" placement="bottom end">
-              <Dropdown.Menu onAction={(key) => alert(`Selected: ${key}`)}>
-                <Dropdown.Item
-                  className="flex flex-col items-start gap-1"
-                  id="merge"
-                  textValue="Create a merge commit"
-                >
+            <Dropdown.Trigger>
+              <Button isIconOnly aria-label="More options">
+                <Icon icon="gravity-ui:chevron-down" />
+              </Button>
+            </Dropdown.Trigger>
+            <Dropdown.Content maxW="290px">
+              <Dropdown.Item
+                value="merge"
+              >
+                <Flex direction="column" align="start" gap="1">
                   <Label>Create a merge commit</Label>
                   <Description>
                     All commits from this branch will be added to the base branch
                   </Description>
-                </Dropdown.Item>
-                <Dropdown.Item
-                  className="flex flex-col items-start gap-1"
-                  id="squash-and-merge"
-                  textValue="Squash and merge"
-                >
+                </Flex>
+              </Dropdown.Item>
+              <Dropdown.Item
+                value="squash-and-merge"
+              >
+                <Flex direction="column" align="start" gap="1">
                   <Label>Squash and merge</Label>
                   <Description>
                     The 14 commits from this branch will be combined into one commit in the base
                     branch
                   </Description>
-                </Dropdown.Item>
-                <Dropdown.Item
-                  className="flex flex-col items-start gap-1"
-                  id="rebase-and-merge"
-                  textValue="Rebase and merge"
-                >
+                </Flex>
+              </Dropdown.Item>
+              <Dropdown.Item
+                value="rebase-and-merge"
+              >
+                <Flex direction="column" align="start" gap="1">
                   <Label>Rebase and merge</Label>
                   <Description>
                     The 14 commits from this branch will be rebased and added to the base branch
                   </Description>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown.Popover>
+                </Flex>
+              </Dropdown.Item>
+            </Dropdown.Content>
           </Dropdown>
         </ButtonGroup>
-      </div>
+      </Flex>
 
       {/* Individual buttons */}
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Individual buttons</p>
-        <div className="flex gap-2">
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Individual buttons</Text>
+        <Flex gap="2">
           <ButtonGroup variant="tertiary">
             <Button>
-              <Icon className="size-3.5" icon="gravity-ui:code-fork" />
+              <Icon icon="gravity-ui:code-fork" style={{width: "0.875rem", height: "0.875rem"}} />
               Fork
               <Chip color="accent" size="sm" variant="soft">
                 24
@@ -290,7 +291,7 @@ export const Examples: Story = {
           <ButtonGroup variant="tertiary">
             <Button>
               <Icon icon="gravity-ui:thumbs-up" />
-              <span className="text-xs font-semibold">2.4K</span>
+              <Text as="span" fontSize="xs" fontWeight="semibold">2.4K</Text>
             </Button>
             <Button isIconOnly>
               <Icon icon="gravity-ui:thumbs-down" />
@@ -298,10 +299,10 @@ export const Examples: Story = {
           </ButtonGroup>
           <ButtonGroup variant="tertiary">
             <Button>
-              <Icon className="size-3.5" icon="gravity-ui:star" />
+              <Icon icon="gravity-ui:star" style={{width: "0.875rem", height: "0.875rem"}} />
               Star
             </Button>
-            <Button className="px-2">
+            <Button px="2">
               <Chip color="accent" size="sm" variant="soft">
                 104
               </Chip>
@@ -316,12 +317,12 @@ export const Examples: Story = {
               <Icon icon="gravity-ui:chevron-down" />
             </Button>
           </ButtonGroup>
-        </div>
-      </div>
+        </Flex>
+      </Flex>
 
       {/* Previous/Next Button Group */}
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Previous/Next navigation</p>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Previous/Next navigation</Text>
         <ButtonGroup variant="tertiary">
           <Button>
             <Icon icon="gravity-ui:chevron-left" />
@@ -332,11 +333,11 @@ export const Examples: Story = {
             <Icon icon="gravity-ui:chevron-right" />
           </Button>
         </ButtonGroup>
-      </div>
+      </Flex>
 
       {/* Content Selection Button Group */}
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Content selection</p>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Content selection</Text>
         <ButtonGroup variant="tertiary">
           <Button>
             <Icon icon="gravity-ui:picture" />
@@ -350,21 +351,21 @@ export const Examples: Story = {
             <Icon icon="gravity-ui:ellipsis" />
           </Button>
         </ButtonGroup>
-      </div>
+      </Flex>
 
       {/* Text Alignment Button Group */}
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Text alignment</p>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Text alignment</Text>
         <ButtonGroup variant="tertiary">
           <Button>Left</Button>
           <Button>Center</Button>
           <Button>Right</Button>
         </ButtonGroup>
-      </div>
+      </Flex>
 
       {/* Icon-Only Alignment Button Group */}
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted">Icon-only alignment</p>
+      <Flex direction="column" gap="2">
+        <Text fontSize="sm" color="fg.muted">Icon-only alignment</Text>
         <ButtonGroup variant="tertiary">
           <Button isIconOnly>
             <Icon icon="gravity-ui:text-align-left" />
@@ -379,7 +380,7 @@ export const Examples: Story = {
             <Icon icon="gravity-ui:text-align-justify" />
           </Button>
         </ButtonGroup>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   ),
 };

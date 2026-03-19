@@ -1,8 +1,8 @@
 import type {Meta, StoryObj} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
+import {Box, Text} from "@chakra-ui/react";
 import React from "react";
-import {cx} from "tailwind-variants";
 
 import {Button} from "../button";
 import {Description} from "../description";
@@ -26,7 +26,7 @@ type Story = StoryObj<typeof RadioGroup>;
 
 export const Default: Story = {
   render: () => (
-    <div className="px-4">
+    <Box px="4">
       <RadioGroup defaultValue="premium" name="plan">
         <Label>Plan selection</Label>
         <Description>Choose the plan that suits you best</Description>
@@ -58,15 +58,15 @@ export const Default: Story = {
           </Radio.Content>
         </Radio>
       </RadioGroup>
-    </div>
+    </Box>
   ),
 };
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex flex-col gap-8 px-4">
-      <div className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted">Primary variant</p>
+    <Box display="flex" flexDirection="column" gap="8" px="4">
+      <Box display="flex" flexDirection="column" gap="2">
+        <Text fontSize="sm" fontWeight="medium" color="fg.muted">Primary variant</Text>
         <RadioGroup defaultValue="option1" name="primary-plan" variant="primary">
           <Radio value="option1">
             <Radio.Control>
@@ -87,9 +87,9 @@ export const Variants: Story = {
             </Radio.Content>
           </Radio>
         </RadioGroup>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted">Secondary variant</p>
+      </Box>
+      <Box display="flex" flexDirection="column" gap="2">
+        <Text fontSize="sm" fontWeight="medium" color="fg.muted">Secondary variant</Text>
         <RadioGroup defaultValue="option1" name="secondary-plan" variant="secondary">
           <Radio value="option1">
             <Radio.Control>
@@ -110,24 +110,20 @@ export const Variants: Story = {
             </Radio.Content>
           </Radio>
         </RadioGroup>
-      </div>
-    </div>
+      </Box>
+    </Box>
   ),
 };
 
 export const WithCustomIndicator: Story = {
   render: () => (
-    <div className="px-4">
+    <Box px="4">
       <RadioGroup defaultValue="premium" name="plan">
         <Label>Plan selection</Label>
         <Description>Choose the plan that suits you best</Description>
         <Radio value="basic">
           <Radio.Control>
-            <Radio.Indicator>
-              {({isSelected}) =>
-                isSelected ? <span className="text-xs leading-none text-background">✓</span> : null
-              }
-            </Radio.Indicator>
+            <Radio.Indicator />
           </Radio.Control>
           <Radio.Content>
             <Label>Basic Plan</Label>
@@ -136,11 +132,7 @@ export const WithCustomIndicator: Story = {
         </Radio>
         <Radio value="premium">
           <Radio.Control>
-            <Radio.Indicator>
-              {({isSelected}) =>
-                isSelected ? <span className="text-xs leading-none text-background">✓</span> : null
-              }
-            </Radio.Indicator>
+            <Radio.Indicator />
           </Radio.Control>
           <Radio.Content>
             <Label>Premium Plan</Label>
@@ -149,11 +141,7 @@ export const WithCustomIndicator: Story = {
         </Radio>
         <Radio value="business">
           <Radio.Control>
-            <Radio.Indicator>
-              {({isSelected}) =>
-                isSelected ? <span className="text-xs leading-none text-background">✓</span> : null
-              }
-            </Radio.Indicator>
+            <Radio.Indicator />
           </Radio.Control>
           <Radio.Content>
             <Label>Business Plan</Label>
@@ -161,13 +149,13 @@ export const WithCustomIndicator: Story = {
           </Radio.Content>
         </Radio>
       </RadioGroup>
-    </div>
+    </Box>
   ),
 };
 
 export const Orientation: Story = {
   render: () => (
-    <div className="flex flex-col gap-4 px-4">
+    <Box display="flex" flexDirection="column" gap="4" px="4">
       <Label>Subscription plan</Label>
       <RadioGroup defaultValue="pro" name="plan-orientation" orientation="horizontal">
         <Radio value="starter">
@@ -198,57 +186,58 @@ export const Orientation: Story = {
           </Radio.Content>
         </Radio>
       </RadioGroup>
-    </div>
+    </Box>
   ),
 };
 
 export const Validation: Story = {
   render: () => {
     return (
-      <Form
-        className="flex flex-col gap-4 px-4"
-        onSubmit={(e) => {
-          e.preventDefault();
+      <Box display="flex" flexDirection="column" gap="4" px="4">
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
 
-          const formData = new FormData(e.currentTarget);
-          const value = formData.get("plan-validation");
+            const formData = new FormData(e.currentTarget);
+            const value = formData.get("plan-validation");
 
-          alert(`Your chosen plan is: ${value}`);
-        }}
-      >
-        <RadioGroup isRequired name="plan-validation">
-          <Label>Subscription plan</Label>
-          <Radio value="starter">
-            <Radio.Control>
-              <Radio.Indicator />
-            </Radio.Control>
-            <Radio.Content>
-              <Label>Starter</Label>
-              <Description>For side projects and small teams</Description>
-            </Radio.Content>
-          </Radio>
-          <Radio value="pro">
-            <Radio.Control>
-              <Radio.Indicator />
-            </Radio.Control>
-            <Radio.Content>
-              <Label>Pro</Label>
-              <Description>Advanced reporting and analytics</Description>
-            </Radio.Content>
-          </Radio>
-          <Radio value="teams">
-            <Radio.Control>
-              <Radio.Indicator />
-            </Radio.Control>
-            <Radio.Content>
-              <Label>Teams</Label>
-              <Description>Share access with up to 10 teammates</Description>
-            </Radio.Content>
-          </Radio>
-          <FieldError>Choose a subscription before continuing.</FieldError>
-        </RadioGroup>
-        <Button type="submit">Submit</Button>
-      </Form>
+            alert(`Your chosen plan is: ${value}`);
+          }}
+        >
+          <RadioGroup required name="plan-validation">
+            <Label>Subscription plan</Label>
+            <Radio value="starter">
+              <Radio.Control>
+                <Radio.Indicator />
+              </Radio.Control>
+              <Radio.Content>
+                <Label>Starter</Label>
+                <Description>For side projects and small teams</Description>
+              </Radio.Content>
+            </Radio>
+            <Radio value="pro">
+              <Radio.Control>
+                <Radio.Indicator />
+              </Radio.Control>
+              <Radio.Content>
+                <Label>Pro</Label>
+                <Description>Advanced reporting and analytics</Description>
+              </Radio.Content>
+            </Radio>
+            <Radio value="teams">
+              <Radio.Control>
+                <Radio.Indicator />
+              </Radio.Control>
+              <Radio.Content>
+                <Label>Teams</Label>
+                <Description>Share access with up to 10 teammates</Description>
+              </Radio.Content>
+            </Radio>
+            <FieldError>Choose a subscription before continuing.</FieldError>
+          </RadioGroup>
+          <Button type="submit">Submit</Button>
+        </Form>
+      </Box>
     );
   },
 };
@@ -258,8 +247,8 @@ export const Controlled: Story = {
     const [value, setValue] = React.useState("pro");
 
     return (
-      <div className="flex flex-col gap-3 px-4">
-        <RadioGroup name="plan-controlled" value={value} onChange={setValue}>
+      <Box display="flex" flexDirection="column" gap="3" px="4">
+        <RadioGroup name="plan-controlled" value={value} onValueChange={(e) => setValue(e.value ?? "")}>
           <Label>Subscription plan</Label>
           <Radio value="starter">
             <Radio.Control>
@@ -289,10 +278,10 @@ export const Controlled: Story = {
             </Radio.Content>
           </Radio>
         </RadioGroup>
-        <p className="mt-2 text-sm text-muted">
-          Selected plan: <span className="font-medium">{value}</span>
-        </p>
-      </div>
+        <Text mt="2" fontSize="sm" color="fg.muted">
+          Selected plan: <Text as="span" fontWeight="medium">{value}</Text>
+        </Text>
+      </Box>
     );
   },
 };
@@ -302,11 +291,11 @@ export const Uncontrolled: Story = {
     const [selection, setSelection] = React.useState("pro");
 
     return (
-      <div className="flex flex-col gap-3 px-4">
+      <Box display="flex" flexDirection="column" gap="3" px="4">
         <RadioGroup
           defaultValue="pro"
           name="plan-uncontrolled"
-          onChange={(nextValue) => setSelection(nextValue)}
+          onValueChange={(e) => setSelection(e.value ?? "")}
         >
           <Label>Subscription plan</Label>
           <Radio value="starter">
@@ -337,18 +326,18 @@ export const Uncontrolled: Story = {
             </Radio.Content>
           </Radio>
         </RadioGroup>
-        <p className="mt-2 text-sm text-muted">
-          Last chosen plan: <span className="font-medium">{selection}</span>
-        </p>
-      </div>
+        <Text mt="2" fontSize="sm" color="fg.muted">
+          Last chosen plan: <Text as="span" fontWeight="medium">{selection}</Text>
+        </Text>
+      </Box>
     );
   },
 };
 
 export const Disabled: Story = {
   render: () => (
-    <div className="px-4">
-      <RadioGroup isDisabled defaultValue="pro" name="plan-disabled">
+    <Box px="4">
+      <RadioGroup disabled defaultValue="pro" name="plan-disabled">
         <Label>Subscription plan</Label>
         <Description>Plan changes are temporarily paused while we roll out updates.</Description>
         <Radio value="starter">
@@ -379,7 +368,7 @@ export const Disabled: Story = {
           </Radio.Content>
         </Radio>
       </RadioGroup>
-    </div>
+    </Box>
   ),
 };
 
@@ -428,66 +417,76 @@ export const DeliveryAndPaymentExample: Story = {
     ];
 
     return (
-      <div className="flex w-full flex-col items-center gap-10 px-4 py-8">
-        <section className="flex w-full max-w-lg flex-col gap-4">
+      <Box display="flex" w="100%" flexDirection="column" alignItems="center" gap="10" px="4" py="8">
+        <Box as="section" display="flex" w="100%" maxW="lg" flexDirection="column" gap="4">
           <RadioGroup defaultValue="express" name="delivery">
             <Label>Delivery method</Label>
-            <div className="grid gap-x-4 md:grid-cols-3">
+            <Box display="grid" gap="4" gridTemplateColumns={{md: "repeat(3, 1fr)"}}>
               {deliveryOptions.map((option) => (
                 <Radio
                   key={option.value}
                   value={option.value}
-                  className={cx(
-                    "group relative flex-col gap-4 rounded-xl bg-surface-tertiary px-5 py-4 transition-all data-[selected=true]:border-accent data-[selected=true]:bg-accent/10",
-                    "data-[focus-visible=true]:bg-accent/10",
-                  )}
+                  css={{"&[data-selected=true]": {borderColor: "var(--colors-accent)", bg: "color-mix(in oklch, var(--colors-accent) 10%, transparent)"}, "&[data-focus-visible=true]": {bg: "color-mix(in oklch, var(--colors-accent) 10%, transparent)"}}}
+                  position="relative"
+                  flexDirection="column"
+                  gap="4"
+                  rounded="xl"
+                  bg="surface-tertiary"
+                  px="5"
+                  py="4"
+                  transition="all"
                 >
-                  <Radio.Control className="absolute top-3 right-4 size-5">
+                  <Radio.Control position="absolute" top="3" right="4" boxSize="5">
                     <Radio.Indicator />
                   </Radio.Control>
-                  <Radio.Content className="flex flex-col gap-6">
-                    <div className="flex flex-col gap-1">
+                  <Radio.Content display="flex" flexDirection="column" gap="6">
+                    <Box display="flex" flexDirection="column" gap="1">
                       <Label>{option.title}</Label>
                       <Description>{option.description}</Description>
-                    </div>
-                    <span className="text-sm font-semibold">{option.price}</span>
+                    </Box>
+                    <Text fontSize="sm" fontWeight="semibold">{option.price}</Text>
                   </Radio.Content>
                 </Radio>
               ))}
-            </div>
+            </Box>
           </RadioGroup>
-        </section>
-        <section className="flex w-full max-w-lg flex-col gap-4">
+        </Box>
+        <Box as="section" display="flex" w="100%" maxW="lg" flexDirection="column" gap="4">
           <RadioGroup defaultValue="visa" name="payment">
-            <div className="flex flex-wrap items-center justify-between gap-4">
+            <Box display="flex" flexWrap="wrap" alignItems="center" justifyContent="space-between" gap="4">
               <Label>Payment method</Label>
-            </div>
-            <div className="grid gap-x-4 md:grid-cols-2">
+            </Box>
+            <Box display="grid" gap="4" gridTemplateColumns={{md: "repeat(2, 1fr)"}}>
               {paymentOptions.map((option) => (
                 <Radio
                   key={option.value}
                   value={option.value}
-                  className={cx(
-                    "group relative flex-col gap-4 rounded-xl bg-surface-tertiary px-5 py-4 transition-all",
-                    "data-[selected=true]:bg-accent/10",
-                  )}
+                  css={{"&[data-selected=true]": {bg: "color-mix(in oklch, var(--colors-accent) 10%, transparent)"}}}
+                  position="relative"
+                  flexDirection="column"
+                  gap="4"
+                  rounded="xl"
+                  bg="surface-tertiary"
+                  px="5"
+                  py="4"
+                  transition="all"
                 >
-                  <Radio.Control className="absolute top-3 right-4 size-5">
+                  <Radio.Control position="absolute" top="3" right="4" boxSize="5">
                     <Radio.Indicator />
                   </Radio.Control>
-                  <Radio.Content className="flex flex-row items-start justify-start gap-4">
-                    <Icon className="size-6 text-accent" icon={option.icon} />
-                    <div className="flex flex-col gap-1">
+                  <Radio.Content display="flex" flexDirection="row" alignItems="start" justifyContent="start" gap="4">
+                    <Icon icon={option.icon} style={{width: "1.5rem", height: "1.5rem", color: "var(--colors-accent)"}} />
+                    <Box display="flex" flexDirection="column" gap="1">
                       <Label>{option.title}</Label>
                       <Description>{option.description}</Description>
-                    </div>
+                    </Box>
                   </Radio.Content>
                 </Radio>
               ))}
-            </div>
+            </Box>
           </RadioGroup>
-        </section>
-      </div>
+        </Box>
+      </Box>
     );
   },
 };

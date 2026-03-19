@@ -1,109 +1,148 @@
 "use client";
 
 import type {ComponentPropsWithRef} from "react";
-import type {RadioRenderProps} from "react-aria-components";
 
-import {radioVariants} from "../../styles";
-import React, {createContext, useContext} from "react";
-import {Radio as RadioPrimitive} from "react-aria-components";
-
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
-
-/* -------------------------------------------------------------------------------------------------
- * Radio Context
- * -----------------------------------------------------------------------------------------------*/
-interface RadioContext {
-  slots?: ReturnType<typeof radioVariants>;
-  state?: RadioRenderProps;
-}
-
-const RadioContext = createContext<RadioContext>({});
+import {RadioGroup} from "@chakra-ui/react";
+import React from "react";
 
 /* -------------------------------------------------------------------------------------------------
  * Radio Root
  * -----------------------------------------------------------------------------------------------*/
-interface RadioRootProps extends ComponentPropsWithRef<typeof RadioPrimitive> {
+interface RadioRootProps extends ComponentPropsWithRef<typeof RadioGroup.Item> {
   /** The name of the radio button, used when submitting an HTML form. */
   name?: string;
 }
 
-const RadioRoot = ({children, className, ...props}: RadioRootProps) => {
-  const slots = React.useMemo(() => radioVariants(), []);
-
+const RadioRoot = ({children, ...props}: RadioRootProps) => {
   return (
-    <RadioPrimitive
+    <RadioGroup.Item
       data-slot="radio"
+      css={{
+        "& [data-slot=label]": {userSelect: "none"},
+        "& [data-slot=description]": {textWrap: "wrap", userSelect: "none"},
+      }}
       {...props}
-      className={composeTwRenderProps(className, slots.base())}
     >
-      {(values) => (
-        <RadioContext value={{slots, state: values}}>
-          {typeof children === "function" ? children(values) : children}
-        </RadioContext>
-      )}
-    </RadioPrimitive>
+      <RadioGroup.ItemHiddenInput />
+      {children}
+    </RadioGroup.Item>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Radio Control
  * -----------------------------------------------------------------------------------------------*/
-interface RadioControlProps extends ComponentPropsWithRef<"span"> {}
+interface RadioControlProps extends ComponentPropsWithRef<typeof RadioGroup.ItemControl> {}
 
-const RadioControl = ({children, className, ...props}: RadioControlProps) => {
-  const {slots} = useContext(RadioContext);
-
+const RadioControl = ({children, ...props}: RadioControlProps) => {
   return (
-    <span
-      className={composeSlotClassName(slots?.control, className)}
+    <RadioGroup.ItemControl
       data-slot="radio-control"
+      css={{
+        WebkitTapHighlightColor: "transparent",
+        /* Focus */
+        "[data-slot=radio]:focus-visible &, [data-slot=radio][data-focus-visible=true] &": {
+          ring: "2px",
+          ringColor: "accent",
+          ringOffset: "2px",
+        },
+        /* Hover */
+        "[data-slot=radio]:hover &, [data-slot=radio][data-hovered=true] &": {
+          borderColor: "border.emphasized",
+        },
+        /* Pressed */
+        "[data-slot=radio]:active &, [data-slot=radio][data-pressed=true] &": {
+          transform: "scale(0.95)",
+        },
+        /* Selected */
+        "[data-slot=radio][aria-checked=true] &, [data-slot=radio][data-selected=true] &": {
+          borderColor: "transparent",
+          bg: "accent",
+        },
+        /* Selected + Pressed */
+        "[data-slot=radio]:active[data-selected=true] &, [data-slot=radio][data-pressed=true][data-selected=true] &": {
+          bg: "accent/90",
+        },
+        /* Invalid */
+        "[data-slot=radio][data-invalid=true] &, [data-slot=radio][aria-invalid=true] &": {
+          borderColor: "danger",
+          bg: "danger/10",
+        },
+        /* Invalid + Selected */
+        "[data-slot=radio][data-invalid=true][aria-checked=true] &, [data-slot=radio][data-invalid=true][data-selected=true] &, [data-slot=radio][aria-invalid=true][aria-checked=true] &, [data-slot=radio][aria-invalid=true][data-selected=true] &": {
+          borderColor: "danger",
+          bg: "danger/10",
+        },
+      }}
       {...props}
     >
       {children}
-    </span>
+    </RadioGroup.ItemControl>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Radio Indicator
  * -----------------------------------------------------------------------------------------------*/
-interface RadioIndicatorProps extends Omit<ComponentPropsWithRef<"span">, "children"> {
-  children?: React.ReactNode | ((props: RadioRenderProps) => React.ReactNode);
-}
+interface RadioIndicatorProps extends ComponentPropsWithRef<typeof RadioGroup.ItemIndicator> {}
 
-const RadioIndicator = ({children, className, ...props}: RadioIndicatorProps) => {
-  const {slots, state} = useContext(RadioContext);
-  const content =
-    typeof children === "function" ? children(state ?? ({} as RadioRenderProps)) : children;
-
+const RadioIndicator = ({children, ...props}: RadioIndicatorProps) => {
   return (
-    <span
-      aria-hidden="true"
-      className={composeSlotClassName(slots?.indicator, className)}
+    <RadioGroup.ItemIndicator
       data-slot="radio-indicator"
+      position="absolute"
+      inset="0"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      pointerEvents="none"
+      css={{
+        "&:empty::before": {
+          content: '""',
+          rounded: "full",
+          bg: "bg",
+          width: "100%",
+          height: "100%",
+          scale: "1",
+          transition: "scale 200ms ease-out, background-color 200ms ease-out",
+        },
+        /* Hover unselected indicator */
+        "[data-slot=radio]:hover:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] &:empty::before, [data-slot=radio][data-hovered=true]:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] &:empty::before": {
+          bg: "bg.subtle",
+        },
+        /* Selected indicator dot */
+        "[data-slot=radio][aria-checked=true] &:empty::before, [data-slot=radio][data-selected=true] &:empty::before": {
+          bg: "accent.fg",
+          scale: "0.4286",
+        },
+        /* Selected + Pressed */
+        "[data-slot=radio][data-selected=true][data-pressed=true] &:empty::before": {
+          scale: "0.5714",
+        },
+      }}
       {...props}
     >
-      {content}
-    </span>
+      {children}
+    </RadioGroup.ItemIndicator>
   );
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Radio Content
  * -----------------------------------------------------------------------------------------------*/
-interface RadioContentProps extends ComponentPropsWithRef<"div"> {}
+interface RadioContentProps extends ComponentPropsWithRef<typeof RadioGroup.ItemText> {}
 
-const RadioContent = ({children, className, ...props}: RadioContentProps) => {
-  const {slots} = useContext(RadioContext);
-
+const RadioContent = ({children, ...props}: RadioContentProps) => {
   return (
-    <div
-      className={composeSlotClassName(slots?.content, className)}
+    <RadioGroup.ItemText
       data-slot="radio-content"
+      display="flex"
+      flexDirection="column"
+      gap="0"
       {...props}
     >
       {children}
-    </div>
+    </RadioGroup.ItemText>
   );
 };
 

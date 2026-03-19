@@ -20,10 +20,3 @@ export type Description = {
 export {DescriptionRoot};
 
 export type {DescriptionRootProps, DescriptionRootProps as DescriptionProps} from "./description";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {descriptionVariants} from "../../styles";
-
-export type {DescriptionVariants} from "../../styles";

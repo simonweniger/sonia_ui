@@ -1,22 +1,11 @@
-import type {Key} from "../rac";
 import type {Meta, StoryObj} from "@storybook/react";
 
-import {Icon} from "@iconify/react";
-import {useAsyncList} from "@react-stately/data";
+import {Box, Select as ChakraSelect, Text, createListCollection} from "@chakra-ui/react";
 import React from "react";
 
-import {Avatar, AvatarFallback, AvatarImage} from "../avatar";
 import {Button} from "../button";
-import {Chip} from "../chip";
 import {Description} from "../description";
-import {FieldError} from "../field-error";
-import {Form} from "../form";
-import {Header} from "../header";
 import {Label} from "../label";
-import {ListBox} from "../list-box";
-import {Collection, ListBoxLoadMoreItem} from "../rac";
-import {Separator} from "../separator";
-import {Spinner} from "../spinner";
 
 import {Select} from "./index";
 
@@ -32,41 +21,32 @@ const meta: Meta<typeof Select> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const states = createListCollection({
+  items: [
+    {label: "Florida", value: "florida"},
+    {label: "Delaware", value: "delaware"},
+    {label: "California", value: "california"},
+    {label: "Texas", value: "texas"},
+    {label: "New York", value: "new-york"},
+    {label: "Washington", value: "washington"},
+  ],
+});
+
 export const Default: Story = {
   render: () => (
-    <Select className="w-[256px]" placeholder="Select one">
+    <Select collection={states} width="256px">
       <Label>State</Label>
       <Select.Trigger>
-        <Select.Value />
+        <Select.Value placeholder="Select one" />
         <Select.Indicator />
       </Select.Trigger>
       <Select.Popover>
-        <ListBox>
-          <ListBox.Item id="florida" textValue="Florida">
-            Florida
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="delaware" textValue="Delaware">
-            Delaware
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="california" textValue="California">
-            California
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="texas" textValue="Texas">
-            Texas
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="new-york" textValue="New York">
-            New York
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="washington" textValue="Washington">
-            Washington
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-        </ListBox>
+        {states.items.map((item) => (
+          <ChakraSelect.Item key={item.value} item={item}>
+            <ChakraSelect.ItemText>{item.label}</ChakraSelect.ItemText>
+            <ChakraSelect.ItemIndicator />
+          </ChakraSelect.Item>
+        ))}
       </Select.Popover>
     </Select>
   ),
@@ -74,114 +54,78 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
-      <Select className="w-[256px]" placeholder="Select one" variant="primary">
-        <Label>Primary variant</Label>
+    <Box display="flex" flexDirection="column" gap="4">
+      <Select collection={states} variant="outline" width="256px">
+        <Label>Outline variant</Label>
         <Select.Trigger>
-          <Select.Value />
+          <Select.Value placeholder="Select one" />
           <Select.Indicator />
         </Select.Trigger>
         <Select.Popover>
-          <ListBox>
-            <ListBox.Item id="option1" textValue="Option 1">
-              Option 1
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="option2" textValue="Option 2">
-              Option 2
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-          </ListBox>
+          {states.items.map((item) => (
+            <ChakraSelect.Item key={item.value} item={item}>
+              <ChakraSelect.ItemText>{item.label}</ChakraSelect.ItemText>
+              <ChakraSelect.ItemIndicator />
+            </ChakraSelect.Item>
+          ))}
         </Select.Popover>
       </Select>
-      <Select className="w-[256px]" placeholder="Select one" variant="secondary">
-        <Label>Secondary variant</Label>
+      <Select collection={states} variant="subtle" width="256px">
+        <Label>Subtle variant</Label>
         <Select.Trigger>
-          <Select.Value />
+          <Select.Value placeholder="Select one" />
           <Select.Indicator />
         </Select.Trigger>
         <Select.Popover>
-          <ListBox>
-            <ListBox.Item id="option1" textValue="Option 1">
-              Option 1
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="option2" textValue="Option 2">
-              Option 2
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-          </ListBox>
+          {states.items.map((item) => (
+            <ChakraSelect.Item key={item.value} item={item}>
+              <ChakraSelect.ItemText>{item.label}</ChakraSelect.ItemText>
+              <ChakraSelect.ItemIndicator />
+            </ChakraSelect.Item>
+          ))}
         </Select.Popover>
       </Select>
-    </div>
+    </Box>
   ),
 };
 
 export const FullWidth: Story = {
   render: () => (
-    <div className="w-[400px] space-y-4">
-      <Select fullWidth placeholder="Select one">
+    <Box w="400px" spaceY="4">
+      <Select fullWidth collection={states}>
         <Label>State</Label>
         <Select.Trigger>
-          <Select.Value />
+          <Select.Value placeholder="Select one" />
           <Select.Indicator />
         </Select.Trigger>
         <Select.Popover>
-          <ListBox>
-            <ListBox.Item id="florida" textValue="Florida">
-              Florida
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="delaware" textValue="Delaware">
-              Delaware
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="california" textValue="California">
-              California
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-          </ListBox>
+          {states.items.map((item) => (
+            <ChakraSelect.Item key={item.value} item={item}>
+              <ChakraSelect.ItemText>{item.label}</ChakraSelect.ItemText>
+              <ChakraSelect.ItemIndicator />
+            </ChakraSelect.Item>
+          ))}
         </Select.Popover>
       </Select>
-    </div>
+    </Box>
   ),
 };
 
 export const WithDescription: Story = {
   render: () => (
-    <Select className="w-[256px]" placeholder="Select one">
+    <Select collection={states} width="256px">
       <Label>State</Label>
       <Select.Trigger>
-        <Select.Value />
+        <Select.Value placeholder="Select one" />
         <Select.Indicator />
       </Select.Trigger>
       <Select.Popover>
-        <ListBox>
-          <ListBox.Item id="florida" textValue="Florida">
-            Florida
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="delaware" textValue="Delaware">
-            Delaware
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="california" textValue="California">
-            California
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="texas" textValue="Texas">
-            Texas
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="new-york" textValue="New York">
-            New York
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="washington" textValue="Washington">
-            Washington
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-        </ListBox>
+        {states.items.map((item) => (
+          <ChakraSelect.Item key={item.value} item={item}>
+            <ChakraSelect.ItemText>{item.label}</ChakraSelect.ItemText>
+            <ChakraSelect.ItemIndicator />
+          </ChakraSelect.Item>
+        ))}
       </Select.Popover>
       <Description>Select your state of residence</Description>
     </Select>
@@ -189,500 +133,104 @@ export const WithDescription: Story = {
 };
 
 export const MultipleSelect: Story = {
-  render: () => (
-    <Select className="w-[256px]" placeholder="Select countries" selectionMode="multiple">
-      <Label>Countries to Visit</Label>
-      <Select.Trigger>
-        <Select.Value />
-        <Select.Indicator />
-      </Select.Trigger>
-      <Select.Popover>
-        <ListBox selectionMode="multiple">
-          <ListBox.Item id="argentina" textValue="Argentina">
-            Argentina
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="venezuela" textValue="Venezuela">
-            Venezuela
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="japan" textValue="Japan">
-            Japan
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="france" textValue="France">
-            France
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="italy" textValue="Italy">
-            Italy
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="spain" textValue="Spain">
-            Spain
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="thailand" textValue="Thailand">
-            Thailand
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="new-zealand" textValue="New Zealand">
-            New Zealand
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="iceland" textValue="Iceland">
-            Iceland
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-        </ListBox>
-      </Select.Popover>
-    </Select>
-  ),
-};
-
-export const WithSections: Story = {
-  render: () => (
-    <Select className="w-[256px]" placeholder="Select a country">
-      <Label>Country</Label>
-      <Select.Trigger>
-        <Select.Value />
-        <Select.Indicator />
-      </Select.Trigger>
-      <Select.Popover>
-        <ListBox>
-          <ListBox.Section>
-            <Header>North America</Header>
-            <ListBox.Item id="usa" textValue="United States">
-              United States
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="canada" textValue="Canada">
-              Canada
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="mexico" textValue="Mexico">
-              Mexico
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-          </ListBox.Section>
-          <Separator />
-          <ListBox.Section>
-            <Header>Europe</Header>
-            <ListBox.Item id="uk" textValue="United Kingdom">
-              United Kingdom
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="france" textValue="France">
-              France
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="germany" textValue="Germany">
-              Germany
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="spain" textValue="Spain">
-              Spain
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="italy" textValue="Italy">
-              Italy
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-          </ListBox.Section>
-          <Separator />
-          <ListBox.Section>
-            <Header>Asia</Header>
-            <ListBox.Item id="japan" textValue="Japan">
-              Japan
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="china" textValue="China">
-              China
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="india" textValue="India">
-              India
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="south-korea" textValue="South Korea">
-              South Korea
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-          </ListBox.Section>
-        </ListBox>
-      </Select.Popover>
-    </Select>
-  ),
-};
-
-export const WithDisabledOptions: Story = {
-  render: () => (
-    <Select className="w-[256px]" disabledKeys={["cat", "kangaroo"]} placeholder="Select an animal">
-      <Label>Animal</Label>
-      <Select.Trigger>
-        <Select.Value />
-        <Select.Indicator />
-      </Select.Trigger>
-      <Select.Popover>
-        <ListBox>
-          <ListBox.Item id="dog" textValue="Dog">
-            Dog
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="cat" textValue="Cat">
-            Cat
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="bird" textValue="Bird">
-            Bird
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="kangaroo" textValue="Kangaroo">
-            Kangaroo
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="elephant" textValue="Elephant">
-            Elephant
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="tiger" textValue="Tiger">
-            Tiger
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-        </ListBox>
-      </Select.Popover>
-    </Select>
-  ),
-};
-
-export const CustomIndicator: Story = {
-  render: () => (
-    <Select className="w-[256px]" placeholder="Select one">
-      <Label>State</Label>
-      <Select.Trigger>
-        <Select.Value />
-        <Select.Indicator className="size-3">
-          <Icon icon="gravity-ui:chevrons-expand-vertical" />
-        </Select.Indicator>
-      </Select.Trigger>
-      <Select.Popover>
-        <ListBox>
-          <ListBox.Item id="florida" textValue="Florida">
-            Florida
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="delaware" textValue="Delaware">
-            Delaware
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="california" textValue="California">
-            California
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="texas" textValue="Texas">
-            Texas
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="new-york" textValue="New York">
-            New York
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          <ListBox.Item id="washington" textValue="Washington">
-            Washington
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-        </ListBox>
-      </Select.Popover>
-    </Select>
-  ),
-};
-
-export const Required: Story = {
   render: () => {
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const formData = new FormData(e.currentTarget);
-      const data: Record<string, string> = {};
-
-      // Convert FormData to plain object
-      formData.forEach((value, key) => {
-        data[key] = value.toString();
-      });
-
-      alert("Form submitted successfully!");
-    };
+    const countries = createListCollection({
+      items: [
+        {label: "Argentina", value: "argentina"},
+        {label: "Venezuela", value: "venezuela"},
+        {label: "Japan", value: "japan"},
+        {label: "France", value: "france"},
+        {label: "Italy", value: "italy"},
+        {label: "Spain", value: "spain"},
+        {label: "Thailand", value: "thailand"},
+        {label: "New Zealand", value: "new-zealand"},
+        {label: "Iceland", value: "iceland"},
+      ],
+    });
 
     return (
-      <Form className="flex w-[256px] flex-col gap-4" onSubmit={onSubmit}>
-        <Select isRequired className="w-full" name="state" placeholder="Select one">
-          <Label>State</Label>
-          <Select.Trigger>
-            <Select.Value />
-            <Select.Indicator />
-          </Select.Trigger>
-          <Select.Popover>
-            <ListBox>
-              <ListBox.Item id="florida" textValue="Florida">
-                Florida
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="delaware" textValue="Delaware">
-                Delaware
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="california" textValue="California">
-                California
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="texas" textValue="Texas">
-                Texas
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="new-york" textValue="New York">
-                New York
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="washington" textValue="Washington">
-                Washington
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-            </ListBox>
-          </Select.Popover>
-          <FieldError />
-        </Select>
-        <Select isRequired className="w-full" name="country" placeholder="Select a country">
-          <Label>Country</Label>
-          <Select.Trigger>
-            <Select.Value />
-            <Select.Indicator />
-          </Select.Trigger>
-          <Select.Popover>
-            <ListBox>
-              <ListBox.Item id="usa" textValue="United States">
-                United States
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="canada" textValue="Canada">
-                Canada
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="mexico" textValue="Mexico">
-                Mexico
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="uk" textValue="United Kingdom">
-                United Kingdom
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="france" textValue="France">
-                France
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="germany" textValue="Germany">
-                Germany
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-            </ListBox>
-          </Select.Popover>
-          <FieldError />
-        </Select>
-        <Button type="submit">Submit</Button>
-      </Form>
-    );
-  },
-};
-
-export const CustomValue: Story = {
-  render: () => {
-    const users = [
-      {
-        id: "1",
-        name: "Bob",
-        email: "bob@heroui.com",
-        avatarUrl: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
-        fallback: "B",
-      },
-      {
-        id: "2",
-        name: "Fred",
-        email: "fred@heroui.com",
-        avatarUrl: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
-        fallback: "F",
-      },
-      {
-        id: "3",
-        name: "Martha",
-        email: "martha@heroui.com",
-        avatarUrl: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
-        fallback: "M",
-      },
-      {
-        id: "4",
-        name: "John",
-        email: "john@heroui.com",
-        avatarUrl: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg",
-        fallback: "J",
-      },
-      {
-        id: "5",
-        name: "Jane",
-        email: "jane@heroui.com",
-        avatarUrl: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg",
-        fallback: "J",
-      },
-    ];
-
-    return (
-      <Select className="w-[256px]" placeholder="Select a user">
-        <Label>User</Label>
+      <Select collection={countries} multiple width="256px">
+        <Label>Countries to Visit</Label>
         <Select.Trigger>
-          <Select.Value>
-            {({defaultChildren, isPlaceholder, state}) => {
-              if (isPlaceholder || state.selectedItems.length === 0) {
-                return defaultChildren;
-              }
-
-              const selectedItems = state.selectedItems;
-
-              if (selectedItems.length > 1) {
-                return `${selectedItems.length} users selected`;
-              }
-
-              const selectedItem = users.find((user) => user.id === selectedItems[0].key);
-
-              if (!selectedItem) {
-                return defaultChildren;
-              }
-
-              return (
-                <div className="flex items-center gap-2">
-                  <Avatar className="size-4" size="sm">
-                    <AvatarImage src={selectedItem.avatarUrl} />
-                    <AvatarFallback>{selectedItem.fallback}</AvatarFallback>
-                  </Avatar>
-                  <span>{selectedItem.name}</span>
-                </div>
-              );
-            }}
-          </Select.Value>
+          <Select.Value placeholder="Select countries" />
           <Select.Indicator />
         </Select.Trigger>
         <Select.Popover>
-          <ListBox>
-            {users.map((user) => (
-              <ListBox.Item key={user.id} id={user.id} textValue={user.name}>
-                <Avatar size="sm">
-                  <AvatarImage src={user.avatarUrl} />
-                  <AvatarFallback>{user.fallback}</AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col">
-                  <Label>{user.name}</Label>
-                  <Description>{user.email}</Description>
-                </div>
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-            ))}
-          </ListBox>
+          {countries.items.map((item) => (
+            <ChakraSelect.Item key={item.value} item={item}>
+              <ChakraSelect.ItemText>{item.label}</ChakraSelect.ItemText>
+              <ChakraSelect.ItemIndicator />
+            </ChakraSelect.Item>
+          ))}
         </Select.Popover>
       </Select>
     );
   },
 };
 
-export const CustomValueMultiple: Story = {
+export const WithSections: Story = {
   render: () => {
-    const users = [
-      {
-        id: "1",
-        name: "Bob",
-        email: "bob@heroui.com",
-        avatarUrl: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
-        fallback: "B",
-      },
-      {
-        id: "2",
-        name: "Fred",
-        email: "fred@heroui.com",
-        avatarUrl: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
-        fallback: "F",
-      },
-      {
-        id: "3",
-        name: "Martha",
-        email: "martha@heroui.com",
-        avatarUrl: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
-        fallback: "M",
-      },
-      {
-        id: "4",
-        name: "John",
-        email: "john@heroui.com",
-        avatarUrl: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg",
-        fallback: "J",
-      },
-      {
-        id: "5",
-        name: "Jane",
-        email: "jane@heroui.com",
-        avatarUrl: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg",
-        fallback: "J",
-      },
-    ];
+    const countries = createListCollection({
+      items: [
+        {label: "United States", value: "usa", group: "North America"},
+        {label: "Canada", value: "canada", group: "North America"},
+        {label: "Mexico", value: "mexico", group: "North America"},
+        {label: "United Kingdom", value: "uk", group: "Europe"},
+        {label: "France", value: "france", group: "Europe"},
+        {label: "Germany", value: "germany", group: "Europe"},
+        {label: "Japan", value: "japan", group: "Asia"},
+        {label: "China", value: "china", group: "Asia"},
+        {label: "India", value: "india", group: "Asia"},
+      ],
+    });
 
     return (
-      <Select
-        className="w-[256px]"
-        defaultValue={["1", "2"]}
-        placeholder="Select your teammates"
-        selectionMode="multiple"
-      >
-        <Label>Users</Label>
+      <Select collection={countries} width="256px">
+        <Label>Country</Label>
         <Select.Trigger>
-          <Select.Value className="no-truncate flex flex-wrap gap-2">
-            {({defaultChildren, isPlaceholder, state}) => {
-              if (isPlaceholder || state.selectedItems.length === 0) {
-                return defaultChildren;
-              }
-
-              const selectedItemsKeys = state.selectedItems.map((item) => item.key);
-
-              return selectedItemsKeys.map((selectedItemKey) => {
-                const selectedItem = users.find((user) => user.id === selectedItemKey);
-
-                if (!selectedItem) {
-                  return null;
-                }
-
-                return (
-                  <Chip key={selectedItemKey} variant="soft">
-                    <Avatar className="size-4" size="sm">
-                      <AvatarImage src={selectedItem.avatarUrl} />
-                      <AvatarFallback>{selectedItem.fallback}</AvatarFallback>
-                    </Avatar>
-                    <Chip.Label>{selectedItem.name}</Chip.Label>
-                  </Chip>
-                );
-              });
-            }}
-          </Select.Value>
+          <Select.Value placeholder="Select a country" />
           <Select.Indicator />
         </Select.Trigger>
         <Select.Popover>
-          <ListBox>
-            {users.map((user) => (
-              <ListBox.Item key={user.id} id={user.id} textValue={user.name}>
-                <Avatar size="sm">
-                  <AvatarImage src={user.avatarUrl} />
-                  <AvatarFallback>{user.fallback}</AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col">
-                  <Label>{user.name}</Label>
-                  <Description>{user.email}</Description>
-                </div>
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-            ))}
-          </ListBox>
+          {countries.items.map((item) => (
+            <ChakraSelect.Item key={item.value} item={item}>
+              <ChakraSelect.ItemText>{item.label}</ChakraSelect.ItemText>
+              <ChakraSelect.ItemIndicator />
+            </ChakraSelect.Item>
+          ))}
+        </Select.Popover>
+      </Select>
+    );
+  },
+};
+
+export const WithDisabledOptions: Story = {
+  render: () => {
+    const animalCollection = createListCollection({
+      items: [
+        {label: "Dog", value: "dog"},
+        {label: "Cat", value: "cat", disabled: true},
+        {label: "Bird", value: "bird"},
+        {label: "Kangaroo", value: "kangaroo", disabled: true},
+        {label: "Elephant", value: "elephant"},
+        {label: "Tiger", value: "tiger"},
+      ],
+    });
+
+    return (
+      <Select collection={animalCollection} width="256px">
+        <Label>Animal</Label>
+        <Select.Trigger>
+          <Select.Value placeholder="Select an animal" />
+          <Select.Indicator />
+        </Select.Trigger>
+        <Select.Popover>
+          {animalCollection.items.map((item) => (
+            <ChakraSelect.Item key={item.value} item={item}>
+              <ChakraSelect.ItemText>{item.label}</ChakraSelect.ItemText>
+              <ChakraSelect.ItemIndicator />
+            </ChakraSelect.Item>
+          ))}
         </Select.Popover>
       </Select>
     );
@@ -691,118 +239,70 @@ export const CustomValueMultiple: Story = {
 
 export const Controlled: Story = {
   render: () => {
-    const states = [
-      {
-        id: "california",
-        name: "California",
-      },
-      {
-        id: "texas",
-        name: "Texas",
-      },
-      {
-        id: "florida",
-        name: "Florida",
-      },
-      {
-        id: "new-york",
-        name: "New York",
-      },
-      {
-        id: "illinois",
-        name: "Illinois",
-      },
-      {
-        id: "pennsylvania",
-        name: "Pennsylvania",
-      },
-    ];
-
-    const [state, setState] = React.useState<Key | null>("california");
-
-    const selectedState = states.find((s) => s.id === state);
+    const [value, setValue] = React.useState<string[]>(["california"]);
+    const selectedState = states.items.find((s) => s.value === value[0]);
 
     return (
-      <div className="space-y-2">
+      <Box spaceY="2">
         <Select
-          className="w-[256px]"
-          placeholder="Select a state"
-          value={state}
-          onChange={(value) => setState(value)}
+          collection={states}
+          value={value}
+          width="256px"
+          onValueChange={(e) => setValue(e.value)}
         >
           <Label>State (controlled)</Label>
           <Select.Trigger>
-            <Select.Value />
+            <Select.Value placeholder="Select a state" />
             <Select.Indicator />
           </Select.Trigger>
           <Select.Popover>
-            <ListBox>
-              {states.map((state) => (
-                <ListBox.Item key={state.id} id={state.id} textValue={state.name}>
-                  {state.name}
-                  <ListBox.ItemIndicator />
-                </ListBox.Item>
-              ))}
-            </ListBox>
+            {states.items.map((item) => (
+              <ChakraSelect.Item key={item.value} item={item}>
+                <ChakraSelect.ItemText>{item.label}</ChakraSelect.ItemText>
+                <ChakraSelect.ItemIndicator />
+              </ChakraSelect.Item>
+            ))}
           </Select.Popover>
         </Select>
-        <p className="text-sm text-muted">Selected: {selectedState?.name || "None"}</p>
-      </div>
+        <Text fontSize="sm" color="fg.muted">
+          Selected: {selectedState?.label || "None"}
+        </Text>
+      </Box>
     );
   },
 };
 
 export const ControlledMultiple: Story = {
   render: () => {
-    const [selected, setSelected] = React.useState<Key[]>(["california", "texas"]);
+    const [selected, setSelected] = React.useState<string[]>(["california", "texas"]);
 
     return (
-      <div className="space-y-4">
+      <Box spaceY="4">
         <Select
-          className="w-[256px]"
-          placeholder="Select states"
-          selectionMode="multiple"
+          collection={states}
+          multiple
           value={selected}
-          onChange={(keys) => setSelected(keys as Key[])}
+          width="256px"
+          onValueChange={(e) => setSelected(e.value)}
         >
           <Label>States (controlled multiple)</Label>
           <Select.Trigger>
-            <Select.Value />
+            <Select.Value placeholder="Select states" />
             <Select.Indicator />
           </Select.Trigger>
           <Select.Popover>
-            <ListBox selectionMode="multiple">
-              <ListBox.Item id="california" textValue="California">
-                California
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="texas" textValue="Texas">
-                Texas
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="florida" textValue="Florida">
-                Florida
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="new-york" textValue="New York">
-                New York
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="illinois" textValue="Illinois">
-                Illinois
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="pennsylvania" textValue="Pennsylvania">
-                Pennsylvania
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-            </ListBox>
+            {states.items.map((item) => (
+              <ChakraSelect.Item key={item.value} item={item}>
+                <ChakraSelect.ItemText>{item.label}</ChakraSelect.ItemText>
+                <ChakraSelect.ItemIndicator />
+              </ChakraSelect.Item>
+            ))}
           </Select.Popover>
         </Select>
-        <p className="text-sm text-muted">
+        <Text fontSize="sm" color="fg.muted">
           Selected: {selected.length > 0 ? selected.join(", ") : "None"}
-        </p>
-      </div>
+        </Text>
+      </Box>
     );
   },
 };
@@ -812,184 +312,61 @@ export const ControlledOpenState: Story = {
     const [isOpen, setIsOpen] = React.useState(false);
 
     return (
-      <div className="space-y-4">
+      <Box spaceY="4">
         <Select
-          className="w-[256px]"
-          isOpen={isOpen}
-          placeholder="Select one"
-          onOpenChange={setIsOpen}
+          collection={states}
+          open={isOpen}
+          width="256px"
+          onOpenChange={(e) => setIsOpen(e.open)}
         >
           <Label>State</Label>
           <Select.Trigger>
-            <Select.Value />
+            <Select.Value placeholder="Select one" />
             <Select.Indicator />
           </Select.Trigger>
           <Select.Popover>
-            <ListBox>
-              <ListBox.Item id="florida" textValue="Florida">
-                Florida
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="delaware" textValue="Delaware">
-                Delaware
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="california" textValue="California">
-                California
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="texas" textValue="Texas">
-                Texas
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="new-york" textValue="New York">
-                New York
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="washington" textValue="Washington">
-                Washington
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-            </ListBox>
+            {states.items.map((item) => (
+              <ChakraSelect.Item key={item.value} item={item}>
+                <ChakraSelect.ItemText>{item.label}</ChakraSelect.ItemText>
+                <ChakraSelect.ItemIndicator />
+              </ChakraSelect.Item>
+            ))}
           </Select.Popover>
         </Select>
-        <Button onPress={() => setIsOpen(!isOpen)}>{isOpen ? "Close" : "Open"} Select</Button>
-        <p className="text-sm text-muted">Select is {isOpen ? "open" : "closed"}</p>
-      </div>
-    );
-  },
-};
-
-interface Pokemon {
-  name: string;
-}
-
-export const AsynchronousLoading: Story = {
-  render: () => {
-    const list = useAsyncList<Pokemon>({
-      async load({cursor, signal}) {
-        const res = await fetch(cursor || `https://pokeapi.co/api/v2/pokemon`, {signal});
-        const json = await res.json();
-
-        return {
-          items: json.results,
-          cursor: json.next,
-        };
-      },
-    });
-
-    return (
-      <Select className="w-[256px]" placeholder="Select a Pokemon">
-        <Label>Pick a Pokemon</Label>
-        <Select.Trigger>
-          <Select.Value />
-          <Select.Indicator />
-        </Select.Trigger>
-        <Select.Popover>
-          <ListBox>
-            <Collection items={list.items}>
-              {(item: Pokemon) => (
-                <ListBox.Item id={item.name} textValue={item.name}>
-                  {item.name}
-                  <ListBox.ItemIndicator />
-                </ListBox.Item>
-              )}
-            </Collection>
-            <ListBoxLoadMoreItem
-              isLoading={list.loadingState === "loadingMore"}
-              onLoadMore={list.loadMore}
-            >
-              <div className="flex items-center justify-center gap-2 py-2">
-                <Spinner size="sm" />
-                <span className="text-sm text-muted">Loading more...</span>
-              </div>
-            </ListBoxLoadMoreItem>
-          </ListBox>
-        </Select.Popover>
-      </Select>
+        <Button onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? "Close" : "Open"} Select
+        </Button>
+        <Text fontSize="sm" color="fg.muted">
+          Select is {isOpen ? "open" : "closed"}
+        </Text>
+      </Box>
     );
   },
 };
 
 export const Disabled: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
-      <Select isDisabled className="w-[256px]" defaultValue="california" placeholder="Select one">
+    <Box display="flex" flexDirection="column" gap="4">
+      <Select
+        collection={states}
+        defaultValue={["california"]}
+        disabled
+        width="256px"
+      >
         <Label>State</Label>
         <Select.Trigger>
-          <Select.Value />
+          <Select.Value placeholder="Select one" />
           <Select.Indicator />
         </Select.Trigger>
         <Select.Popover>
-          <ListBox>
-            <ListBox.Item id="florida" textValue="Florida">
-              Florida
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="delaware" textValue="Delaware">
-              Delaware
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="california" textValue="California">
-              California
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="texas" textValue="Texas">
-              Texas
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="new-york" textValue="New York">
-              New York
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="washington" textValue="Washington">
-              Washington
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-          </ListBox>
+          {states.items.map((item) => (
+            <ChakraSelect.Item key={item.value} item={item}>
+              <ChakraSelect.ItemText>{item.label}</ChakraSelect.ItemText>
+              <ChakraSelect.ItemIndicator />
+            </ChakraSelect.Item>
+          ))}
         </Select.Popover>
       </Select>
-      <Select
-        isDisabled
-        className="w-[256px]"
-        defaultValue={["argentina", "japan", "france"]}
-        placeholder="Select countries"
-        selectionMode="multiple"
-      >
-        <Label>Countries to Visit</Label>
-        <Select.Trigger>
-          <Select.Value />
-          <Select.Indicator />
-        </Select.Trigger>
-        <Select.Popover>
-          <ListBox>
-            <ListBox.Item id="argentina" textValue="Argentina">
-              Argentina
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="venezuela" textValue="Venezuela">
-              Venezuela
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="japan" textValue="Japan">
-              Japan
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="france" textValue="France">
-              France
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="italy" textValue="Italy">
-              Italy
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-            <ListBox.Item id="spain" textValue="Spain">
-              Spain
-              <ListBox.ItemIndicator />
-            </ListBox.Item>
-          </ListBox>
-        </Select.Popover>
-      </Select>
-    </div>
+    </Box>
   ),
 };

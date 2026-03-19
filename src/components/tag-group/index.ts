@@ -26,10 +26,3 @@ export type {
   TagGroupRootProps as TagGroupProps,
   TagGroupListProps,
 } from "./tag-group";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {tagGroupVariants} from "../../styles";
-
-export type {TagGroupVariants} from "../../styles";

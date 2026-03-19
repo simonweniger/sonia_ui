@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from "@storybook/react";
 
+import {Box, Text} from "@chakra-ui/react";
 import React from "react";
 
 import {Button} from "../button";
@@ -35,11 +36,11 @@ type Story = StoryObj<typeof InputOTP>;
 
 export const Default: Story = {
   render: (args) => (
-    <div className="flex w-[280px] flex-col gap-2">
-      <div className="flex flex-col gap-1">
+    <Box display="flex" w="280px" flexDirection="column" gap="2">
+      <Box display="flex" flexDirection="column" gap="1">
         <Label>Verify account</Label>
-        <p className="text-sm text-muted">We&apos;ve sent a code to a****@gmail.com</p>
-      </div>
+        <Text fontSize="sm" color="fg.muted">We&apos;ve sent a code to a****@gmail.com</Text>
+      </Box>
       <InputOTP {...args} maxLength={6}>
         <InputOTP.Group>
           <InputOTP.Slot index={0} />
@@ -53,20 +54,20 @@ export const Default: Story = {
           <InputOTP.Slot index={5} />
         </InputOTP.Group>
       </InputOTP>
-      <div className="flex items-center gap-[5px] px-1 pt-1">
-        <p className="text-sm text-muted">Didn&apos;t receive a code?</p>
-        <Link className="text-foreground" underline="always">
+      <Box display="flex" alignItems="center" gap="5px" px="1" pt="1">
+        <Text fontSize="sm" color="fg.muted">Didn&apos;t receive a code?</Text>
+        <Link color="fg" textDecoration="underline">
           Resend
         </Link>
-      </div>
-    </div>
+      </Box>
+    </Box>
   ),
 };
 
 export const Variants: Story = {
   render: () => (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
+    <Box display="flex" flexDirection="column" gap="6">
+      <Box display="flex" flexDirection="column" gap="2">
         <Label>Primary variant</Label>
         <InputOTP maxLength={6} variant="primary">
           <InputOTP.Group>
@@ -81,8 +82,8 @@ export const Variants: Story = {
             <InputOTP.Slot index={5} />
           </InputOTP.Group>
         </InputOTP>
-      </div>
-      <div className="flex flex-col gap-2">
+      </Box>
+      <Box display="flex" flexDirection="column" gap="2">
         <Label>Secondary variant</Label>
         <InputOTP maxLength={6} variant="secondary">
           <InputOTP.Group>
@@ -97,14 +98,14 @@ export const Variants: Story = {
             <InputOTP.Slot index={5} />
           </InputOTP.Group>
         </InputOTP>
-      </div>
-    </div>
+      </Box>
+    </Box>
   ),
 };
 
 export const FourDigits: Story = {
   render: (args) => (
-    <div className="flex w-[280px] flex-col gap-2">
+    <Box display="flex" w="280px" flexDirection="column" gap="2">
       <Label>Enter PIN</Label>
       <InputOTP {...args} maxLength={4}>
         <InputOTP.Group>
@@ -114,14 +115,14 @@ export const FourDigits: Story = {
           <InputOTP.Slot index={3} />
         </InputOTP.Group>
       </InputOTP>
-    </div>
+    </Box>
   ),
 };
 
 export const Disabled: Story = {
   render: (args) => (
-    <div className="flex w-[280px] flex-col gap-2">
-      <Label isDisabled>Verify account</Label>
+    <Box display="flex" w="280px" flexDirection="column" gap="2">
+      <Label>Verify account</Label>
       <Description>Code verification is currently disabled</Description>
       <InputOTP {...args} isDisabled maxLength={6}>
         <InputOTP.Group>
@@ -136,13 +137,13 @@ export const Disabled: Story = {
           <InputOTP.Slot index={5} />
         </InputOTP.Group>
       </InputOTP>
-    </div>
+    </Box>
   ),
 };
 
 export const WithPattern: Story = {
   render: (args) => (
-    <div className="flex w-[280px] flex-col gap-2">
+    <Box display="flex" w="280px" flexDirection="column" gap="2">
       <Label>Enter code (letters only)</Label>
       <Description>Only alphabetic characters are allowed</Description>
       <InputOTP {...args} maxLength={6} pattern={REGEXP_ONLY_CHARS}>
@@ -158,7 +159,7 @@ export const WithPattern: Story = {
           <InputOTP.Slot index={5} />
         </InputOTP.Group>
       </InputOTP>
-    </div>
+    </Box>
   ),
 };
 
@@ -167,7 +168,7 @@ export const Controlled: Story = {
     const [value, setValue] = React.useState("");
 
     return (
-      <div className="flex w-[280px] flex-col gap-2">
+      <Box display="flex" w="280px" flexDirection="column" gap="2">
         <Label>Verify account</Label>
         <InputOTP {...args} maxLength={6} value={value} onChange={setValue}>
           <InputOTP.Group>
@@ -187,7 +188,7 @@ export const Controlled: Story = {
             <>
               Value: {value} ({value.length}/6) •{" "}
               <button
-                className="font-medium text-foreground underline"
+                style={{fontWeight: 500, color: "var(--colors-fg)", textDecoration: "underline"}}
                 onClick={() => setValue("")}
               >
                 Clear
@@ -197,7 +198,7 @@ export const Controlled: Story = {
             "Enter a 6-digit code"
           )}
         </Description>
-      </div>
+      </Box>
     );
   },
 };
@@ -230,8 +231,8 @@ export const WithValidation: Story = {
     };
 
     return (
-      <div className="flex w-[280px] flex-col gap-2">
-        <Form className="flex flex-col gap-2" onSubmit={onSubmit}>
+      <Box display="flex" w="280px" flexDirection="column" gap="2">
+        <Form style={{display: "flex", flexDirection: "column", gap: "8px"}} onSubmit={onSubmit}>
           <Label>Verify account</Label>
           <Description>Hint: The code is 123456</Description>
           <InputOTP
@@ -255,14 +256,14 @@ export const WithValidation: Story = {
               <InputOTP.Slot index={5} />
             </InputOTP.Group>
           </InputOTP>
-          <span className="field-error" data-visible={isInvalid} id="code-error">
+          <Text as="span" className="field-error" data-visible={isInvalid} id="code-error">
             Invalid code. Please try again.
-          </span>
+          </Text>
           <Button isDisabled={value.length !== 6} type="submit">
             Submit
           </Button>
         </Form>
-      </div>
+      </Box>
     );
   },
 };
@@ -292,7 +293,7 @@ export const OnComplete: Story = {
     };
 
     return (
-      <Form className="flex w-[280px] flex-col gap-2" onSubmit={handleSubmit}>
+      <Form style={{display: "flex", width: "280px", flexDirection: "column", gap: "8px"}} onSubmit={handleSubmit}>
         <Label>Verify account</Label>
         <InputOTP
           {...args}
@@ -317,11 +318,10 @@ export const OnComplete: Story = {
           </InputOTP.Group>
         </InputOTP>
         <Button
-          className="mt-2 w-full"
+          style={{marginTop: "8px", width: "100%"}}
           isDisabled={!isComplete}
-          isPending={isSubmitting}
           type="submit"
-          variant="primary"
+          variant="solid"
         >
           {isSubmitting ? (
             <>
@@ -369,8 +369,8 @@ export const FormExample: Story = {
     };
 
     return (
-      <Form className="flex w-[280px] flex-col gap-4" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-2">
+      <Form style={{display: "flex", width: "280px", flexDirection: "column", gap: "16px"}} onSubmit={handleSubmit}>
+        <Box display="flex" flexDirection="column" gap="2">
           <Label>Two-factor authentication</Label>
           <Description>Enter the 6-digit code from your authenticator app</Description>
           <InputOTP
@@ -395,16 +395,15 @@ export const FormExample: Story = {
               <InputOTP.Slot index={5} />
             </InputOTP.Group>
           </InputOTP>
-          <span className="field-error" data-visible={!!error} id="code-error">
+          <Text as="span" className="field-error" data-visible={!!error} id="code-error">
             {error}
-          </span>
-        </div>
+          </Text>
+        </Box>
         <Button
-          className="w-full"
+          style={{width: "100%"}}
           isDisabled={value.length !== 6}
-          isPending={isSubmitting}
           type="submit"
-          variant="primary"
+          variant="solid"
         >
           {isSubmitting ? (
             <>
@@ -415,12 +414,12 @@ export const FormExample: Story = {
             "Verify"
           )}
         </Button>
-        <div className="flex items-center justify-center gap-1">
-          <p className="text-sm text-muted">Having trouble?</p>
-          <Link className="text-sm text-foreground" underline="always">
+        <Box display="flex" alignItems="center" justifyContent="center" gap="1">
+          <Text fontSize="sm" color="fg.muted">Having trouble?</Text>
+          <Link fontSize="sm" color="fg" textDecoration="underline">
             Use backup code
           </Link>
-        </div>
+        </Box>
       </Form>
     );
   },

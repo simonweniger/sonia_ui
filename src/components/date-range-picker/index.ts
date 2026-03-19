@@ -47,10 +47,3 @@ export type {
   DateRangePickerRangeSeparatorProps,
   DateRangePickerPopoverProps,
 } from "./date-range-picker";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {dateRangePickerVariants} from "../../styles";
-
-export type {DateRangePickerVariants} from "../../styles";

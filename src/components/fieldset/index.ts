@@ -32,10 +32,3 @@ export type {
   FieldGroupProps,
   FieldsetActionsProps,
 } from "./fieldset";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {fieldsetVariants} from "../../styles";
-
-export type {FieldsetVariants} from "../../styles";

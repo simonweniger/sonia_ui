@@ -25,10 +25,3 @@ export type {SurfaceRootProps, SurfaceRootProps as SurfaceProps} from "./surface
  * Context
  * -----------------------------------------------------------------------------------------------*/
 export {SurfaceContext} from "./surface";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {surfaceVariants} from "../../styles";
-
-export type {SurfaceVariants} from "../../styles";

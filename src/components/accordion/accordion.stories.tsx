@@ -1,19 +1,19 @@
-import type {Meta} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
+import {Box, Flex, Text} from "@chakra-ui/react";
 import React from "react";
-import {cn} from "tailwind-variants";
 
 import {Accordion} from "./index";
 
 export default {
   argTypes: {
-    allowsMultipleExpanded: {
+    multiple: {
       control: {
         type: "boolean",
       },
     },
-    isDisabled: {
+    disabled: {
       control: {
         type: "boolean",
       },
@@ -27,23 +27,23 @@ export default {
 } as Meta<typeof Accordion>;
 
 const defaultArgs: Accordion["RootProps"] = {
-  allowsMultipleExpanded: false,
-  isDisabled: false,
+  multiple: false,
+  disabled: false,
 };
 
-const Wrapper = ({children, className}: {children: React.ReactNode; className?: string}) => (
-  <div className={cn("w-full max-w-md", className)}>{children}</div>
+const Wrapper = ({children}: {children: React.ReactNode}) => (
+  <Box width="full" maxW="md">{children}</Box>
 );
 
 const Template = (props: Accordion["RootProps"]) => (
   <Wrapper>
     <Accordion {...props}>
       {items.map((item, index) => (
-        <Accordion.Item key={index}>
+        <Accordion.Item key={index} value={`item-${index}`}>
           <Accordion.Heading>
             <Accordion.Trigger>
               {item.icon ? (
-                <Icon className="mr-3 size-4 shrink-0 text-muted" icon={item.icon} />
+                <Icon icon={item.icon} style={{marginRight: "0.75rem", width: "1rem", height: "1rem", flexShrink: 0, color: "var(--colors-fg-muted)"}} />
               ) : null}
               {item.title}
               <Accordion.Indicator>
@@ -61,22 +61,22 @@ const Template = (props: Accordion["RootProps"]) => (
 );
 
 const CustomTemplate = (props: Accordion["RootProps"]) => (
-  <div className="flex w-full justify-center px-4 py-8">
-    <div className="w-full max-w-2xl">
-      <div className="flex flex-col gap-1">
-        <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
-        <p className="mb-4 text-lg font-medium text-muted">
+  <Flex width="full" justify="center" px="4" py="8">
+    <Box width="full" maxW="2xl">
+      <Flex direction="column" gap="1">
+        <Text as="h2" fontSize="2xl" fontWeight="bold">Frequently Asked Questions</Text>
+        <Text mb="4" fontSize="lg" fontWeight="medium" color="fg.muted">
           Everything you need to know about licensing and usage.
-        </p>
-      </div>
-      <div className="mt-2 flex flex-col gap-6">
+        </Text>
+      </Flex>
+      <Flex mt="2" direction="column" gap="6">
         {categories.map((category) => (
-          <div key={category.title}>
-            <p className="text-md mb-2 font-medium text-muted">{category.title}</p>
-            <div key={category.title}>
-              <Accordion {...props} className="w-full" variant="surface">
+          <Box key={category.title}>
+            <Text fontSize="md" mb="2" fontWeight="medium" color="fg.muted">{category.title}</Text>
+            <Box key={category.title}>
+              <Accordion {...props} width="full" variant="surface">
                 {category.items.map((item, index) => (
-                  <Accordion.Item key={index}>
+                  <Accordion.Item key={index} value={`item-${index}`}>
                     <Accordion.Heading>
                       <Accordion.Trigger>
                         {item.title}
@@ -91,56 +91,59 @@ const CustomTemplate = (props: Accordion["RootProps"]) => (
                   </Accordion.Item>
                 ))}
               </Accordion>
-            </div>
-          </div>
+            </Box>
+          </Box>
         ))}
-      </div>
-    </div>
-  </div>
+      </Flex>
+    </Box>
+  </Flex>
 );
 
-export const Default = {
+export const Default: StoryObj<typeof Accordion> = {
   args: {
     ...defaultArgs,
-    allowsMultipleExpanded: true,
+    multiple: true,
+    collapsible: true,
   },
   render: Template,
 };
 
-export const SurfaceVariant = {
+export const SurfaceVariant: StoryObj<typeof Accordion> = {
   args: {
     ...defaultArgs,
     variant: "surface",
-    allowsMultipleExpanded: true,
+    multiple: true,
+    collapsible: true,
   },
   render: (args: Accordion["RootProps"]) => (
-    <section className="flex h-screen w-screen items-center justify-center">
+    <Flex as="section" height="100vh" width="100vw" align="center" justify="center">
       <Template {...args} />
-    </section>
+    </Flex>
   ),
 };
 
-export const Custom = {
+export const Custom: StoryObj<typeof Accordion> = {
   args: {
     ...defaultArgs,
-    allowsMultipleExpanded: true,
+    multiple: true,
+    collapsible: true,
   },
   render: (args: Accordion["RootProps"]) => (
-    <section className="flex h-screen w-screen items-center justify-center">
+    <Flex as="section" height="100vh" width="100vw" align="center" justify="center">
       <CustomTemplate {...args} />
-    </section>
+    </Flex>
   ),
 };
 
-const WithoutSeparatorTemplate = ({hideSeparator = true, ...props}: Accordion["RootProps"]) => (
+const WithoutSeparatorTemplate = ({...props}: Accordion["RootProps"]) => (
   <Wrapper>
-    <Accordion hideSeparator={hideSeparator} {...props}>
+    <Accordion {...props} className="[&_[data-slot=accordion-item]:not(:last-child)]:border-b-0">
       {items.map((item, index) => (
-        <Accordion.Item key={index}>
+        <Accordion.Item key={index} value={`item-${index}`}>
           <Accordion.Heading>
             <Accordion.Trigger>
               {item.icon ? (
-                <Icon className="mr-3 size-4 shrink-0 text-muted" icon={item.icon} />
+                <Icon icon={item.icon} style={{marginRight: "0.75rem", width: "1rem", height: "1rem", flexShrink: 0, color: "var(--colors-fg-muted)"}} />
               ) : null}
               {item.title}
               <Accordion.Indicator>
@@ -157,10 +160,11 @@ const WithoutSeparatorTemplate = ({hideSeparator = true, ...props}: Accordion["R
   </Wrapper>
 );
 
-export const WithoutSeparator = {
+export const WithoutSeparator: StoryObj<typeof Accordion> = {
   args: {
     ...defaultArgs,
-    allowsMultipleExpanded: true,
+    multiple: true,
+    collapsible: true,
   },
   render: WithoutSeparatorTemplate,
 };

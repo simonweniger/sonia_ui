@@ -1,13 +1,14 @@
 import type {SkeletonProps} from "./index";
-import type {Meta} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react";
 
+import {Box, Grid} from "@chakra-ui/react";
 import React from "react";
 
 import {Skeleton} from "./index";
 
 export default {
   argTypes: {
-    animationType: {
+    animationStyle: {
       control: "select",
       options: ["shimmer", "pulse", "none"],
     },
@@ -22,46 +23,46 @@ export default {
 const defaultArgs: SkeletonProps = {};
 
 const Template = (props: SkeletonProps) => (
-  <div className="bg-surface-1 w-[200px] space-y-5 rounded-3xl p-4 shadow-surface">
-    <Skeleton className="h-24 rounded-xl" {...props} />
-    <div className="space-y-3">
-      <Skeleton className="h-3 w-3/5 rounded-lg" {...props} />
-      <Skeleton className="h-3 w-4/5 rounded-lg" {...props} />
-      <Skeleton className="h-3 w-2/5 rounded-lg" {...props} />
-    </div>
-  </div>
+  <Box bg="surface-1" w="200px" spaceY="5" rounded="3xl" p="4" shadow="surface">
+    <Skeleton h="24" rounded="xl" {...props} />
+    <Box spaceY="3">
+      <Skeleton h="3" w="3/5" rounded="lg" {...props} />
+      <Skeleton h="3" w="4/5" rounded="lg" {...props} />
+      <Skeleton h="3" w="2/5" rounded="lg" {...props} />
+    </Box>
+  </Box>
 );
 
 const GridTemplate = (props: SkeletonProps) => (
-  <div className="grid w-[450px] grid-cols-3 gap-4">
-    <Skeleton className="h-24 rounded-xl" {...props} />
-    <Skeleton className="h-24 rounded-xl" {...props} />
-    <Skeleton className="h-24 rounded-xl" {...props} />
-  </div>
+  <Grid w="450px" templateColumns="repeat(3, 1fr)" gap="4">
+    <Skeleton h="24" rounded="xl" {...props} />
+    <Skeleton h="24" rounded="xl" {...props} />
+    <Skeleton h="24" rounded="xl" {...props} />
+  </Grid>
 );
 
 const SingleShimmerTemplate = (props: SkeletonProps) => (
-  <div className="skeleton--shimmer relative grid w-[450px] grid-cols-3 gap-4 overflow-hidden rounded-xl">
-    <Skeleton className="h-24 rounded-xl" {...props} />
-    <Skeleton className="h-24 rounded-xl" {...props} />
-    <Skeleton className="h-24 rounded-xl" {...props} />
-  </div>
+  <Grid className="skeleton--shimmer" position="relative" w="450px" templateColumns="repeat(3, 1fr)" gap="4" overflow="hidden" rounded="xl">
+    <Skeleton h="24" rounded="xl" {...props} />
+    <Skeleton h="24" rounded="xl" {...props} />
+    <Skeleton h="24" rounded="xl" {...props} />
+  </Grid>
 );
 
-export const Default = {
+export const Default: StoryObj<typeof Skeleton> = {
   args: defaultArgs,
   render: Template,
 };
 
-export const Grid = {
+export const GridLayout: StoryObj<typeof Skeleton> = {
   args: defaultArgs,
   render: GridTemplate,
 };
 
-export const SingleShimmer = {
+export const SingleShimmer: StoryObj<typeof Skeleton> = {
   args: {
     ...defaultArgs,
-    animationType: "none",
+    animationStyle: "none",
   },
   render: SingleShimmerTemplate,
 };

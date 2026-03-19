@@ -1,15 +1,14 @@
-import type {DateValue} from "@internationalized/date";
 import type {Meta, StoryObj} from "@storybook/react";
 
+import {DatePicker as ArkDatePicker, type DateValue as ArkDateValue} from "@ark-ui/react/date-picker";
+import {Flex} from "@chakra-ui/react";
 import {Icon} from "@iconify/react";
-import {getLocalTimeZone, today} from "@internationalized/date";
 import React, {useState} from "react";
 
 import {Button} from "../button";
 import {Calendar} from "../calendar";
 import {DateField} from "../date-field";
 import {Description} from "../description";
-import {FieldError} from "../field-error";
 import {Form} from "../form";
 import {Label} from "../label";
 
@@ -37,12 +36,30 @@ const CalendarContent = () => (
       <Calendar.NavButton slot="previous" />
       <Calendar.NavButton slot="next" />
     </Calendar.Header>
-    <Calendar.Grid>
-      <Calendar.GridHeader>
-        {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-      </Calendar.GridHeader>
-      <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-    </Calendar.Grid>
+    <ArkDatePicker.Context>
+      {(api) => (
+        <Calendar.Grid>
+          <Calendar.GridHeader>
+            <ArkDatePicker.TableRow>
+              {api.weekDays.map((day) => (
+                <Calendar.HeaderCell key={day.long}>{day.short}</Calendar.HeaderCell>
+              ))}
+            </ArkDatePicker.TableRow>
+          </Calendar.GridHeader>
+          <Calendar.GridBody>
+            {api.weeks.map((week, i) => (
+              <ArkDatePicker.TableRow key={i}>
+                {week.map((date) => (
+                  <ArkDatePicker.TableCell key={date.toString()} value={date}>
+                    <Calendar.Cell>{date.day}</Calendar.Cell>
+                  </ArkDatePicker.TableCell>
+                ))}
+              </ArkDatePicker.TableRow>
+            ))}
+          </Calendar.GridBody>
+        </Calendar.Grid>
+      )}
+    </ArkDatePicker.Context>
     <Calendar.YearPickerGrid>
       <Calendar.YearPickerGridBody>
         {({year}) => <Calendar.YearPickerCell year={year} />}
@@ -54,8 +71,8 @@ const CalendarContent = () => (
 const DatePickerField = ({showDescription = false}: {showDescription?: boolean}) => (
   <>
     <Label>Date</Label>
-    <DateField.Group fullWidth>
-      <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>
+    <DateField.Group>
+      <DateField.Input />
       <DateField.Suffix>
         <DatePicker.Trigger>
           <DatePicker.TriggerIndicator />
@@ -71,7 +88,7 @@ const DatePickerField = ({showDescription = false}: {showDescription?: boolean})
 
 export const Default: Story = {
   render: () => (
-    <DatePicker className="w-[280px]" name="date">
+    <DatePicker style={{width: "280px"}} name="date">
       <DatePickerField />
     </DatePicker>
   ),
@@ -79,75 +96,43 @@ export const Default: Story = {
 
 export const Controlled: Story = {
   render: () => {
-    const [value, setValue] = useState<DateValue | null>(today(getLocalTimeZone()));
+    const [value, setValue] = useState<ArkDateValue[]>([]);
 
     return (
-      <div className="flex w-64 flex-col gap-2">
-        <DatePicker name="date" value={value} onChange={setValue}>
+      <Flex w="64" direction="column" gap="2">
+        <DatePicker
+          name="date"
+          value={value}
+          onValueChange={(details) => setValue(details.value)}
+        >
           <DatePickerField showDescription />
         </DatePicker>
-        <Description>Current value: {value ? value.toString() : "(empty)"}</Description>
-      </div>
+        <Description>
+          Current value: {value.length > 0 ? value[0]?.toString() : "(empty)"}
+        </Description>
+      </Flex>
     );
   },
 };
 
 export const Disabled: Story = {
   render: () => (
-    <DatePicker isDisabled className="w-64" name="date" value={today(getLocalTimeZone())}>
+    <DatePicker disabled style={{width: "256px"}} name="date">
       <DatePickerField />
     </DatePicker>
   ),
 };
 
-export const WithValidation: Story = {
-  render: () => {
-    const [value, setValue] = useState<DateValue | null>(null);
-    const currentDate = today(getLocalTimeZone());
-    const isInvalid = value != null && value.compare(currentDate) < 0;
-
-    return (
-      <DatePicker
-        isRequired
-        className="w-64"
-        isInvalid={isInvalid}
-        minValue={currentDate}
-        name="date"
-        value={value}
-        onChange={setValue}
-      >
-        <Label>Appointment date</Label>
-        <DateField.Group fullWidth>
-          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>
-          <DateField.Suffix>
-            <DatePicker.Trigger>
-              <DatePicker.TriggerIndicator />
-            </DatePicker.Trigger>
-          </DateField.Suffix>
-        </DateField.Group>
-        {isInvalid ? (
-          <FieldError>Date must be today or in the future.</FieldError>
-        ) : (
-          <Description>Select a date from today onward.</Description>
-        )}
-        <DatePicker.Popover>
-          <CalendarContent />
-        </DatePicker.Popover>
-      </DatePicker>
-    );
-  },
-};
-
 export const WithCustomIndicator: Story = {
   render: () => (
-    <DatePicker className="w-64" name="date">
+    <DatePicker style={{width: "256px"}} name="date">
       <Label>Date</Label>
-      <DateField.Group fullWidth>
-        <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>
+      <DateField.Group>
+        <DateField.Input />
         <DateField.Suffix>
           <DatePicker.Trigger>
             <DatePicker.TriggerIndicator>
-              <Icon className="size-4" icon="gravity-ui:chevron-down" />
+              <Icon style={{width: "16px", height: "16px"}} icon="gravity-ui:chevron-down" />
             </DatePicker.TriggerIndicator>
           </DatePicker.Trigger>
         </DateField.Suffix>
@@ -162,57 +147,47 @@ export const WithCustomIndicator: Story = {
 
 export const FormExample: Story = {
   render: () => {
-    const [value, setValue] = useState<DateValue | null>(null);
+    const [value, setValue] = useState<ArkDateValue[]>([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const currentDate = today(getLocalTimeZone());
-    const isInvalid = value != null && value.compare(currentDate) < 0;
 
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
-      if (!value || isInvalid) return;
+      if (value.length === 0) return;
 
       setIsSubmitting(true);
 
       setTimeout(() => {
-        setValue(null);
+        setValue([]);
         setIsSubmitting(false);
       }, 1200);
     };
 
     return (
-      <Form className="flex w-64 flex-col gap-3" onSubmit={handleSubmit}>
+      <Form style={{display: "flex", width: "256px", flexDirection: "column", gap: "12px"}} onSubmit={handleSubmit}>
         <DatePicker
           isRequired
-          isInvalid={isInvalid}
-          minValue={currentDate}
           name="appointmentDate"
           value={value}
-          onChange={setValue}
+          onValueChange={(details) => setValue(details.value)}
         >
           <Label>Appointment date</Label>
-          <DateField.Group fullWidth>
-            <DateField.Input>
-              {(segment) => <DateField.Segment segment={segment} />}
-            </DateField.Input>
+          <DateField.Group>
+            <DateField.Input />
             <DateField.Suffix>
               <DatePicker.Trigger>
                 <DatePicker.TriggerIndicator />
               </DatePicker.Trigger>
             </DateField.Suffix>
           </DateField.Group>
-          {isInvalid ? (
-            <FieldError>Date must be today or in the future.</FieldError>
-          ) : (
-            <Description>Choose a valid appointment date.</Description>
-          )}
+          <Description>Choose a valid appointment date.</Description>
           <DatePicker.Popover>
             <CalendarContent />
           </DatePicker.Popover>
         </DatePicker>
         <Button
-          className="w-full"
-          isDisabled={!value || isInvalid}
-          isPending={isSubmitting}
+          style={{width: "100%"}}
+          isDisabled={value.length === 0}
+          loading={isSubmitting}
           type="submit"
         >
           {isSubmitting ? "Submitting..." : "Submit"}

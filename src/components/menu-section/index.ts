@@ -1,26 +1,28 @@
 import type {ComponentProps} from "react";
 
-import {MenuSectionRoot} from "./menu-section";
+import {MenuSectionLabel, MenuSectionRoot} from "./menu-section";
 
 /* -------------------------------------------------------------------------------------------------
  * Compound Component
  * -----------------------------------------------------------------------------------------------*/
-export const MenuSection = MenuSectionRoot;
+export const MenuSection = Object.assign(MenuSectionRoot, {
+  Root: MenuSectionRoot,
+  Label: MenuSectionLabel,
+});
 
 export type MenuSection = {
   Props: ComponentProps<typeof MenuSectionRoot>;
+  RootProps: ComponentProps<typeof MenuSectionRoot>;
+  LabelProps: ComponentProps<typeof MenuSectionLabel>;
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Named Component
  * -----------------------------------------------------------------------------------------------*/
-export {MenuSectionRoot};
+export {MenuSectionRoot, MenuSectionLabel};
 
-export type {MenuSectionRootProps, MenuSectionRootProps as MenuSectionProps} from "./menu-section";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {menuSectionVariants} from "../../styles";
-
-export type {MenuSectionVariants} from "../../styles";
+export type {
+  MenuSectionRootProps,
+  MenuSectionRootProps as MenuSectionProps,
+  MenuSectionLabelProps,
+} from "./menu-section";

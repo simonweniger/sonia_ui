@@ -1,33 +1,16 @@
-import type {DateValue} from "@internationalized/date";
 import type {Meta, StoryObj} from "@storybook/react";
 
-import {
-  getLocalTimeZone,
-  isToday,
-  isWeekend,
-  parseDate,
-  startOfMonth,
-  startOfWeek,
-  today,
-} from "@internationalized/date";
+import {DatePicker, type DateValue as ArkDateValue} from "@ark-ui/react/date-picker";
+import {Box, Flex, Text} from "@chakra-ui/react";
+import {today, getLocalTimeZone} from "@internationalized/date";
 import React, {useState} from "react";
-import {CalendarStateContext, I18nProvider, useLocale} from "react-aria-components";
 
 import {Button} from "../button";
-import {ButtonGroup} from "../button-group";
 import {Description} from "../description";
 
 import {Calendar} from "./index";
 
 const meta: Meta<typeof Calendar> = {
-  argTypes: {
-    isDisabled: {
-      control: "boolean",
-    },
-    isReadOnly: {
-      control: "boolean",
-    },
-  },
   component: Calendar,
   parameters: {
     layout: "centered",
@@ -40,7 +23,16 @@ export default meta;
 type Story = StoryObj<typeof Calendar>;
 
 /* -------------------------------------------------------------------------------------------------
- * Helper component to render a basic calendar structure
+ * Helpers: Ark's DatePicker uses @internationalized/date@3.7.0 internally, while the project
+ * also depends on a newer version. To avoid type mismatches we use Ark's re-exported parseDate
+ * for props consumed by Ark (value, defaultValue, focusedValue) and the project's parseDate for
+ * props defined by the Calendar component itself (minValue, maxValue).
+ * -----------------------------------------------------------------------------------------------*/
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const arkParseDate: (iso: string) => ArkDateValue = require("@ark-ui/react/date-picker").parseDate;
+
+/* -------------------------------------------------------------------------------------------------
+ * Helper component to render a basic calendar structure using Ark context
  * -----------------------------------------------------------------------------------------------*/
 const CalendarTemplate = (props: Omit<React.ComponentProps<typeof Calendar>, "children">) => (
   <Calendar {...props}>
@@ -49,12 +41,30 @@ const CalendarTemplate = (props: Omit<React.ComponentProps<typeof Calendar>, "ch
       <Calendar.NavButton slot="previous" />
       <Calendar.NavButton slot="next" />
     </Calendar.Header>
-    <Calendar.Grid>
-      <Calendar.GridHeader>
-        {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-      </Calendar.GridHeader>
-      <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-    </Calendar.Grid>
+    <DatePicker.Context>
+      {(api) => (
+        <Calendar.Grid>
+          <Calendar.GridHeader>
+            <DatePicker.TableRow>
+              {api.weekDays.map((day) => (
+                <Calendar.HeaderCell key={day.long}>{day.short}</Calendar.HeaderCell>
+              ))}
+            </DatePicker.TableRow>
+          </Calendar.GridHeader>
+          <Calendar.GridBody>
+            {api.weeks.map((week, i) => (
+              <DatePicker.TableRow key={i}>
+                {week.map((date) => (
+                  <DatePicker.TableCell key={date.toString()} value={date}>
+                    <Calendar.Cell>{date.day}</Calendar.Cell>
+                  </DatePicker.TableCell>
+                ))}
+              </DatePicker.TableRow>
+            ))}
+          </Calendar.GridBody>
+        </Calendar.Grid>
+      )}
+    </DatePicker.Context>
   </Calendar>
 );
 
@@ -73,12 +83,30 @@ const CalendarTemplateWithYearPicker = (
       <Calendar.NavButton slot="previous" />
       <Calendar.NavButton slot="next" />
     </Calendar.Header>
-    <Calendar.Grid>
-      <Calendar.GridHeader>
-        {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-      </Calendar.GridHeader>
-      <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-    </Calendar.Grid>
+    <DatePicker.Context>
+      {(api) => (
+        <Calendar.Grid>
+          <Calendar.GridHeader>
+            <DatePicker.TableRow>
+              {api.weekDays.map((day) => (
+                <Calendar.HeaderCell key={day.long}>{day.short}</Calendar.HeaderCell>
+              ))}
+            </DatePicker.TableRow>
+          </Calendar.GridHeader>
+          <Calendar.GridBody>
+            {api.weeks.map((week, i) => (
+              <DatePicker.TableRow key={i}>
+                {week.map((date) => (
+                  <DatePicker.TableCell key={date.toString()} value={date}>
+                    <Calendar.Cell>{date.day}</Calendar.Cell>
+                  </DatePicker.TableCell>
+                ))}
+              </DatePicker.TableRow>
+            ))}
+          </Calendar.GridBody>
+        </Calendar.Grid>
+      )}
+    </DatePicker.Context>
     <Calendar.YearPickerGrid>
       <Calendar.YearPickerGridBody>
         {({year}) => <Calendar.YearPickerCell year={year} />}
@@ -86,23 +114,6 @@ const CalendarTemplateWithYearPicker = (
     </Calendar.YearPickerGrid>
   </Calendar>
 );
-
-/* -------------------------------------------------------------------------------------------------
- * Helper component to render individual month heading for multi-month calendars
- * -----------------------------------------------------------------------------------------------*/
-const CalendarMonthHeading = ({offset = 0}: {offset?: number}) => {
-  const state = React.useContext(CalendarStateContext)!;
-  const {locale} = useLocale();
-
-  const startDate = state.visibleRange.start;
-  const monthDate = startDate.add({months: offset});
-  const dateObj = monthDate.toDate(getLocalTimeZone());
-  const monthYear = new Intl.DateTimeFormat(locale, {month: "long", year: "numeric"}).format(
-    dateObj,
-  );
-
-  return <span className="text-sm font-medium">{monthYear}</span>;
-};
 
 /* -------------------------------------------------------------------------------------------------
  * Stories
@@ -117,89 +128,57 @@ export const WithYearPicker: Story = {
 
 export const DefaultValue: Story = {
   render: (args) => (
-    <CalendarTemplate {...args} aria-label="Event date" defaultValue={parseDate("2025-02-14")} />
+    <CalendarTemplate {...args} aria-label="Event date" defaultValue={[arkParseDate("2025-02-14")]} />
   ),
 };
 
 export const Controlled: Story = {
   render: (args) => {
-    const [value, setValue] = useState<DateValue | null>(null);
-    const [focusedDate, setFocusedDate] = useState<DateValue>(parseDate("2025-12-25"));
-    const {locale} = useLocale();
+    const [value, setValue] = useState<ArkDateValue[]>([]);
+    const [focusedDate, setFocusedDate] = useState<ArkDateValue | undefined>(arkParseDate("2025-12-25"));
 
     return (
-      <div className="flex flex-col items-center gap-4">
-        <ButtonGroup variant="tertiary">
-          <Button
-            onPress={() => {
-              setValue(today(getLocalTimeZone()));
-              setFocusedDate(today(getLocalTimeZone()));
-            }}
-          >
-            Today
-          </Button>
-          <Button
-            onPress={() => {
-              const nextWeekStart = startOfWeek(today(getLocalTimeZone()).add({weeks: 1}), locale);
-
-              setValue(nextWeekStart);
-              setFocusedDate(nextWeekStart);
-            }}
-          >
-            Next week
-          </Button>
-          <Button
-            onPress={() => {
-              const nextMonthStart = startOfMonth(today(getLocalTimeZone()).add({months: 1}));
-
-              setValue(nextMonthStart);
-              setFocusedDate(nextMonthStart);
-            }}
-          >
-            Next month
-          </Button>
-        </ButtonGroup>
+      <Flex direction="column" align="center" gap="4">
         <CalendarTemplate
           {...args}
           aria-label="Event date"
           focusedValue={focusedDate}
           value={value}
-          onChange={setValue}
-          onFocusChange={setFocusedDate}
+          onValueChange={(details) => setValue(details.value)}
+          onFocusChange={(details) => setFocusedDate(details.focusedValue)}
         />
-        <Description className="text-center">
-          Selected date: {value ? value.toString() : "(none)"}
+        <Description style={{textAlign: "center"}}>
+          Selected date: {value.length > 0 ? value[0]?.toString() : "(none)"}
         </Description>
-        <div className="flex gap-2">
+        <Flex gap="2">
           <Button
             size="sm"
-            variant="secondary"
-            onPress={() => {
-              const todayDate = today(getLocalTimeZone());
-
-              setValue(todayDate);
-              setFocusedDate(todayDate);
+            variant="outline"
+            onClick={() => {
+              const todayIso = today(getLocalTimeZone()).toString();
+              const td = arkParseDate(todayIso);
+              setValue([td]);
+              setFocusedDate(td);
             }}
           >
             Set Today
           </Button>
           <Button
             size="sm"
-            variant="secondary"
-            onPress={() => {
-              const christmasDate = parseDate("2025-12-25");
-
-              setValue(christmasDate);
+            variant="outline"
+            onClick={() => {
+              const christmasDate = arkParseDate("2025-12-25");
+              setValue([christmasDate]);
               setFocusedDate(christmasDate);
             }}
           >
             Set Christmas
           </Button>
-          <Button size="sm" variant="tertiary" onPress={() => setValue(null)}>
+          <Button size="sm" variant="ghost" onClick={() => setValue([])}>
             Clear
           </Button>
-        </div>
-      </div>
+        </Flex>
+      </Flex>
     );
   },
 };
@@ -207,12 +186,11 @@ export const Controlled: Story = {
 export const MinMaxDates: Story = {
   render: (args) => {
     const now = today(getLocalTimeZone());
-    const minDate = now;
     const maxDate = now.add({months: 3});
 
     return (
-      <div className="flex flex-col items-center gap-4">
-        <Calendar {...args} aria-label="Appointment date" maxValue={maxDate} minValue={minDate}>
+      <Flex direction="column" align="center" gap="4">
+        <Calendar {...args} aria-label="Appointment date" maxValue={maxDate} minValue={now}>
           <Calendar.Header>
             <Calendar.NavButton slot="previous" />
             <Calendar.YearPickerTrigger>
@@ -221,230 +199,174 @@ export const MinMaxDates: Story = {
             </Calendar.YearPickerTrigger>
             <Calendar.NavButton slot="next" />
           </Calendar.Header>
-          <Calendar.Grid>
-            <Calendar.GridHeader>
-              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-            </Calendar.GridHeader>
-            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-          </Calendar.Grid>
+          <DatePicker.Context>
+            {(api) => (
+              <Calendar.Grid>
+                <Calendar.GridHeader>
+                  <DatePicker.TableRow>
+                    {api.weekDays.map((day) => (
+                      <Calendar.HeaderCell key={day.long}>{day.short}</Calendar.HeaderCell>
+                    ))}
+                  </DatePicker.TableRow>
+                </Calendar.GridHeader>
+                <Calendar.GridBody>
+                  {api.weeks.map((week, i) => (
+                    <DatePicker.TableRow key={i}>
+                      {week.map((date) => (
+                        <DatePicker.TableCell key={date.toString()} value={date}>
+                          <Calendar.Cell>{date.day}</Calendar.Cell>
+                        </DatePicker.TableCell>
+                      ))}
+                    </DatePicker.TableRow>
+                  ))}
+                </Calendar.GridBody>
+              </Calendar.Grid>
+            )}
+          </DatePicker.Context>
           <Calendar.YearPickerGrid>
             <Calendar.YearPickerGridBody>
               {({year}) => <Calendar.YearPickerCell year={year} />}
             </Calendar.YearPickerGridBody>
           </Calendar.YearPickerGrid>
         </Calendar>
-        <Description className="text-center">
+        <Description style={{textAlign: "center"}}>
           Select a date between today and {maxDate.toString()}
         </Description>
-      </div>
+      </Flex>
     );
   },
 };
 
 export const UnavailableDates: Story = {
   render: (args) => {
-    const {locale} = useLocale();
-
-    // Make weekends unavailable
-    const isDateUnavailable = (date: DateValue) => isWeekend(date, locale);
-
     return (
-      <div className="flex flex-col items-center gap-4">
+      <Flex direction="column" align="center" gap="4">
         <CalendarTemplate
           {...args}
           aria-label="Appointment date"
-          isDateUnavailable={isDateUnavailable}
+          isDateUnavailable={(date, _locale) => {
+            // Make weekends unavailable (Saturday=6, Sunday=0)
+            const jsDate = new Date(date.year, date.month - 1, date.day);
+            const dayOfWeek = jsDate.getDay();
+            return dayOfWeek === 0 || dayOfWeek === 6;
+          }}
         />
-        <Description className="text-center">Weekends are unavailable</Description>
-      </div>
-    );
-  },
-};
-
-export const CustomUnavailableDates: Story = {
-  render: (args) => {
-    // Block specific dates (holidays, booked dates, etc.)
-    const blockedDates = [
-      parseDate("2025-02-14"), // Valentine's Day
-      parseDate("2025-02-17"), // President's Day
-      parseDate("2025-03-17"), // St. Patrick's Day
-    ];
-
-    const isDateUnavailable = (date: DateValue) => {
-      return blockedDates.some(
-        (blockedDate) =>
-          blockedDate.year === date.year &&
-          blockedDate.month === date.month &&
-          blockedDate.day === date.day,
-      );
-    };
-
-    return (
-      <div className="flex flex-col items-center gap-4">
-        <CalendarTemplate {...args} aria-label="Event date" isDateUnavailable={isDateUnavailable} />
-        <Description className="text-center">
-          Feb 14, Feb 17, and Mar 17 are unavailable
-        </Description>
-      </div>
+        <Description style={{textAlign: "center"}}>Weekends are unavailable</Description>
+      </Flex>
     );
   },
 };
 
 export const Disabled: Story = {
   render: (args) => (
-    <div className="flex flex-col items-center gap-4">
+    <Flex direction="column" align="center" gap="4">
       <CalendarTemplate
         {...args}
-        isDisabled
+        disabled
         aria-label="Event date"
-        defaultValue={today(getLocalTimeZone())}
+        defaultValue={[arkParseDate(today(getLocalTimeZone()).toString())]}
       />
-      <Description className="text-center">Calendar is disabled</Description>
-    </div>
+      <Description style={{textAlign: "center"}}>Calendar is disabled</Description>
+    </Flex>
   ),
 };
 
 export const ReadOnly: Story = {
   render: (args) => (
-    <div className="flex flex-col items-center gap-4">
+    <Flex direction="column" align="center" gap="4">
       <CalendarTemplate
         {...args}
-        isReadOnly
+        readOnly
         aria-label="Event date"
-        defaultValue={today(getLocalTimeZone())}
+        defaultValue={[arkParseDate(today(getLocalTimeZone()).toString())]}
       />
-      <Description className="text-center">Calendar is read-only</Description>
-    </div>
+      <Description style={{textAlign: "center"}}>Calendar is read-only</Description>
+    </Flex>
   ),
-};
-
-export const Invalid: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<DateValue | null>(parseDate("2025-01-15"));
-    const minDate = today(getLocalTimeZone());
-    const isInvalid = value !== null && value.compare(minDate) < 0;
-
-    return (
-      <div className="flex flex-col items-center gap-4">
-        <CalendarTemplate
-          {...args}
-          aria-label="Event date"
-          isInvalid={isInvalid}
-          value={value}
-          onChange={setValue}
-        />
-        {isInvalid ? (
-          <p className="text-sm text-danger">Date must be today or in the future</p>
-        ) : (
-          <Description className="text-center">Select a future date</Description>
-        )}
-      </div>
-    );
-  },
 };
 
 export const FocusedValue: Story = {
   render: (args) => {
-    const [focusedDate, setFocusedDate] = useState<DateValue>(parseDate("2025-06-15"));
+    const [focusedDate, setFocusedDate] = useState<ArkDateValue | undefined>(arkParseDate("2025-06-15"));
 
     return (
-      <div className="flex flex-col items-center gap-4">
+      <Flex direction="column" align="center" gap="4">
         <CalendarTemplate
           {...args}
           aria-label="Event date"
           focusedValue={focusedDate}
-          onFocusChange={setFocusedDate}
+          onFocusChange={(details) => setFocusedDate(details.focusedValue)}
         />
-        <Description className="text-center">Focused: {focusedDate.toString()}</Description>
-        <div className="flex flex-wrap justify-center gap-2">
+        <Description style={{textAlign: "center"}}>Focused: {focusedDate?.toString()}</Description>
+        <Flex wrap="wrap" justify="center" gap="2">
           <Button
             size="sm"
-            variant="secondary"
-            onPress={() => setFocusedDate(parseDate("2025-01-01"))}
+            variant="outline"
+            onClick={() => setFocusedDate(arkParseDate("2025-01-01"))}
           >
             Go to Jan
           </Button>
           <Button
             size="sm"
-            variant="secondary"
-            onPress={() => setFocusedDate(parseDate("2025-06-15"))}
+            variant="outline"
+            onClick={() => setFocusedDate(arkParseDate("2025-06-15"))}
           >
             Go to Jun
           </Button>
           <Button
             size="sm"
-            variant="secondary"
-            onPress={() => setFocusedDate(parseDate("2025-12-25"))}
+            variant="outline"
+            onClick={() => setFocusedDate(arkParseDate("2025-12-25"))}
           >
             Go to Christmas
           </Button>
-        </div>
-      </div>
+        </Flex>
+      </Flex>
     );
   },
 };
 
-// Sample dates that have events (for demo purposes)
-const datesWithEvents = [3, 7, 12, 15, 21, 28];
-
 export const WithIndicators: Story = {
-  render: (args) => (
-    <Calendar {...args} aria-label="Event date">
-      <Calendar.Header>
-        <Calendar.NavButton slot="previous" />
-        <Calendar.Heading />
-        <Calendar.NavButton slot="next" />
-      </Calendar.Header>
-      <Calendar.Grid>
-        <Calendar.GridHeader>
-          {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-        </Calendar.GridHeader>
-        <Calendar.GridBody>
-          {(date) => (
-            <Calendar.Cell date={date}>
-              {({formattedDate}) => (
-                <>
-                  {formattedDate}
-                  {(isToday(date, getLocalTimeZone()) || datesWithEvents.includes(date.day)) && (
-                    <Calendar.CellIndicator />
-                  )}
-                </>
-              )}
-            </Calendar.Cell>
-          )}
-        </Calendar.GridBody>
-      </Calendar.Grid>
-    </Calendar>
-  ),
-};
+  render: (args) => {
+    const datesWithEvents = [3, 7, 12, 15, 21, 28];
 
-export const TodayIndicator: Story = {
-  render: (args) => (
-    <Calendar {...args} aria-label="Event date" defaultValue={today(getLocalTimeZone())}>
-      <Calendar.Header>
-        <Calendar.NavButton slot="previous" />
-        <Calendar.Heading />
-        <Calendar.NavButton slot="next" />
-      </Calendar.Header>
-      <Calendar.Grid>
-        <Calendar.GridHeader>
-          {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-        </Calendar.GridHeader>
-        <Calendar.GridBody>
-          {(date) => (
-            <Calendar.Cell date={date}>
-              {({formattedDate}) => (
-                <>
-                  {formattedDate}
-                  {isToday(date, getLocalTimeZone()) && <Calendar.CellIndicator />}
-                </>
-              )}
-            </Calendar.Cell>
+    return (
+      <Calendar {...args} aria-label="Event date">
+        <Calendar.Header>
+          <Calendar.NavButton slot="previous" />
+          <Calendar.Heading />
+          <Calendar.NavButton slot="next" />
+        </Calendar.Header>
+        <DatePicker.Context>
+          {(api) => (
+            <Calendar.Grid>
+              <Calendar.GridHeader>
+                <DatePicker.TableRow>
+                  {api.weekDays.map((day) => (
+                    <Calendar.HeaderCell key={day.long}>{day.short}</Calendar.HeaderCell>
+                  ))}
+                </DatePicker.TableRow>
+              </Calendar.GridHeader>
+              <Calendar.GridBody>
+                {api.weeks.map((week, i) => (
+                  <DatePicker.TableRow key={i}>
+                    {week.map((date) => (
+                      <DatePicker.TableCell key={date.toString()} value={date}>
+                        <Calendar.Cell>
+                          {date.day}
+                          {datesWithEvents.includes(date.day) && <Calendar.CellIndicator />}
+                        </Calendar.Cell>
+                      </DatePicker.TableCell>
+                    ))}
+                  </DatePicker.TableRow>
+                ))}
+              </Calendar.GridBody>
+            </Calendar.Grid>
           )}
-        </Calendar.GridBody>
-      </Calendar.Grid>
-    </Calendar>
-  ),
+        </DatePicker.Context>
+      </Calendar>
+    );
+  },
 };
 
 export const MultipleMonths: Story = {
@@ -452,174 +374,75 @@ export const MultipleMonths: Story = {
     <Calendar
       {...args}
       aria-label="Trip dates"
-      className="@container-normal w-auto overflow-x-auto"
-      visibleDuration={{months: 2}}
+      style={{containerType: "normal", width: "auto", overflowX: "auto"}}
+      numOfMonths={2}
     >
-      <Calendar.Heading className="sr-only" />
-      <div className="flex gap-8">
-        <div className="w-64">
-          <Calendar.Header>
-            <Calendar.NavButton slot="previous" />
-            <CalendarMonthHeading offset={0} />
-            <div className="size-6" />
-          </Calendar.Header>
-          <Calendar.Grid>
-            <Calendar.GridHeader>
-              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-            </Calendar.GridHeader>
-            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-          </Calendar.Grid>
-        </div>
-        <div className="w-64">
-          <Calendar.Header>
-            <div className="size-6" />
-            <CalendarMonthHeading offset={1} />
-            <Calendar.NavButton slot="next" />
-          </Calendar.Header>
-          <Calendar.Grid offset={{months: 1}}>
-            <Calendar.GridHeader>
-              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-            </Calendar.GridHeader>
-            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-          </Calendar.Grid>
-        </div>
-      </div>
+      <Calendar.Heading style={{position: "absolute", width: "1px", height: "1px", overflow: "hidden", clip: "rect(0,0,0,0)", whiteSpace: "nowrap", borderWidth: 0}} />
+      <DatePicker.Context>
+        {(api) => {
+          const offset = api.getOffset({months: 1});
+          return (
+            <Flex gap="8">
+              <Box w="64">
+                <Calendar.Header>
+                  <Calendar.NavButton slot="previous" />
+                  <Text fontSize="sm" fontWeight="medium">{api.visibleRangeText.start}</Text>
+                  <Box boxSize="6" />
+                </Calendar.Header>
+                <Calendar.Grid>
+                  <Calendar.GridHeader>
+                    <DatePicker.TableRow>
+                      {api.weekDays.map((day) => (
+                        <Calendar.HeaderCell key={day.long}>{day.short}</Calendar.HeaderCell>
+                      ))}
+                    </DatePicker.TableRow>
+                  </Calendar.GridHeader>
+                  <Calendar.GridBody>
+                    {api.weeks.map((week, i) => (
+                      <DatePicker.TableRow key={i}>
+                        {week.map((date) => (
+                          <DatePicker.TableCell key={date.toString()} value={date}>
+                            <Calendar.Cell>{date.day}</Calendar.Cell>
+                          </DatePicker.TableCell>
+                        ))}
+                      </DatePicker.TableRow>
+                    ))}
+                  </Calendar.GridBody>
+                </Calendar.Grid>
+              </Box>
+              <Box w="64">
+                <Calendar.Header>
+                  <Box boxSize="6" />
+                  <Text fontSize="sm" fontWeight="medium">{api.visibleRangeText.end}</Text>
+                  <Calendar.NavButton slot="next" />
+                </Calendar.Header>
+                <Calendar.Grid>
+                  <Calendar.GridHeader>
+                    <DatePicker.TableRow>
+                      {api.weekDays.map((day) => (
+                        <Calendar.HeaderCell key={`offset-${day.long}`}>{day.short}</Calendar.HeaderCell>
+                      ))}
+                    </DatePicker.TableRow>
+                  </Calendar.GridHeader>
+                  <Calendar.GridBody>
+                    {offset.weeks.map((week, i) => (
+                      <DatePicker.TableRow key={i}>
+                        {week.map((date) => (
+                          <DatePicker.TableCell key={date.toString()} value={date}>
+                            <Calendar.Cell>{date.day}</Calendar.Cell>
+                          </DatePicker.TableCell>
+                        ))}
+                      </DatePicker.TableRow>
+                    ))}
+                  </Calendar.GridBody>
+                </Calendar.Grid>
+              </Box>
+            </Flex>
+          );
+        }}
+      </DatePicker.Context>
     </Calendar>
   ),
-};
-
-export const InternationalCalendar: Story = {
-  render: (args) => (
-    <I18nProvider locale="hi-IN-u-ca-indian">
-      <CalendarTemplateWithYearPicker
-        {...args}
-        aria-label="Event date"
-        defaultValue={today(getLocalTimeZone())}
-      />
-    </I18nProvider>
-  ),
-};
-
-export const ThreeMonths: Story = {
-  render: (args) => (
-    <Calendar
-      {...args}
-      aria-label="Vacation planning"
-      className="@container-normal w-auto overflow-x-auto"
-      visibleDuration={{months: 3}}
-    >
-      <Calendar.Heading className="sr-only" />
-      <div className="flex w-max gap-7">
-        <div className="w-64">
-          <Calendar.Header>
-            <Calendar.NavButton slot="previous" />
-            <CalendarMonthHeading offset={0} />
-            <div className="size-6" />
-          </Calendar.Header>
-          <Calendar.Grid>
-            <Calendar.GridHeader>
-              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-            </Calendar.GridHeader>
-            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-          </Calendar.Grid>
-        </div>
-        <div className="w-64">
-          <Calendar.Header>
-            <div className="size-6" />
-            <CalendarMonthHeading offset={1} />
-            <div className="size-6" />
-          </Calendar.Header>
-          <Calendar.Grid offset={{months: 1}}>
-            <Calendar.GridHeader>
-              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-            </Calendar.GridHeader>
-            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-          </Calendar.Grid>
-        </div>
-        <div className="w-64">
-          <Calendar.Header>
-            <div className="size-6" />
-            <CalendarMonthHeading offset={2} />
-            <Calendar.NavButton slot="next" />
-          </Calendar.Header>
-          <Calendar.Grid offset={{months: 2}}>
-            <Calendar.GridHeader>
-              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-            </Calendar.GridHeader>
-            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-          </Calendar.Grid>
-        </div>
-      </div>
-    </Calendar>
-  ),
-};
-
-export const BookingCalendar: Story = {
-  render: (args) => {
-    const [selectedDate, setSelectedDate] = useState<DateValue | null>(null);
-    const {locale} = useLocale();
-
-    // Simulated booked dates
-    const bookedDates = [5, 6, 12, 13, 14, 20];
-
-    const isDateUnavailable = (date: DateValue) => {
-      // Weekends and already booked dates are unavailable
-      return isWeekend(date, locale) || bookedDates.includes(date.day);
-    };
-
-    return (
-      <div className="flex flex-col items-center gap-4">
-        <Calendar
-          {...args}
-          aria-label="Booking date"
-          isDateUnavailable={isDateUnavailable}
-          minValue={today(getLocalTimeZone())}
-          value={selectedDate}
-          onChange={setSelectedDate}
-        >
-          <Calendar.Header>
-            <Calendar.NavButton slot="previous" />
-            <Calendar.Heading />
-            <Calendar.NavButton slot="next" />
-          </Calendar.Header>
-          <Calendar.Grid>
-            <Calendar.GridHeader>
-              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-            </Calendar.GridHeader>
-            <Calendar.GridBody>
-              {(date) => (
-                <Calendar.Cell date={date}>
-                  {({formattedDate, isUnavailable}) => (
-                    <>
-                      {formattedDate}
-                      {!isUnavailable &&
-                        !isWeekend(date, locale) &&
-                        bookedDates.includes(date.day) && <Calendar.CellIndicator />}
-                    </>
-                  )}
-                </Calendar.Cell>
-              )}
-            </Calendar.GridBody>
-          </Calendar.Grid>
-        </Calendar>
-        <div className="flex flex-col gap-2 text-center">
-          <div className="flex items-center justify-center gap-4 text-xs text-muted">
-            <span className="flex items-center gap-1">
-              <span className="size-2 rounded-full bg-muted" /> Has bookings
-            </span>
-            <span className="flex items-center gap-1">
-              <span className="size-2 rounded-full bg-default" /> Weekend/Unavailable
-            </span>
-          </div>
-          {selectedDate ? (
-            <Button size="sm" variant="primary">
-              Book {selectedDate.toString()}
-            </Button>
-          ) : null}
-        </div>
-      </div>
-    );
-  },
 };
 
 export const YearPicker: Story = {
@@ -633,85 +456,33 @@ export const YearPicker: Story = {
         <Calendar.NavButton slot="previous" />
         <Calendar.NavButton slot="next" />
       </Calendar.Header>
-      <Calendar.Grid>
-        <Calendar.GridHeader>
-          {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-        </Calendar.GridHeader>
-        <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-      </Calendar.Grid>
+      <DatePicker.Context>
+        {(api) => (
+          <Calendar.Grid>
+            <Calendar.GridHeader>
+              <DatePicker.TableRow>
+                {api.weekDays.map((day) => (
+                  <Calendar.HeaderCell key={day.long}>{day.short}</Calendar.HeaderCell>
+                ))}
+              </DatePicker.TableRow>
+            </Calendar.GridHeader>
+            <Calendar.GridBody>
+              {api.weeks.map((week, i) => (
+                <DatePicker.TableRow key={i}>
+                  {week.map((date) => (
+                    <DatePicker.TableCell key={date.toString()} value={date}>
+                      <Calendar.Cell>{date.day}</Calendar.Cell>
+                    </DatePicker.TableCell>
+                  ))}
+                </DatePicker.TableRow>
+              ))}
+            </Calendar.GridBody>
+          </Calendar.Grid>
+        )}
+      </DatePicker.Context>
       <Calendar.YearPickerGrid>
         <Calendar.YearPickerGridBody>
           {({year}) => <Calendar.YearPickerCell year={year} />}
-        </Calendar.YearPickerGridBody>
-      </Calendar.YearPickerGrid>
-    </Calendar>
-  ),
-};
-
-export const YearPickerStyledCells: Story = {
-  render: (args) => (
-    <Calendar {...args} aria-label="Event date with styled year cells">
-      <Calendar.Header>
-        <Calendar.YearPickerTrigger>
-          <Calendar.YearPickerTriggerHeading />
-          <Calendar.YearPickerTriggerIndicator />
-        </Calendar.YearPickerTrigger>
-        <Calendar.NavButton slot="previous" />
-        <Calendar.NavButton slot="next" />
-      </Calendar.Header>
-      <Calendar.Grid>
-        <Calendar.GridHeader>
-          {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-        </Calendar.GridHeader>
-        <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-      </Calendar.Grid>
-      <Calendar.YearPickerGrid>
-        <Calendar.YearPickerGridBody>
-          {({isCurrentYear, isSelected, year}) => (
-            <Calendar.YearPickerCell
-              year={year}
-              className={
-                isCurrentYear && !isSelected
-                  ? "text-accent ring-1 ring-accent/60 ring-inset"
-                  : undefined
-              }
-            />
-          )}
-        </Calendar.YearPickerGridBody>
-      </Calendar.YearPickerGrid>
-    </Calendar>
-  ),
-};
-
-export const YearPickerCustomCells: Story = {
-  render: (args) => (
-    <Calendar {...args} aria-label="Event date with custom year cells">
-      <Calendar.Header>
-        <Calendar.YearPickerTrigger>
-          <Calendar.YearPickerTriggerHeading />
-          <Calendar.YearPickerTriggerIndicator />
-        </Calendar.YearPickerTrigger>
-        <Calendar.NavButton slot="previous" />
-        <Calendar.NavButton slot="next" />
-      </Calendar.Header>
-      <Calendar.Grid>
-        <Calendar.GridHeader>
-          {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-        </Calendar.GridHeader>
-        <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-      </Calendar.Grid>
-      <Calendar.YearPickerGrid>
-        <Calendar.YearPickerGridBody>
-          {({isCurrentYear, isSelected, year}) => (
-            <Calendar.YearPickerCell year={year}>
-              <span className="inline-flex items-center gap-1">
-                <span>{year}</span>
-                {isCurrentYear ? (
-                  <span className={isSelected ? "text-accent-foreground" : "text-accent"}>Now</span>
-                ) : null}
-              </span>
-            </Calendar.YearPickerCell>
-          )}
         </Calendar.YearPickerGridBody>
       </Calendar.YearPickerGrid>
     </Calendar>
@@ -734,61 +505,30 @@ export const CustomNavIcons: Story = {
           </svg>
         </Calendar.NavButton>
       </Calendar.Header>
-      <Calendar.Grid>
-        <Calendar.GridHeader>
-          {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-        </Calendar.GridHeader>
-        <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-      </Calendar.Grid>
-    </Calendar>
-  ),
-};
-
-export const EventCalendar: Story = {
-  render: (args) => {
-    // Sample events data
-    const events: Record<number, {title: string; color: string}[]> = {
-      3: [{title: "Team Meeting", color: "bg-blue-500"}],
-      7: [{title: "Project Deadline", color: "bg-red-500"}],
-      12: [
-        {title: "Lunch", color: "bg-green-500"},
-        {title: "Review", color: "bg-purple-500"},
-      ],
-      15: [{title: "Conference", color: "bg-orange-500"}],
-      21: [{title: "Workshop", color: "bg-pink-500"}],
-      28: [{title: "Demo Day", color: "bg-cyan-500"}],
-    };
-
-    return (
-      <div className="flex flex-col items-center gap-4">
-        <Calendar {...args} aria-label="Event calendar">
-          <Calendar.Header>
-            <Calendar.Heading />
-            <Calendar.NavButton slot="previous" />
-            <Calendar.NavButton slot="next" />
-          </Calendar.Header>
+      <DatePicker.Context>
+        {(api) => (
           <Calendar.Grid>
             <Calendar.GridHeader>
-              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
+              <DatePicker.TableRow>
+                {api.weekDays.map((day) => (
+                  <Calendar.HeaderCell key={day.long}>{day.short}</Calendar.HeaderCell>
+                ))}
+              </DatePicker.TableRow>
             </Calendar.GridHeader>
             <Calendar.GridBody>
-              {(date) => (
-                <Calendar.Cell date={date}>
-                  {({formattedDate}) => (
-                    <>
-                      {formattedDate}
-                      {events[date.day] ? <Calendar.CellIndicator /> : null}
-                    </>
-                  )}
-                </Calendar.Cell>
-              )}
+              {api.weeks.map((week, i) => (
+                <DatePicker.TableRow key={i}>
+                  {week.map((date) => (
+                    <DatePicker.TableCell key={date.toString()} value={date}>
+                      <Calendar.Cell>{date.day}</Calendar.Cell>
+                    </DatePicker.TableCell>
+                  ))}
+                </DatePicker.TableRow>
+              ))}
             </Calendar.GridBody>
           </Calendar.Grid>
-        </Calendar>
-        <div className="flex flex-col gap-1 text-xs text-muted">
-          <p>Dates with indicators have scheduled events</p>
-        </div>
-      </div>
-    );
-  },
+        )}
+      </DatePicker.Context>
+    </Calendar>
+  ),
 };

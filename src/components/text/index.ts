@@ -20,10 +20,3 @@ export type Text = {
 export {TextRoot};
 
 export type {TextRootProps, TextRootProps as TextProps} from "./text";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {textVariants} from "../../styles";
-
-export type {TextVariants} from "../../styles";

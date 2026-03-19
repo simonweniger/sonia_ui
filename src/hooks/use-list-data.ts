@@ -19,7 +19,8 @@
  */
 "use client";
 
-import type {Key, Selection} from "@react-types/shared";
+type Key = string | number;
+type Selection = "all" | Set<Key>;
 
 import {useMemo, useState} from "react";
 

@@ -22,10 +22,3 @@ export type Link = {
 export {LinkRoot, LinkIcon};
 
 export type {LinkRootProps, LinkIconProps, LinkRootProps as LinkProps} from "./link";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {linkVariants} from "../../styles";
-
-export type {LinkVariants} from "../../styles";

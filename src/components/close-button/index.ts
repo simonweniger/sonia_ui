@@ -20,10 +20,3 @@ export type CloseButton = {
 export {CloseButtonRoot};
 
 export type {CloseButtonRootProps, CloseButtonRootProps as CloseButtonProps} from "./close-button";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
-export {closeButtonVariants} from "../../styles";
-
-export type {CloseButtonVariants} from "../../styles";
