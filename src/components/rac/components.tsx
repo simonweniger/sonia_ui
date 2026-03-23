@@ -18,8 +18,8 @@ export const RouterProvider = ({children}: {children: ReactNode}) => {
 
 /** Collection helper — use array.map() with your component's items directly */
 export const Collection = <T,>({
-  items,
   children,
+  items,
 }: {
   items: Iterable<T>;
   children: (item: T) => ReactNode;

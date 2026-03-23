@@ -2,8 +2,7 @@
 
 import type {ComponentPropsWithRef} from "react";
 
-import {Box, Pagination as ChakraPagination, chakra} from "@chakra-ui/react";
-import {Button} from "@chakra-ui/react";
+import {Box, Button, Pagination as ChakraPagination, chakra} from "@chakra-ui/react";
 import React from "react";
 
 import {IconChevronLeft, IconChevronRight} from "../icons";
@@ -19,14 +18,14 @@ interface PaginationRootProps extends ComponentPropsWithRef<typeof ChakraPaginat
 const PaginationRoot = ({children, className, ...props}: PaginationRootProps) => {
   return (
     <ChakraPagination.Root
+      alignItems="center"
       className={className}
       data-slot="pagination"
       display="flex"
-      w="100%"
       flexDir={{base: "column", sm: "row"}}
-      alignItems="center"
-      justifyContent="space-between"
       gap="4"
+      justifyContent="space-between"
+      w="100%"
       {...props}
     >
       {children}
@@ -47,14 +46,14 @@ interface PaginationSummaryProps extends ComponentPropsWithRef<"div"> {
 const PaginationSummary = ({children, className, ...props}: PaginationSummaryProps) => {
   return (
     <Box
+      alignItems="center"
+      alignSelf={{base: "flex-start", sm: "center"}}
       className={className}
+      color="fg.muted"
       data-slot="pagination-summary"
       display="flex"
-      alignItems="center"
-      gap="2"
-      alignSelf={{base: "flex-start", sm: "center"}}
       fontSize="sm"
-      color="fg.muted"
+      gap="2"
       {...props}
     >
       {children}
@@ -75,12 +74,12 @@ interface PaginationContentProps extends ComponentPropsWithRef<"ul"> {
 const PaginationContent = ({children, className, ...props}: PaginationContentProps) => {
   return (
     <chakra.ul
+      alignItems="center"
+      alignSelf={{base: "flex-start", sm: "center"}}
       className={className}
       data-slot="pagination-content"
       display="flex"
-      alignItems="center"
       gap="1"
-      alignSelf={{base: "flex-start", sm: "center"}}
       {...props}
     >
       {children}
@@ -121,14 +120,14 @@ const PaginationLink = ({children, className, isActive, ...props}: PaginationLin
   return (
     <Button
       aria-current={isActive ? "page" : undefined}
+      boxSize={{base: "9", md: "8"}}
       className={className}
       data-active={isActive ? "true" : undefined}
       data-slot="pagination-link"
-      variant="ghost"
-      size="sm"
-      boxSize={{base: "9", md: "8"}}
-      px="0"
       minW="auto"
+      px="0"
+      size="sm"
+      variant="ghost"
       {...props}
     >
       {children}
@@ -141,18 +140,16 @@ PaginationLink.displayName = "Pagination.Link";
 /* -------------------------------------------------------------------------------------------------
  * Pagination Previous
  * -----------------------------------------------------------------------------------------------*/
-interface PaginationPreviousProps extends ComponentPropsWithRef<typeof ChakraPagination.PrevTrigger> {
+interface PaginationPreviousProps extends ComponentPropsWithRef<
+  typeof ChakraPagination.PrevTrigger
+> {
   className?: string;
   children: React.ReactNode;
 }
 
 const PaginationPrevious = ({children, className, ...props}: PaginationPreviousProps) => {
   return (
-    <ChakraPagination.PrevTrigger
-      className={className}
-      data-slot="pagination-previous"
-      {...props}
-    >
+    <ChakraPagination.PrevTrigger className={className} data-slot="pagination-previous" {...props}>
       {children}
     </ChakraPagination.PrevTrigger>
   );
@@ -169,7 +166,13 @@ interface PaginationPreviousIconProps extends Omit<ComponentPropsWithRef<"span">
 
 const PaginationPreviousIcon = ({children, className, ...props}: PaginationPreviousIconProps) => {
   return (
-    <Box as="span" aria-hidden="true" className={className} data-slot="pagination-previous-icon" {...props}>
+    <Box
+      aria-hidden="true"
+      as="span"
+      className={className}
+      data-slot="pagination-previous-icon"
+      {...props}
+    >
       {children ?? <IconChevronLeft />}
     </Box>
   );
@@ -204,7 +207,13 @@ interface PaginationNextIconProps extends Omit<ComponentPropsWithRef<"span">, "c
 
 const PaginationNextIcon = ({children, className, ...props}: PaginationNextIconProps) => {
   return (
-    <Box as="span" aria-hidden="true" className={className} data-slot="pagination-next-icon" {...props}>
+    <Box
+      aria-hidden="true"
+      as="span"
+      className={className}
+      data-slot="pagination-next-icon"
+      {...props}
+    >
       {children ?? <IconChevronRight />}
     </Box>
   );
@@ -222,16 +231,16 @@ interface PaginationEllipsisProps extends ComponentPropsWithRef<"span"> {
 const PaginationEllipsis = ({className, ...props}: PaginationEllipsisProps) => {
   return (
     <Box
-      as="span"
+      alignItems="center"
       aria-hidden="true"
+      as="span"
+      boxSize={{base: "9", md: "8"}}
       className={className}
+      color="fg.muted"
       data-slot="pagination-ellipsis"
       display="inline-flex"
-      boxSize={{base: "9", md: "8"}}
-      alignItems="center"
-      justifyContent="center"
       fontSize="sm"
-      color="fg.muted"
+      justifyContent="center"
       userSelect="none"
       {...props}
     >

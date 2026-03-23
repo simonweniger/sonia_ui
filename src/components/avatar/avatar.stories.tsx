@@ -1,8 +1,8 @@
 import type {AvatarRootProps} from "./index";
-import type {Meta} from "@storybook/react";
+import type {Meta} from "@storybook/react-vite";
 
-import {Icon} from "@iconify/react";
 import {Box, Flex, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
 import React from "react";
 
 import {Separator} from "../separator";
@@ -236,7 +236,13 @@ const FallbackTemplate = () => {
       </Avatar>
       {/* Custom styled fallback */}
       <Avatar>
-        <Avatar.Fallback borderWidth="0" bgGradient="to-br" gradientFrom="pink.500" gradientTo="purple.500" color="white">
+        <Avatar.Fallback
+          bgGradient="to-br"
+          borderWidth="0"
+          color="white"
+          gradientFrom="pink.500"
+          gradientTo="purple.500"
+        >
           GB
         </Avatar.Fallback>
       </Avatar>
@@ -247,7 +253,11 @@ const FallbackTemplate = () => {
 const AvatarGroupTemplate = () => {
   return (
     <Flex direction="column" gap="4">
-      <Flex align="center" justify="center" css={{"& > *:not(:first-child)": {marginLeft: "-0.5rem"}}}>
+      <Flex
+        align="center"
+        css={{"& > *:not(:first-child)": {marginLeft: "-0.5rem"}}}
+        justify="center"
+      >
         {users.map((user) => (
           <Avatar key={user.id} className="ring-2 ring-background">
             <Avatar.Image src={user.image_url} />
@@ -258,7 +268,11 @@ const AvatarGroupTemplate = () => {
           <Avatar.Fallback className="border-none">+5</Avatar.Fallback>
         </Avatar>
       </Flex>
-      <Flex align="center" justify="center" css={{"& > *:not(:first-child)": {marginLeft: "-0.5rem"}}}>
+      <Flex
+        align="center"
+        css={{"& > *:not(:first-child)": {marginLeft: "-0.5rem"}}}
+        justify="center"
+      >
         {circles.map((circle) => (
           <Avatar key={circle.id} className="ring-2 ring-background">
             <Avatar.Image src={circle.image_url} />
@@ -338,10 +352,12 @@ const VariantsTemplate = (props: AvatarRootProps) => {
     <Flex direction="column" gap="4">
       {/* Color labels header */}
       <Flex align="center" gap="3">
-        <Box width="96px" flexShrink={0} />
+        <Box flexShrink={0} width="96px" />
         {colors.map((color) => (
-          <Flex key={color} width="80px" flexShrink={0} align="center" justify="center">
-            <Text fontSize="xs" color="fg.muted" textTransform="capitalize">{color}</Text>
+          <Flex key={color} align="center" flexShrink={0} justify="center" width="80px">
+            <Text color="fg.muted" fontSize="xs" textTransform="capitalize">
+              {color}
+            </Text>
           </Flex>
         ))}
       </Flex>
@@ -351,9 +367,11 @@ const VariantsTemplate = (props: AvatarRootProps) => {
       {/* Variant rows */}
       {variants.map((variant) => (
         <Flex key={variant.label} align="center" gap="3">
-          <Box width="96px" flexShrink={0} fontSize="sm" color="fg.muted">{variant.label}</Box>
+          <Box color="fg.muted" flexShrink={0} fontSize="sm" width="96px">
+            {variant.label}
+          </Box>
           {colors.map((color, colorIndex) => (
-            <Flex key={color} width="80px" flexShrink={0} align="center" justify="center">
+            <Flex key={color} align="center" flexShrink={0} justify="center" width="80px">
               <Avatar
                 {...props}
                 color={color}

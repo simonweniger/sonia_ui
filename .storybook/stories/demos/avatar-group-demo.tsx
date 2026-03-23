@@ -1,5 +1,6 @@
-import {Avatar} from "../../../src";
 import React from "react";
+
+import {Avatar} from "../../../src";
 
 const avatars = [
   {

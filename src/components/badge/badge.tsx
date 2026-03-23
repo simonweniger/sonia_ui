@@ -1,9 +1,9 @@
 "use client";
 
-import type {ComponentPropsWithRef} from "react";
 import type {SystemStyleObject} from "@chakra-ui/react";
+import type {ComponentPropsWithRef} from "react";
 
-import {Badge as ChakraBadge, Box} from "@chakra-ui/react";
+import {Box, Badge as ChakraBadge} from "@chakra-ui/react";
 import React from "react";
 
 /* -------------------------------------------------------------------------------------------------
@@ -12,10 +12,10 @@ import React from "react";
 type BadgePlacement = "top-right" | "top-left" | "bottom-right" | "bottom-left";
 
 const placementStyles: Record<string, SystemStyleObject> = {
-  "top-right": {position: "absolute", top: "0", right: "0", transform: "translate(25%, -25%)"},
-  "top-left": {position: "absolute", top: "0", left: "0", transform: "translate(-25%, -25%)"},
-  "bottom-right": {position: "absolute", right: "0", bottom: "0", transform: "translate(25%, 25%)"},
-  "bottom-left": {position: "absolute", bottom: "0", left: "0", transform: "translate(-25%, 25%)"},
+  "top-right": {position: "absolute", top: "0", right: "0", transform: "translate(35%, -35%)"},
+  "top-left": {position: "absolute", top: "0", left: "0", transform: "translate(-35%, -35%)"},
+  "bottom-right": {position: "absolute", right: "0", bottom: "0", transform: "translate(35%, 35%)"},
+  "bottom-left": {position: "absolute", bottom: "0", left: "0", transform: "translate(-35%, 35%)"},
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -27,7 +27,13 @@ interface BadgeAnchorProps extends ComponentPropsWithRef<typeof Box> {
 
 const BadgeAnchor = ({children, ...props}: BadgeAnchorProps) => {
   return (
-    <Box position="relative" display="inline-flex" flexShrink={0} data-slot="badge-anchor" {...props}>
+    <Box
+      data-slot="badge-anchor"
+      display="inline-flex"
+      flexShrink={0}
+      position="relative"
+      {...props}
+    >
       {children}
     </Box>
   );
@@ -54,28 +60,41 @@ const VARIANT_MAP: Record<string, RecipeBadgeVariant> = {
   soft: "subtle",
 };
 
-const BadgeRoot = ({children, placement, variant, ...props}: BadgeRootProps) => {
+const DOT_SIZES: Record<string, SystemStyleObject> = {
+  xs: {boxSize: "3", minH: "unset", minW: "unset", px: "0"},
+  sm: {boxSize: "4", minH: "unset", minW: "unset", px: "0"},
+  md: {boxSize: "5", minH: "unset", minW: "unset", px: "0"},
+  lg: {boxSize: "6", minH: "unset", minW: "unset", px: "0"},
+};
+
+const BadgeRoot = ({children, placement, size, variant = "solid", ...props}: BadgeRootProps) => {
+  const isDot = children == null || children === "" || children === false;
+
   const badgeChildren = React.useMemo(() => {
+    if (isDot) return null;
     if (typeof children === "string" || typeof children === "number") {
       return <BadgeLabel>{children}</BadgeLabel>;
     }
 
     return children;
-  }, [children]);
+  }, [children, isDot]);
 
-  const resolvedVariant = (typeof variant === "string" && VARIANT_MAP[variant])
-    ? VARIANT_MAP[variant]
-    : variant;
+  const resolvedVariant =
+    typeof variant === "string" && VARIANT_MAP[variant] ? VARIANT_MAP[variant] : variant;
 
-  const placementCss = placement && placementStyles[placement]
-    ? placementStyles[placement]
-    : undefined;
+  const resolvedPlacement = placement ?? (isDot ? "bottom-right" : "top-right");
+
+  const placementCss = placementStyles[resolvedPlacement] ?? undefined;
+
+  const sizeKey = (typeof size === "string" ? size : "sm") as string;
+  const dotCss = isDot ? (DOT_SIZES[sizeKey] ?? DOT_SIZES["sm"]) : undefined;
 
   return (
     <ChakraBadge
+      css={{...placementCss, ...dotCss}}
       data-slot="badge"
+      size={size}
       variant={resolvedVariant as RecipeBadgeVariant}
-      css={placementCss}
       {...props}
     >
       {badgeChildren}
@@ -90,7 +109,7 @@ interface BadgeLabelProps extends ComponentPropsWithRef<"span"> {}
 
 const BadgeLabel = ({children, ...props}: BadgeLabelProps) => {
   return (
-    <Box as="span" data-slot="badge-label" px="0.5" {...props}>
+    <Box as="span" data-slot="badge-label" {...props}>
       {children}
     </Box>
   );

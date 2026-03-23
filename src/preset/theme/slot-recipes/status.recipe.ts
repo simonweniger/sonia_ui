@@ -1,25 +1,25 @@
-import { statusAnatomy } from '@chakra-ui/react/anatomy'
-import { defineSlotRecipe } from '@chakra-ui/react/styled-system'
+import {statusAnatomy} from "@chakra-ui/react/anatomy";
+import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
 export const statusSlotRecipe = defineSlotRecipe({
-  className: 'chakra-status',
+  className: "chakra-status",
   slots: statusAnatomy.keys(),
 
   base: {
     root: {
-      colorPalette: 'gray',
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '2',
+      colorPalette: "gray",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: "2",
     },
 
     indicator: {
-      width: '0.64em',
-      height: '0.64em',
+      width: "0.64em",
+      height: "0.64em",
       flexShrink: 0,
-      borderRadius: 'full',
-      forcedColorAdjust: 'none',
-      bg: 'colorPalette.solid',
+      borderRadius: "full",
+      forcedColorAdjust: "none",
+      bg: "colorPalette.solid",
     },
   },
 
@@ -27,23 +27,23 @@ export const statusSlotRecipe = defineSlotRecipe({
     size: {
       sm: {
         root: {
-          textStyle: 'xs',
+          textStyle: "xs",
         },
       },
       md: {
         root: {
-          textStyle: 'sm',
+          textStyle: "sm",
         },
       },
       lg: {
         root: {
-          textStyle: 'md',
+          textStyle: "md",
         },
       },
     },
   },
 
   defaultVariants: {
-    size: 'md',
+    size: "md",
   },
-})
+});

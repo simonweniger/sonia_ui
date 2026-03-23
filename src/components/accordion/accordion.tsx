@@ -1,7 +1,7 @@
 "use client";
 
-import type {ComponentPropsWithRef} from "react";
 import type {SystemStyleObject} from "@chakra-ui/react";
+import type {ComponentPropsWithRef} from "react";
 
 import {Accordion as ChakraAccordion, chakra} from "@chakra-ui/react";
 import React from "react";
@@ -9,7 +9,10 @@ import React from "react";
 /* -------------------------------------------------------------------------------------------------
  * Accordion Root
  * -----------------------------------------------------------------------------------------------*/
-interface AccordionRootProps extends Omit<ComponentPropsWithRef<typeof ChakraAccordion.Root>, "variant"> {
+interface AccordionRootProps extends Omit<
+  ComponentPropsWithRef<typeof ChakraAccordion.Root>,
+  "variant"
+> {
   /** Visual variant */
   variant?: "default" | "surface";
 }
@@ -27,10 +30,10 @@ const AccordionRoot = ({children, variant = "default", ...props}: AccordionRootP
 
   return (
     <ChakraAccordion.Root
+      css={{contain: "layout style"}}
       data-slot="accordion"
       data-variant={variant}
       w="full"
-      css={{contain: "layout style"}}
       {...variantProps}
       {...props}
     >
@@ -49,8 +52,8 @@ interface AccordionItemProps extends ComponentPropsWithRef<typeof ChakraAccordio
 const AccordionItem = ({hideSeparator, ...props}: AccordionItemProps) => {
   return (
     <ChakraAccordion.Item
-      data-slot="accordion-item"
       data-hide-separator={hideSeparator ? "true" : undefined}
+      data-slot="accordion-item"
       css={{
         "&:not(:last-child)::after": {
           content: '""',
@@ -77,9 +80,10 @@ const AccordionItem = ({hideSeparator, ...props}: AccordionItemProps) => {
         "[data-variant='surface'] &:first-child [data-slot='accordion-trigger']": {
           borderTopRadius: "3xl",
         },
-        "[data-variant='surface'] &:last-child:not(:has([data-slot='accordion-trigger'][aria-expanded='true'])) [data-slot='accordion-trigger']": {
-          borderBottomRadius: "3xl",
-        },
+        "[data-variant='surface'] &:last-child:not(:has([data-slot='accordion-trigger'][aria-expanded='true'])) [data-slot='accordion-trigger']":
+          {
+            borderBottomRadius: "3xl",
+          },
       }}
       {...props}
     >
@@ -91,16 +95,18 @@ const AccordionItem = ({hideSeparator, ...props}: AccordionItemProps) => {
 /* -------------------------------------------------------------------------------------------------
  * AccordionIndicator
  * -----------------------------------------------------------------------------------------------*/
-interface AccordionIndicatorProps extends ComponentPropsWithRef<typeof ChakraAccordion.ItemIndicator> {}
+interface AccordionIndicatorProps extends ComponentPropsWithRef<
+  typeof ChakraAccordion.ItemIndicator
+> {}
 
 const AccordionIndicator = ({children, ...props}: AccordionIndicatorProps) => {
   return (
     <ChakraAccordion.ItemIndicator
-      data-slot="accordion-indicator"
-      ml="auto"
       boxSize="4"
-      flexShrink={0}
       color="fg.muted"
+      data-slot="accordion-indicator"
+      flexShrink={0}
+      ml="auto"
       transition="transform 0.25s"
       css={{
         "&[data-expanded='true']": {
@@ -144,15 +150,17 @@ const AccordionTrigger = ({...props}: AccordionTriggerProps) => {
           transition: "none",
         },
         "@media (hover: hover)": {
-          "&:hover:not([aria-expanded='true']), &[data-hovered='true']:not([aria-expanded='true'])": {
-            backgroundColor: "color-mix(in oklab, var(--colors-fg) 3%, transparent 90%)",
-          },
+          "&:hover:not([aria-expanded='true']), &[data-hovered='true']:not([aria-expanded='true'])":
+            {
+              backgroundColor: "color-mix(in oklab, var(--colors-fg) 3%, transparent 90%)",
+            },
         },
         "[data-variant='surface'] &": {
           "@media (hover: hover)": {
-            "&:hover:not([aria-expanded='true']), &[data-hovered='true']:not([aria-expanded='true'])": {
-              bg: "bg",
-            },
+            "&:hover:not([aria-expanded='true']), &[data-hovered='true']:not([aria-expanded='true'])":
+              {
+                bg: "bg",
+              },
           },
         },
       }}
@@ -170,10 +178,7 @@ interface AccordionBodyProps extends ComponentPropsWithRef<typeof ChakraAccordio
 
 const AccordionBody = ({children, ...props}: AccordionBodyProps) => {
   return (
-    <ChakraAccordion.ItemBody
-      data-slot="accordion-body"
-      {...props}
-    >
+    <ChakraAccordion.ItemBody data-slot="accordion-body" {...props}>
       {children}
     </ChakraAccordion.ItemBody>
   );

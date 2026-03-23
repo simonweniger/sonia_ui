@@ -1,9 +1,9 @@
 "use client";
 
-import type {ComponentPropsWithRef} from "react";
 import type {SystemStyleObject} from "@chakra-ui/react";
+import type {ComponentPropsWithRef} from "react";
 
-import {Alert as ChakraAlert, Box} from "@chakra-ui/react";
+import {Box, Alert as ChakraAlert} from "@chakra-ui/react";
 import React from "react";
 
 /* ------------------------------------------------------------------------------------------------
@@ -43,18 +43,18 @@ const AlertRoot = ({children, variant = "default", ...rest}: AlertRootProps) => 
   return (
     <AlertContext.Provider value={{variant}}>
       <ChakraAlert.Root
+        alignItems="flex-start"
+        bg="surface"
         data-slot="alert-root"
         display="flex"
-        w="full"
         flexDir="row"
-        alignItems="flex-start"
-        justifyContent="flex-start"
         gap="4"
-        rounded="3xl"
-        bg="surface"
+        justifyContent="flex-start"
         px="4"
         py="3"
+        rounded="3xl"
         shadow="surface"
+        w="full"
         {...rest}
       >
         {children}
@@ -74,9 +74,9 @@ const AlertIndicator = ({children, ...rest}: AlertIndicatorProps) => {
 
   return (
     <ChakraAlert.Indicator
+      alignItems="center"
       data-slot="alert-indicator"
       display="flex"
-      alignItems="center"
       justifyContent="center"
       p="1"
       userSelect="none"
@@ -103,12 +103,12 @@ type AlertContentProps = ComponentPropsWithRef<"div">;
 const AlertContent = ({children, ...rest}: AlertContentProps) => {
   return (
     <Box
+      alignItems="flex-start"
       data-slot="alert-content"
       display="flex"
-      h="full"
-      flexGrow={1}
       flexDir="column"
-      alignItems="flex-start"
+      flexGrow={1}
+      h="full"
       {...rest}
     >
       {children}
@@ -128,9 +128,9 @@ const AlertTitle = ({children, ...rest}: AlertTitleProps) => {
   return (
     <ChakraAlert.Title
       data-slot="alert-title"
-      textStyle="sm"
-      lineHeight="1.5rem"
       fontWeight="medium"
+      lineHeight="1.5rem"
+      textStyle="sm"
       {...variantProps}
       {...rest}
     >
@@ -147,9 +147,9 @@ type AlertDescriptionProps = ComponentPropsWithRef<typeof ChakraAlert.Descriptio
 const AlertDescription = ({children, ...rest}: AlertDescriptionProps) => {
   return (
     <ChakraAlert.Description
+      color="fg.muted"
       data-slot="alert-description"
       textStyle="sm"
-      color="fg.muted"
       {...rest}
     >
       {children}

@@ -1,5 +1,6 @@
-import {Button} from "../../../src";
 import React from "react";
+
+import {Button} from "../../../src";
 
 export const ButtonsDemo = () => {
   return (

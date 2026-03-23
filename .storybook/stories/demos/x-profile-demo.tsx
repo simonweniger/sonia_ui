@@ -1,5 +1,6 @@
-import {Avatar, Card} from "../../../src";
 import React from "react";
+
+import {Avatar, Card} from "../../../src";
 
 import {VerifiedBadgeIcon} from "./components/icons";
 

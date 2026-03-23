@@ -1,3 +1,4 @@
+// This file has been automatically migrated to valid ESM format by Storybook.
 import type {StorybookConfig} from "@storybook/react-vite";
 
 import {readFileSync as fsReadFileSync} from "fs";
@@ -12,16 +13,15 @@ const __dirname = dirname(__filename);
 export const getStories = () => {
   const __STORYBOOK_READY_ONLY__ = process.env.STORYBOOK_READY_ONLY === "true";
 
-  if (!__STORYBOOK_READY_ONLY__)
-    return [pathJoin(__dirname, "../src/**/*.stories.@(ts|tsx)")];
+  if (!__STORYBOOK_READY_ONLY__) return [pathJoin(__dirname, "../src/**/*.stories.@(ts|tsx)")];
 
-  const readyStories = globSync(
-    pathJoin(__dirname, "../src/**/*.stories.@(ts|tsx)"),
-  ).filter((file) => {
-    const content = fsReadFileSync(file, "utf-8");
+  const readyStories = globSync(pathJoin(__dirname, "../src/**/*.stories.@(ts|tsx)")).filter(
+    (file) => {
+      const content = fsReadFileSync(file, "utf-8");
 
-    return /title:\s*["']Components/.test(content);
-  });
+      return /title:\s*["']Components/.test(content);
+    },
+  );
 
   return readyStories;
 };

@@ -141,13 +141,7 @@ interface InputGroupRootProps extends Omit<ComponentPropsWithRef<"div">, "size">
   variant?: string;
 }
 
-const InputGroupRoot = ({
-  children,
-  fullWidth,
-  onClick,
-  variant,
-  ...props
-}: InputGroupRootProps) => {
+const InputGroupRoot = ({children, fullWidth, onClick, variant, ...props}: InputGroupRootProps) => {
   const textFieldContext = useContext(TextFieldContext);
   const resolvedVariant = variant ?? textFieldContext?.variant;
   const groupRef = React.useRef<HTMLDivElement>(null);
@@ -170,9 +164,9 @@ const InputGroupRoot = ({
       <Group
         {...props}
         ref={groupRef}
+        data-full-width={fullWidth || undefined}
         data-slot="input-group"
         data-variant={resolvedVariant}
-        data-full-width={fullWidth || undefined}
         {...groupBaseStyles}
         {...resolvedVariantStyles}
         width={fullWidth ? "100%" : undefined}

@@ -1,5 +1,6 @@
-import {Checkbox, Radio, RadioGroup, Spinner, Switch} from "../../../src";
 import React from "react";
+
+import {Checkbox, Radio, RadioGroup, Spinner, Switch} from "../../../src";
 
 export function UIComponentsDemo() {
   return (

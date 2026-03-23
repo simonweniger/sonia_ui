@@ -11,7 +11,10 @@ import React from "react";
  * No direct Ark UI equivalent exists for time-only input.
  * This uses a native time input styled with Chakra UI.
  * -----------------------------------------------------------------------------------------------*/
-interface TimeFieldRootProps extends Omit<ComponentPropsWithRef<"div">, "onChange" | "defaultValue"> {
+interface TimeFieldRootProps extends Omit<
+  ComponentPropsWithRef<"div">,
+  "onChange" | "defaultValue"
+> {
   fullWidth?: boolean;
   isRequired?: boolean;
   isDisabled?: boolean;
@@ -27,16 +30,16 @@ interface TimeFieldRootProps extends Omit<ComponentPropsWithRef<"div">, "onChang
 function TimeFieldRoot({
   children,
   className,
+  defaultValue,
   fullWidth,
-  isRequired,
+  granularity = "minute",
+  hourCycle,
   isDisabled,
   isReadOnly,
-  value,
-  defaultValue,
-  onChange,
-  hourCycle,
-  granularity = "minute",
+  isRequired,
   name,
+  onChange,
+  value,
   ...props
 }: TimeFieldRootProps) {
   const [internalValue, setInternalValue] = React.useState(defaultValue ?? "");
@@ -45,6 +48,7 @@ function TimeFieldRoot({
   const handleChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
+
       setInternalValue(newValue);
       onChange?.(newValue);
     },
@@ -56,9 +60,9 @@ function TimeFieldRoot({
 
   return (
     <Box
+      className={className}
       data-required={isRequired ? "true" : undefined}
       data-slot="time-field"
-      className={className}
       display="flex"
       flexDirection="column"
       gap="1"
@@ -67,15 +71,15 @@ function TimeFieldRoot({
     >
       {children || (
         <Input
-          type="time"
-          name={name}
-          value={controlledValue}
-          onChange={handleChange}
           disabled={isDisabled}
+          name={name}
           readOnly={isReadOnly}
           required={isRequired}
           step={step}
+          type="time"
+          value={controlledValue}
           width={fullWidth ? "100%" : undefined}
+          onChange={handleChange}
         />
       )}
     </Box>

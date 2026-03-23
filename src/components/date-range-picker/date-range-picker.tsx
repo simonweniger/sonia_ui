@@ -29,8 +29,8 @@ interface DateRangePickerRootProps extends ComponentPropsWithRef<typeof ArkDateP
 const DateRangePickerRoot = ({
   children,
   className,
-  onOpenChange,
   isRequired,
+  onOpenChange,
   ...props
 }: DateRangePickerRootProps) => {
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -74,13 +74,13 @@ const DateRangePickerRoot = ({
         selectionMode="range"
         {...props}
         className={className}
-        onOpenChange={handleOpenChange}
         style={{
           display: "inline-flex",
           flexDirection: "column",
           gap: "0.25rem",
           ...props.style,
         }}
+        onOpenChange={handleOpenChange}
       >
         {children}
       </ArkDatePicker.Root>
@@ -152,16 +152,16 @@ const DateRangePickerTriggerIndicator = ({
 }: DateRangePickerTriggerIndicatorProps) => {
   return (
     <Box
-      as="span"
+      alignItems="center"
       aria-hidden="true"
+      as="span"
       className={className}
+      color="fg.muted"
       data-slot="date-range-picker-trigger-indicator"
       display="inline-flex"
-      w="4"
       h="4"
-      alignItems="center"
       justifyContent="center"
-      color="fg.muted"
+      w="4"
       {...props}
     >
       {children || <IconCalendar />}
@@ -183,12 +183,12 @@ const DateRangePickerRangeSeparator = ({
 }: DateRangePickerRangeSeparatorProps) => {
   return (
     <Box
-      as="span"
       aria-hidden="true"
+      as="span"
       className={className}
+      color="fg.muted"
       data-slot="date-range-picker-range-separator"
       px="1"
-      color="fg.muted"
       userSelect="none"
       {...props}
     >

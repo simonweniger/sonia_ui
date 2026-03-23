@@ -37,7 +37,15 @@ export type Popover = {
 /* -------------------------------------------------------------------------------------------------
  * Named Component
  * -----------------------------------------------------------------------------------------------*/
-export {PopoverArrow, PopoverBody, PopoverCloseTrigger, PopoverContent, PopoverHeading, PopoverRoot, PopoverTrigger};
+export {
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseTrigger,
+  PopoverContent,
+  PopoverHeading,
+  PopoverRoot,
+  PopoverTrigger,
+};
 
 export type {
   PopoverRootProps,

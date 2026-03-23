@@ -63,9 +63,10 @@ const slotVariantStyles = {
 /* -------------------------------------------------------------------------------------------------
  * Input OTP Root
  * -----------------------------------------------------------------------------------------------*/
-interface InputOTPRootProps
-  extends
-    Omit<ComponentPropsWithRef<typeof OTPInput>, "disabled" | "containerClassName" | "render"> {
+interface InputOTPRootProps extends Omit<
+  ComponentPropsWithRef<typeof OTPInput>,
+  "disabled" | "containerClassName" | "render"
+> {
   isDisabled?: boolean;
   isInvalid?: boolean;
   validationErrors?: string[];
@@ -109,10 +110,10 @@ interface InputOTPGroupProps extends ComponentPropsWithRef<"div"> {}
 const InputOTPGroup = ({className, ...props}: InputOTPGroupProps) => {
   return (
     <Box
+      alignItems="center"
       className={className}
       data-slot="input-otp-group"
       display="inline-flex"
-      alignItems="center"
       gap="2"
       {...props}
     />
@@ -171,24 +172,19 @@ const InputOTPSlot = ({className, index, ...props}: InputOTPSlotProps) => {
         : {})}
     >
       {char ? (
-        <Box
-          data-slot="input-otp-slot-value"
-          fontSize="lg"
-          lineHeight="6"
-          letterSpacing="-0.27px"
-        >
+        <Box data-slot="input-otp-slot-value" fontSize="lg" letterSpacing="-0.27px" lineHeight="6">
           {char}
         </Box>
       ) : null}
       {hasFakeCaret && isActive ? (
         <Box
-          data-slot="input-otp-caret"
-          position="absolute"
-          height="4"
-          width="2px"
-          rounded="sm"
-          bg="fg.muted"
           animation="blink 1s step-end infinite"
+          bg="fg.muted"
+          data-slot="input-otp-caret"
+          height="4"
+          position="absolute"
+          rounded="sm"
+          width="2px"
         />
       ) : null}
     </Box>
@@ -205,13 +201,13 @@ interface InputOTPSeparatorProps extends ComponentPropsWithRef<"div"> {
 const InputOTPSeparator = ({className, ...props}: InputOTPSeparatorProps) => {
   return (
     <Box
+      bg="border"
       className={className}
       data-slot="input-otp-separator"
-      height="2px"
-      width="6px"
       flexShrink={0}
+      height="2px"
       rounded="sm"
-      bg="border"
+      width="6px"
       {...props}
     />
   );

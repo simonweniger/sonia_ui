@@ -1,6 +1,6 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
-import {Box, chakra, Flex, Text} from "@chakra-ui/react";
+import {Box, Flex, Text, chakra} from "@chakra-ui/react";
 import React from "react";
 
 import {Separator} from "./index";
@@ -26,11 +26,15 @@ export const Default: Story = {
   render: () => (
     <Box maxW="md">
       <Box spaceY="1">
-        <Box as="h4" fontSize="md" fontWeight="medium">Sonia UI Components</Box>
-        <Text fontSize="sm" color="fg.muted">Beautiful, fast and modern React UI library.</Text>
+        <Box as="h4" fontSize="md" fontWeight="medium">
+          Sonia UI Components
+        </Box>
+        <Text color="fg.muted" fontSize="sm">
+          Beautiful, fast and modern React UI library.
+        </Text>
       </Box>
       <Separator my="4" />
-      <Flex fontSize="sm" height="5" align="center" spaceX="4">
+      <Flex align="center" fontSize="sm" height="5" spaceX="4">
         <div>Blog</div>
         <Separator orientation="vertical" />
         <div>Docs</div>
@@ -43,7 +47,7 @@ export const Default: Story = {
 
 export const Vertical: Story = {
   render: () => (
-    <Flex fontSize="sm" height="5" align="center" spaceX="4">
+    <Flex align="center" fontSize="sm" height="5" spaceX="4">
       <div>Blog</div>
       <Separator orientation="vertical" />
       <div>Docs</div>
@@ -74,14 +78,18 @@ const items = [
 
 export const WithContent: Story = {
   render: () => (
-    <Box maxW="md" spaceY="4" rounded="3xl" bg="surface" p="4" shadow="surface">
+    <Box bg="surface" maxW="md" p="4" rounded="3xl" shadow="surface" spaceY="4">
       {items.map((item, index) => (
         <div key={index}>
           <Flex align="center" gap="3">
             <chakra.img alt={item.title} boxSize="12" src={item.iconUrl} />
             <Box flex="1" spaceY="0">
-              <Box as="h4" fontSize="sm" fontWeight="medium">{item.title}</Box>
-              <Text fontSize="sm" color="fg.muted">{item.subtitle}</Text>
+              <Box as="h4" fontSize="sm" fontWeight="medium">
+                {item.title}
+              </Box>
+              <Text color="fg.muted" fontSize="sm">
+                {item.subtitle}
+              </Text>
             </Box>
           </Flex>
           {index < items.length - 1 && <Separator my="4" />}

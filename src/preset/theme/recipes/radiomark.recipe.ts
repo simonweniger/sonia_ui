@@ -1,106 +1,106 @@
-import { defineRecipe } from '@chakra-ui/react/styled-system'
+import {defineRecipe} from "@chakra-ui/react/styled-system";
 
 export const radiomarkRecipe = defineRecipe({
-  className: 'chakra-radiomark',
+  className: "chakra-radiomark",
   base: {
-    colorPalette: 'accent',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    colorPalette: "accent",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
     flexShrink: 0,
-    verticalAlign: 'top',
-    color: 'white',
-    borderWidth: '1px',
-    borderColor: 'transparent',
-    borderRadius: 'full',
-    cursor: 'radio',
+    verticalAlign: "top",
+    color: "white",
+    borderWidth: "1px",
+    borderColor: "transparent",
+    borderRadius: "full",
+    cursor: "radio",
     _focusVisible: {
-      focusVisibleRing: 'outside',
+      focusVisibleRing: "outside",
     },
     _invalid: {
-      colorPalette: 'red',
-      borderColor: 'red.500',
+      colorPalette: "red",
+      borderColor: "red.500",
     },
     _disabled: {
-      opacity: '0.5',
-      cursor: 'disabled',
+      opacity: "0.5",
+      cursor: "disabled",
     },
 
-    '& .dot': {
-      height: '100%',
-      width: '100%',
-      borderRadius: 'full',
-      bg: 'currentColor',
-      scale: '0.4',
+    "& .dot": {
+      height: "100%",
+      width: "100%",
+      borderRadius: "full",
+      bg: "currentColor",
+      scale: "0.4",
     },
   },
 
   variants: {
     variant: {
       solid: {
-        borderWidth: '1px',
-        borderColor: 'border',
+        borderWidth: "1px",
+        borderColor: "border",
         _checked: {
-          bg: 'colorPalette.solid',
-          color: 'colorPalette.contrast',
-          borderColor: 'colorPalette.solid',
+          bg: "colorPalette.solid",
+          color: "colorPalette.contrast",
+          borderColor: "colorPalette.solid",
         },
       },
 
       subtle: {
-        borderWidth: '1px',
-        bg: 'colorPalette.muted',
-        borderColor: 'colorPalette.muted',
-        color: 'transparent',
+        borderWidth: "1px",
+        bg: "colorPalette.muted",
+        borderColor: "colorPalette.muted",
+        color: "transparent",
         _checked: {
-          color: 'colorPalette.fg',
+          color: "colorPalette.fg",
         },
       },
 
       outline: {
-        borderWidth: '1px',
-        borderColor: 'inherit',
+        borderWidth: "1px",
+        borderColor: "inherit",
         _checked: {
-          color: 'colorPalette.fg',
-          borderColor: 'colorPalette.solid',
+          color: "colorPalette.fg",
+          borderColor: "colorPalette.solid",
         },
-        '& .dot': {
-          scale: '0.6',
+        "& .dot": {
+          scale: "0.6",
         },
       },
 
       inverted: {
-        bg: 'bg',
-        borderWidth: '1px',
-        borderColor: 'inherit',
+        bg: "bg",
+        borderWidth: "1px",
+        borderColor: "inherit",
         _checked: {
-          color: 'colorPalette.solid',
-          borderColor: 'currentcolor',
+          color: "colorPalette.solid",
+          borderColor: "currentcolor",
         },
       },
     },
 
     size: {
       xs: {
-        boxSize: '3',
+        boxSize: "3",
       },
 
       sm: {
-        boxSize: '3.5',
+        boxSize: "3.5",
       },
 
       md: {
-        boxSize: '4',
+        boxSize: "4",
       },
 
       lg: {
-        boxSize: '5',
+        boxSize: "5",
       },
     },
   },
 
   defaultVariants: {
-    variant: 'solid',
-    size: 'md',
+    variant: "solid",
+    size: "md",
   },
-})
+});

@@ -1,9 +1,10 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {DateValue as ArkDateValue} from "@ark-ui/react/date-picker";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
-import {type DateValue as ArkDateValue} from "@ark-ui/react/date-picker";
+import {parseDate as arkParseDate} from "@ark-ui/react/date-picker";
 import {Flex} from "@chakra-ui/react";
 import {Icon} from "@iconify/react";
-import {today, getLocalTimeZone} from "@internationalized/date";
+import {getLocalTimeZone, today} from "@internationalized/date";
 import React, {useState} from "react";
 
 import {Button} from "../button";
@@ -12,9 +13,6 @@ import {Form} from "../form";
 import {Label} from "../label";
 
 import {DateField} from "./index";
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const arkParseDate: (iso: string) => ArkDateValue = require("@ark-ui/react/date-picker").parseDate;
 
 const meta: Meta<typeof DateField> = {
   component: DateField,
@@ -30,7 +28,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: () => (
-    <DateField style={{width: "256px"}} name="date">
+    <DateField name="date" style={{width: "256px"}}>
       <Label>Date</Label>
       <DateField.Group>
         <DateField.Input />
@@ -41,7 +39,7 @@ export const Default: Story = {
 
 export const FullWidth: Story = {
   render: () => (
-    <Flex direction="column" w="400px" gap="4">
+    <Flex direction="column" gap="4" w="400px">
       <DateField fullWidth name="date">
         <Label>Date</Label>
         <DateField.Group>
@@ -52,11 +50,17 @@ export const FullWidth: Story = {
         <Label>Date</Label>
         <DateField.Group>
           <DateField.Prefix>
-            <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:calendar" />
+            <Icon
+              icon="gravity-ui:calendar"
+              style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+            />
           </DateField.Prefix>
           <DateField.Input />
           <DateField.Suffix>
-            <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:chevron-down" />
+            <Icon
+              icon="gravity-ui:chevron-down"
+              style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+            />
           </DateField.Suffix>
         </DateField.Group>
       </DateField>
@@ -67,14 +71,14 @@ export const FullWidth: Story = {
 export const WithDescription: Story = {
   render: () => (
     <Flex direction="column" gap="4">
-      <DateField style={{width: "256px"}} name="date">
+      <DateField name="date" style={{width: "256px"}}>
         <Label>Birth date</Label>
         <DateField.Group>
           <DateField.Input />
         </DateField.Group>
         <Description>Enter your date of birth</Description>
       </DateField>
-      <DateField style={{width: "256px"}} name="appointment-date">
+      <DateField name="appointment-date" style={{width: "256px"}}>
         <Label>Appointment date</Label>
         <DateField.Group>
           <DateField.Input />
@@ -88,13 +92,13 @@ export const WithDescription: Story = {
 export const Required: Story = {
   render: () => (
     <Flex direction="column" gap="4">
-      <DateField isRequired style={{width: "256px"}} name="date">
+      <DateField isRequired name="date" style={{width: "256px"}}>
         <Label>Date</Label>
         <DateField.Group>
           <DateField.Input />
         </DateField.Group>
       </DateField>
-      <DateField isRequired style={{width: "256px"}} name="start-date">
+      <DateField isRequired name="start-date" style={{width: "256px"}}>
         <Label>Start date</Label>
         <DateField.Group>
           <DateField.Input />
@@ -110,9 +114,9 @@ export const Disabled: Story = {
     <Flex direction="column" gap="4">
       <DateField
         disabled
-        style={{width: "256px"}}
-        name="date"
         defaultValue={[arkParseDate(today(getLocalTimeZone()).toString())]}
+        name="date"
+        style={{width: "256px"}}
       >
         <Label>Date</Label>
         <DateField.Group>
@@ -120,7 +124,7 @@ export const Disabled: Story = {
         </DateField.Group>
         <Description>This date field is disabled</Description>
       </DateField>
-      <DateField disabled style={{width: "256px"}} name="date-empty">
+      <DateField disabled name="date-empty" style={{width: "256px"}}>
         <Label>Date</Label>
         <DateField.Group>
           <DateField.Input />
@@ -138,8 +142,8 @@ export const Controlled: Story = {
     return (
       <Flex direction="column" gap="4">
         <DateField
-          style={{width: "256px"}}
           name="date"
+          style={{width: "256px"}}
           value={value}
           onValueChange={(details) => setValue(details.value)}
         >
@@ -154,9 +158,7 @@ export const Controlled: Story = {
         <Flex gap="2">
           <Button
             variant="ghost"
-            onClick={() =>
-              setValue([arkParseDate(today(getLocalTimeZone()).toString())])
-            }
+            onClick={() => setValue([arkParseDate(today(getLocalTimeZone()).toString())])}
           >
             Set today
           </Button>
@@ -171,11 +173,14 @@ export const Controlled: Story = {
 
 export const WithPrefixIcon: Story = {
   render: () => (
-    <DateField style={{width: "256px"}} name="date">
+    <DateField name="date" style={{width: "256px"}}>
       <Label>Date</Label>
       <DateField.Group>
         <DateField.Prefix>
-          <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:calendar" />
+          <Icon
+            icon="gravity-ui:calendar"
+            style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+          />
         </DateField.Prefix>
         <DateField.Input />
       </DateField.Group>
@@ -185,12 +190,15 @@ export const WithPrefixIcon: Story = {
 
 export const WithSuffixIcon: Story = {
   render: () => (
-    <DateField style={{width: "256px"}} name="date">
+    <DateField name="date" style={{width: "256px"}}>
       <Label>Date</Label>
       <DateField.Group>
         <DateField.Input />
         <DateField.Suffix>
-          <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:calendar" />
+          <Icon
+            icon="gravity-ui:calendar"
+            style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+          />
         </DateField.Suffix>
       </DateField.Group>
     </DateField>
@@ -199,15 +207,21 @@ export const WithSuffixIcon: Story = {
 
 export const WithPrefixAndSuffix: Story = {
   render: () => (
-    <DateField style={{width: "256px"}} name="date">
+    <DateField name="date" style={{width: "256px"}}>
       <Label>Date</Label>
       <DateField.Group>
         <DateField.Prefix>
-          <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:calendar" />
+          <Icon
+            icon="gravity-ui:calendar"
+            style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+          />
         </DateField.Prefix>
         <DateField.Input />
         <DateField.Suffix>
-          <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:chevron-down" />
+          <Icon
+            icon="gravity-ui:chevron-down"
+            style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+          />
         </DateField.Suffix>
       </DateField.Group>
       <Description>Enter a date</Description>
@@ -239,27 +253,33 @@ export const FormExample: Story = {
     };
 
     return (
-      <Form style={{display: "flex", width: "280px", flexDirection: "column", gap: "16px"}} onSubmit={handleSubmit}>
+      <Form
+        style={{display: "flex", width: "280px", flexDirection: "column", gap: "16px"}}
+        onSubmit={handleSubmit}
+      >
         <DateField
           isRequired
-          style={{width: "100%"}}
           name="date"
+          style={{width: "100%"}}
           value={value}
           onValueChange={(details) => setValue(details.value)}
         >
           <Label>Appointment date</Label>
           <DateField.Group>
             <DateField.Prefix>
-              <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:calendar" />
+              <Icon
+                icon="gravity-ui:calendar"
+                style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+              />
             </DateField.Prefix>
             <DateField.Input />
           </DateField.Group>
           <Description>Enter a date from today onwards</Description>
         </DateField>
         <Button
-          style={{width: "100%"}}
           isDisabled={value.length === 0}
           loading={isSubmitting}
+          style={{width: "100%"}}
           type="submit"
         >
           {isSubmitting ? "Submitting..." : "Submit"}
@@ -273,37 +293,49 @@ export const AllVariations: Story = {
   render: () => (
     <Flex direction="column" gap="6">
       <Flex direction="column" gap="4">
-        <DateField isRequired style={{width: "256px"}} name="date1">
+        <DateField isRequired name="date1" style={{width: "256px"}}>
           <Label>Date</Label>
           <DateField.Group>
             <DateField.Prefix>
-              <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:calendar" />
+              <Icon
+                icon="gravity-ui:calendar"
+                style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+              />
             </DateField.Prefix>
             <DateField.Input />
           </DateField.Group>
           <Description>Enter a date</Description>
         </DateField>
 
-        <DateField isRequired style={{width: "256px"}} name="date2">
+        <DateField isRequired name="date2" style={{width: "256px"}}>
           <Label>Date</Label>
           <DateField.Group>
             <DateField.Input />
             <DateField.Suffix>
-              <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:calendar" />
+              <Icon
+                icon="gravity-ui:calendar"
+                style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+              />
             </DateField.Suffix>
           </DateField.Group>
           <Description>Enter a date</Description>
         </DateField>
 
-        <DateField isRequired style={{width: "256px"}} name="date3">
+        <DateField isRequired name="date3" style={{width: "256px"}}>
           <Label>Date</Label>
           <DateField.Group>
             <DateField.Prefix>
-              <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:calendar" />
+              <Icon
+                icon="gravity-ui:calendar"
+                style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+              />
             </DateField.Prefix>
             <DateField.Input />
             <DateField.Suffix>
-              <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:chevron-down" />
+              <Icon
+                icon="gravity-ui:chevron-down"
+                style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+              />
             </DateField.Suffix>
           </DateField.Group>
           <Description>Enter a date</Description>

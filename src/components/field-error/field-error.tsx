@@ -12,17 +12,16 @@ interface FieldErrorRootProps extends ComponentPropsWithRef<typeof Field.ErrorTe
 const FieldErrorRoot = ({children, ...props}: FieldErrorRootProps) => {
   return (
     <Field.ErrorText
-      data-slot="field-error"
-      h="0"
-      px="1"
-      fontSize="xs"
-      overflowWrap="break-word"
       color="fg.error"
+      data-slot="field-error"
+      fontSize="xs"
+      h="0"
       opacity={0}
+      overflowWrap="break-word"
+      px="1"
       css={{
         "&[data-visible='true']": {height: "auto", opacity: 1},
-        transition:
-          "opacity 150ms ease-out, height 350ms ease",
+        transition: "opacity 150ms ease-out, height 350ms ease",
       }}
       {...props}
     >

@@ -1,9 +1,8 @@
-import type {Meta} from "@storybook/react";
-
-import {Icon} from "@iconify/react";
-import React, {useState} from "react";
+import type {Meta} from "@storybook/react-vite";
 
 import {Flex, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
+import React, {useState} from "react";
 
 import {Button} from "../button";
 
@@ -34,8 +33,8 @@ export const Default = () => {
         </AlertDialog.Header>
         <AlertDialog.Body>
           <Text>
-            This will permanently delete <strong>My Awesome Project</strong> and all of its
-            data. This action cannot be undone.
+            This will permanently delete <strong>My Awesome Project</strong> and all of its data.
+            This action cannot be undone.
           </Text>
         </AlertDialog.Body>
         <AlertDialog.Footer>
@@ -121,9 +120,7 @@ export const Statuses = () => {
                 <Button variant="ghost">{actions.cancel}</Button>
               </AlertDialog.CloseTrigger>
               <AlertDialog.CloseTrigger>
-                <Button variant={status === "danger" ? "solid" : "solid"}>
-                  {actions.confirm}
-                </Button>
+                <Button variant={status === "danger" ? "solid" : "solid"}>{actions.confirm}</Button>
               </AlertDialog.CloseTrigger>
             </AlertDialog.Footer>
           </AlertDialog.Content>
@@ -134,10 +131,12 @@ export const Statuses = () => {
 };
 
 export const DismissBehavior = () => (
-  <Flex maxW="sm" direction="column" gap="6">
+  <Flex direction="column" gap="6" maxW="sm">
     <Flex direction="column" gap="2">
-      <Text as="h3" fontSize="lg" fontWeight="semibold">closeOnInteractOutside</Text>
-      <Text fontSize="sm" color="fg.muted">
+      <Text as="h3" fontSize="lg" fontWeight="semibold">
+        closeOnInteractOutside
+      </Text>
+      <Text color="fg.muted" fontSize="sm">
         Controls whether the alert dialog can be dismissed by clicking the overlay backdrop. Alert
         dialogs typically require explicit action, so this defaults to <code>false</code>. Set to{" "}
         <code>true</code> for less critical confirmations.
@@ -151,17 +150,17 @@ export const DismissBehavior = () => (
           <AlertDialog.CloseTrigger />
           <AlertDialog.Header>
             <AlertDialog.Icon status="danger">
-              <Icon style={{width: "20px", height: "20px"}} icon="gravity-ui:circle-info" />
+              <Icon icon="gravity-ui:circle-info" style={{width: "20px", height: "20px"}} />
             </AlertDialog.Icon>
             <AlertDialog.Heading>closeOnInteractOutside = false</AlertDialog.Heading>
-            <Text fontSize="sm" lineHeight="5" color="fg.muted">
+            <Text color="fg.muted" fontSize="sm" lineHeight="5">
               Clicking the backdrop won't close this alert dialog
             </Text>
           </AlertDialog.Header>
           <AlertDialog.Body>
             <Text>
-              Try clicking outside this alert dialog on the overlay - it won't close. You must
-              use the action buttons to dismiss it.
+              Try clicking outside this alert dialog on the overlay - it won't close. You must use
+              the action buttons to dismiss it.
             </Text>
           </AlertDialog.Body>
           <AlertDialog.Footer>
@@ -177,8 +176,10 @@ export const DismissBehavior = () => (
     </Flex>
 
     <Flex direction="column" gap="2">
-      <Text as="h3" fontSize="lg" fontWeight="semibold">closeOnEscape</Text>
-      <Text fontSize="sm" color="fg.muted">
+      <Text as="h3" fontSize="lg" fontWeight="semibold">
+        closeOnEscape
+      </Text>
+      <Text color="fg.muted" fontSize="sm">
         Controls whether the ESC key can dismiss the alert dialog. Alert dialogs typically require
         explicit action. When set to <code>false</code>, the ESC key will be disabled.
       </Text>
@@ -191,10 +192,12 @@ export const DismissBehavior = () => (
           <AlertDialog.CloseTrigger />
           <AlertDialog.Header>
             <AlertDialog.Icon status="accent">
-              <Icon style={{width: "20px", height: "20px"}} icon="gravity-ui:circle-info" />
+              <Icon icon="gravity-ui:circle-info" style={{width: "20px", height: "20px"}} />
             </AlertDialog.Icon>
             <AlertDialog.Heading>closeOnEscape = false</AlertDialog.Heading>
-            <Text fontSize="sm" lineHeight="5" color="fg.muted">ESC key is disabled</Text>
+            <Text color="fg.muted" fontSize="sm" lineHeight="5">
+              ESC key is disabled
+            </Text>
           </AlertDialog.Header>
           <AlertDialog.Body>
             <Text>
@@ -220,10 +223,12 @@ export const CloseMethods = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Flex maxW="2xl" direction="column" gap="8">
+    <Flex direction="column" gap="8" maxW="2xl">
       <Flex direction="column" gap="2">
-        <Text as="h3" fontSize="lg" fontWeight="semibold">Using CloseTrigger</Text>
-        <Text fontSize="sm" color="fg.muted">
+        <Text as="h3" fontSize="lg" fontWeight="semibold">
+          Using CloseTrigger
+        </Text>
+        <Text color="fg.muted" fontSize="sm">
           The simplest way to close a dialog. Wrap any Button component with{" "}
           <code>AlertDialog.CloseTrigger</code>. When clicked, it will automatically close the
           dialog.
@@ -257,8 +262,10 @@ export const CloseMethods = () => {
       </Flex>
 
       <Flex direction="column" gap="2">
-        <Text as="h3" fontSize="lg" fontWeight="semibold">Using controlled state</Text>
-        <Text fontSize="sm" color="fg.muted">
+        <Text as="h3" fontSize="lg" fontWeight="semibold">
+          Using controlled state
+        </Text>
+        <Text color="fg.muted" fontSize="sm">
           Control the dialog with <code>open</code> and <code>onOpenChange</code> props. This gives
           you full control over when and how to close the dialog, allowing you to add custom logic
           before closing.
@@ -296,18 +303,28 @@ export const Controlled = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <Flex maxW="md" direction="column" gap="8">
+    <Flex direction="column" gap="8" maxW="md">
       <Flex direction="column" gap="3">
-        <Text as="h3" fontSize="lg" fontWeight="semibold" color="fg">With React.useState()</Text>
-        <Text fontSize="sm" lineHeight="relaxed" textWrap="pretty" color="fg.muted">
-          Control the alert dialog using React's <code>useState</code>{" "}
-          hook for simple state management. Perfect for basic use cases.
+        <Text as="h3" color="fg" fontSize="lg" fontWeight="semibold">
+          With React.useState()
         </Text>
-        <Flex direction="column" alignItems="flex-start" gap="3" rounded="2xl" bg="surface" p="4" shadow="sm">
-          <Flex width="full" align="center" justify="space-between">
-            <Text fontSize="xs" color="fg.muted">
+        <Text color="fg.muted" fontSize="sm" lineHeight="relaxed" textWrap="pretty">
+          Control the alert dialog using React's <code>useState</code> hook for simple state
+          management. Perfect for basic use cases.
+        </Text>
+        <Flex
+          alignItems="flex-start"
+          bg="surface"
+          direction="column"
+          gap="3"
+          p="4"
+          rounded="2xl"
+          shadow="sm"
+        >
+          <Flex align="center" justify="space-between" width="full">
+            <Text color="fg.muted" fontSize="xs">
               Status:{" "}
-              <Text as="span" fontFamily="mono" fontWeight="medium" color="fg">
+              <Text as="span" color="fg" fontFamily="mono" fontWeight="medium">
                 {isOpen ? "open" : "closed"}
               </Text>
             </Text>
@@ -353,13 +370,35 @@ export const Controlled = () => {
 export const CustomTrigger = () => (
   <AlertDialog>
     <AlertDialog.Trigger>
-      <Flex align="center" gap="3" rounded="2xl" bg="surface" p="4" shadow="xs" userSelect="none" cursor="pointer" _hover={{bg: "surface.secondary"}}>
-        <Flex boxSize="12" flexShrink={0} align="center" justify="center" rounded="xl" bg="danger.soft" color="danger.soft.foreground">
-          <Icon style={{width: "24px", height: "24px"}} icon="gravity-ui:trash-bin" />
+      <Flex
+        _hover={{bg: "surface.secondary"}}
+        align="center"
+        bg="surface"
+        cursor="pointer"
+        gap="3"
+        p="4"
+        rounded="2xl"
+        shadow="xs"
+        userSelect="none"
+      >
+        <Flex
+          align="center"
+          bg="danger.soft"
+          boxSize="12"
+          color="danger.soft.foreground"
+          flexShrink={0}
+          justify="center"
+          rounded="xl"
+        >
+          <Icon icon="gravity-ui:trash-bin" style={{width: "24px", height: "24px"}} />
         </Flex>
-        <Flex flex="1" direction="column" gap="0.5">
-          <Text fontSize="sm" fontWeight="semibold">Delete Item</Text>
-          <Text fontSize="xs" color="fg.muted">Permanently remove this item</Text>
+        <Flex direction="column" flex="1" gap="0.5">
+          <Text fontSize="sm" fontWeight="semibold">
+            Delete Item
+          </Text>
+          <Text color="fg.muted" fontSize="xs">
+            Permanently remove this item
+          </Text>
         </Flex>
       </Flex>
     </AlertDialog.Trigger>
@@ -368,7 +407,7 @@ export const CustomTrigger = () => (
       <AlertDialog.CloseTrigger />
       <AlertDialog.Header>
         <AlertDialog.Icon status="danger">
-          <Icon style={{width: "20px", height: "20px"}} icon="gravity-ui:trash-bin" />
+          <Icon icon="gravity-ui:trash-bin" style={{width: "20px", height: "20px"}} />
         </AlertDialog.Icon>
         <AlertDialog.Heading>Delete this item?</AlertDialog.Heading>
       </AlertDialog.Header>
@@ -400,7 +439,7 @@ export const CustomIcon = () => (
       <AlertDialog.CloseTrigger />
       <AlertDialog.Header>
         <AlertDialog.Icon status="warning">
-          <Icon style={{width: "20px", height: "20px"}} icon="gravity-ui:lock-open" />
+          <Icon icon="gravity-ui:lock-open" style={{width: "20px", height: "20px"}} />
         </AlertDialog.Icon>
         <AlertDialog.Heading>Reset your password?</AlertDialog.Heading>
       </AlertDialog.Header>

@@ -1,6 +1,7 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {DateValue as ArkDateValue} from "@ark-ui/react/date-picker";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
-import {DatePicker as ArkDatePicker, type DateValue as ArkDateValue} from "@ark-ui/react/date-picker";
+import {DatePicker as ArkDatePicker} from "@ark-ui/react/date-picker";
 import {Flex} from "@chakra-ui/react";
 import {Icon} from "@iconify/react";
 import React, {useState} from "react";
@@ -88,7 +89,7 @@ const DatePickerField = ({showDescription = false}: {showDescription?: boolean})
 
 export const Default: Story = {
   render: () => (
-    <DatePicker style={{width: "280px"}} name="date">
+    <DatePicker name="date" style={{width: "280px"}}>
       <DatePickerField />
     </DatePicker>
   ),
@@ -99,12 +100,8 @@ export const Controlled: Story = {
     const [value, setValue] = useState<ArkDateValue[]>([]);
 
     return (
-      <Flex w="64" direction="column" gap="2">
-        <DatePicker
-          name="date"
-          value={value}
-          onValueChange={(details) => setValue(details.value)}
-        >
+      <Flex direction="column" gap="2" w="64">
+        <DatePicker name="date" value={value} onValueChange={(details) => setValue(details.value)}>
           <DatePickerField showDescription />
         </DatePicker>
         <Description>
@@ -117,7 +114,7 @@ export const Controlled: Story = {
 
 export const Disabled: Story = {
   render: () => (
-    <DatePicker disabled style={{width: "256px"}} name="date">
+    <DatePicker disabled name="date" style={{width: "256px"}}>
       <DatePickerField />
     </DatePicker>
   ),
@@ -125,14 +122,14 @@ export const Disabled: Story = {
 
 export const WithCustomIndicator: Story = {
   render: () => (
-    <DatePicker style={{width: "256px"}} name="date">
+    <DatePicker name="date" style={{width: "256px"}}>
       <Label>Date</Label>
       <DateField.Group>
         <DateField.Input />
         <DateField.Suffix>
           <DatePicker.Trigger>
             <DatePicker.TriggerIndicator>
-              <Icon style={{width: "16px", height: "16px"}} icon="gravity-ui:chevron-down" />
+              <Icon icon="gravity-ui:chevron-down" style={{width: "16px", height: "16px"}} />
             </DatePicker.TriggerIndicator>
           </DatePicker.Trigger>
         </DateField.Suffix>
@@ -163,7 +160,10 @@ export const FormExample: Story = {
     };
 
     return (
-      <Form style={{display: "flex", width: "256px", flexDirection: "column", gap: "12px"}} onSubmit={handleSubmit}>
+      <Form
+        style={{display: "flex", width: "256px", flexDirection: "column", gap: "12px"}}
+        onSubmit={handleSubmit}
+      >
         <DatePicker
           isRequired
           name="appointmentDate"
@@ -185,9 +185,9 @@ export const FormExample: Story = {
           </DatePicker.Popover>
         </DatePicker>
         <Button
-          style={{width: "100%"}}
           isDisabled={value.length === 0}
           loading={isSubmitting}
+          style={{width: "100%"}}
           type="submit"
         >
           {isSubmitting ? "Submitting..." : "Submit"}

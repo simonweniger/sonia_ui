@@ -1,9 +1,8 @@
-import type {Meta} from "@storybook/react";
-
-import {Icon} from "@iconify/react";
-import React from "react";
+import type {Meta} from "@storybook/react-vite";
 
 import {Box, Flex, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
+import React from "react";
 
 import {Avatar} from "../avatar";
 import {Button} from "../button";
@@ -93,8 +92,12 @@ const TemplateWithCustomContent = (props: Popover["ContentProps"]) => {
               <Avatar.Fallback>Z</Avatar.Fallback>
             </Avatar>
             <Flex direction="column" gap="0">
-              <Text fontSize="sm" lineHeight="5" fontWeight="medium">Zoe</Text>
-              <Text fontSize="xs" lineHeight="none" color="fg.muted">zoe@heroui.com</Text>
+              <Text fontSize="sm" fontWeight="medium" lineHeight="5">
+                Zoe
+              </Text>
+              <Text color="fg.muted" fontSize="xs" lineHeight="none">
+                zoe@sonia.so
+              </Text>
             </Flex>
           </Flex>
         </Popover.Trigger>
@@ -111,17 +114,25 @@ const TemplateWithCustomContent = (props: Popover["ContentProps"]) => {
                       />
                       <Avatar.Fallback>Z</Avatar.Fallback>
                     </Avatar>
-                    <Flex height="full" direction="column" alignItems="flex-start" justify="center">
-                      <Text fontSize="sm" fontWeight="medium">Zoey Lang</Text>
-                      <Text fontSize="sm" lineHeight="4" fontWeight="normal" letterSpacing="tight" color="fg.muted">
+                    <Flex alignItems="flex-start" direction="column" height="full" justify="center">
+                      <Text fontSize="sm" fontWeight="medium">
+                        Zoey Lang
+                      </Text>
+                      <Text
+                        color="fg.muted"
+                        fontSize="sm"
+                        fontWeight="normal"
+                        letterSpacing="tight"
+                        lineHeight="4"
+                      >
                         @zoe
                       </Text>
                     </Flex>
                   </Flex>
                   <Button
-                    rounded="full"
                     fontSize="xs"
                     fontWeight="normal"
+                    rounded="full"
                     size="sm"
                     variant={isFollowing ? "ghost" : "solid"}
                     onClick={() => setIsFollowing(!isFollowing)}
@@ -131,7 +142,7 @@ const TemplateWithCustomContent = (props: Popover["ContentProps"]) => {
                 </Flex>
               </Popover.Heading>
               <Box>
-                <Text pl="px" fontSize="sm">
+                <Text fontSize="sm" pl="px">
                   Design Engineer, @hero_ui lover she/her. SF Bay Area&nbsp;
                   <span aria-label="confetti" role="img">
                     🎉
@@ -140,12 +151,20 @@ const TemplateWithCustomContent = (props: Popover["ContentProps"]) => {
               </Box>
               <Flex gap="3">
                 <Flex gap="1">
-                  <Text fontSize="sm" fontWeight="semibold">4</Text>
-                  <Text fontSize="sm" color="fg.muted">Following</Text>
+                  <Text fontSize="sm" fontWeight="semibold">
+                    4
+                  </Text>
+                  <Text color="fg.muted" fontSize="sm">
+                    Following
+                  </Text>
                 </Flex>
                 <Flex gap="1">
-                  <Text fontSize="sm" fontWeight="semibold">97.1K</Text>
-                  <Text fontSize="sm" color="fg.muted">Followers</Text>
+                  <Text fontSize="sm" fontWeight="semibold">
+                    97.1K
+                  </Text>
+                  <Text color="fg.muted" fontSize="sm">
+                    Followers
+                  </Text>
                 </Flex>
               </Flex>
             </Flex>
@@ -172,9 +191,11 @@ export const WithCustomContent = {
 };
 
 const SpringAnimationTemplate = (props: Popover["ContentProps"]) => (
-  <Flex direction="column" align="center" gap="8" p="8">
-    <Text as="h1" fontSize="xl" fontWeight="semibold">Popover with Spring Animation</Text>
-    <Text fontSize="sm" color="fg.muted">
+  <Flex align="center" direction="column" gap="8" p="8">
+    <Text as="h1" fontSize="xl" fontWeight="semibold">
+      Popover with Spring Animation
+    </Text>
+    <Text color="fg.muted" fontSize="sm">
       The popover now uses a spring easing function for a more dynamic feel
     </Text>
 
@@ -190,18 +211,20 @@ const SpringAnimationTemplate = (props: Popover["ContentProps"]) => (
           <Popover.Arrow />
           <Popover.Body>
             <Popover.Heading>Spring Animation 🎉</Popover.Heading>
-            <Text mt="2" fontSize="sm" color="fg.muted">
+            <Text color="fg.muted" fontSize="sm" mt="2">
               Notice the subtle bounce effect when the popover appears and disappears.
             </Text>
-            <Text mt="4" fontSize="xs" color="fg.muted">Easing: cubic-bezier(0.36, 1.66, 0.04, 1)</Text>
+            <Text color="fg.muted" fontSize="xs" mt="4">
+              Easing: cubic-bezier(0.36, 1.66, 0.04, 1)
+            </Text>
           </Popover.Body>
         </Popover.Content>
       </Popover>
     </Flex>
 
-    <Box spaceY="1" textAlign="center" fontSize="xs" color="fg.muted">
+    <Box color="fg.muted" fontSize="xs" spaceY="1" textAlign="center">
       <Text>Animation classes applied:</Text>
-      <Box as="code" rounded="md" bg="surface" px="2" py="1" fontSize="xs">
+      <Box as="code" bg="surface" fontSize="xs" px="2" py="1" rounded="md">
         data-[entering]:animate-in data-[entering]:zoom-in-90 data-[entering]:fade-in-0
         data-[entering]:ease-spring data-[entering]:duration-600
       </Box>
@@ -222,14 +245,17 @@ const CardWithHelptextTemplate = (props: Popover["ContentProps"]) => (
         <Popover>
           <Popover.Trigger aria-label="Help information">
             <Button isIconOnly aria-label="Help" size="sm" variant="ghost">
-              <Icon style={{color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:circle-info" />
+              <Icon
+                icon="gravity-ui:circle-info"
+                style={{color: "var(--chakra-colors-fg-muted)"}}
+              />
             </Button>
           </Popover.Trigger>
           <Popover.Content {...props} maxW="200px">
             <Popover.Arrow />
             <Popover.Body>
               <Popover.Heading>Help Information</Popover.Heading>
-              <Text fontSize="sm" color="fg.muted">
+              <Text color="fg.muted" fontSize="sm">
                 This is a helptext popover that appears on top of the card surface. It provides
                 additional context or information about the card title.
               </Text>

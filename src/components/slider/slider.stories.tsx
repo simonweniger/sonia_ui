@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Box} from "@chakra-ui/react";
 import React from "react";
@@ -16,7 +16,7 @@ const meta: Meta<typeof Slider> = {
   component: Slider,
   decorators: [
     (Story) => (
-      <Box w="96" p="8">
+      <Box p="8" w="96">
         <Story />
       </Box>
     ),
@@ -64,7 +64,7 @@ export const Disabled: Story = {
 export const WithSteps: Story = {
   render: (args) => {
     return (
-      <Slider defaultValue={[40]} min={0} max={100} step={10} {...args}>
+      <Slider defaultValue={[40]} max={100} min={0} step={10} {...args}>
         <Label>Brightness</Label>
         <Slider.Output />
         <Slider.Track>
@@ -80,13 +80,7 @@ export const WithSteps: Story = {
 export const Range: Story = {
   render: (args) => {
     return (
-      <Slider
-        defaultValue={[100, 500]}
-        max={1000}
-        min={0}
-        step={50}
-        {...args}
-      >
+      <Slider defaultValue={[100, 500]} max={1000} min={0} step={50} {...args}>
         <Label>Price Range</Label>
         <Slider.Output />
         <Slider.Track>

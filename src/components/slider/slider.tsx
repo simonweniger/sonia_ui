@@ -140,9 +140,9 @@ const SliderFill = ({style, ...props}: SliderFillProps) => {
 
         return (
           <chakra.div
-            data-slot="slider-fill"
             bg="accent"
             borderRadius="full"
+            data-slot="slider-fill"
             pointerEvents="none"
             style={{...fillStyle, ...style}}
             {...props}
@@ -198,15 +198,15 @@ const SliderSteps = ({count, ...props}: SliderStepsProps) => {
           marks.push(
             <chakra.div
               key={i}
+              bg={isFilled ? "accent.fg" : "fg"}
+              borderRadius="full"
+              height="30%"
+              opacity={isFilled ? 0.4 : 0.12}
               position="absolute"
+              style={{left: `${pct}%`}}
               top="50%"
               transform="translate(-50%, -50%)"
               width="1.5px"
-              height="30%"
-              borderRadius="full"
-              bg={isFilled ? "accent.fg" : "fg"}
-              opacity={isFilled ? 0.4 : 0.12}
-              style={{left: `${pct}%`}}
             />,
           );
         }
@@ -214,9 +214,9 @@ const SliderSteps = ({count, ...props}: SliderStepsProps) => {
         return (
           <chakra.div
             data-slot="slider-steps"
-            position="absolute"
             inset="0"
             pointerEvents="none"
+            position="absolute"
             zIndex="1"
             {...props}
           >

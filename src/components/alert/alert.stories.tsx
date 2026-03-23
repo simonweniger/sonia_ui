@@ -1,6 +1,5 @@
-import React from "react";
-
 import {Box, Grid} from "@chakra-ui/react";
+import React from "react";
 
 import {Button} from "../button";
 import {CloseButton} from "../close-button";
@@ -20,7 +19,7 @@ export default {
 const defaultArgs = {};
 
 const Template = () => (
-  <Grid width="full" maxW="xl" gap="4">
+  <Grid gap="4" maxW="xl" width="full">
     {/* Default - General information */}
     <Alert>
       <Alert.Indicator />
@@ -94,7 +93,14 @@ const Template = () => (
         <Alert.Title>Unable to connect to server</Alert.Title>
         <Alert.Description>
           We're experiencing connection issues. Please try the following:
-          <Box as="ul" mt="2" listStylePosition="inside" listStyleType="disc" spaceY="1" fontSize="sm">
+          <Box
+            as="ul"
+            fontSize="sm"
+            listStylePosition="inside"
+            listStyleType="disc"
+            mt="2"
+            spaceY="1"
+          >
             <li>Check your internet connection</li>
             <li>Refresh the page</li>
             <li>Clear your browser cache</li>

@@ -1,8 +1,8 @@
 import type {CloseButtonProps} from "./index";
-import type {Meta} from "@storybook/react";
+import type {Meta} from "@storybook/react-vite";
 
-import {Icon} from "@iconify/react";
 import {Flex, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
 import React, {useState} from "react";
 
 import {CloseButton} from "./index";
@@ -42,14 +42,16 @@ const InteractiveTemplate = (args: CloseButtonProps) => {
   const [count, setCount] = useState(0);
 
   return (
-    <Flex direction="column" align="center" justify="center" gap="4">
+    <Flex align="center" direction="column" gap="4" justify="center">
       <CloseButton
         {...args}
         aria-label={`Close (clicked ${count} times)`}
         onClick={() => setCount(count + 1)}
       />
 
-      <Text as="span" fontSize="sm">Clicked: {count} times</Text>
+      <Text as="span" fontSize="sm">
+        Clicked: {count} times
+      </Text>
     </Flex>
   );
 };

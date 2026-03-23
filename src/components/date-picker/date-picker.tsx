@@ -29,8 +29,8 @@ interface DatePickerRootProps extends ComponentPropsWithRef<typeof ArkDatePicker
 const DatePickerRoot = ({
   children,
   className,
-  onOpenChange,
   isRequired,
+  onOpenChange,
   ...props
 }: DatePickerRootProps) => {
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -73,13 +73,13 @@ const DatePickerRoot = ({
         data-slot="date-picker"
         {...props}
         className={className}
-        onOpenChange={handleOpenChange}
         style={{
           display: "inline-flex",
           flexDirection: "column",
           gap: "0.25rem",
           ...props.style,
         }}
+        onOpenChange={handleOpenChange}
       >
         {children}
       </ArkDatePicker.Root>
@@ -148,16 +148,16 @@ const DatePickerTriggerIndicator = ({
 }: DatePickerTriggerIndicatorProps) => {
   return (
     <Box
-      as="span"
+      alignItems="center"
       aria-hidden="true"
+      as="span"
       className={className}
+      color="fg.muted"
       data-slot="date-picker-trigger-indicator"
       display="inline-flex"
-      w="4"
       h="4"
-      alignItems="center"
       justifyContent="center"
-      color="fg.muted"
+      w="4"
       {...props}
     >
       {children || <IconCalendar />}

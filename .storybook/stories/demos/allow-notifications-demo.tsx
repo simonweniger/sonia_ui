@@ -1,5 +1,6 @@
-import {Description, Label, Switch} from "../../../src";
 import React from "react";
+
+import {Description, Label, Switch} from "../../../src";
 
 export function AllowNotificationsDemo() {
   return (

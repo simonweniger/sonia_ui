@@ -28,12 +28,12 @@ interface TextFieldRootProps extends ComponentPropsWithRef<typeof Field.Root> {
   name?: string;
 }
 
-const TextFieldRoot = ({children, variant, fullWidth, ...props}: TextFieldRootProps) => {
+const TextFieldRoot = ({children, fullWidth, variant, ...props}: TextFieldRootProps) => {
   return (
     <TextFieldContext value={{variant}}>
       <Field.Root
-        data-slot="textfield"
         data-full-width={fullWidth || undefined}
+        data-slot="textfield"
         display="flex"
         flexDirection="column"
         gap="1"

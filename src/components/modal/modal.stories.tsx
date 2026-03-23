@@ -1,9 +1,8 @@
-import type {Meta} from "@storybook/react";
-
-import {Icon} from "@iconify/react";
-import React, {useState} from "react";
+import type {Meta} from "@storybook/react-vite";
 
 import {Flex, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
+import React, {useState} from "react";
 
 import {Button} from "../button";
 import {Input} from "../input";
@@ -38,8 +37,10 @@ export const Default = () => {
         <Modal.Content maxW={{sm: "360px"}}>
           <Modal.CloseTrigger />
           <Modal.Header>
-            <Modal.Icon style={{backgroundColor: "var(--chakra-colors-bg)", color: "var(--chakra-colors-fg)"}}>
-              <Icon style={{width: "20px", height: "20px"}} icon="gravity-ui:rocket" />
+            <Modal.Icon
+              style={{backgroundColor: "var(--chakra-colors-bg)", color: "var(--chakra-colors-fg)"}}
+            >
+              <Icon icon="gravity-ui:rocket" style={{width: "20px", height: "20px"}} />
             </Modal.Icon>
             <Modal.Heading>Welcome to HeroUI</Modal.Heading>
           </Modal.Header>
@@ -71,33 +72,39 @@ export const Sizes = () => {
           <Button variant="outline" onClick={() => setOpenSize(size)}>
             {size.charAt(0).toUpperCase() + size.slice(1)}
           </Button>
-          <Modal open={openSize === size} onOpenChange={(e) => !e.open && setOpenSize(null)} size={size}>
+          <Modal
+            open={openSize === size}
+            size={size}
+            onOpenChange={(e) => !e.open && setOpenSize(null)}
+          >
             <Modal.Backdrop />
             <Modal.Content>
               <Modal.CloseTrigger />
               <Modal.Header>
-                <Modal.Icon style={{backgroundColor: "var(--chakra-colors-bg)", color: "var(--chakra-colors-fg)"}}>
-                  <Icon style={{width: "20px", height: "20px"}} icon="gravity-ui:rocket" />
+                <Modal.Icon
+                  style={{
+                    backgroundColor: "var(--chakra-colors-bg)",
+                    color: "var(--chakra-colors-fg)",
+                  }}
+                >
+                  <Icon icon="gravity-ui:rocket" style={{width: "20px", height: "20px"}} />
                 </Modal.Icon>
-                <Modal.Heading>
-                  Size: {size.charAt(0).toUpperCase() + size.slice(1)}
-                </Modal.Heading>
+                <Modal.Heading>Size: {size.charAt(0).toUpperCase() + size.slice(1)}</Modal.Heading>
               </Modal.Header>
               <Modal.Body>
                 <Text>
                   {size === "cover" ? (
                     <>
-                      This modal uses the <code>cover</code> size variant. It spans the full
-                      screen with margins: 16px on mobile and 40px on desktop. Maintains rounded
-                      corners and standard padding. Perfect for cover-style content that needs
-                      maximum width while preserving modal aesthetics.
+                      This modal uses the <code>cover</code> size variant. It spans the full screen
+                      with margins: 16px on mobile and 40px on desktop. Maintains rounded corners
+                      and standard padding. Perfect for cover-style content that needs maximum width
+                      while preserving modal aesthetics.
                     </>
                   ) : size === "full" ? (
                     <>
                       This modal uses the <code>full</code> size variant. It occupies the entire
                       viewport without any margins, rounded corners, or shadows, creating a true
-                      fullscreen experience. Ideal for immersive content or full-page
-                      interactions.
+                      fullscreen experience. Ideal for immersive content or full-page interactions.
                     </>
                   ) : (
                     <>
@@ -123,10 +130,12 @@ export const Sizes = () => {
 };
 
 export const DismissBehavior = () => (
-  <Flex maxW="sm" direction="column" gap="6">
+  <Flex direction="column" gap="6" maxW="sm">
     <Flex direction="column" gap="2">
-      <Text as="h3" fontSize="lg" fontWeight="semibold">closeOnInteractOutside</Text>
-      <Text fontSize="sm" color="fg.muted">
+      <Text as="h3" fontSize="lg" fontWeight="semibold">
+        closeOnInteractOutside
+      </Text>
+      <Text color="fg.muted" fontSize="sm">
         Controls whether the modal can be dismissed by clicking the overlay backdrop. Defaults to{" "}
         <code>true</code>. Set to <code>false</code> to require explicit close action.
       </Text>
@@ -138,11 +147,13 @@ export const DismissBehavior = () => (
         <Modal.Content maxW={{sm: "360px"}}>
           <Modal.CloseTrigger />
           <Modal.Header>
-            <Modal.Icon style={{backgroundColor: "var(--chakra-colors-bg)", color: "var(--chakra-colors-fg)"}}>
-              <Icon style={{width: "20px", height: "20px"}} icon="gravity-ui:circle-info" />
+            <Modal.Icon
+              style={{backgroundColor: "var(--chakra-colors-bg)", color: "var(--chakra-colors-fg)"}}
+            >
+              <Icon icon="gravity-ui:circle-info" style={{width: "20px", height: "20px"}} />
             </Modal.Icon>
             <Modal.Heading>closeOnInteractOutside = false</Modal.Heading>
-            <Text fontSize="sm" lineHeight="5" color="fg.muted">
+            <Text color="fg.muted" fontSize="sm" lineHeight="5">
               Clicking the backdrop won't close this modal
             </Text>
           </Modal.Header>
@@ -162,8 +173,10 @@ export const DismissBehavior = () => (
     </Flex>
 
     <Flex direction="column" gap="2">
-      <Text as="h3" fontSize="lg" fontWeight="semibold">closeOnEscape</Text>
-      <Text fontSize="sm" color="fg.muted">
+      <Text as="h3" fontSize="lg" fontWeight="semibold">
+        closeOnEscape
+      </Text>
+      <Text color="fg.muted" fontSize="sm">
         Controls whether the ESC key can dismiss the modal. When set to <code>false</code>, the ESC
         key will be disabled and users must use explicit close actions.
       </Text>
@@ -175,11 +188,15 @@ export const DismissBehavior = () => (
         <Modal.Content maxW={{sm: "360px"}}>
           <Modal.CloseTrigger />
           <Modal.Header>
-            <Modal.Icon style={{backgroundColor: "var(--chakra-colors-bg)", color: "var(--chakra-colors-fg)"}}>
-              <Icon style={{width: "20px", height: "20px"}} icon="gravity-ui:circle-info" />
+            <Modal.Icon
+              style={{backgroundColor: "var(--chakra-colors-bg)", color: "var(--chakra-colors-fg)"}}
+            >
+              <Icon icon="gravity-ui:circle-info" style={{width: "20px", height: "20px"}} />
             </Modal.Icon>
             <Modal.Heading>closeOnEscape = false</Modal.Heading>
-            <Text fontSize="sm" lineHeight="5" color="fg.muted">ESC key is disabled</Text>
+            <Text color="fg.muted" fontSize="sm" lineHeight="5">
+              ESC key is disabled
+            </Text>
           </Modal.Header>
           <Modal.Body>
             <Text>
@@ -202,10 +219,12 @@ export const CloseMethods = () => {
   const [open2, setOpen2] = useState(false);
 
   return (
-    <Flex maxW="2xl" direction="column" gap="8">
+    <Flex direction="column" gap="8" maxW="2xl">
       <Flex direction="column" gap="2">
-        <Text as="h3" fontSize="lg" fontWeight="semibold">Using CloseTrigger</Text>
-        <Text fontSize="sm" color="fg.muted">
+        <Text as="h3" fontSize="lg" fontWeight="semibold">
+          Using CloseTrigger
+        </Text>
+        <Text color="fg.muted" fontSize="sm">
           The simplest way to close a modal. Wrap any Button component with{" "}
           <code>Modal.CloseTrigger</code>. When clicked, it will automatically close the modal.
         </Text>
@@ -216,8 +235,13 @@ export const CloseMethods = () => {
           <Modal.Backdrop />
           <Modal.Content maxW={{sm: "360px"}}>
             <Modal.Header>
-              <Modal.Icon style={{backgroundColor: "var(--chakra-colors-accent-soft)", color: "var(--chakra-colors-accent-soft-foreground)"}}>
-                <Icon style={{width: "20px", height: "20px"}} icon="gravity-ui:circle-info" />
+              <Modal.Icon
+                style={{
+                  backgroundColor: "var(--chakra-colors-accent-soft)",
+                  color: "var(--chakra-colors-accent-soft-foreground)",
+                }}
+              >
+                <Icon icon="gravity-ui:circle-info" style={{width: "20px", height: "20px"}} />
               </Modal.Icon>
               <Modal.Heading>Using CloseTrigger</Modal.Heading>
             </Modal.Header>
@@ -240,8 +264,10 @@ export const CloseMethods = () => {
       </Flex>
 
       <Flex direction="column" gap="2">
-        <Text as="h3" fontSize="lg" fontWeight="semibold">Using controlled state</Text>
-        <Text fontSize="sm" color="fg.muted">
+        <Text as="h3" fontSize="lg" fontWeight="semibold">
+          Using controlled state
+        </Text>
+        <Text color="fg.muted" fontSize="sm">
           Control the modal with <code>open</code> and <code>onOpenChange</code> props. This gives
           you full control over when and how to close the modal, allowing you to add custom logic
           before closing.
@@ -253,8 +279,13 @@ export const CloseMethods = () => {
           <Modal.Backdrop />
           <Modal.Content maxW={{sm: "360px"}}>
             <Modal.Header>
-              <Modal.Icon style={{backgroundColor: "var(--chakra-colors-success-soft)", color: "var(--chakra-colors-success-soft-foreground)"}}>
-                <Icon style={{width: "20px", height: "20px"}} icon="gravity-ui:circle-check" />
+              <Modal.Icon
+                style={{
+                  backgroundColor: "var(--chakra-colors-success-soft)",
+                  color: "var(--chakra-colors-success-soft-foreground)",
+                }}
+              >
+                <Icon icon="gravity-ui:circle-check" style={{width: "20px", height: "20px"}} />
               </Modal.Icon>
               <Modal.Heading>Using controlled state</Modal.Heading>
             </Modal.Header>
@@ -313,17 +344,17 @@ export const ScrollComparison = () => {
             <Modal.Heading>
               Scroll: {scroll.charAt(0).toUpperCase() + scroll.slice(1)}
             </Modal.Heading>
-            <Text fontSize="sm" lineHeight="5" color="fg.muted">
-              Compare scroll behaviors - inside keeps content scrollable within the modal,
-              outside allows page scrolling
+            <Text color="fg.muted" fontSize="sm" lineHeight="5">
+              Compare scroll behaviors - inside keeps content scrollable within the modal, outside
+              allows page scrolling
             </Text>
           </Modal.Header>
           <Modal.Body>
             {Array.from({length: 30}).map((_, i) => (
               <Text key={i} mb="3">
-                Paragraph {i + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
-                hendrerit risus, sed porttitor quam.
+                Paragraph {i + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+                pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus,
+                sed porttitor quam.
               </Text>
             ))}
           </Modal.Body>
@@ -346,18 +377,28 @@ export const Controlled = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <Flex maxW="md" direction="column" gap="8">
+    <Flex direction="column" gap="8" maxW="md">
       <Flex direction="column" gap="3">
-        <Text as="h3" fontSize="lg" fontWeight="semibold" color="fg">With React.useState()</Text>
-        <Text fontSize="sm" lineHeight="relaxed" textWrap="pretty" color="fg.muted">
-          Control the modal using React's <code>useState</code> hook for
-          simple state management. Perfect for basic use cases.
+        <Text as="h3" color="fg" fontSize="lg" fontWeight="semibold">
+          With React.useState()
         </Text>
-        <Flex direction="column" alignItems="flex-start" gap="3" rounded="2xl" bg="surface" p="4" shadow="sm">
-          <Flex width="full" align="center" justify="space-between">
-            <Text fontSize="xs" color="fg.muted">
+        <Text color="fg.muted" fontSize="sm" lineHeight="relaxed" textWrap="pretty">
+          Control the modal using React's <code>useState</code> hook for simple state management.
+          Perfect for basic use cases.
+        </Text>
+        <Flex
+          alignItems="flex-start"
+          bg="surface"
+          direction="column"
+          gap="3"
+          p="4"
+          rounded="2xl"
+          shadow="sm"
+        >
+          <Flex align="center" justify="space-between" width="full">
+            <Text color="fg.muted" fontSize="xs">
               Status:{" "}
-              <Text as="span" fontFamily="mono" fontWeight="medium" color="fg">
+              <Text as="span" color="fg" fontFamily="mono" fontWeight="medium">
                 {isOpen ? "open" : "closed"}
               </Text>
             </Text>
@@ -377,8 +418,13 @@ export const Controlled = () => {
           <Modal.Content maxW={{sm: "360px"}}>
             <Modal.CloseTrigger />
             <Modal.Header>
-              <Modal.Icon style={{backgroundColor: "var(--chakra-colors-accent-soft)", color: "var(--chakra-colors-accent-soft-foreground)"}}>
-                <Icon style={{width: "20px", height: "20px"}} icon="gravity-ui:circle-check" />
+              <Modal.Icon
+                style={{
+                  backgroundColor: "var(--chakra-colors-accent-soft)",
+                  color: "var(--chakra-colors-accent-soft-foreground)",
+                }}
+              >
+                <Icon icon="gravity-ui:circle-check" style={{width: "20px", height: "20px"}} />
               </Modal.Icon>
               <Modal.Heading>Controlled with useState()</Modal.Heading>
             </Modal.Header>
@@ -411,13 +457,18 @@ export const WithForm = () => (
     <Modal.Content maxW={{sm: "md"}}>
       <Modal.CloseTrigger />
       <Modal.Header>
-        <Modal.Icon style={{backgroundColor: "var(--chakra-colors-accent-soft)", color: "var(--chakra-colors-accent-soft-foreground)"}}>
-          <Icon style={{width: "20px", height: "20px"}} icon="gravity-ui:envelope" />
+        <Modal.Icon
+          style={{
+            backgroundColor: "var(--chakra-colors-accent-soft)",
+            color: "var(--chakra-colors-accent-soft-foreground)",
+          }}
+        >
+          <Icon icon="gravity-ui:envelope" style={{width: "20px", height: "20px"}} />
         </Modal.Icon>
         <Modal.Heading>Contact Us</Modal.Heading>
-        <Text mt="1.5" fontSize="sm" lineHeight="5" color="fg.muted">
-          Fill out the form below and we'll get back to you. The modal adapts automatically when
-          the keyboard appears on mobile.
+        <Text color="fg.muted" fontSize="sm" lineHeight="5" mt="1.5">
+          Fill out the form below and we'll get back to you. The modal adapts automatically when the
+          keyboard appears on mobile.
         </Text>
       </Modal.Header>
       <Modal.Body p="6">
@@ -429,11 +480,11 @@ export const WithForm = () => (
             </TextField>
             <TextField width="full">
               <Label>Email</Label>
-              <Input name="email" type="email" placeholder="Enter your email" />
+              <Input name="email" placeholder="Enter your email" type="email" />
             </TextField>
             <TextField width="full">
               <Label>Phone</Label>
-              <Input name="phone" type="tel" placeholder="Enter your phone number" />
+              <Input name="phone" placeholder="Enter your phone number" type="tel" />
             </TextField>
             <TextField width="full">
               <Label>Company</Label>
@@ -461,13 +512,35 @@ export const WithForm = () => (
 export const CustomTrigger = () => (
   <Modal>
     <Modal.Trigger>
-      <Flex align="center" gap="3" rounded="2xl" bg="surface" p="4" shadow="xs" userSelect="none" cursor="pointer" _hover={{bg: "surface.secondary"}}>
-        <Flex boxSize="12" flexShrink={0} align="center" justify="center" rounded="xl" bg="accent.soft" color="accent.soft.foreground">
-          <Icon style={{width: "24px", height: "24px"}} icon="gravity-ui:gear" />
+      <Flex
+        _hover={{bg: "surface.secondary"}}
+        align="center"
+        bg="surface"
+        cursor="pointer"
+        gap="3"
+        p="4"
+        rounded="2xl"
+        shadow="xs"
+        userSelect="none"
+      >
+        <Flex
+          align="center"
+          bg="accent.soft"
+          boxSize="12"
+          color="accent.soft.foreground"
+          flexShrink={0}
+          justify="center"
+          rounded="xl"
+        >
+          <Icon icon="gravity-ui:gear" style={{width: "24px", height: "24px"}} />
         </Flex>
-        <Flex flex="1" direction="column" gap="0.5">
-          <Text fontSize="sm" fontWeight="semibold">Settings</Text>
-          <Text fontSize="xs" color="fg.muted">Manage your preferences</Text>
+        <Flex direction="column" flex="1" gap="0.5">
+          <Text fontSize="sm" fontWeight="semibold">
+            Settings
+          </Text>
+          <Text color="fg.muted" fontSize="xs">
+            Manage your preferences
+          </Text>
         </Flex>
       </Flex>
     </Modal.Trigger>
@@ -475,15 +548,20 @@ export const CustomTrigger = () => (
     <Modal.Content maxW={{sm: "360px"}}>
       <Modal.CloseTrigger />
       <Modal.Header>
-        <Modal.Icon style={{backgroundColor: "var(--chakra-colors-accent-soft)", color: "var(--chakra-colors-accent-soft-foreground)"}}>
-          <Icon style={{width: "20px", height: "20px"}} icon="gravity-ui:gear" />
+        <Modal.Icon
+          style={{
+            backgroundColor: "var(--chakra-colors-accent-soft)",
+            color: "var(--chakra-colors-accent-soft-foreground)",
+          }}
+        >
+          <Icon icon="gravity-ui:gear" style={{width: "20px", height: "20px"}} />
         </Modal.Icon>
         <Modal.Heading>Settings</Modal.Heading>
       </Modal.Header>
       <Modal.Body>
         <Text>
-          Use <code>Modal.Trigger</code> to create custom trigger elements beyond standard
-          buttons. This example shows a card-style trigger with icons and descriptive text.
+          Use <code>Modal.Trigger</code> to create custom trigger elements beyond standard buttons.
+          This example shows a card-style trigger with icons and descriptive text.
         </Text>
       </Modal.Body>
       <Modal.Footer>

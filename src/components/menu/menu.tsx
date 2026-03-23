@@ -2,8 +2,8 @@
 
 import type {ComponentPropsWithRef} from "react";
 
-import React from "react";
 import {Menu as ChakraMenu} from "@chakra-ui/react";
+import React from "react";
 
 /* -------------------------------------------------------------------------------------------------
  * Menu Root
@@ -26,15 +26,15 @@ interface MenuContentProps extends ComponentPropsWithRef<typeof ChakraMenu.Conte
 const MenuContent = ({children, className, ...props}: MenuContentProps) => {
   return (
     <ChakraMenu.Content
-      data-slot="menu-content"
       className={className}
-      position="relative"
+      data-slot="menu-content"
       display="flex"
-      w="100%"
       flexDir="column"
       gap="1"
       overflow="clip"
       p="1"
+      position="relative"
+      w="100%"
       {...props}
     >
       {children}

@@ -1,4 +1,4 @@
-import type {Preview} from "@storybook/react";
+import type {Preview} from "@storybook/react-vite";
 
 import {DocsContainer as StorybookDocsContainer} from "@storybook/addon-docs/blocks";
 import React, {useEffect, useMemo, useState} from "react";

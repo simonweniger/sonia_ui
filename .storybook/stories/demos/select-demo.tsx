@@ -1,5 +1,6 @@
-import {Label, ListBox, Select} from "../../../src";
 import React from "react";
+
+import {Label, ListBox, Select} from "../../../src";
 
 export function SelectDemo() {
   return (

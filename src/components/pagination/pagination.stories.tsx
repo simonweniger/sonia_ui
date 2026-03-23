@@ -1,5 +1,5 @@
 import type {PaginationProps} from "./index";
-import type {Meta} from "@storybook/react";
+import type {Meta} from "@storybook/react-vite";
 
 import {Box, Flex, Text} from "@chakra-ui/react";
 import {Icon} from "@iconify/react";
@@ -74,7 +74,9 @@ const SizesTemplate = (props: PaginationProps) => {
       {sizes.map((size, index) => (
         <React.Fragment key={size}>
           <Flex direction="column" gap="2">
-            <Text fontSize="sm" fontWeight="semibold" color="fg.muted" textTransform="capitalize">{size}</Text>
+            <Text color="fg.muted" fontSize="sm" fontWeight="semibold" textTransform="capitalize">
+              {size}
+            </Text>
             <Pagination {...props} className={`pagination-${size}`}>
               <Pagination.Content>
                 <Pagination.Item>
@@ -193,7 +195,7 @@ export const SimplePrevNext = {
  * With Summary
  * -----------------------------------------------------------------------------------------------*/
 const WithSummaryTemplate = (props: PaginationProps) => (
-  <Box w="full" minW="640px">
+  <Box minW="640px" w="full">
     <Pagination {...props}>
       <Pagination.Summary>Showing 1-10 of 120 results</Pagination.Summary>
       <Pagination.Content>
@@ -324,7 +326,7 @@ const ControlledTemplate = (props: PaginationProps) => {
   const endItem = Math.min(page * itemsPerPage, totalItems);
 
   return (
-    <Box w="full" minW="640px">
+    <Box minW="640px" w="full">
       <Pagination {...props}>
         <Pagination.Summary>
           Showing {startItem}-{endItem} of {totalItems} results

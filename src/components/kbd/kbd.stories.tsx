@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Box, Flex, Grid, Text} from "@chakra-ui/react";
 import React from "react";
@@ -109,7 +109,7 @@ export const NavigationKeys: Story = {
 
 export const SpecialKeys: Story = {
   render: () => (
-    <Grid templateColumns="repeat(4, 1fr)" gap="4">
+    <Grid gap="4" templateColumns="repeat(4, 1fr)">
       <Kbd>
         <Kbd.Abbr keyValue="enter" />
       </Kbd>

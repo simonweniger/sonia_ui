@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Box} from "@chakra-ui/react";
 import React from "react";
@@ -24,7 +24,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: () => (
-    <Box display="flex" w="280px" flexDirection="column" gap="2">
+    <Box display="flex" flexDirection="column" gap="2" w="280px">
       <TextArea fullWidth placeholder="Primary textarea" variant="primary" />
       <TextArea fullWidth placeholder="Secondary textarea" variant="secondary" />
     </Box>
@@ -33,9 +33,9 @@ export const Variants: Story = {
 
 export const FullWidth: Story = {
   render: () => (
-    <Box w="400px" spaceY="3">
+    <Box spaceY="3" w="400px">
       <TextArea fullWidth placeholder="Full width textarea" />
-      <Box w="full" rounded="3xl" p="6">
+      <Box p="6" rounded="3xl" w="full">
         <Surface>
           <TextArea fullWidth placeholder="Full width textarea on surface" variant="secondary" />
         </Surface>

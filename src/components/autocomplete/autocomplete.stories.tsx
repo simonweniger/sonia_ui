@@ -1,9 +1,8 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {createListCollection} from "@ark-ui/react";
-import React, {useState} from "react";
-
 import {Box, Text} from "@chakra-ui/react";
+import React, {useState} from "react";
 
 import {Label} from "../label";
 
@@ -35,7 +34,7 @@ const animals = createListCollection({
 export const Default: Story = {
   render: () => {
     return (
-      <Autocomplete style={{width: "256px"}} collection={animals}>
+      <Autocomplete collection={animals} style={{width: "256px"}}>
         <Label>Favorite Animal</Label>
         <Autocomplete.Trigger>
           <Autocomplete.Value placeholder="Search animals..." />
@@ -59,7 +58,7 @@ export const Default: Story = {
 export const WithClearButton: Story = {
   render: () => {
     return (
-      <Autocomplete style={{width: "256px"}} collection={animals}>
+      <Autocomplete collection={animals} style={{width: "256px"}}>
         <Label>Favorite Animal</Label>
         <Autocomplete.Trigger>
           <Autocomplete.Value placeholder="Search animals..." />
@@ -88,8 +87,8 @@ export const Controlled: Story = {
     return (
       <Box spaceY="2">
         <Autocomplete
-          style={{width: "256px"}}
           collection={animals}
+          style={{width: "256px"}}
           value={value}
           onValueChange={(details) => setValue(details.value)}
         >
@@ -109,7 +108,7 @@ export const Controlled: Story = {
             </Autocomplete.ItemGroup>
           </Autocomplete.Popover>
         </Autocomplete>
-        <Text fontSize="sm" color="fg.muted">
+        <Text color="fg.muted" fontSize="sm">
           Selected: {value.length > 0 ? value.join(", ") : "None"}
         </Text>
       </Box>
@@ -124,9 +123,9 @@ export const Multiple: Story = {
     return (
       <Box spaceY="2">
         <Autocomplete
-          style={{width: "256px"}}
-          collection={animals}
           multiple
+          collection={animals}
+          style={{width: "256px"}}
           value={value}
           onValueChange={(details) => setValue(details.value)}
         >
@@ -146,7 +145,7 @@ export const Multiple: Story = {
             </Autocomplete.ItemGroup>
           </Autocomplete.Popover>
         </Autocomplete>
-        <Text fontSize="sm" color="fg.muted">
+        <Text color="fg.muted" fontSize="sm">
           Selected: {value.length > 0 ? value.join(", ") : "None"}
         </Text>
       </Box>
@@ -157,7 +156,7 @@ export const Multiple: Story = {
 export const WithDefaultValue: Story = {
   render: () => {
     return (
-      <Autocomplete style={{width: "256px"}} collection={animals} defaultValue={["cat"]}>
+      <Autocomplete collection={animals} defaultValue={["cat"]} style={{width: "256px"}}>
         <Label>Favorite Animal</Label>
         <Autocomplete.Trigger>
           <Autocomplete.Value placeholder="Search animals..." />
@@ -181,12 +180,7 @@ export const WithDefaultValue: Story = {
 export const Disabled: Story = {
   render: () => {
     return (
-      <Autocomplete
-        style={{width: "256px"}}
-        collection={animals}
-        defaultValue={["cat"]}
-        disabled
-      >
+      <Autocomplete disabled collection={animals} defaultValue={["cat"]} style={{width: "256px"}}>
         <Label>Favorite Animal</Label>
         <Autocomplete.Trigger>
           <Autocomplete.Value placeholder="Search animals..." />
@@ -214,9 +208,9 @@ export const ControlledOpenState: Story = {
     return (
       <Box spaceY="4">
         <Autocomplete
-          style={{width: "256px"}}
           collection={animals}
           open={open}
+          style={{width: "256px"}}
           onOpenChange={(details) => setOpen(details.open)}
         >
           <Label>Favorite Animal</Label>
@@ -235,10 +229,8 @@ export const ControlledOpenState: Story = {
             </Autocomplete.ItemGroup>
           </Autocomplete.Popover>
         </Autocomplete>
-        <button onClick={() => setOpen(!open)}>
-          {open ? "Close" : "Open"} Autocomplete
-        </button>
-        <Text fontSize="sm" color="fg.muted">
+        <button onClick={() => setOpen(!open)}>{open ? "Close" : "Open"} Autocomplete</button>
+        <Text color="fg.muted" fontSize="sm">
           Autocomplete is {open ? "open" : "closed"}
         </Text>
       </Box>
@@ -249,7 +241,7 @@ export const ControlledOpenState: Story = {
 export const SecondaryVariant: Story = {
   render: () => {
     return (
-      <Autocomplete style={{width: "256px"}} collection={animals} variant="secondary">
+      <Autocomplete collection={animals} style={{width: "256px"}} variant="secondary">
         <Label>Favorite Animal</Label>
         <Autocomplete.Trigger>
           <Autocomplete.Value placeholder="Search animals..." />

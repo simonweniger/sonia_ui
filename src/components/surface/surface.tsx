@@ -25,17 +25,11 @@ const SurfaceRoot = ({children, variant = "default", ...rest}: SurfaceRootProps)
   return (
     <SurfaceContext value={{variant}}>
       <Box
+        bg={variant === "secondary" ? "bg.subtle" : variant === "tertiary" ? "bg.muted" : "surface"}
+        color="fg"
         data-slot="surface"
         data-variant={variant}
         position="relative"
-        color="fg"
-        bg={
-          variant === "secondary"
-            ? "bg.subtle"
-            : variant === "tertiary"
-              ? "bg.muted"
-              : "surface"
-        }
         {...rest}
       >
         {children}

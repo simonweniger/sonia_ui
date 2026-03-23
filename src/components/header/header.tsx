@@ -12,15 +12,15 @@ interface HeaderRootProps extends ComponentPropsWithRef<typeof Heading> {}
 const HeaderRoot = ({children, ...props}: HeaderRootProps) => {
   return (
     <Heading
+      color="fg.muted"
       data-slot="header"
-      w="full"
-      px="2"
-      pt="1.5"
-      pb="1"
-      textAlign="left"
       fontSize="xs"
       fontWeight="medium"
-      color="fg.muted"
+      pb="1"
+      pt="1.5"
+      px="2"
+      textAlign="left"
+      w="full"
       {...props}
     >
       {children}

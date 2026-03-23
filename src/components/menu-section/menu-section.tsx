@@ -2,8 +2,8 @@
 
 import type {ComponentPropsWithRef} from "react";
 
-import React from "react";
 import {Menu as ChakraMenu} from "@chakra-ui/react";
+import React from "react";
 
 /* -------------------------------------------------------------------------------------------------
  * Menu Section Root
@@ -13,11 +13,11 @@ interface MenuSectionRootProps extends ComponentPropsWithRef<typeof ChakraMenu.I
 const MenuSectionRoot = ({children, className, ...props}: MenuSectionRootProps) => {
   return (
     <ChakraMenu.ItemGroup
-      data-slot="menu-section"
+      alignItems="flex-start"
       className={className}
+      data-slot="menu-section"
       display="flex"
       flexDir="column"
-      alignItems="flex-start"
       gap="0"
       {...props}
     >
@@ -33,7 +33,7 @@ interface MenuSectionLabelProps extends ComponentPropsWithRef<typeof ChakraMenu.
 
 const MenuSectionLabel = ({children, className, ...props}: MenuSectionLabelProps) => {
   return (
-    <ChakraMenu.ItemGroupLabel data-slot="menu-section-label" className={className} {...props}>
+    <ChakraMenu.ItemGroupLabel className={className} data-slot="menu-section-label" {...props}>
       {children}
     </ChakraMenu.ItemGroupLabel>
   );

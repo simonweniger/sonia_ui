@@ -1,5 +1,6 @@
-import {InputOTP, Label, Link} from "../../../src";
 import React, {useState} from "react";
+
+import {InputOTP, Label, Link} from "../../../src";
 
 export function InputOTPDemo() {
   // HERO - 4320 - easter egg

@@ -1,7 +1,7 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
-import {Icon} from "@iconify/react";
 import {Box, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
 import React from "react";
 
 import {CheckboxGroup} from "../checkbox-group";
@@ -38,7 +38,9 @@ export const Variants: Story = {
   render: () => (
     <Box display="flex" flexDirection="column" gap="4" px="4">
       <Box display="flex" flexDirection="column" gap="2">
-        <Text fontSize="sm" fontWeight="medium" color="fg.muted">Primary variant</Text>
+        <Text color="fg.muted" fontSize="sm" fontWeight="medium">
+          Primary variant
+        </Text>
         <Checkbox id="primary" variant="primary">
           <Checkbox.Control>
             <Checkbox.Indicator />
@@ -50,7 +52,9 @@ export const Variants: Story = {
         </Checkbox>
       </Box>
       <Box display="flex" flexDirection="column" gap="2">
-        <Text fontSize="sm" fontWeight="medium" color="fg.muted">Secondary variant</Text>
+        <Text color="fg.muted" fontSize="sm" fontWeight="medium">
+          Secondary variant
+        </Text>
         <Checkbox id="secondary" variant="secondary">
           <Checkbox.Control>
             <Checkbox.Indicator />
@@ -175,8 +179,8 @@ export const Controlled: Story = {
     return (
       <Box display="flex" flexDirection="column" gap="3" px="4">
         <Checkbox
-          id="notifications"
           checked={checked}
+          id="notifications"
           onCheckedChange={(e) => setChecked(!!e.checked)}
         >
           <Checkbox.Control>
@@ -186,8 +190,11 @@ export const Controlled: Story = {
             <Label htmlFor="notifications">Email notifications</Label>
           </Checkbox.Content>
         </Checkbox>
-        <Text mt="2" fontSize="sm" color="fg.muted">
-          Status: <Text as="span" fontWeight="medium">{checked ? "Enabled" : "Disabled"}</Text>
+        <Text color="fg.muted" fontSize="sm" mt="2">
+          Status:{" "}
+          <Text as="span" fontWeight="medium">
+            {checked ? "Enabled" : "Disabled"}
+          </Text>
         </Text>
       </Box>
     );
@@ -232,8 +239,16 @@ export const FeaturesAndAddOnsExample: Story = {
     ];
 
     return (
-      <Box display="flex" w="100%" flexDirection="column" alignItems="center" gap="10" px="4" py="8">
-        <Box as="section" display="flex" w="100%" minW="320px" flexDirection="column" gap="4">
+      <Box
+        alignItems="center"
+        display="flex"
+        flexDirection="column"
+        gap="10"
+        px="4"
+        py="8"
+        w="100%"
+      >
+        <Box as="section" display="flex" flexDirection="column" gap="4" minW="320px" w="100%">
           <CheckboxGroup name="notification-preferences">
             <Label htmlFor="notification-preferences">Notification preferences</Label>
             <Description>Choose how you want to receive updates</Description>
@@ -243,12 +258,46 @@ export const FeaturesAndAddOnsExample: Story = {
                   key={addon.value}
                   id={addon.value}
                   value={addon.value}
-                  css={{"&": {position: "relative", flexDirection: "column", gap: "1rem", borderRadius: "var(--radii-3xl)", bg: "var(--colors-bg-subtle)", paddingInline: "1.25rem", paddingBlock: "1rem", transition: "all"}, "&[data-selected=true]": {bg: "color-mix(in oklch, var(--colors-accent) 10%, transparent)"}}}
+                  css={{
+                    "&": {
+                      position: "relative",
+                      flexDirection: "column",
+                      gap: "1rem",
+                      borderRadius: "var(--radii-3xl)",
+                      bg: "var(--colors-bg-subtle)",
+                      paddingInline: "1.25rem",
+                      paddingBlock: "1rem",
+                      transition: "all",
+                    },
+                    "&[data-selected=true]": {
+                      bg: "color-mix(in oklch, var(--colors-accent) 10%, transparent)",
+                    },
+                  }}
                 >
-                  <Checkbox.Control css={{"&": {position: "absolute", top: "0.75rem", right: "1rem", width: "1.25rem", height: "1.25rem", borderRadius: "9999px"}, "&::before": {borderRadius: "9999px"}}}>
+                  <Checkbox.Control
+                    css={{
+                      "&": {
+                        position: "absolute",
+                        top: "0.75rem",
+                        right: "1rem",
+                        width: "1.25rem",
+                        height: "1.25rem",
+                        borderRadius: "9999px",
+                      },
+                      "&::before": {borderRadius: "9999px"},
+                    }}
+                  >
                     <Checkbox.Indicator />
                   </Checkbox.Control>
-                  <Checkbox.Content style={{display: "flex", flexDirection: "row", alignItems: "flex-start", justifyContent: "flex-start", gap: "1rem"}}>
+                  <Checkbox.Content
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                      justifyContent: "flex-start",
+                      gap: "1rem",
+                    }}
+                  >
                     <Icon className="size-5 text-accent" icon={addon.icon} />
                     <Box display="flex" flexDirection="column" gap="1">
                       <Label>{addon.title}</Label>

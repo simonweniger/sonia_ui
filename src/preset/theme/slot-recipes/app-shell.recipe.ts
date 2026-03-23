@@ -1,24 +1,24 @@
-import { defineSlotRecipe } from '@chakra-ui/react/styled-system'
+import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
 export const appShellSlotRecipe = defineSlotRecipe({
-  className: 'sonia-app-shell',
-  slots: ['root', 'content', 'main'],
+  className: "sonia-app-shell",
+  slots: ["root", "content", "main"],
   base: {
     root: {
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100dvh',
+      display: "flex",
+      flexDirection: "column",
+      height: "100dvh",
     },
     content: {
-      display: 'flex',
+      display: "flex",
       flex: 1,
       minWidth: 0,
       minHeight: 0,
     },
     main: {
-      display: 'flex',
+      display: "flex",
       flex: 1,
-      flexDirection: 'column',
+      flexDirection: "column",
       minWidth: 0,
     },
   },
@@ -26,7 +26,7 @@ export const appShellSlotRecipe = defineSlotRecipe({
     fullscreen: {
       true: {
         root: {
-          position: 'fixed',
+          position: "fixed",
           inset: 0,
         },
       },
@@ -37,6 +37,6 @@ export const appShellSlotRecipe = defineSlotRecipe({
   },
   defaultVariants: {
     fullscreen: false,
-    variant: 'plain',
+    variant: "plain",
   },
-})
+});

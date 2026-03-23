@@ -1,6 +1,7 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {DateValue as ArkDateValue} from "@ark-ui/react/date-picker";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
-import {DatePicker as ArkDatePicker, type DateValue as ArkDateValue} from "@ark-ui/react/date-picker";
+import {DatePicker as ArkDatePicker} from "@ark-ui/react/date-picker";
 import {Flex} from "@chakra-ui/react";
 import {Icon} from "@iconify/react";
 import React, {useState} from "react";
@@ -88,7 +89,7 @@ const DateRangePickerField = ({showDescription = false}: {showDescription?: bool
 
 export const Default: Story = {
   render: () => (
-    <DateRangePicker style={{width: "320px"}} name="dates">
+    <DateRangePicker name="dates" style={{width: "320px"}}>
       <DateRangePickerField />
     </DateRangePicker>
   ),
@@ -99,7 +100,7 @@ export const Controlled: Story = {
     const [value, setValue] = useState<ArkDateValue[]>([]);
 
     return (
-      <Flex w="320px" direction="column" gap="2">
+      <Flex direction="column" gap="2" w="320px">
         <DateRangePicker
           name="dates"
           selectionMode="range"
@@ -110,9 +111,7 @@ export const Controlled: Story = {
         </DateRangePicker>
         <Description>
           Current value:{" "}
-          {value.length >= 2
-            ? `${value[0]?.toString()} -> ${value[1]?.toString()}`
-            : "(empty)"}
+          {value.length >= 2 ? `${value[0]?.toString()} -> ${value[1]?.toString()}` : "(empty)"}
         </Description>
       </Flex>
     );
@@ -121,7 +120,7 @@ export const Controlled: Story = {
 
 export const Disabled: Story = {
   render: () => (
-    <DateRangePicker disabled style={{width: "320px"}} name="dates">
+    <DateRangePicker disabled name="dates" style={{width: "320px"}}>
       <DateRangePickerField />
     </DateRangePicker>
   ),
@@ -129,14 +128,14 @@ export const Disabled: Story = {
 
 export const WithCustomIndicator: Story = {
   render: () => (
-    <DateRangePicker style={{width: "320px"}} name="dates">
+    <DateRangePicker name="dates" style={{width: "320px"}}>
       <Label>Trip dates</Label>
       <DateField.Group>
         <DateField.Input />
         <DateField.Suffix>
           <DateRangePicker.Trigger>
             <DateRangePicker.TriggerIndicator>
-              <Icon style={{width: "16px", height: "16px"}} icon="gravity-ui:chevron-down" />
+              <Icon icon="gravity-ui:chevron-down" style={{width: "16px", height: "16px"}} />
             </DateRangePicker.TriggerIndicator>
           </DateRangePicker.Trigger>
         </DateField.Suffix>
@@ -169,7 +168,10 @@ export const FormExample: Story = {
     };
 
     return (
-      <Form style={{display: "flex", width: "320px", flexDirection: "column", gap: "12px"}} onSubmit={handleSubmit}>
+      <Form
+        style={{display: "flex", width: "320px", flexDirection: "column", gap: "12px"}}
+        onSubmit={handleSubmit}
+      >
         <DateRangePicker
           isRequired
           name="tripDates"
@@ -192,9 +194,9 @@ export const FormExample: Story = {
           </DateRangePicker.Popover>
         </DateRangePicker>
         <Button
-          style={{width: "100%"}}
           isDisabled={value.length < 2}
           loading={isSubmitting}
+          style={{width: "100%"}}
           type="submit"
         >
           {isSubmitting ? "Submitting..." : "Submit"}

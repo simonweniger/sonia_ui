@@ -1,32 +1,32 @@
-import { defineSlotRecipe } from '@chakra-ui/react/styled-system'
+import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
-const slots = ['root', 'header', 'title', 'description', 'body']
+const slots = ["root", "header", "title", "description", "body"];
 
 export const sectionSlotRecipe = defineSlotRecipe({
-  className: 'sonia-section',
+  className: "sonia-section",
   slots,
   base: {
     root: {
-      display: 'flex',
-      flexDirection: 'column',
+      display: "flex",
+      flexDirection: "column",
     },
     header: {
       flexShrink: 0,
       mb: 4,
     },
     title: {
-      textStyle: 'heading',
-      fontWeight: 'semibold',
-      lineHeight: '110%',
-      letterSpacing: '-1%',
+      textStyle: "heading",
+      fontWeight: "semibold",
+      lineHeight: "110%",
+      letterSpacing: "-1%",
       mb: 1,
     },
     description: {
-      color: 'fg.muted',
-      fontSize: 'md',
-      '& a': {
-        fontWeight: 'medium',
-        color: 'fg',
+      color: "fg.muted",
+      fontSize: "md",
+      "& a": {
+        fontWeight: "medium",
+        color: "fg",
       },
     },
     body: {
@@ -39,15 +39,15 @@ export const sectionSlotRecipe = defineSlotRecipe({
       annotated: {
         root: {
           flexDirection: {
-            base: 'column',
-            md: 'row',
+            base: "column",
+            md: "row",
           },
           mt: 4,
         },
         header: {
           width: {
-            base: 'full',
-            md: '30%',
+            base: "full",
+            md: "30%",
           },
           mb: {
             base: 4,
@@ -62,4 +62,4 @@ export const sectionSlotRecipe = defineSlotRecipe({
     },
   },
   defaultVariants: {},
-})
+});

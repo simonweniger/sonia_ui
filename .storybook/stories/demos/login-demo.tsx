@@ -1,6 +1,7 @@
 import {Person} from "@gravity-ui/icons";
-import {Avatar, Button, Card, CloseButton, Separator} from "../../../src";
 import React from "react";
+
+import {Avatar, Button, Card, CloseButton, Separator} from "../../../src";
 
 import {AppleIcon, GoogleIcon} from "./components/icons";
 

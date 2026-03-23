@@ -8,7 +8,10 @@ import React from "react";
 /* -------------------------------------------------------------------------------------------------
  * Radio Group Root
  * -----------------------------------------------------------------------------------------------*/
-interface RadioGroupRootProps extends Omit<ComponentPropsWithRef<typeof ChakraRadioGroup.Root>, 'variant'> {
+interface RadioGroupRootProps extends Omit<
+  ComponentPropsWithRef<typeof ChakraRadioGroup.Root>,
+  "variant"
+> {
   variant?: string;
 }
 
@@ -33,15 +36,18 @@ const RadioGroupRoot = ({children, variant, ...props}: RadioGroupRootProps) => {
           shadow: "none",
           bg: "bg.muted",
         },
-        "&[data-variant=secondary] [data-slot=radio]:hover [data-slot=radio-control], &[data-variant=secondary] [data-slot=radio][data-hovered=true] [data-slot=radio-control]": {
-          borderColor: "border.emphasized",
-        },
-        "&[data-variant=secondary] [data-slot=radio]:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] [data-slot=radio-indicator]:empty::before": {
-          bg: "bg.muted",
-        },
-        "&[data-variant=secondary] [data-slot=radio]:hover:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] [data-slot=radio-indicator]:empty::before, &[data-variant=secondary] [data-slot=radio][data-hovered=true]:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] [data-slot=radio-indicator]:empty::before": {
-          bg: "bg.muted/80",
-        },
+        "&[data-variant=secondary] [data-slot=radio]:hover [data-slot=radio-control], &[data-variant=secondary] [data-slot=radio][data-hovered=true] [data-slot=radio-control]":
+          {
+            borderColor: "border.emphasized",
+          },
+        "&[data-variant=secondary] [data-slot=radio]:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] [data-slot=radio-indicator]:empty::before":
+          {
+            bg: "bg.muted",
+          },
+        "&[data-variant=secondary] [data-slot=radio]:hover:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] [data-slot=radio-indicator]:empty::before, &[data-variant=secondary] [data-slot=radio][data-hovered=true]:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] [data-slot=radio-indicator]:empty::before":
+          {
+            bg: "bg.muted/80",
+          },
       }}
       {...props}
     >

@@ -2,8 +2,8 @@
 
 import type {ComponentPropsWithRef} from "react";
 
-import React from "react";
 import {Tooltip as ChakraTooltip} from "@chakra-ui/react";
+import React from "react";
 
 /* -------------------------------------------------------------------------------------------------
  * Tooltip Root
@@ -25,15 +25,20 @@ interface TooltipContentProps extends ComponentPropsWithRef<typeof ChakraTooltip
   showArrow?: boolean;
 }
 
-const TooltipContent = ({children, className, showArrow = false, ...props}: TooltipContentProps) => {
+const TooltipContent = ({
+  children,
+  className,
+  showArrow = false,
+  ...props
+}: TooltipContentProps) => {
   return (
     <ChakraTooltip.Content
-      data-slot="tooltip-content"
       className={className}
       css={{transformOrigin: "var(--trigger-anchor-point)"}}
+      data-slot="tooltip-content"
       {...props}
     >
-      {showArrow && (
+      {!!showArrow && (
         <ChakraTooltip.Arrow data-slot="tooltip-arrow">
           <ChakraTooltip.ArrowTip />
         </ChakraTooltip.Arrow>
@@ -50,7 +55,7 @@ interface TooltipArrowProps extends ComponentPropsWithRef<typeof ChakraTooltip.A
 
 const TooltipArrow = ({className, ...props}: TooltipArrowProps) => {
   return (
-    <ChakraTooltip.Arrow data-slot="tooltip-arrow" className={className} {...props}>
+    <ChakraTooltip.Arrow className={className} data-slot="tooltip-arrow" {...props}>
       <ChakraTooltip.ArrowTip />
     </ChakraTooltip.Arrow>
   );
@@ -64,13 +69,13 @@ interface TooltipTriggerProps extends ComponentPropsWithRef<typeof ChakraTooltip
 const TooltipTrigger = ({children, className, ...props}: TooltipTriggerProps) => {
   return (
     <ChakraTooltip.Trigger
-      data-slot="tooltip-trigger"
+      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
       className={className}
+      data-slot="tooltip-trigger"
       css={{
         transition:
           "color 150ms var(--ease-smooth), background-color 150ms var(--ease-smooth), box-shadow 150ms var(--ease-out)",
       }}
-      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
       {...props}
     >
       {children}

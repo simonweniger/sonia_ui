@@ -1,35 +1,35 @@
-import { defineSlotRecipe } from '@chakra-ui/react/styled-system'
+import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
 const slots = [
-  'root',
-  'header',
-  'headerContent',
-  'heading',
-  'headerFooter',
-  'title',
-  'description',
-  'body',
-]
+  "root",
+  "header",
+  "headerContent",
+  "heading",
+  "headerFooter",
+  "title",
+  "description",
+  "body",
+];
 
 export const pageSlotRecipe = defineSlotRecipe({
-  className: 'sonia-page',
+  className: "sonia-page",
   slots,
   base: {
     root: {
-      display: 'flex',
-      flexDirection: 'column',
+      display: "flex",
+      flexDirection: "column",
       flex: 1,
       minH: 0,
     },
     title: {
-      fontWeight: 'medium',
+      fontWeight: "medium",
     },
     description: {
-      color: 'fg.muted',
+      color: "fg.muted",
     },
     body: {
       flex: 1,
-      overflowY: 'auto',
+      overflowY: "auto",
       p: 4,
     },
   },
@@ -37,39 +37,39 @@ export const pageSlotRecipe = defineSlotRecipe({
     variant: {
       panel: {
         root: {
-          bg: 'var(--page-bg-color)',
+          bg: "var(--page-bg-color)",
           zIndex: 1,
         },
         header: {
-          '--page-header-row-height': '40px',
-          display: 'grid',
+          "--page-header-row-height": "40px",
+          display: "grid",
           gridTemplateAreas: `"nav heading actions"
                "footer footer footer"`,
-          gridTemplateColumns: 'auto max-content 1fr',
-          gridTemplateRows: 'minmax(var(--page-header-row-height), auto)',
+          gridTemplateColumns: "auto max-content 1fr",
+          gridTemplateRows: "minmax(var(--page-header-row-height), auto)",
           columnGap: 2,
-          alignItems: 'center',
-          justifyContent: 'stretch',
+          alignItems: "center",
+          justifyContent: "stretch",
           flexShrink: 0,
           px: 3,
-          borderBottomWidth: '1px',
+          borderBottomWidth: "1px",
         },
         title: {
           me: 4,
-          textStyle: 'sm',
+          textStyle: "sm",
         },
         description: {
-          textStyle: 'xs',
+          textStyle: "xs",
         },
       },
       settings: {
         root: {
-          overflowY: 'auto',
+          overflowY: "auto",
           px: 4,
         },
         header: {
-          flexDirection: 'row',
-          alignItems: 'center',
+          flexDirection: "row",
+          alignItems: "center",
           mb: {
             base: 4,
             lg: 8,
@@ -83,19 +83,19 @@ export const pageSlotRecipe = defineSlotRecipe({
           },
         },
         title: {
-          textStyle: '2xl',
+          textStyle: "2xl",
         },
         description: {
-          textStyle: 'md',
+          textStyle: "md",
         },
         body: {
-          overflow: 'visible',
+          overflow: "visible",
           p: 0,
         },
       },
     },
   },
   defaultVariants: {
-    variant: 'panel',
+    variant: "panel",
   },
-})
+});

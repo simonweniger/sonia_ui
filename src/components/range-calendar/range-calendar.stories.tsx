@@ -1,17 +1,15 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {DateValue as ArkDateValue} from "@ark-ui/react/date-picker";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
-import {DatePicker, type DateValue as ArkDateValue} from "@ark-ui/react/date-picker";
+import {DatePicker, parseDate as arkParseDate} from "@ark-ui/react/date-picker";
 import {Box, Flex, Text} from "@chakra-ui/react";
-import {today, getLocalTimeZone} from "@internationalized/date";
+import {getLocalTimeZone, today} from "@internationalized/date";
 import React, {useState} from "react";
 
 import {Button} from "../button";
 import {Description} from "../description";
 
 import {RangeCalendar} from "./index";
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const arkParseDate: (iso: string) => ArkDateValue = require("@ark-ui/react/date-picker").parseDate;
 
 const meta: Meta<typeof RangeCalendar> = {
   component: RangeCalendar,
@@ -140,20 +138,18 @@ export const Controlled: Story = {
     );
 
     return (
-      <Flex direction="column" align="center" gap="4">
+      <Flex align="center" direction="column" gap="4">
         <RangeCalendarTemplate
           {...args}
           aria-label="Trip dates"
           focusedValue={focusedDate}
           value={value}
-          onValueChange={(details) => setValue(details.value)}
           onFocusChange={(details) => setFocusedDate(details.focusedValue)}
+          onValueChange={(details) => setValue(details.value)}
         />
         <Description style={{textAlign: "center"}}>
           Selected range:{" "}
-          {value.length >= 2
-            ? `${value[0]?.toString()} -> ${value[1]?.toString()}`
-            : "(none)"}
+          {value.length >= 2 ? `${value[0]?.toString()} -> ${value[1]?.toString()}` : "(none)"}
         </Description>
         <Flex gap="2">
           <Button
@@ -164,8 +160,10 @@ export const Controlled: Story = {
               const start = arkParseDate(todayIso);
               // 7 days later
               const d = new Date();
+
               d.setDate(d.getDate() + 6);
               const endIso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
               setValue([start, arkParseDate(endIso)]);
               setFocusedDate(start);
             }}
@@ -177,6 +175,7 @@ export const Controlled: Story = {
             variant="outline"
             onClick={() => {
               const start = arkParseDate("2025-12-20");
+
               setValue([start, arkParseDate("2025-12-31")]);
               setFocusedDate(start);
             }}
@@ -198,7 +197,7 @@ export const MinMaxDates: Story = {
     const maxDate = now.add({months: 3});
 
     return (
-      <Flex direction="column" align="center" gap="4">
+      <Flex align="center" direction="column" gap="4">
         <RangeCalendarTemplateWithYearPicker
           {...args}
           aria-label="Trip dates"
@@ -216,13 +215,14 @@ export const MinMaxDates: Story = {
 export const UnavailableDates: Story = {
   render: (args) => {
     return (
-      <Flex direction="column" align="center" gap="4">
+      <Flex align="center" direction="column" gap="4">
         <RangeCalendarTemplate
           {...args}
           aria-label="Trip dates"
           isDateUnavailable={(date, _locale) => {
             const jsDate = new Date(date.year, date.month - 1, date.day);
             const dayOfWeek = jsDate.getDay();
+
             return dayOfWeek === 0 || dayOfWeek === 6;
           }}
         />
@@ -234,7 +234,7 @@ export const UnavailableDates: Story = {
 
 export const Disabled: Story = {
   render: (args) => (
-    <Flex direction="column" align="center" gap="4">
+    <Flex align="center" direction="column" gap="4">
       <RangeCalendarTemplate
         {...args}
         disabled
@@ -251,7 +251,7 @@ export const Disabled: Story = {
 
 export const ReadOnly: Story = {
   render: (args) => (
-    <Flex direction="column" align="center" gap="4">
+    <Flex align="center" direction="column" gap="4">
       <RangeCalendarTemplate
         {...args}
         readOnly
@@ -273,7 +273,7 @@ export const FocusedValue: Story = {
     );
 
     return (
-      <Flex direction="column" align="center" gap="4">
+      <Flex align="center" direction="column" gap="4">
         <RangeCalendarTemplate
           {...args}
           aria-label="Trip dates"
@@ -281,7 +281,7 @@ export const FocusedValue: Story = {
           onFocusChange={(details) => setFocusedDate(details.focusedValue)}
         />
         <Description style={{textAlign: "center"}}>Focused: {focusedDate?.toString()}</Description>
-        <Flex wrap="wrap" justify="center" gap="2">
+        <Flex gap="2" justify="center" wrap="wrap">
           <Button
             size="sm"
             variant="outline"
@@ -357,19 +357,32 @@ export const MultipleMonths: Story = {
     <RangeCalendar
       {...args}
       aria-label="Trip dates"
-      style={{containerType: "normal", width: "auto", overflowX: "auto"}}
       numOfMonths={2}
+      style={{containerType: "normal", width: "auto", overflowX: "auto"}}
     >
-      <RangeCalendar.Heading style={{position: "absolute", width: "1px", height: "1px", overflow: "hidden", clip: "rect(0,0,0,0)", whiteSpace: "nowrap", borderWidth: 0}} />
+      <RangeCalendar.Heading
+        style={{
+          position: "absolute",
+          width: "1px",
+          height: "1px",
+          overflow: "hidden",
+          clip: "rect(0,0,0,0)",
+          whiteSpace: "nowrap",
+          borderWidth: 0,
+        }}
+      />
       <DatePicker.Context>
         {(api) => {
           const offset = api.getOffset({months: 1});
+
           return (
             <Flex gap="8">
               <Box w="64">
                 <RangeCalendar.Header>
                   <RangeCalendar.NavButton slot="previous" />
-                  <Text fontSize="sm" fontWeight="medium">{api.visibleRangeText.start}</Text>
+                  <Text fontSize="sm" fontWeight="medium">
+                    {api.visibleRangeText.start}
+                  </Text>
                   <Box boxSize="6" />
                 </RangeCalendar.Header>
                 <RangeCalendar.Grid>
@@ -398,7 +411,9 @@ export const MultipleMonths: Story = {
               <Box w="64">
                 <RangeCalendar.Header>
                   <Box boxSize="6" />
-                  <Text fontSize="sm" fontWeight="medium">{api.visibleRangeText.end}</Text>
+                  <Text fontSize="sm" fontWeight="medium">
+                    {api.visibleRangeText.end}
+                  </Text>
                   <RangeCalendar.NavButton slot="next" />
                 </RangeCalendar.Header>
                 <RangeCalendar.Grid>

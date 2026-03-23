@@ -2,8 +2,8 @@
 
 import type {ComponentPropsWithRef} from "react";
 
-import React from "react";
 import {Menu as ChakraMenu} from "@chakra-ui/react";
+import React from "react";
 
 /* -------------------------------------------------------------------------------------------------
  * Menu Item Root — recipe handles base item styles (rounded, gap, transitions, press-scale)
@@ -13,8 +13,8 @@ interface MenuItemRootProps extends ComponentPropsWithRef<typeof ChakraMenu.Item
 const MenuItemRoot = ({children, className, ...props}: MenuItemRootProps) => {
   return (
     <ChakraMenu.Item
-      data-slot="menu-item"
       className={className}
+      data-slot="menu-item"
       css={{
         "[data-slot=label]": {pointerEvents: "none", width: "fit-content", userSelect: "none"},
         "[data-slot=description]": {pointerEvents: "none", textWrap: "wrap", userSelect: "none"},
@@ -38,18 +38,18 @@ interface MenuItemIndicatorProps extends ComponentPropsWithRef<typeof ChakraMenu
 const MenuItemIndicator = ({children, className, ...props}: MenuItemIndicatorProps) => {
   return (
     <ChakraMenu.ItemIndicator
-      data-slot="menu-item-indicator"
+      alignItems="center"
+      boxSize="4"
       className={className}
+      color="fg.muted"
+      data-slot="menu-item-indicator"
+      display="flex"
+      flexShrink={0}
+      justifyContent="center"
+      left="2"
       position="absolute"
       top="50%"
-      left="2"
-      display="flex"
-      boxSize="4"
-      flexShrink={0}
       transform="translateY(-50%)"
-      alignItems="center"
-      justifyContent="center"
-      color="fg.muted"
       css={{
         transition: "all 250ms",
       }}
@@ -68,9 +68,9 @@ interface MenuItemCommandProps extends ComponentPropsWithRef<typeof ChakraMenu.I
 const MenuItemCommand = ({children, className, ...props}: MenuItemCommandProps) => {
   return (
     <ChakraMenu.ItemCommand
-      data-slot="menu-item-command"
       className={className}
       color="fg.muted"
+      data-slot="menu-item-command"
       {...props}
     >
       {children}

@@ -12,14 +12,13 @@ interface ErrorMessageRootProps extends ComponentPropsWithRef<typeof Text> {}
 const ErrorMessageRoot = ({children, ...props}: ErrorMessageRootProps) => {
   return (
     <Text
-      data-slot="error-message"
       color="fg.error"
+      data-slot="error-message"
       fontSize="xs"
       h="auto"
       overflowWrap="break-word"
       css={{
-        transition:
-          "opacity 150ms ease-out, height 350ms ease",
+        transition: "opacity 150ms ease-out, height 350ms ease",
       }}
       {...props}
     >

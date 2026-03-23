@@ -1,5 +1,3 @@
-import path from "path";
-
 /** @type {import("prettier").Config} */
 const config = {
   arrowParens: "always",
@@ -21,10 +19,6 @@ const config = {
       },
     },
   ],
-  plugins: ["prettier-plugin-tailwindcss"],
-  tailwindAttributes: ["className", "classNames"],
-  tailwindFunctions: ["tv", "clsx", "cn"],
-  tailwindStylesheet: path.resolve(import.meta.dirname, "./styles/index.css"),
 };
 
 export default config;

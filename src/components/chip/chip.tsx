@@ -1,7 +1,7 @@
 "use client";
 
-import type {ComponentPropsWithRef} from "react";
 import type {SystemStyleObject} from "@chakra-ui/react";
+import type {ComponentPropsWithRef} from "react";
 
 import {Box} from "@chakra-ui/react";
 import React from "react";
@@ -9,16 +9,24 @@ import React from "react";
 /* -------------------------------------------------------------------------------------------------
  * Variant, Color & Size Style Maps
  * -----------------------------------------------------------------------------------------------*/
-type ChipVariant = "primary" | "secondary" | "tertiary" | "soft" | "solid" | "subtle" | "outline" | "surface";
+type ChipVariant =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "soft"
+  | "solid"
+  | "subtle"
+  | "outline"
+  | "surface";
 type ChipColor = "accent" | "default" | "success" | "warning" | "danger";
 type ChipSize = "sm" | "md" | "lg";
 
 const colorStyles: Record<string, SystemStyleObject> = {
-  accent: {color: "accent"},
-  danger: {color: "danger"},
+  accent: {color: "accent.solid"},
+  danger: {color: "red.fg"},
   default: {color: "fg"},
-  success: {color: "success"},
-  warning: {color: "warning"},
+  success: {color: "green.fg"},
+  warning: {color: "orange.fg"},
 };
 
 const sizeStyles: Record<string, SystemStyleObject> = {
@@ -36,18 +44,27 @@ const solidCompoundStyles: Record<string, SystemStyleObject> = {
   default: {bg: "neutral.solid", color: "neutral.contrast"},
 };
 
-/* Subtle / Soft: muted bg + colored text */
+/* Subtle / Secondary: tinted bg + colored text */
 const subtleCompoundStyles: Record<string, SystemStyleObject> = {
-  accent: {bg: "accent.subtle", color: "accent.fg"},
+  accent: {bg: "accent.subtle", color: "accent.solid"},
   success: {bg: "green.subtle", color: "green.fg"},
   warning: {bg: "orange.subtle", color: "orange.fg"},
   danger: {bg: "red.subtle", color: "red.fg"},
   default: {bg: "bg.emphasized", color: "fg"},
 };
 
+/* Soft: muted bg + solid (primary) colored text */
+const softCompoundStyles: Record<string, SystemStyleObject> = {
+  accent: {bg: "accent.subtle", color: "accent.solid"},
+  success: {bg: "green.subtle", color: "green.solid"},
+  warning: {bg: "orange.subtle", color: "orange.solid"},
+  danger: {bg: "red.subtle", color: "red.solid"},
+  default: {bg: "bg.emphasized", color: "fg"},
+};
+
 /* Outline: border + colored text, transparent bg */
 const outlineCompoundStyles: Record<string, SystemStyleObject> = {
-  accent: {bg: "transparent", borderColor: "accent.border", color: "accent.fg"},
+  accent: {bg: "transparent", borderColor: "accent.border", color: "accent.solid"},
   success: {bg: "transparent", borderColor: "green.border", color: "green.fg"},
   warning: {bg: "transparent", borderColor: "orange.border", color: "orange.fg"},
   danger: {bg: "transparent", borderColor: "red.border", color: "red.fg"},
@@ -56,18 +73,14 @@ const outlineCompoundStyles: Record<string, SystemStyleObject> = {
 
 /* Surface: subtle bg + border + colored text */
 const surfaceCompoundStyles: Record<string, SystemStyleObject> = {
-  accent: {bg: "accent.subtle", borderColor: "accent.border", color: "accent.fg"},
+  accent: {bg: "accent.subtle", borderColor: "accent.border", color: "accent.solid"},
   success: {bg: "green.subtle", borderColor: "green.border", color: "green.fg"},
   warning: {bg: "orange.subtle", borderColor: "orange.border", color: "orange.fg"},
   danger: {bg: "red.subtle", borderColor: "red.border", color: "red.fg"},
   default: {bg: "bg.subtle", borderColor: "border", color: "fg"},
 };
 
-function getChipStyleProps(
-  variant?: string,
-  chipColor?: string,
-  size?: string,
-): SystemStyleObject {
+function getChipStyleProps(variant?: string, chipColor?: string, size?: string): SystemStyleObject {
   const styles: SystemStyleObject = {
     display: "inline-flex",
     flexShrink: 0,
@@ -100,10 +113,7 @@ function getChipStyleProps(
   }
 
   // Normalize HeroUI variant names to Chakra-style
-  const normalizedVariant =
-    variant === "primary" ? "solid" :
-    variant === "soft" ? "subtle" :
-    variant;
+  const normalizedVariant = variant === "primary" ? "solid" : variant;
 
   // Variant: tertiary / secondary = transparent bg
   if (normalizedVariant === "tertiary") {
@@ -126,9 +136,18 @@ function getChipStyleProps(
     Object.assign(styles, solidCompoundStyles[chipColor]);
   }
 
-  // Compound: subtle + color
-  if (normalizedVariant === "subtle" && chipColor && subtleCompoundStyles[chipColor]) {
+  // Compound: subtle / secondary + color
+  if (
+    (normalizedVariant === "subtle" || normalizedVariant === "secondary") &&
+    chipColor &&
+    subtleCompoundStyles[chipColor]
+  ) {
     Object.assign(styles, subtleCompoundStyles[chipColor]);
+  }
+
+  // Compound: soft + color
+  if (normalizedVariant === "soft" && chipColor && softCompoundStyles[chipColor]) {
+    Object.assign(styles, softCompoundStyles[chipColor]);
   }
 
   // Compound: outline + color
@@ -154,7 +173,7 @@ interface ChipRootProps extends Omit<ComponentPropsWithRef<typeof Box>, "color" 
   size?: ChipSize;
 }
 
-const ChipRoot = ({children, variant, color, size, ...props}: ChipRootProps) => {
+const ChipRoot = ({children, color, size, variant, ...props}: ChipRootProps) => {
   const chipChildren = React.useMemo(() => {
     if (typeof children === "string" || typeof children === "number") {
       return <ChipLabel>{children}</ChipLabel>;

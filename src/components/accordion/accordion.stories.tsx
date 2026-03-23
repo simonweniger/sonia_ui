@@ -1,7 +1,7 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
-import {Icon} from "@iconify/react";
 import {Box, Flex, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
 import React from "react";
 
 import {Accordion} from "./index";
@@ -32,7 +32,9 @@ const defaultArgs: Accordion["RootProps"] = {
 };
 
 const Wrapper = ({children}: {children: React.ReactNode}) => (
-  <Box width="full" maxW="md">{children}</Box>
+  <Box maxW="md" width="full">
+    {children}
+  </Box>
 );
 
 const Template = (props: Accordion["RootProps"]) => (
@@ -43,7 +45,16 @@ const Template = (props: Accordion["RootProps"]) => (
           <Accordion.Heading>
             <Accordion.Trigger>
               {item.icon ? (
-                <Icon icon={item.icon} style={{marginRight: "0.75rem", width: "1rem", height: "1rem", flexShrink: 0, color: "var(--colors-fg-muted)"}} />
+                <Icon
+                  icon={item.icon}
+                  style={{
+                    marginRight: "0.75rem",
+                    width: "1rem",
+                    height: "1rem",
+                    flexShrink: 0,
+                    color: "var(--colors-fg-muted)",
+                  }}
+                />
               ) : null}
               {item.title}
               <Accordion.Indicator>
@@ -61,20 +72,24 @@ const Template = (props: Accordion["RootProps"]) => (
 );
 
 const CustomTemplate = (props: Accordion["RootProps"]) => (
-  <Flex width="full" justify="center" px="4" py="8">
-    <Box width="full" maxW="2xl">
+  <Flex justify="center" px="4" py="8" width="full">
+    <Box maxW="2xl" width="full">
       <Flex direction="column" gap="1">
-        <Text as="h2" fontSize="2xl" fontWeight="bold">Frequently Asked Questions</Text>
-        <Text mb="4" fontSize="lg" fontWeight="medium" color="fg.muted">
+        <Text as="h2" fontSize="2xl" fontWeight="bold">
+          Frequently Asked Questions
+        </Text>
+        <Text color="fg.muted" fontSize="lg" fontWeight="medium" mb="4">
           Everything you need to know about licensing and usage.
         </Text>
       </Flex>
-      <Flex mt="2" direction="column" gap="6">
+      <Flex direction="column" gap="6" mt="2">
         {categories.map((category) => (
           <Box key={category.title}>
-            <Text fontSize="md" mb="2" fontWeight="medium" color="fg.muted">{category.title}</Text>
+            <Text color="fg.muted" fontSize="md" fontWeight="medium" mb="2">
+              {category.title}
+            </Text>
             <Box key={category.title}>
-              <Accordion {...props} width="full" variant="surface">
+              <Accordion {...props} variant="surface" width="full">
                 {category.items.map((item, index) => (
                   <Accordion.Item key={index} value={`item-${index}`}>
                     <Accordion.Heading>
@@ -116,7 +131,7 @@ export const SurfaceVariant: StoryObj<typeof Accordion> = {
     collapsible: true,
   },
   render: (args: Accordion["RootProps"]) => (
-    <Flex as="section" height="100vh" width="100vw" align="center" justify="center">
+    <Flex align="center" as="section" height="100vh" justify="center" width="100vw">
       <Template {...args} />
     </Flex>
   ),
@@ -129,7 +144,7 @@ export const Custom: StoryObj<typeof Accordion> = {
     collapsible: true,
   },
   render: (args: Accordion["RootProps"]) => (
-    <Flex as="section" height="100vh" width="100vw" align="center" justify="center">
+    <Flex align="center" as="section" height="100vh" justify="center" width="100vw">
       <CustomTemplate {...args} />
     </Flex>
   ),
@@ -143,7 +158,16 @@ const WithoutSeparatorTemplate = ({...props}: Accordion["RootProps"]) => (
           <Accordion.Heading>
             <Accordion.Trigger>
               {item.icon ? (
-                <Icon icon={item.icon} style={{marginRight: "0.75rem", width: "1rem", height: "1rem", flexShrink: 0, color: "var(--colors-fg-muted)"}} />
+                <Icon
+                  icon={item.icon}
+                  style={{
+                    marginRight: "0.75rem",
+                    width: "1rem",
+                    height: "1rem",
+                    flexShrink: 0,
+                    color: "var(--colors-fg-muted)",
+                  }}
+                />
               ) : null}
               {item.title}
               <Accordion.Indicator>

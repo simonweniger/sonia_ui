@@ -69,7 +69,15 @@ export interface SortDescriptor {
 // Color types (simplified replacements)
 export type ColorFormat = "hex" | "hexa" | "rgb" | "rgba" | "hsl" | "hsla" | "hsb" | "hsba";
 export type ColorSpace = "rgb" | "hsl" | "hsb";
-export type ColorChannel = "hue" | "saturation" | "brightness" | "lightness" | "red" | "green" | "blue" | "alpha";
+export type ColorChannel =
+  | "hue"
+  | "saturation"
+  | "brightness"
+  | "lightness"
+  | "red"
+  | "green"
+  | "blue"
+  | "alpha";
 
 export interface ColorChannelRange {
   minValue: number;

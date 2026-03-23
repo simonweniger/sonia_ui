@@ -14,15 +14,15 @@ interface TagRootProps extends ComponentPropsWithRef<typeof ChakraTag.Root> {
   selected?: boolean;
 }
 
-const TagRoot = ({children, size, variant, selected, ...restProps}: TagRootProps) => {
+const TagRoot = ({children, selected, size, variant, ...restProps}: TagRootProps) => {
   const tagGroupCtx = useContext(TagGroupContext);
   const effectiveSize = size ?? tagGroupCtx.size ?? "md";
   const effectiveVariant = variant ?? tagGroupCtx.variant ?? "subtle";
 
   return (
     <ChakraTag.Root
-      data-slot="tag"
       data-selected={selected ? "true" : undefined}
+      data-slot="tag"
       size={effectiveSize}
       variant={effectiveVariant}
       {...restProps}
@@ -89,4 +89,10 @@ const TagCloseTrigger = ({children, ...restProps}: TagCloseTriggerProps) => {
  * -----------------------------------------------------------------------------------------------*/
 export {TagRoot, TagLabel, TagStartElement, TagEndElement, TagCloseTrigger};
 
-export type {TagRootProps, TagLabelProps, TagStartElementProps, TagEndElementProps, TagCloseTriggerProps};
+export type {
+  TagRootProps,
+  TagLabelProps,
+  TagStartElementProps,
+  TagEndElementProps,
+  TagCloseTriggerProps,
+};

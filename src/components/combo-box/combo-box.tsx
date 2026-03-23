@@ -50,12 +50,12 @@ interface ComboBoxInputGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 const ComboBoxInputGroup = ({children, className, ...props}: ComboBoxInputGroupProps) => {
   return (
     <Box
+      alignItems="center"
       className={className}
       data-slot="combo-box-input-group"
-      position="relative"
-      isolation="isolate"
       display="inline-flex"
-      alignItems="center"
+      isolation="isolate"
+      position="relative"
       {...props}
     >
       {children}

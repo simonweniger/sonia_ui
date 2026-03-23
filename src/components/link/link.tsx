@@ -28,16 +28,16 @@ type LinkIconProps = ComponentPropsWithRef<"span">;
 const LinkIcon = ({children, ...props}: LinkIconProps) => {
   return (
     <Box
-      as="span"
-      data-slot="link-icon"
-      pointerEvents="none"
-      display="inline-flex"
-      boxSize="2"
-      flexShrink={0}
       alignItems="center"
-      justifyContent="center"
+      as="span"
+      boxSize="2"
       color="current"
+      data-slot="link-icon"
+      display="inline-flex"
+      flexShrink={0}
+      justifyContent="center"
       opacity={0.6}
+      pointerEvents="none"
       css={{
         transition: "opacity 150ms ease-out",
         "& svg": {transform: "translateZ(0)"},

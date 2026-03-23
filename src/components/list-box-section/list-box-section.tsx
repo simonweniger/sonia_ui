@@ -15,14 +15,14 @@ interface ListBoxSectionRootProps extends ComponentPropsWithRef<typeof Box> {
 const ListBoxSectionRoot = ({children, className, ...props}: ListBoxSectionRootProps) => {
   return (
     <Box
+      alignItems="flex-start"
       as="li"
-      role="group"
       className={className}
       data-slot="list-box-section"
       display="flex"
       flexDirection="column"
-      alignItems="flex-start"
       gap="0"
+      role="group"
       {...props}
     >
       {children}

@@ -13,13 +13,7 @@ interface DateFieldRootProps extends ComponentPropsWithRef<typeof DatePicker.Roo
   isRequired?: boolean;
 }
 
-function DateFieldRoot({
-  children,
-  className,
-  fullWidth,
-  isRequired,
-  ...props
-}: DateFieldRootProps) {
+function DateFieldRoot({children, className, fullWidth, isRequired, ...props}: DateFieldRootProps) {
   return (
     <DatePicker.Root
       data-required={isRequired ? "true" : undefined}

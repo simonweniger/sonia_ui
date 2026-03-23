@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Box, Flex} from "@chakra-ui/react";
 import React from "react";
@@ -116,8 +116,14 @@ export const Indeterminate: Story = {
     return (
       <div>
         <Checkbox
-          checked={selected.length === allOptions.length ? true : selected.length > 0 ? "indeterminate" : false}
           name="select-all"
+          checked={
+            selected.length === allOptions.length
+              ? true
+              : selected.length > 0
+                ? "indeterminate"
+                : false
+          }
           onCheckedChange={(e) => {
             setSelected(e.checked ? allOptions : []);
           }}
@@ -129,7 +135,7 @@ export const Indeterminate: Story = {
             <Label>Select all</Label>
           </Checkbox.Content>
         </Checkbox>
-        <Box ml="6" display="flex" flexDirection="column" gap="2">
+        <Box display="flex" flexDirection="column" gap="2" ml="6">
           <CheckboxGroup value={selected} onValueChange={setSelected}>
             <Checkbox value="coding">
               <Checkbox.Control>
@@ -217,12 +223,7 @@ export const Controlled: Story = {
     const [selected, setSelected] = React.useState(["coding", "design"]);
 
     return (
-      <CheckboxGroup
-        minW="320px"
-        name="skills"
-        value={selected}
-        onValueChange={setSelected}
-      >
+      <CheckboxGroup minW="320px" name="skills" value={selected} onValueChange={setSelected}>
         <Label>Your skills</Label>
         <Checkbox value="coding">
           <Checkbox.Control>
@@ -248,7 +249,9 @@ export const Controlled: Story = {
             <Label>Writing</Label>
           </Checkbox.Content>
         </Checkbox>
-        <Label my="4" fontSize="sm" color="fg.muted">Selected: {selected.join(", ") || "None"}</Label>
+        <Label color="fg.muted" fontSize="sm" my="4">
+          Selected: {selected.join(", ") || "None"}
+        </Label>
       </CheckboxGroup>
     );
   },

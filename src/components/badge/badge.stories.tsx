@@ -1,8 +1,8 @@
 import type {BadgeProps} from "./index";
-import type {Meta} from "@storybook/react";
+import type {Meta} from "@storybook/react-vite";
 
-import {Icon} from "@iconify/react";
 import {Box, Flex, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
 import React from "react";
 
 import {Avatar} from "../avatar";
@@ -28,7 +28,7 @@ export default {
   title: "Components/Data Display/Badge",
 } as Meta<typeof Badge>;
 
-const AVATAR_URL = "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg";
+const AVATAR_URL = "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg";
 
 const defaultArgs: BadgeProps = {
   variant: "solid",
@@ -46,7 +46,7 @@ const Template = (props: BadgeProps) => (
 
 const SizesTemplate = (props: BadgeProps) => (
   <Flex align="center" gap="8">
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Badge.Anchor>
         <Avatar size="lg">
           <Avatar.Image src={AVATAR_URL} />
@@ -55,9 +55,11 @@ const SizesTemplate = (props: BadgeProps) => (
           99+
         </Badge>
       </Badge.Anchor>
-      <Text as="span" fontSize="xs" color="fg.muted">Large</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Large
+      </Text>
     </Flex>
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Badge.Anchor>
         <Avatar size="md">
           <Avatar.Image src={AVATAR_URL} />
@@ -66,9 +68,11 @@ const SizesTemplate = (props: BadgeProps) => (
           99+
         </Badge>
       </Badge.Anchor>
-      <Text as="span" fontSize="xs" color="fg.muted">Medium</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Medium
+      </Text>
     </Flex>
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Badge.Anchor>
         <Avatar size="sm">
           <Avatar.Image src={AVATAR_URL} />
@@ -77,7 +81,9 @@ const SizesTemplate = (props: BadgeProps) => (
           99+
         </Badge>
       </Badge.Anchor>
-      <Text as="span" fontSize="xs" color="fg.muted">Small</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Small
+      </Text>
     </Flex>
   </Flex>
 );
@@ -88,14 +94,16 @@ const ColorPalettesTemplate = (props: BadgeProps) => {
   return (
     <Flex align="center" gap="8">
       {palettes.map((palette) => (
-        <Flex key={palette} direction="column" align="center" gap="2">
+        <Flex key={palette} align="center" direction="column" gap="2">
           <Badge.Anchor>
             <Avatar>
               <Avatar.Image src={AVATAR_URL} />
             </Avatar>
             <Badge {...props} colorPalette={palette} />
           </Badge.Anchor>
-          <Text as="span" fontSize="xs" color="fg.muted" textTransform="capitalize">{palette}</Text>
+          <Text as="span" color="fg.muted" fontSize="xs" textTransform="capitalize">
+            {palette}
+          </Text>
         </Flex>
       ))}
     </Flex>
@@ -104,7 +112,7 @@ const ColorPalettesTemplate = (props: BadgeProps) => {
 
 const WithContentTemplate = (props: BadgeProps) => (
   <Flex align="center" gap="8">
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Badge.Anchor>
         <Avatar>
           <Avatar.Image src={AVATAR_URL} />
@@ -113,9 +121,11 @@ const WithContentTemplate = (props: BadgeProps) => (
           5
         </Badge>
       </Badge.Anchor>
-      <Text as="span" fontSize="xs" color="fg.muted">Number</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Number
+      </Text>
     </Flex>
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Badge.Anchor>
         <Avatar>
           <Avatar.Image src={AVATAR_URL} />
@@ -124,9 +134,11 @@ const WithContentTemplate = (props: BadgeProps) => (
           New
         </Badge>
       </Badge.Anchor>
-      <Text as="span" fontSize="xs" color="fg.muted">Text</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Text
+      </Text>
     </Flex>
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Badge.Anchor>
         <Avatar>
           <Avatar.Image src={AVATAR_URL} />
@@ -135,9 +147,11 @@ const WithContentTemplate = (props: BadgeProps) => (
           99+
         </Badge>
       </Badge.Anchor>
-      <Text as="span" fontSize="xs" color="fg.muted">Overflow</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Overflow
+      </Text>
     </Flex>
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Badge.Anchor>
         <Avatar>
           <Avatar.Image src={AVATAR_URL} />
@@ -146,7 +160,9 @@ const WithContentTemplate = (props: BadgeProps) => (
           <Icon icon="gravity-ui:bell" />
         </Badge>
       </Badge.Anchor>
-      <Text as="span" fontSize="xs" color="fg.muted">Icon</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Icon
+      </Text>
     </Flex>
   </Flex>
 );
@@ -160,10 +176,18 @@ const VariantsTemplate = () => {
       {variants.map((variant, index) => (
         <React.Fragment key={variant}>
           <Flex direction="column" gap="4">
-            <Box as="h3" fontSize="sm" fontWeight="semibold" color="fg.muted" textTransform="capitalize">{variant}</Box>
+            <Box
+              as="h3"
+              color="fg.muted"
+              fontSize="sm"
+              fontWeight="semibold"
+              textTransform="capitalize"
+            >
+              {variant}
+            </Box>
             <Flex align="center" gap="8">
               {palettes.map((palette) => (
-                <Flex key={palette} direction="column" align="center" gap="2">
+                <Flex key={palette} align="center" direction="column" gap="2">
                   <Badge.Anchor>
                     <Avatar>
                       <Avatar.Image src={AVATAR_URL} />
@@ -172,7 +196,9 @@ const VariantsTemplate = () => {
                       5
                     </Badge>
                   </Badge.Anchor>
-                  <Text as="span" fontSize="xs" color="fg.muted" textTransform="capitalize">{palette}</Text>
+                  <Text as="span" color="fg.muted" fontSize="xs" textTransform="capitalize">
+                    {palette}
+                  </Text>
                 </Flex>
               ))}
             </Flex>
@@ -190,7 +216,9 @@ const DotBadgeTemplate = () => {
   return (
     <Flex direction="column" gap="8">
       <Flex direction="column" gap="4">
-        <Box as="h3" fontSize="sm" fontWeight="semibold" color="fg.muted">Status Indicators</Box>
+        <Box as="h3" color="fg.muted" fontSize="sm" fontWeight="semibold">
+          Status Indicators
+        </Box>
         <Flex align="center" gap="8">
           {palettes.map((palette) => (
             <Badge.Anchor key={palette}>
@@ -204,34 +232,42 @@ const DotBadgeTemplate = () => {
       </Flex>
       <Separator />
       <Flex direction="column" gap="4">
-        <Box as="h3" fontSize="sm" fontWeight="semibold" color="fg.muted">Sizes</Box>
+        <Box as="h3" color="fg.muted" fontSize="sm" fontWeight="semibold">
+          Sizes
+        </Box>
         <Flex align="center" gap="8">
-          <Flex direction="column" align="center" gap="2">
+          <Flex align="center" direction="column" gap="2">
             <Badge.Anchor>
               <Avatar size="lg">
                 <Avatar.Image src={AVATAR_URL} />
               </Avatar>
               <Badge colorPalette="green" size="lg" />
             </Badge.Anchor>
-            <Text as="span" fontSize="xs" color="fg.muted">Large</Text>
+            <Text as="span" color="fg.muted" fontSize="xs">
+              Large
+            </Text>
           </Flex>
-          <Flex direction="column" align="center" gap="2">
+          <Flex align="center" direction="column" gap="2">
             <Badge.Anchor>
               <Avatar size="md">
                 <Avatar.Image src={AVATAR_URL} />
               </Avatar>
               <Badge colorPalette="green" size="md" />
             </Badge.Anchor>
-            <Text as="span" fontSize="xs" color="fg.muted">Medium</Text>
+            <Text as="span" color="fg.muted" fontSize="xs">
+              Medium
+            </Text>
           </Flex>
-          <Flex direction="column" align="center" gap="2">
+          <Flex align="center" direction="column" gap="2">
             <Badge.Anchor>
               <Avatar size="sm">
                 <Avatar.Image src={AVATAR_URL} />
               </Avatar>
               <Badge colorPalette="green" size="sm" />
             </Badge.Anchor>
-            <Text as="span" fontSize="xs" color="fg.muted">Small</Text>
+            <Text as="span" color="fg.muted" fontSize="xs">
+              Small
+            </Text>
           </Flex>
         </Flex>
       </Flex>

@@ -116,10 +116,10 @@ export const ScrollShadowRoot = ({
       className={className}
       data-orientation={orientation}
       data-scroll-shadow-size={size}
-      position="relative"
       overflow={orientation === "vertical" ? "auto" : "auto"}
-      overflowY={orientation === "vertical" ? "auto" : undefined}
       overflowX={orientation === "horizontal" ? "auto" : undefined}
+      overflowY={orientation === "vertical" ? "auto" : undefined}
+      position="relative"
       css={{
         "--scroll-shadow-size": `${size}px`,
         ...(hideScrollBar

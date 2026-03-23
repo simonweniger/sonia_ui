@@ -48,16 +48,16 @@ const ButtonGroupRoot = ({
   return (
     <ButtonGroupContext value={{size, variant, colorPalette, isDisabled, fullWidth, hideSeparator}}>
       <Group
-        data-hide-separator={hideSeparator ? "true" : undefined}
-        data-slot="button-group"
-        data-orientation={orientation}
+        alignItems="center"
         data-full-width={fullWidth || undefined}
+        data-hide-separator={hideSeparator ? "true" : undefined}
+        data-orientation={orientation}
+        data-slot="button-group"
         display="inline-flex"
         flexDirection={isVertical ? "column" : "row"}
-        h="auto"
-        alignItems="center"
-        justifyContent="center"
         gap="0"
+        h="auto"
+        justifyContent="center"
         width={fullWidth ? "100%" : undefined}
         css={{
           /* Remove border radius from all buttons */
@@ -67,28 +67,34 @@ const ButtonGroupRoot = ({
 
           /* ---- Horizontal orientation ---- */
           /* First button: direct child or nested in first child (e.g. Dropdown.Trigger) */
-          "&[data-orientation='horizontal'] > [data-slot='button']:first-child, &[data-orientation='horizontal'] > :first-child [data-slot='button']": {
-            borderStartRadius: "3xl",
-          },
+          "&[data-orientation='horizontal'] > [data-slot='button']:first-child, &[data-orientation='horizontal'] > :first-child [data-slot='button']":
+            {
+              borderStartRadius: "3xl",
+            },
           /* Last button: direct child or nested in last child */
-          "&[data-orientation='horizontal'] > [data-slot='button']:last-child, &[data-orientation='horizontal'] > :last-child [data-slot='button']": {
-            borderEndRadius: "3xl",
-          },
+          "&[data-orientation='horizontal'] > [data-slot='button']:last-child, &[data-orientation='horizontal'] > :last-child [data-slot='button']":
+            {
+              borderEndRadius: "3xl",
+            },
           /* Only child */
-          "&[data-orientation='horizontal'] > [data-slot='button']:only-child, &[data-orientation='horizontal'] > :only-child [data-slot='button']": {
-            borderRadius: "3xl",
-          },
+          "&[data-orientation='horizontal'] > [data-slot='button']:only-child, &[data-orientation='horizontal'] > :only-child [data-slot='button']":
+            {
+              borderRadius: "3xl",
+            },
 
           /* ---- Vertical orientation ---- */
-          "&[data-orientation='vertical'] > [data-slot='button']:first-child, &[data-orientation='vertical'] > :first-child [data-slot='button']": {
-            borderTopRadius: "3xl",
-          },
-          "&[data-orientation='vertical'] > [data-slot='button']:last-child, &[data-orientation='vertical'] > :last-child [data-slot='button']": {
-            borderBottomRadius: "3xl",
-          },
-          "&[data-orientation='vertical'] > [data-slot='button']:only-child, &[data-orientation='vertical'] > :only-child [data-slot='button']": {
-            borderRadius: "3xl",
-          },
+          "&[data-orientation='vertical'] > [data-slot='button']:first-child, &[data-orientation='vertical'] > :first-child [data-slot='button']":
+            {
+              borderTopRadius: "3xl",
+            },
+          "&[data-orientation='vertical'] > [data-slot='button']:last-child, &[data-orientation='vertical'] > :last-child [data-slot='button']":
+            {
+              borderBottomRadius: "3xl",
+            },
+          "&[data-orientation='vertical'] > [data-slot='button']:only-child, &[data-orientation='vertical'] > :only-child [data-slot='button']":
+            {
+              borderRadius: "3xl",
+            },
 
           /* Remove scale on active/pressed */
           "& [data-slot='button']:active, & [data-slot='button'][data-pressed='true']": {
@@ -106,34 +112,36 @@ const ButtonGroupRoot = ({
            * Two selectors to handle:
            * 1. Direct button children that aren't first
            * 2. Buttons nested in non-first wrappers (e.g. Dropdown.Trigger) */
-          "&[data-orientation='horizontal'] > [data-slot='button']:not(:first-child)::before, &[data-orientation='horizontal'] > :not(:first-child) [data-slot='button']::before": {
-            content: '""',
-            borderRadius: "4px",
-            position: "absolute",
-            left: "-1px",
-            top: "20%",
-            width: "1px",
-            height: "60%",
-            bg: "currentColor",
-            opacity: 0.2,
-            pointerEvents: "none",
-            transition: "opacity 150ms ease",
-          },
+          "&[data-orientation='horizontal'] > [data-slot='button']:not(:first-child)::before, &[data-orientation='horizontal'] > :not(:first-child) [data-slot='button']::before":
+            {
+              content: '""',
+              borderRadius: "4px",
+              position: "absolute",
+              left: "-1px",
+              top: "20%",
+              width: "1px",
+              height: "60%",
+              bg: "currentColor",
+              opacity: 0.2,
+              pointerEvents: "none",
+              transition: "opacity 150ms ease",
+            },
 
           /* ---- Separator (vertical) ---- */
-          "&[data-orientation='vertical'] > [data-slot='button']:not(:first-child)::before, &[data-orientation='vertical'] > :not(:first-child) [data-slot='button']::before": {
-            content: '""',
-            borderRadius: "4px",
-            position: "absolute",
-            left: "20%",
-            top: "-1px",
-            width: "60%",
-            height: "1px",
-            bg: "currentColor",
-            opacity: 0.2,
-            pointerEvents: "none",
-            transition: "opacity 150ms ease",
-          },
+          "&[data-orientation='vertical'] > [data-slot='button']:not(:first-child)::before, &[data-orientation='vertical'] > :not(:first-child) [data-slot='button']::before":
+            {
+              content: '""',
+              borderRadius: "4px",
+              position: "absolute",
+              left: "20%",
+              top: "-1px",
+              width: "60%",
+              height: "1px",
+              bg: "currentColor",
+              opacity: 0.2,
+              pointerEvents: "none",
+              transition: "opacity 150ms ease",
+            },
 
           /* Hide separator when prop is set */
           "&[data-hide-separator='true'] [data-slot='button']::before": {

@@ -11,12 +11,7 @@ import React from "react";
 interface FieldsetRootProps extends ComponentPropsWithRef<typeof ChakraFieldset.Root> {}
 
 const FieldsetRoot = ({...props}: FieldsetRootProps) => {
-  return (
-    <ChakraFieldset.Root
-      data-slot="fieldset"
-      {...props}
-    />
-  );
+  return <ChakraFieldset.Root data-slot="fieldset" {...props} />;
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -25,13 +20,7 @@ const FieldsetRoot = ({...props}: FieldsetRootProps) => {
 interface FieldsetLegendProps extends ComponentPropsWithRef<typeof ChakraFieldset.Legend> {}
 
 const FieldsetLegend = ({...props}: FieldsetLegendProps) => {
-  return (
-    <ChakraFieldset.Legend
-      data-slot="fieldset-legend"
-      fontSize="md"
-      {...props}
-    />
-  );
+  return <ChakraFieldset.Legend data-slot="fieldset-legend" fontSize="md" {...props} />;
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -40,12 +29,7 @@ const FieldsetLegend = ({...props}: FieldsetLegendProps) => {
 interface FieldGroupProps extends ComponentPropsWithRef<typeof ChakraFieldset.Content> {}
 
 const FieldGroup = ({...props}: FieldGroupProps) => {
-  return (
-    <ChakraFieldset.Content
-      data-slot="fieldset-field-group"
-      {...props}
-    />
-  );
+  return <ChakraFieldset.Content data-slot="fieldset-field-group" {...props} />;
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -55,14 +39,7 @@ interface FieldsetActionsProps extends ComponentPropsWithRef<"div"> {}
 
 const FieldsetActions = ({children, ...rest}: FieldsetActionsProps) => {
   return (
-    <Box
-      data-slot="fieldset-actions"
-      display="flex"
-      alignItems="center"
-      gap="2"
-      pt="1"
-      {...rest}
-    >
+    <Box alignItems="center" data-slot="fieldset-actions" display="flex" gap="2" pt="1" {...rest}>
       {children}
     </Box>
   );

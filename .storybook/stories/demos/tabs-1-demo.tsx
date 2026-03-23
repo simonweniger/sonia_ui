@@ -1,5 +1,6 @@
-import {Tabs} from "../../../src";
 import React from "react";
+
+import {Tabs} from "../../../src";
 
 export function TabsDemo1() {
   return (

@@ -153,8 +153,8 @@ interface SearchFieldInputProps extends ComponentPropsWithRef<typeof ChakraInput
 const SearchFieldInput = ({...props}: SearchFieldInputProps) => {
   return (
     <ChakraInput
-      type="search"
       data-slot="search-field-input"
+      type="search"
       {...inputStyles}
       css={{
         "&::-webkit-search-cancel-button, &::-webkit-search-decoration": {
@@ -197,13 +197,7 @@ interface SearchFieldClearButtonProps extends ComponentPropsWithRef<typeof Close
 
 const SearchFieldClearButton = ({...props}: SearchFieldClearButtonProps) => {
   return (
-    <CloseButton
-      data-slot="search-field-clear-button"
-      size="sm"
-      mr="2"
-      flexShrink={0}
-      {...props}
-    />
+    <CloseButton data-slot="search-field-clear-button" flexShrink={0} mr="2" size="sm" {...props} />
   );
 };
 

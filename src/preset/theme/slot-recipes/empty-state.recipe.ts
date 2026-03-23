@@ -1,51 +1,51 @@
-import { emptyStateAnatomy } from '@chakra-ui/react/anatomy'
-import { defineSlotRecipe } from '@chakra-ui/react/styled-system'
+import {emptyStateAnatomy} from "@chakra-ui/react/anatomy";
+import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
 export const emptyStateSlotRecipe = defineSlotRecipe({
-  slots: emptyStateAnatomy.extendWith('actions').keys(),
-  className: 'chakra-empty-state',
+  slots: emptyStateAnatomy.extendWith("actions").keys(),
+  className: "chakra-empty-state",
   base: {
     root: {
-      colorPalette: 'accent',
-      width: 'full',
-      height: 'full',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
+      colorPalette: "accent",
+      width: "full",
+      height: "full",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
     },
     content: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '0.25rem',
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "0.25rem",
     },
     indicator: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: 'colorPalette.solid',
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      color: "colorPalette.solid",
       _icon: {
-        boxSize: '1em',
+        boxSize: "1em",
       },
     },
     title: {
-      fontWeight: 'semibold',
+      fontWeight: "semibold",
     },
     description: {
-      textStyle: 'sm',
-      color: 'fg.muted',
-      '&:is(div)': {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '0.5rem',
+      textStyle: "sm",
+      color: "fg.muted",
+      "&:is(div)": {
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.5rem",
       },
     },
     actions: {
-      display: 'flex',
-      flexDirection: 'row',
-      gap: '2',
+      display: "flex",
+      flexDirection: "row",
+      gap: "2",
     },
   },
 
@@ -53,88 +53,88 @@ export const emptyStateSlotRecipe = defineSlotRecipe({
     size: {
       sm: {
         root: {
-          px: '4',
-          py: '6',
+          px: "4",
+          py: "6",
         },
         indicator: {
-          textStyle: '3xl',
-          mb: '2',
+          textStyle: "3xl",
+          mb: "2",
         },
         title: {
-          textStyle: 'md',
+          textStyle: "md",
         },
         description: {
-          textStyle: 'xs',
+          textStyle: "xs",
         },
         content: {
-          textStyle: 'xs',
+          textStyle: "xs",
         },
         actions: {
-          mt: '2',
+          mt: "2",
         },
       },
       md: {
         root: {
-          px: '8',
-          py: '12',
+          px: "8",
+          py: "12",
         },
         indicator: {
-          textStyle: '4xl',
-          mb: '3',
+          textStyle: "4xl",
+          mb: "3",
         },
         title: {
-          textStyle: 'lg',
+          textStyle: "lg",
         },
         description: {
-          textStyle: 'sm',
+          textStyle: "sm",
         },
         content: {
-          textStyle: 'sm',
+          textStyle: "sm",
         },
         actions: {
-          mt: '3',
+          mt: "3",
         },
       },
       lg: {
         root: {
-          px: '12',
-          py: '16',
+          px: "12",
+          py: "16",
         },
         indicator: {
-          textStyle: '6xl',
-          mb: '4',
+          textStyle: "6xl",
+          mb: "4",
         },
         title: {
-          textStyle: 'xl',
+          textStyle: "xl",
         },
         description: {
-          textStyle: 'md',
+          textStyle: "md",
         },
         content: {
-          textStyle: 'md',
+          textStyle: "md",
         },
         actions: {
-          mt: '4',
+          mt: "4",
         },
       },
     },
     align: {
       start: {
         content: {
-          alignItems: 'flex-start',
+          alignItems: "flex-start",
         },
       },
       center: {
         content: {
-          alignItems: 'center',
-          textAlign: 'center',
+          alignItems: "center",
+          textAlign: "center",
         },
       },
     },
   },
 
   defaultVariants: {
-    size: 'md',
-    align: 'center',
+    size: "md",
+    align: "center",
   },
-})
+});

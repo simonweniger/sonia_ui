@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Box, Flex} from "@chakra-ui/react";
 import React from "react";
@@ -62,7 +62,7 @@ export const Variants: Story = {
 
 export const FullWidth: Story = {
   render: () => (
-    <Box w="400px" spaceY="4">
+    <Box spaceY="4" w="400px">
       <NumberField fullWidth defaultValue="1024" min={0} name="width">
         <Label>Width</Label>
         <NumberField.Group>
@@ -203,12 +203,7 @@ export const Controlled: Story = {
 
     return (
       <Box display="flex" flexDirection="column" gap="4">
-        <NumberField
-          min={0}
-          name="width"
-          value={value}
-          onValueChange={(e) => setValue(e.value)}
-        >
+        <NumberField min={0} name="width" value={value} onValueChange={(e) => setValue(e.value)}>
           <Label>Width</Label>
           <NumberField.Group>
             <NumberField.DecrementButton />
@@ -443,18 +438,23 @@ export const WithChevrons: Story = {
       <Label>Number field with chevrons</Label>
       <NumberField.Group>
         <NumberField.Input />
-        <Flex height="calc(100% + 2px)" direction="column" borderLeftWidth="1px" borderColor="field-placeholder/15">
+        <Flex
+          borderColor="field-placeholder/15"
+          borderLeftWidth="1px"
+          direction="column"
+          height="calc(100% + 2px)"
+        >
           <NumberField.IncrementButton
-            ml="-1px"
-            display="flex"
-            height="50%"
-            width="6"
-            flex="1"
-            rounded="none"
-            borderRightWidth="0"
             borderLeftWidth="0"
-            pt="0.5"
+            borderRightWidth="0"
+            display="flex"
+            flex="1"
             fontSize="sm"
+            height="50%"
+            ml="-1px"
+            pt="0.5"
+            rounded="none"
+            width="6"
           >
             <svg
               aria-hidden="true"
@@ -472,16 +472,16 @@ export const WithChevrons: Story = {
             </svg>
           </NumberField.IncrementButton>
           <NumberField.DecrementButton
-            ml="-1px"
-            display="flex"
-            height="50%"
-            width="6"
-            flex="1"
-            rounded="none"
-            borderRightWidth="0"
             borderLeftWidth="0"
-            pb="0.5"
+            borderRightWidth="0"
+            display="flex"
+            flex="1"
             fontSize="sm"
+            height="50%"
+            ml="-1px"
+            pb="0.5"
+            rounded="none"
+            width="6"
           >
             <svg
               aria-hidden="true"
@@ -531,7 +531,10 @@ export const FormExample: Story = {
     };
 
     return (
-      <Form style={{display: "flex", width: "280px", flexDirection: "column", gap: "1rem"}} onSubmit={handleSubmit}>
+      <Form
+        style={{display: "flex", width: "280px", flexDirection: "column", gap: "1rem"}}
+        onSubmit={handleSubmit}
+      >
         <NumberField
           {...args}
           required
@@ -555,10 +558,10 @@ export const FormExample: Story = {
           )}
         </NumberField>
         <Button
-          width="full"
           isDisabled={numValue === undefined || numValue < 1 || numValue > STOCK_AVAILABLE}
           type="submit"
           variant="solid"
+          width="full"
         >
           {isSubmitting ? (
             <>

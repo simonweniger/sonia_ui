@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Flex} from "@chakra-ui/react";
 import {Icon} from "@iconify/react";
@@ -25,7 +25,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: () => (
-    <TimeField style={{width: "256px"}} name="time">
+    <TimeField name="time" style={{width: "256px"}}>
       <Label>Time</Label>
       <TimeField.Group>
         <TimeField.Input />
@@ -36,7 +36,7 @@ export const Default: Story = {
 
 export const FullWidth: Story = {
   render: () => (
-    <Flex direction="column" w="400px" gap="4">
+    <Flex direction="column" gap="4" w="400px">
       <TimeField fullWidth name="time">
         <Label>Time</Label>
         <TimeField.Group>
@@ -47,11 +47,17 @@ export const FullWidth: Story = {
         <Label>Time</Label>
         <TimeField.Group>
           <TimeField.Prefix>
-            <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:clock" />
+            <Icon
+              icon="gravity-ui:clock"
+              style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+            />
           </TimeField.Prefix>
           <TimeField.Input />
           <TimeField.Suffix>
-            <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:chevron-down" />
+            <Icon
+              icon="gravity-ui:chevron-down"
+              style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+            />
           </TimeField.Suffix>
         </TimeField.Group>
       </TimeField>
@@ -62,14 +68,14 @@ export const FullWidth: Story = {
 export const WithDescription: Story = {
   render: () => (
     <Flex direction="column" gap="4">
-      <TimeField style={{width: "256px"}} name="time">
+      <TimeField name="time" style={{width: "256px"}}>
         <Label>Start time</Label>
         <TimeField.Group>
           <TimeField.Input />
         </TimeField.Group>
         <Description>Enter the start time</Description>
       </TimeField>
-      <TimeField style={{width: "256px"}} name="end-time">
+      <TimeField name="end-time" style={{width: "256px"}}>
         <Label>End time</Label>
         <TimeField.Group>
           <TimeField.Input />
@@ -83,13 +89,13 @@ export const WithDescription: Story = {
 export const Required: Story = {
   render: () => (
     <Flex direction="column" gap="4">
-      <TimeField isRequired style={{width: "256px"}} name="time">
+      <TimeField isRequired name="time" style={{width: "256px"}}>
         <Label>Time</Label>
         <TimeField.Group>
           <TimeField.Input />
         </TimeField.Group>
       </TimeField>
-      <TimeField isRequired style={{width: "256px"}} name="appointment-time">
+      <TimeField isRequired name="appointment-time" style={{width: "256px"}}>
         <Label>Appointment time</Label>
         <TimeField.Group>
           <TimeField.Input />
@@ -103,14 +109,14 @@ export const Required: Story = {
 export const Disabled: Story = {
   render: () => (
     <Flex direction="column" gap="4">
-      <TimeField isDisabled style={{width: "256px"}} name="time" defaultValue="14:30">
+      <TimeField isDisabled defaultValue="14:30" name="time" style={{width: "256px"}}>
         <Label>Time</Label>
         <TimeField.Group>
           <TimeField.Input />
         </TimeField.Group>
         <Description>This time field is disabled</Description>
       </TimeField>
-      <TimeField isDisabled style={{width: "256px"}} name="time-empty">
+      <TimeField isDisabled name="time-empty" style={{width: "256px"}}>
         <Label>Time</Label>
         <TimeField.Group>
           <TimeField.Input />
@@ -127,7 +133,7 @@ export const Controlled: Story = {
 
     return (
       <Flex direction="column" gap="4">
-        <TimeField style={{width: "256px"}} name="time" value={value} onChange={setValue}>
+        <TimeField name="time" style={{width: "256px"}} value={value} onChange={setValue}>
           <Label>Time</Label>
           <TimeField.Group>
             <TimeField.Input />
@@ -141,6 +147,7 @@ export const Controlled: Story = {
               const now = new Date();
               const hours = String(now.getHours()).padStart(2, "0");
               const minutes = String(now.getMinutes()).padStart(2, "0");
+
               setValue(`${hours}:${minutes}`);
             }}
           >
@@ -157,11 +164,14 @@ export const Controlled: Story = {
 
 export const WithPrefixIcon: Story = {
   render: () => (
-    <TimeField style={{width: "256px"}} name="time">
+    <TimeField name="time" style={{width: "256px"}}>
       <Label>Time</Label>
       <TimeField.Group>
         <TimeField.Prefix>
-          <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:clock" />
+          <Icon
+            icon="gravity-ui:clock"
+            style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+          />
         </TimeField.Prefix>
         <TimeField.Input />
       </TimeField.Group>
@@ -171,12 +181,15 @@ export const WithPrefixIcon: Story = {
 
 export const WithSuffixIcon: Story = {
   render: () => (
-    <TimeField style={{width: "256px"}} name="time">
+    <TimeField name="time" style={{width: "256px"}}>
       <Label>Time</Label>
       <TimeField.Group>
         <TimeField.Input />
         <TimeField.Suffix>
-          <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:clock" />
+          <Icon
+            icon="gravity-ui:clock"
+            style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+          />
         </TimeField.Suffix>
       </TimeField.Group>
     </TimeField>
@@ -185,15 +198,21 @@ export const WithSuffixIcon: Story = {
 
 export const WithPrefixAndSuffix: Story = {
   render: () => (
-    <TimeField style={{width: "256px"}} name="time">
+    <TimeField name="time" style={{width: "256px"}}>
       <Label>Time</Label>
       <TimeField.Group>
         <TimeField.Prefix>
-          <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:clock" />
+          <Icon
+            icon="gravity-ui:clock"
+            style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+          />
         </TimeField.Prefix>
         <TimeField.Input />
         <TimeField.Suffix>
-          <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:chevron-down" />
+          <Icon
+            icon="gravity-ui:chevron-down"
+            style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+          />
         </TimeField.Suffix>
       </TimeField.Group>
       <Description>Enter a time</Description>
@@ -203,7 +222,7 @@ export const WithPrefixAndSuffix: Story = {
 
 export const GranularitySecond: Story = {
   render: () => (
-    <TimeField style={{width: "256px"}} name="time" granularity="second">
+    <TimeField granularity="second" name="time" style={{width: "256px"}}>
       <Label>Precise time</Label>
       <TimeField.Group>
         <TimeField.Input />
@@ -237,29 +256,24 @@ export const FormExample: Story = {
     };
 
     return (
-      <Form style={{display: "flex", width: "280px", flexDirection: "column", gap: "16px"}} onSubmit={handleSubmit}>
-        <TimeField
-          isRequired
-          style={{width: "100%"}}
-          name="time"
-          value={value}
-          onChange={setValue}
-        >
+      <Form
+        style={{display: "flex", width: "280px", flexDirection: "column", gap: "16px"}}
+        onSubmit={handleSubmit}
+      >
+        <TimeField isRequired name="time" style={{width: "100%"}} value={value} onChange={setValue}>
           <Label>Appointment time</Label>
           <TimeField.Group>
             <TimeField.Prefix>
-              <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:clock" />
+              <Icon
+                icon="gravity-ui:clock"
+                style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+              />
             </TimeField.Prefix>
             <TimeField.Input />
           </TimeField.Group>
           <Description>Enter a time between 9:00 AM and 5:00 PM</Description>
         </TimeField>
-        <Button
-          style={{width: "100%"}}
-          isDisabled={!value}
-          loading={isSubmitting}
-          type="submit"
-        >
+        <Button isDisabled={!value} loading={isSubmitting} style={{width: "100%"}} type="submit">
           {isSubmitting ? "Submitting..." : "Submit"}
         </Button>
       </Form>
@@ -271,37 +285,49 @@ export const AllVariations: Story = {
   render: () => (
     <Flex direction="column" gap="6">
       <Flex direction="column" gap="4">
-        <TimeField isRequired style={{width: "256px"}} name="time1">
+        <TimeField isRequired name="time1" style={{width: "256px"}}>
           <Label>Time</Label>
           <TimeField.Group>
             <TimeField.Prefix>
-              <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:clock" />
+              <Icon
+                icon="gravity-ui:clock"
+                style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+              />
             </TimeField.Prefix>
             <TimeField.Input />
           </TimeField.Group>
           <Description>Enter a time</Description>
         </TimeField>
 
-        <TimeField isRequired style={{width: "256px"}} name="time2">
+        <TimeField isRequired name="time2" style={{width: "256px"}}>
           <Label>Time</Label>
           <TimeField.Group>
             <TimeField.Input />
             <TimeField.Suffix>
-              <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:clock" />
+              <Icon
+                icon="gravity-ui:clock"
+                style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+              />
             </TimeField.Suffix>
           </TimeField.Group>
           <Description>Enter a time</Description>
         </TimeField>
 
-        <TimeField isRequired style={{width: "256px"}} name="time3">
+        <TimeField isRequired name="time3" style={{width: "256px"}}>
           <Label>Time</Label>
           <TimeField.Group>
             <TimeField.Prefix>
-              <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:clock" />
+              <Icon
+                icon="gravity-ui:clock"
+                style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+              />
             </TimeField.Prefix>
             <TimeField.Input />
             <TimeField.Suffix>
-              <Icon style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}} icon="gravity-ui:chevron-down" />
+              <Icon
+                icon="gravity-ui:chevron-down"
+                style={{width: "16px", height: "16px", color: "var(--colors-fg-muted)"}}
+              />
             </TimeField.Suffix>
           </TimeField.Group>
           <Description>Enter a time</Description>

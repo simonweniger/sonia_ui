@@ -1,7 +1,7 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
-import {Icon} from "@iconify/react";
 import {Box} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
 import React from "react";
 
 import {Avatar} from "../avatar";
@@ -73,7 +73,11 @@ export const Default: Story = {
 export const Sizes: Story = {
   render: () => {
     const {selected, toggle} = useTagSelection(["travel"]);
-    const tags = [{id: "news", name: "News"}, {id: "travel", name: "Travel"}, {id: "gaming", name: "Gaming"}];
+    const tags = [
+      {id: "news", name: "News"},
+      {id: "travel", name: "Travel"},
+      {id: "gaming", name: "Gaming"},
+    ];
 
     return (
       <Box display="flex" flexDirection="column" gap="6">
@@ -97,7 +101,11 @@ export const Sizes: Story = {
 export const Variants: Story = {
   render: () => {
     const {selected, toggle} = useTagSelection(["travel"]);
-    const tags = [{id: "news", name: "News"}, {id: "travel", name: "Travel"}, {id: "gaming", name: "Gaming"}];
+    const tags = [
+      {id: "news", name: "News"},
+      {id: "travel", name: "Travel"},
+      {id: "gaming", name: "Gaming"},
+    ];
 
     return (
       <Box display="flex" flexDirection="column" gap="8">
@@ -152,9 +160,24 @@ export const WithPrefix: Story = {
     const {selected, toggle} = useTagSelection(["news"]);
 
     const users = [
-      {id: "fred", name: "Fred", avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg", fallback: "F"},
-      {id: "michael", name: "Michael", avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg", fallback: "M"},
-      {id: "jane", name: "Jane", avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg", fallback: "J"},
+      {
+        id: "fred",
+        name: "Fred",
+        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
+        fallback: "F",
+      },
+      {
+        id: "michael",
+        name: "Michael",
+        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
+        fallback: "M",
+      },
+      {
+        id: "jane",
+        name: "Jane",
+        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
+        fallback: "J",
+      },
     ];
 
     return (
@@ -180,7 +203,7 @@ export const WithPrefix: Story = {
             {users.map((user) => (
               <Tag key={user.id} selected={selected.has(user.id)} onClick={() => toggle(user.id)}>
                 <Tag.StartElement>
-                  <Avatar boxSize="5" borderRadius="full">
+                  <Avatar borderRadius="full" boxSize="5">
                     <Avatar.Image src={user.avatar} />
                     <Avatar.Fallback>{user.fallback}</Avatar.Fallback>
                   </Avatar>
@@ -215,7 +238,12 @@ export const WithCloseTrigger: Story = {
                 <Tag key={tag.id} selected={selected.has(tag.id)} onClick={() => toggle(tag.id)}>
                   <Tag.Label>{tag.name}</Tag.Label>
                   <Tag.EndElement>
-                    <Tag.CloseTrigger onClick={(e) => { e.stopPropagation(); handleRemove(tag.id); }} />
+                    <Tag.CloseTrigger
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemove(tag.id);
+                      }}
+                    />
                   </Tag.EndElement>
                 </Tag>
               ))}
@@ -231,11 +259,36 @@ export const WithCloseTrigger: Story = {
 export const WithAvatars: Story = {
   render: () => {
     const users = [
-      {id: "fred", name: "Fred", avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg", fallback: "F"},
-      {id: "michael", name: "Michael", avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg", fallback: "M"},
-      {id: "jane", name: "Jane", avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg", fallback: "J"},
-      {id: "alice", name: "Alice", avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg", fallback: "A"},
-      {id: "bob", name: "Bob", avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg", fallback: "B"},
+      {
+        id: "fred",
+        name: "Fred",
+        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
+        fallback: "F",
+      },
+      {
+        id: "michael",
+        name: "Michael",
+        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
+        fallback: "M",
+      },
+      {
+        id: "jane",
+        name: "Jane",
+        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
+        fallback: "J",
+      },
+      {
+        id: "alice",
+        name: "Alice",
+        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg",
+        fallback: "A",
+      },
+      {
+        id: "bob",
+        name: "Bob",
+        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg",
+        fallback: "B",
+      },
     ];
 
     const {selected, toggle} = useTagSelection(["jane", "bob"]);
@@ -248,7 +301,7 @@ export const WithAvatars: Story = {
             {users.map((user) => (
               <Tag key={user.id} selected={selected.has(user.id)} onClick={() => toggle(user.id)}>
                 <Tag.StartElement>
-                  <Avatar boxSize="5" borderRadius="full">
+                  <Avatar borderRadius="full" boxSize="5">
                     <Avatar.Image src={user.avatar} />
                     <Avatar.Fallback>{user.fallback}</Avatar.Fallback>
                   </Avatar>

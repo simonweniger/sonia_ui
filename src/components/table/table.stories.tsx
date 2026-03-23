@@ -1,11 +1,12 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
+
+import {Box, Flex, Text} from "@chakra-ui/react";
 import {Icon} from "@iconify/react";
 import React from "react";
 
-import {Box, Flex, Text} from "@chakra-ui/react";
-
 import {Avatar} from "../avatar";
 import {Button} from "../button";
+import {Checkbox} from "../checkbox";
 import {Chip} from "../chip";
 import {Spinner} from "../spinner";
 
@@ -36,7 +37,7 @@ interface User {
 const users: User[] = [
   {
     email: "kate@acme.com",
-    image_url: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg",
+    image_url: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg",
     id: 4586932,
     name: "Kate Moore",
     role: "Chief Executive Officer",
@@ -44,7 +45,7 @@ const users: User[] = [
   },
   {
     email: "john@acme.com",
-    image_url: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
+    image_url: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
     id: 5273849,
     name: "John Smith",
     role: "Chief Technology Officer",
@@ -52,7 +53,7 @@ const users: User[] = [
   },
   {
     email: "sara@acme.com",
-    image_url: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
+    image_url: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
     id: 7492836,
     name: "Sara Johnson",
     role: "Chief Marketing Officer",
@@ -60,7 +61,7 @@ const users: User[] = [
   },
   {
     email: "michael@acme.com",
-    image_url: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
+    image_url: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
     id: 8293746,
     name: "Michael Brown",
     role: "Chief Financial Officer",
@@ -68,7 +69,7 @@ const users: User[] = [
   },
   {
     email: "emily@acme.com",
-    image_url: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg",
+    image_url: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg",
     id: 1234567,
     name: "Emily Davis",
     role: "Product Manager",
@@ -76,7 +77,7 @@ const users: User[] = [
   },
   {
     email: "davis@acme.com",
-    image_url: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/black.jpg",
+    image_url: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/black.jpg",
     id: 9876543,
     name: "Davis Wilson",
     role: "Lead Designer",
@@ -84,7 +85,7 @@ const users: User[] = [
   },
   {
     email: "olivia@acme.com",
-    image_url: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg",
+    image_url: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg",
     id: 3456789,
     name: "Olivia Martinez",
     role: "Frontend Engineer",
@@ -92,7 +93,7 @@ const users: User[] = [
   },
   {
     email: "james@acme.com",
-    image_url: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
+    image_url: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
     id: 4567890,
     name: "James Taylor",
     role: "Backend Engineer",
@@ -100,7 +101,7 @@ const users: User[] = [
   },
   {
     email: "sophia@acme.com",
-    image_url: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
+    image_url: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
     id: 5678901,
     name: "Sophia Anderson",
     role: "QA Engineer",
@@ -108,7 +109,7 @@ const users: User[] = [
   },
   {
     email: "liam@acme.com",
-    image_url: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
+    image_url: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
     id: 6789012,
     name: "Liam Thomas",
     role: "DevOps Engineer",
@@ -116,7 +117,7 @@ const users: User[] = [
   },
   {
     email: "ava@acme.com",
-    image_url: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg",
+    image_url: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg",
     id: 7890123,
     name: "Ava Jackson",
     role: "Data Analyst",
@@ -124,7 +125,7 @@ const users: User[] = [
   },
   {
     email: "noah@acme.com",
-    image_url: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/black.jpg",
+    image_url: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/black.jpg",
     id: 8901234,
     name: "Noah White",
     role: "Security Engineer",
@@ -136,7 +137,9 @@ const users: User[] = [
  * Wrapper
  * -----------------------------------------------------------------------------------------------*/
 const Wrapper = ({children}: {children: React.ReactNode}) => (
-  <Box width="full" maxW="4xl">{children}</Box>
+  <Box maxW="4xl" width="full">
+    {children}
+  </Box>
 );
 
 /* -------------------------------------------------------------------------------------------------
@@ -164,18 +167,18 @@ function TablePaginationFooter({pagination}: {pagination: ReturnType<typeof useP
   const {end, page, setPage, start, total, totalPages} = pagination;
 
   return (
-    <Flex align="center" justify="between" px="4" py="2" data-slot="table-pagination">
-      <Text fontSize="sm" color="fg.muted">
+    <Flex align="center" data-slot="table-pagination" justify="between" px="4" py="2">
+      <Text color="fg.muted" fontSize="sm">
         {start} to {end} of {total} results
       </Text>
       <Flex align="center" gap="1">
         <Button
+          disabled={page === 1}
           size="sm"
           variant="ghost"
-          disabled={page === 1}
           onClick={() => setPage((p: number) => Math.max(1, p - 1))}
         >
-          <Icon style={{width: "1rem", height: "1rem"}} icon="gravity-ui:chevron-left" />
+          <Icon icon="gravity-ui:chevron-left" style={{width: "1rem", height: "1rem"}} />
           Prev
         </Button>
         {Array.from({length: totalPages}, (_, i) => i + 1).map((p) => (
@@ -189,13 +192,13 @@ function TablePaginationFooter({pagination}: {pagination: ReturnType<typeof useP
           </Button>
         ))}
         <Button
+          disabled={page === totalPages}
           size="sm"
           variant="ghost"
-          disabled={page === totalPages}
           onClick={() => setPage((p: number) => Math.min(totalPages, p + 1))}
         >
           Next
-          <Icon style={{width: "1rem", height: "1rem"}} icon="gravity-ui:chevron-right" />
+          <Icon icon="gravity-ui:chevron-right" style={{width: "1rem", height: "1rem"}} />
         </Button>
       </Flex>
     </Flex>
@@ -218,67 +221,117 @@ const statusColorMap: Record<string, "success" | "danger" | "warning"> = {
 export const Default: Story = {
   render: () => {
     const pagination = usePagination(users);
+    const [selectedIds, setSelectedIds] = React.useState<Set<number>>(new Set());
+    const allSelected =
+      pagination.paginatedItems.length > 0 &&
+      pagination.paginatedItems.every((u) => selectedIds.has(u.id));
+    const someSelected = pagination.paginatedItems.some((u) => selectedIds.has(u.id));
+
+    const toggleAll = () => {
+      if (allSelected) {
+        setSelectedIds(new Set());
+      } else {
+        setSelectedIds(new Set(pagination.paginatedItems.map((u) => u.id)));
+      }
+    };
+
+    const toggleOne = (id: number) => {
+      setSelectedIds((prev) => {
+        const next = new Set(prev);
+
+        if (next.has(id)) {
+          next.delete(id);
+        } else {
+          next.add(id);
+        }
+
+        return next;
+      });
+    };
 
     return (
       <Wrapper>
         <Table>
           <Table.ScrollContainer>
-            <Table.Header>
-              <Table.Row>
-                <Table.Column>Worker ID</Table.Column>
-                <Table.Column>Member</Table.Column>
-                <Table.Column>Role</Table.Column>
-                <Table.Column>Status</Table.Column>
-                <Table.Column textAlign="end">Actions</Table.Column>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {pagination.paginatedItems.map((user) => (
-                <Table.Row key={user.id}>
-                  <Table.Cell fontWeight="medium">
-                    <Flex align="center" gap="2">
-                      #{user.id.toString()}
-                    </Flex>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Flex align="center" gap="3">
-                      <Avatar size="sm">
-                        <Avatar.Image src={user.image_url} />
-                        <Avatar.Fallback>
-                          {user.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
-                        </Avatar.Fallback>
-                      </Avatar>
-                      <Flex direction="column">
-                        <Text fontSize="xs">{user.name}</Text>
-                        <Text fontSize="xs" color="fg.muted">{user.email}</Text>
-                      </Flex>
-                    </Flex>
-                  </Table.Cell>
-                  <Table.Cell minW="52">{user.role}</Table.Cell>
-                  <Table.Cell minW="25">
-                    <Chip color={statusColorMap[user.status]} size="sm" variant="subtle">
-                      {user.status}
-                    </Chip>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Flex align="center" gap="1">
-                      <Button isIconOnly size="sm" variant="ghost">
-                        <Icon style={{width: "1rem", height: "1rem"}} icon="gravity-ui:eye" />
-                      </Button>
-                      <Button isIconOnly size="sm" variant="ghost">
-                        <Icon style={{width: "1rem", height: "1rem"}} icon="gravity-ui:pencil" />
-                      </Button>
-                      <Button isIconOnly size="sm" variant="ghost">
-                        <Icon style={{width: "1rem", height: "1rem"}} icon="gravity-ui:trash-bin" />
-                      </Button>
-                    </Flex>
-                  </Table.Cell>
+            <Table.Content>
+              <Table.Header>
+                <Table.Row>
+                  <Table.Column w="10">
+                    <Checkbox
+                      checked={allSelected ? true : someSelected ? "indeterminate" : false}
+                      onCheckedChange={toggleAll}
+                    >
+                      <Checkbox.Control />
+                    </Checkbox>
+                  </Table.Column>
+                  <Table.Column>Worker ID</Table.Column>
+                  <Table.Column>Member</Table.Column>
+                  <Table.Column>Role</Table.Column>
+                  <Table.Column>Status</Table.Column>
+                  <Table.Column textAlign="end">Actions</Table.Column>
                 </Table.Row>
-              ))}
-            </Table.Body>
+              </Table.Header>
+              <Table.Body>
+                {pagination.paginatedItems.map((user) => (
+                  <Table.Row key={user.id}>
+                    <Table.Cell w="10">
+                      <Checkbox
+                        checked={selectedIds.has(user.id)}
+                        onCheckedChange={() => toggleOne(user.id)}
+                      >
+                        <Checkbox.Control />
+                      </Checkbox>
+                    </Table.Cell>
+                    <Table.Cell fontWeight="medium">
+                      <Flex align="center" gap="2">
+                        #{user.id.toString()}
+                      </Flex>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Flex align="center" gap="3">
+                        <Avatar size="sm">
+                          <Avatar.Image src={user.image_url} />
+                          <Avatar.Fallback>
+                            {user.name
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
+                          </Avatar.Fallback>
+                        </Avatar>
+                        <Flex direction="column">
+                          <Text fontSize="xs">{user.name}</Text>
+                          <Text color="fg.muted" fontSize="xs">
+                            {user.email}
+                          </Text>
+                        </Flex>
+                      </Flex>
+                    </Table.Cell>
+                    <Table.Cell minW="52">{user.role}</Table.Cell>
+                    <Table.Cell minW="25">
+                      <Chip color={statusColorMap[user.status]} size="sm" variant="subtle">
+                        {user.status}
+                      </Chip>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Flex align="center" gap="1">
+                        <Button isIconOnly size="sm" variant="subtle">
+                          <Icon icon="gravity-ui:eye" style={{width: "1rem", height: "1rem"}} />
+                        </Button>
+                        <Button isIconOnly size="sm" variant="subtle">
+                          <Icon icon="gravity-ui:pencil" style={{width: "1rem", height: "1rem"}} />
+                        </Button>
+                        <Button isIconOnly colorPalette="red" size="sm" variant="subtle">
+                          <Icon
+                            icon="gravity-ui:trash-bin"
+                            style={{width: "1rem", height: "1rem"}}
+                          />
+                        </Button>
+                      </Flex>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Content>
           </Table.ScrollContainer>
           <Table.Footer>
             <TablePaginationFooter pagination={pagination} />
@@ -297,24 +350,44 @@ export const EmptyStateDemo: Story = {
     <Wrapper>
       <Table minH="200px" minW="600px">
         <Table.ScrollContainer>
-          <Table.Header>
-            <Table.Row>
-              <Table.Column>Name</Table.Column>
-              <Table.Column>Role</Table.Column>
-              <Table.Column>Status</Table.Column>
-              <Table.Column>Email</Table.Column>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell colSpan={4}>
-                <Flex height="full" width="full" direction="column" align="center" justify="center" gap="4" py="8" textAlign="center">
-                  <Icon style={{width: "1.5rem", height: "1.5rem", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:tray" />
-                  <Text fontSize="sm" color="fg.muted">No results found</Text>
-                </Flex>
-              </Table.Cell>
-            </Table.Row>
-          </Table.Body>
+          <Table.Content>
+            <Table.Header>
+              <Table.Row>
+                <Table.Column>Name</Table.Column>
+                <Table.Column>Role</Table.Column>
+                <Table.Column>Status</Table.Column>
+                <Table.Column>Email</Table.Column>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell colSpan={4}>
+                  <Flex
+                    align="center"
+                    direction="column"
+                    gap="4"
+                    height="full"
+                    justify="center"
+                    py="8"
+                    textAlign="center"
+                    width="full"
+                  >
+                    <Icon
+                      icon="gravity-ui:tray"
+                      style={{
+                        width: "1.5rem",
+                        height: "1.5rem",
+                        color: "var(--chakra-colors-fg-muted)",
+                      }}
+                    />
+                    <Text color="fg.muted" fontSize="sm">
+                      No results found
+                    </Text>
+                  </Flex>
+                </Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table.Content>
         </Table.ScrollContainer>
       </Table>
     </Wrapper>
@@ -338,22 +411,24 @@ export const DynamicCollection: Story = {
       <Wrapper>
         <Table>
           <Table.ScrollContainer>
-            <Table.Header>
-              <Table.Row>
-                {columns.map((column) => (
-                  <Table.Column key={column.id}>{column.name}</Table.Column>
-                ))}
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {pagination.paginatedItems.map((user) => (
-                <Table.Row key={user.id}>
+            <Table.Content>
+              <Table.Header>
+                <Table.Row>
                   {columns.map((column) => (
-                    <Table.Cell key={column.id}>{user[column.id]}</Table.Cell>
+                    <Table.Column key={column.id}>{column.name}</Table.Column>
                   ))}
                 </Table.Row>
-              ))}
-            </Table.Body>
+              </Table.Header>
+              <Table.Body>
+                {pagination.paginatedItems.map((user) => (
+                  <Table.Row key={user.id}>
+                    {columns.map((column) => (
+                      <Table.Cell key={column.id}>{user[column.id]}</Table.Cell>
+                    ))}
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Content>
           </Table.ScrollContainer>
           <Table.Footer>
             <TablePaginationFooter pagination={pagination} />
@@ -400,43 +475,52 @@ export const AsyncLoading: Story = {
       <Wrapper>
         <Table>
           <Table.ScrollContainer style={{height: "280px", overflowY: "auto"}}>
-            <Table.Header style={{position: "sticky", top: 0, zIndex: 10, background: "var(--chakra-colors-bg-muted)"}}>
-              <Table.Row>
-                <Table.Column>Name</Table.Column>
-                <Table.Column>Role</Table.Column>
-                <Table.Column>Status</Table.Column>
-                <Table.Column>Email</Table.Column>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {items.map((user) => (
-                <Table.Row key={user.id}>
-                  <Table.Cell>{user.name}</Table.Cell>
-                  <Table.Cell>{user.role}</Table.Cell>
-                  <Table.Cell>
-                    <Chip color={statusColorMap[user.status]} size="sm" variant="subtle">
-                      {user.status}
-                    </Chip>
-                  </Table.Cell>
-                  <Table.Cell>{user.email}</Table.Cell>
-                </Table.Row>
-              ))}
-              {hasMore && (
+            <Table.Content>
+              <Table.Header
+                style={{
+                  position: "sticky",
+                  top: 0,
+                  zIndex: 10,
+                  background: "var(--chakra-colors-bg-muted)",
+                }}
+              >
                 <Table.Row>
-                  <Table.Cell colSpan={4}>
-                    <Flex align="center" justify="center" py="4">
-                      {isLoading ? (
-                        <Spinner size="md" />
-                      ) : (
-                        <Button size="sm" variant="ghost" onClick={loadMore}>
-                          Load more
-                        </Button>
-                      )}
-                    </Flex>
-                  </Table.Cell>
+                  <Table.Column>Name</Table.Column>
+                  <Table.Column>Role</Table.Column>
+                  <Table.Column>Status</Table.Column>
+                  <Table.Column>Email</Table.Column>
                 </Table.Row>
-              )}
-            </Table.Body>
+              </Table.Header>
+              <Table.Body>
+                {items.map((user) => (
+                  <Table.Row key={user.id}>
+                    <Table.Cell>{user.name}</Table.Cell>
+                    <Table.Cell>{user.role}</Table.Cell>
+                    <Table.Cell>
+                      <Chip color={statusColorMap[user.status]} size="sm" variant="subtle">
+                        {user.status}
+                      </Chip>
+                    </Table.Cell>
+                    <Table.Cell>{user.email}</Table.Cell>
+                  </Table.Row>
+                ))}
+                {!!hasMore && (
+                  <Table.Row>
+                    <Table.Cell colSpan={4}>
+                      <Flex align="center" justify="center" py="4">
+                        {isLoading ? (
+                          <Spinner size="md" />
+                        ) : (
+                          <Button size="sm" variant="ghost" onClick={loadMore}>
+                            Load more
+                          </Button>
+                        )}
+                      </Flex>
+                    </Table.Cell>
+                  </Table.Row>
+                )}
+              </Table.Body>
+            </Table.Content>
           </Table.ScrollContainer>
         </Table>
       </Wrapper>

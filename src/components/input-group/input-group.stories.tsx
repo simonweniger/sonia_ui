@@ -1,7 +1,7 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
-import {Icon} from "@iconify/react";
 import {Box, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
 import React, {useState} from "react";
 
 import {Button} from "../button";
@@ -35,7 +35,10 @@ export const Default: Story = {
         <Label>Email address</Label>
         <InputGroup>
           <InputGroup.Prefix>
-            <Icon icon="gravity-ui:envelope" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+            <Icon
+              icon="gravity-ui:envelope"
+              style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+            />
           </InputGroup.Prefix>
           <InputGroup.Input placeholder="name@email.com" />
         </InputGroup>
@@ -51,7 +54,10 @@ export const Variants: Story = {
         <Label>Primary variant</Label>
         <InputGroup variant="primary">
           <InputGroup.Prefix>
-            <Icon icon="gravity-ui:envelope" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+            <Icon
+              icon="gravity-ui:envelope"
+              style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+            />
           </InputGroup.Prefix>
           <InputGroup.Input placeholder="name@email.com" />
         </InputGroup>
@@ -60,7 +66,10 @@ export const Variants: Story = {
         <Label>Secondary variant</Label>
         <InputGroup variant="secondary">
           <InputGroup.Prefix>
-            <Icon icon="gravity-ui:envelope" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+            <Icon
+              icon="gravity-ui:envelope"
+              style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+            />
           </InputGroup.Prefix>
           <InputGroup.Input placeholder="name@email.com" />
         </InputGroup>
@@ -71,12 +80,15 @@ export const Variants: Story = {
 
 export const FullWidth: Story = {
   render: () => (
-    <Box w="400px" spaceY="4">
+    <Box spaceY="4" w="400px">
       <TextField fullWidth>
         <Label>Email address</Label>
         <InputGroup fullWidth>
           <InputGroup.Prefix>
-            <Icon icon="gravity-ui:envelope" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+            <Icon
+              icon="gravity-ui:envelope"
+              style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+            />
           </InputGroup.Prefix>
           <InputGroup.Input placeholder="name@email.com" />
         </InputGroup>
@@ -86,7 +98,10 @@ export const FullWidth: Story = {
         <InputGroup fullWidth>
           <InputGroup.Input placeholder="Enter password" type="password" />
           <InputGroup.Suffix>
-            <Icon icon="gravity-ui:eye" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+            <Icon
+              icon="gravity-ui:eye"
+              style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+            />
           </InputGroup.Suffix>
         </InputGroup>
       </TextField>
@@ -101,7 +116,10 @@ export const WithPrefixIcon: Story = {
         <Label>Email address</Label>
         <InputGroup>
           <InputGroup.Prefix>
-            <Icon icon="gravity-ui:envelope" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+            <Icon
+              icon="gravity-ui:envelope"
+              style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+            />
           </InputGroup.Prefix>
           <InputGroup.Input placeholder="name@email.com" />
         </InputGroup>
@@ -119,7 +137,10 @@ export const WithSuffixIcon: Story = {
         <InputGroup>
           <InputGroup.Input placeholder="name@email.com" />
           <InputGroup.Suffix>
-            <Icon icon="gravity-ui:envelope" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+            <Icon
+              icon="gravity-ui:envelope"
+              style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+            />
           </InputGroup.Suffix>
         </InputGroup>
         <Description>We do not send spam</Description>
@@ -179,7 +200,10 @@ export const WithIconPrefixAndTextSuffix: Story = {
         <Label>Website</Label>
         <InputGroup>
           <InputGroup.Prefix>
-            <Icon icon="gravity-ui:globe" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+            <Icon
+              icon="gravity-ui:globe"
+              style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+            />
           </InputGroup.Prefix>
           <InputGroup.Input />
           <InputGroup.Suffix>.com</InputGroup.Suffix>
@@ -214,7 +238,10 @@ export const WithIconPrefixAndCopySuffix: Story = {
         <Label>Website</Label>
         <InputGroup>
           <InputGroup.Prefix>
-            <Icon icon="gravity-ui:globe" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+            <Icon
+              icon="gravity-ui:globe"
+              style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+            />
           </InputGroup.Prefix>
           <InputGroup.Input />
           <InputGroup.Suffix style={{paddingRight: 0}}>
@@ -319,7 +346,10 @@ export const Required: Story = {
         <Label>Email address</Label>
         <InputGroup>
           <InputGroup.Prefix>
-            <Icon icon="gravity-ui:envelope" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+            <Icon
+              icon="gravity-ui:envelope"
+              style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+            />
           </InputGroup.Prefix>
           <InputGroup.Input placeholder="name@email.com" />
         </InputGroup>
@@ -344,7 +374,10 @@ export const Invalid: Story = {
         <Label>Email address</Label>
         <InputGroup>
           <InputGroup.Prefix>
-            <Icon icon="gravity-ui:envelope" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+            <Icon
+              icon="gravity-ui:envelope"
+              style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+            />
           </InputGroup.Prefix>
           <InputGroup.Input placeholder="name@email.com" />
         </InputGroup>
@@ -370,7 +403,10 @@ export const Disabled: Story = {
         <Label>Email address</Label>
         <InputGroup>
           <InputGroup.Prefix>
-            <Icon icon="gravity-ui:envelope" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+            <Icon
+              icon="gravity-ui:envelope"
+              style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+            />
           </InputGroup.Prefix>
           <InputGroup.Input />
         </InputGroup>
@@ -406,21 +442,56 @@ export const WithTextArea: Story = {
     return (
       <Box w="lg">
         <TextField fullWidth>
-          <InputGroup fullWidth style={{display: "flex", flexDirection: "column", gap: "0.5rem", borderRadius: "var(--radii-3xl)", paddingTop: "0.5rem", paddingBottom: "0.5rem"}}>
-            <InputGroup.Prefix style={{paddingLeft: "0.75rem", paddingRight: "0.75rem", paddingTop: 0, paddingBottom: 0}}>
+          <InputGroup
+            fullWidth
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.5rem",
+              borderRadius: "var(--radii-3xl)",
+              paddingTop: "0.5rem",
+              paddingBottom: "0.5rem",
+            }}
+          >
+            <InputGroup.Prefix
+              style={{
+                paddingLeft: "0.75rem",
+                paddingRight: "0.75rem",
+                paddingTop: 0,
+                paddingBottom: 0,
+              }}
+            >
               <Button aria-label="Add context" size="sm" variant="outline">
                 <Icon icon="gravity-ui:at" />
                 Add Context
               </Button>
             </InputGroup.Prefix>
             <InputGroup.TextArea
-              style={{width: "100%", resize: "none", paddingLeft: "0.875rem", paddingRight: "0.875rem", paddingTop: 0, paddingBottom: 0}}
               placeholder="Assign tasks or ask anything..."
               rows={5}
               value={value}
+              style={{
+                width: "100%",
+                resize: "none",
+                paddingLeft: "0.875rem",
+                paddingRight: "0.875rem",
+                paddingTop: 0,
+                paddingBottom: 0,
+              }}
               onChange={(event) => setValue(event.target.value)}
             />
-            <InputGroup.Suffix style={{display: "flex", width: "100%", alignItems: "center", gap: "0.375rem", paddingLeft: "0.75rem", paddingRight: "0.75rem", paddingTop: 0, paddingBottom: 0}}>
+            <InputGroup.Suffix
+              style={{
+                display: "flex",
+                width: "100%",
+                alignItems: "center",
+                gap: "0.375rem",
+                paddingLeft: "0.75rem",
+                paddingRight: "0.75rem",
+                paddingTop: 0,
+                paddingBottom: 0,
+              }}
+            >
               <Tooltip openDelay={0}>
                 <Button isIconOnly aria-label="Attach file" size="sm" variant="ghost">
                   <Icon icon="gravity-ui:plus" />
@@ -437,7 +508,7 @@ export const WithTextArea: Story = {
                   <Text fontSize="xs">Connect apps</Text>
                 </Tooltip.Content>
               </Tooltip>
-              <Box ml="auto" display="flex" alignItems="center" gap="1.5">
+              <Box alignItems="center" display="flex" gap="1.5" ml="auto">
                 <Tooltip openDelay={0}>
                   <Button isIconOnly aria-label="Voice input" size="sm" variant="ghost">
                     <Icon icon="gravity-ui:microphone" />
@@ -449,8 +520,8 @@ export const WithTextArea: Story = {
                 <Tooltip openDelay={0}>
                   <Button
                     isIconOnly
-                    isDisabled={!value.trim()}
                     aria-label="Send prompt"
+                    isDisabled={!value.trim()}
                     onClick={handleSubmit}
                   >
                     {isSubmitting ? (
@@ -461,7 +532,14 @@ export const WithTextArea: Story = {
                   </Button>
                   <Tooltip.Content style={{display: "flex", alignItems: "center", gap: "0.25rem"}}>
                     <Text fontSize="xs">Send</Text>
-                    <Kbd style={{height: "1rem", borderRadius: "var(--radii-sm)", paddingLeft: "0.25rem", paddingRight: "0.25rem"}}>
+                    <Kbd
+                      style={{
+                        height: "1rem",
+                        borderRadius: "var(--radii-sm)",
+                        paddingLeft: "0.25rem",
+                        paddingRight: "0.25rem",
+                      }}
+                    >
                       <Kbd.Abbr keyValue="enter" />
                     </Kbd>
                   </Tooltip.Content>
@@ -483,7 +561,10 @@ export const AllVariations: Story = {
           <Label>Email address *</Label>
           <InputGroup>
             <InputGroup.Prefix>
-              <Icon icon="gravity-ui:envelope" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+              <Icon
+                icon="gravity-ui:envelope"
+                style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+              />
             </InputGroup.Prefix>
             <InputGroup.Input placeholder="name@email.com" />
           </InputGroup>
@@ -495,7 +576,10 @@ export const AllVariations: Story = {
           <InputGroup>
             <InputGroup.Input placeholder="name@email.com" />
             <InputGroup.Suffix>
-              <Icon icon="gravity-ui:envelope" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+              <Icon
+                icon="gravity-ui:envelope"
+                style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+              />
             </InputGroup.Suffix>
           </InputGroup>
           <Description>We do not send spam</Description>
@@ -531,7 +615,10 @@ export const AllVariations: Story = {
           <Label>Website</Label>
           <InputGroup>
             <InputGroup.Prefix>
-              <Icon icon="gravity-ui:globe" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+              <Icon
+                icon="gravity-ui:globe"
+                style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+              />
             </InputGroup.Prefix>
             <InputGroup.Input />
             <InputGroup.Suffix>.com</InputGroup.Suffix>
@@ -554,7 +641,10 @@ export const AllVariations: Story = {
           <Label>Website</Label>
           <InputGroup>
             <InputGroup.Prefix>
-              <Icon icon="gravity-ui:globe" style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}} />
+              <Icon
+                icon="gravity-ui:globe"
+                style={{width: "1rem", height: "1rem", color: "var(--colors-fg-muted)"}}
+              />
             </InputGroup.Prefix>
             <InputGroup.Input />
             <InputGroup.Suffix style={{paddingRight: 0}}>

@@ -1,5 +1,6 @@
-import {Avatar, Card} from "../../../src";
 import React from "react";
+
+import {Avatar, Card} from "../../../src";
 
 const cardStyles = {
   avatar: "size-[56px] rounded-xl",

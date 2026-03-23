@@ -1,86 +1,86 @@
-import { popoverAnatomy } from '@chakra-ui/react/anatomy'
-import { defineSlotRecipe } from '@chakra-ui/react/styled-system'
+import {popoverAnatomy} from "@chakra-ui/react/anatomy";
+import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
 export const popoverSlotRecipe = defineSlotRecipe({
-  className: 'chakra-popover',
+  className: "chakra-popover",
   slots: popoverAnatomy.keys(),
   base: {
     content: {
-      position: 'relative',
-      display: 'flex',
-      flexDirection: 'column',
-      textStyle: 'sm',
-      borderRadius: '3xl',
-      '--popover-bg': 'colors.overlay',
-      bg: 'var(--popover-bg)',
-      boxShadow: 'overlay',
-      '--popover-size': 'sizes.xs',
-      '--popover-mobile-size': 'calc(100dvw - 1rem)',
+      position: "relative",
+      display: "flex",
+      flexDirection: "column",
+      textStyle: "sm",
+      borderRadius: "3xl",
+      "--popover-bg": "colors.overlay",
+      bg: "var(--popover-bg)",
+      boxShadow: "overlay",
+      "--popover-size": "sizes.xs",
+      "--popover-mobile-size": "calc(100dvw - 1rem)",
       width: {
-        base: 'min(var(--popover-mobile-size), var(--popover-size))',
-        sm: 'var(--popover-size)',
+        base: "min(var(--popover-mobile-size), var(--popover-size))",
+        sm: "var(--popover-size)",
       },
-      '--popover-z-index': 'zIndex.layer-2',
-      zIndex: 'calc(var(--popover-z-index) + var(--layer-index, 0))',
-      outline: '0',
-      transformOrigin: 'var(--transform-origin)',
+      "--popover-z-index": "zIndex.layer-2",
+      zIndex: "calc(var(--popover-z-index) + var(--layer-index, 0))",
+      outline: "0",
+      transformOrigin: "var(--transform-origin)",
       _open: {
-        animationStyle: 'scale-fade-in',
-        animationDuration: 'fast',
+        animationStyle: "scale-fade-in",
+        animationDuration: "fast",
       },
       _closed: {
-        animationStyle: 'scale-fade-out',
-        animationDuration: 'faster',
+        animationStyle: "scale-fade-out",
+        animationDuration: "faster",
       },
     },
     header: {
-      paddingInline: 'var(--popover-padding)',
-      paddingTop: 'var(--popover-padding)',
+      paddingInline: "var(--popover-padding)",
+      paddingTop: "var(--popover-padding)",
     },
     body: {
-      padding: 'var(--popover-padding)',
-      flex: '1',
+      padding: "var(--popover-padding)",
+      flex: "1",
     },
     footer: {
-      display: 'flex',
-      alignItems: 'center',
-      paddingInline: 'var(--popover-padding)',
-      paddingBottom: 'var(--popover-padding)',
+      display: "flex",
+      alignItems: "center",
+      paddingInline: "var(--popover-padding)",
+      paddingBottom: "var(--popover-padding)",
     },
     arrow: {
-      '--arrow-size': 'sizes.3',
-      '--arrow-background': 'var(--popover-bg)',
+      "--arrow-size": "sizes.3",
+      "--arrow-background": "var(--popover-bg)",
     },
     arrowTip: {
-      borderTopWidth: '1px',
-      borderInlineStartWidth: '1px',
+      borderTopWidth: "1px",
+      borderInlineStartWidth: "1px",
     },
   },
   variants: {
     size: {
       xs: {
         content: {
-          '--popover-padding': 'spacing.3',
+          "--popover-padding": "spacing.3",
         },
       },
       sm: {
         content: {
-          '--popover-padding': 'spacing.4',
+          "--popover-padding": "spacing.4",
         },
       },
       md: {
         content: {
-          '--popover-padding': 'spacing.5',
+          "--popover-padding": "spacing.5",
         },
       },
       lg: {
         content: {
-          '--popover-padding': 'spacing.6',
+          "--popover-padding": "spacing.6",
         },
       },
     },
   },
   defaultVariants: {
-    size: 'md',
+    size: "md",
   },
-})
+});

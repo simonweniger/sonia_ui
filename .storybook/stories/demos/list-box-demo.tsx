@@ -1,6 +1,7 @@
 import {Pencil, SquarePlus, TrashBin} from "@gravity-ui/icons";
-import {Description, Header, Kbd, Label, ListBox, Separator, Surface} from "../../../src";
 import React from "react";
+
+import {Description, Header, Kbd, Label, ListBox, Separator, Surface} from "../../../src";
 
 export function ListBoxDemo() {
   return (

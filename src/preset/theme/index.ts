@@ -1,40 +1,40 @@
-import { defineConfig } from '@chakra-ui/react'
+import {defineConfig} from "@chakra-ui/react";
 
-import { animationStyles } from './animation-styles'
-import { breakpoints } from './breakpoints'
-import { conditions } from './conditions'
-import { globalCss } from './global-css'
-import { keyframes } from './keyframes'
-import { layerStyles } from './layer-styles'
-import { recipes } from './recipes'
-import { semanticColors } from './semantic-tokens/colors'
-import { semanticRadii } from './semantic-tokens/radii'
-import { semanticShadows } from './semantic-tokens/shadows'
-import { slotRecipes } from './slot-recipes'
-import { textStyles } from './text-styles'
-import { animations } from './tokens/animations'
-import { aspectRatios } from './tokens/aspect-ratios'
-import { blurs } from './tokens/blurs'
-import { borders } from './tokens/borders'
-import { colors } from './tokens/colors'
-import { cursor } from './tokens/cursor'
-import { durations } from './tokens/durations'
-import { easings } from './tokens/easings'
-import { fontSizes } from './tokens/font-sizes'
-import { fontWeights } from './tokens/font-weights'
-import { fonts } from './tokens/fonts'
-import { letterSpacings } from './tokens/letter-spacings'
-import { lineHeights } from './tokens/line-heights'
-import { radii } from './tokens/radii'
-import { sizes } from './tokens/sizes'
-import { spacing } from './tokens/spacing'
-import { zIndices } from './tokens/z-indices'
-import { utilities } from './utilities'
+import {animationStyles} from "./animation-styles";
+import {breakpoints} from "./breakpoints";
+import {conditions} from "./conditions";
+import {globalCss} from "./global-css";
+import {keyframes} from "./keyframes";
+import {layerStyles} from "./layer-styles";
+import {recipes} from "./recipes";
+import {semanticColors} from "./semantic-tokens/colors";
+import {semanticRadii} from "./semantic-tokens/radii";
+import {semanticShadows} from "./semantic-tokens/shadows";
+import {slotRecipes} from "./slot-recipes";
+import {textStyles} from "./text-styles";
+import {animations} from "./tokens/animations";
+import {aspectRatios} from "./tokens/aspect-ratios";
+import {blurs} from "./tokens/blurs";
+import {borders} from "./tokens/borders";
+import {colors} from "./tokens/colors";
+import {cursor} from "./tokens/cursor";
+import {durations} from "./tokens/durations";
+import {easings} from "./tokens/easings";
+import {fontSizes} from "./tokens/font-sizes";
+import {fontWeights} from "./tokens/font-weights";
+import {fonts} from "./tokens/fonts";
+import {letterSpacings} from "./tokens/letter-spacings";
+import {lineHeights} from "./tokens/line-heights";
+import {radii} from "./tokens/radii";
+import {sizes} from "./tokens/sizes";
+import {spacing} from "./tokens/spacing";
+import {zIndices} from "./tokens/z-indices";
+import {utilities} from "./utilities";
 
 export const defaultThemeConfig = defineConfig({
   preflight: true,
-  cssVarsPrefix: 'chakra',
-  cssVarsRoot: ':where(html, .chakra-theme)',
+  cssVarsPrefix: "chakra",
+  cssVarsRoot: ":where(html, .chakra-theme)",
   globalCss: globalCss,
   utilities: utilities,
   theme: {
@@ -71,4 +71,4 @@ export const defaultThemeConfig = defineConfig({
     animationStyles: animationStyles,
   },
   conditions,
-})
+});

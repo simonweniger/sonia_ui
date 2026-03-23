@@ -24,12 +24,7 @@ interface DisclosureRootProps extends ComponentPropsWithRef<typeof Collapsible.R
 const DisclosureRoot = ({children, open, ...props}: DisclosureRootProps) => {
   return (
     <DisclosureContext value={{open}}>
-      <Collapsible.Root
-        data-slot="disclosure"
-        pos="relative"
-        open={open}
-        {...props}
-      >
+      <Collapsible.Root data-slot="disclosure" open={open} pos="relative" {...props}>
         {children}
       </Collapsible.Root>
     </DisclosureContext>
@@ -55,13 +50,13 @@ interface DisclosureTriggerProps extends ComponentPropsWithRef<typeof Collapsibl
 const DisclosureTrigger = ({...props}: DisclosureTriggerProps) => {
   return (
     <Collapsible.Trigger
-      data-slot="disclosure-trigger"
+      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
+      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
       cursor="pointer"
+      data-slot="disclosure-trigger"
       css={{
         WebkitTapHighlightColor: "transparent",
       }}
-      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
-      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
       {...props}
     >
       {props.children}
@@ -144,12 +139,12 @@ const DisclosureIndicator = ({children, className, ...props}: DisclosureIndicato
 
   return (
     <Box
-      ml="auto"
       boxSize="4"
-      flexShrink={0}
       color="inherit"
       data-expanded={open ? "" : undefined}
       data-slot="disclosure-indicator"
+      flexShrink={0}
+      ml="auto"
       css={{
         transition: "transform 250ms",
         "@media (prefers-reduced-motion: reduce)": {

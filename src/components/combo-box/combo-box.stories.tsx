@@ -1,9 +1,8 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Combobox, createListCollection} from "@ark-ui/react";
-import React from "react";
-
 import {Box, Text} from "@chakra-ui/react";
+import React from "react";
 
 import {Button} from "../button";
 import {Description} from "../description";
@@ -36,7 +35,7 @@ const animals = createListCollection({
 
 export const Default: Story = {
   render: () => (
-    <ComboBox style={{width: "256px"}} collection={animals}>
+    <ComboBox collection={animals} style={{width: "256px"}}>
       <Label>Favorite Animal</Label>
       <ComboBox.InputGroup>
         <Combobox.Input placeholder="Search animals..." />
@@ -56,7 +55,7 @@ export const Default: Story = {
 
 export const WithDefaultValue: Story = {
   render: () => (
-    <ComboBox style={{width: "256px"}} collection={animals} defaultValue={["cat"]}>
+    <ComboBox collection={animals} defaultValue={["cat"]} style={{width: "256px"}}>
       <Label>Favorite Animal</Label>
       <ComboBox.InputGroup>
         <Combobox.Input placeholder="Search animals..." />
@@ -76,7 +75,7 @@ export const WithDefaultValue: Story = {
 
 export const WithDescription: Story = {
   render: () => (
-    <ComboBox style={{width: "256px"}} collection={animals}>
+    <ComboBox collection={animals} style={{width: "256px"}}>
       <Label>Favorite Animal</Label>
       <ComboBox.InputGroup>
         <Combobox.Input placeholder="Search animals..." />
@@ -115,7 +114,7 @@ export const WithSections: Story = {
     });
 
     return (
-      <ComboBox style={{width: "256px"}} collection={countries}>
+      <ComboBox collection={countries} style={{width: "256px"}}>
         <Label>Country</Label>
         <ComboBox.InputGroup>
           <Combobox.Input placeholder="Search countries..." />
@@ -152,8 +151,8 @@ export const Controlled: Story = {
     return (
       <Box spaceY="2">
         <ComboBox
-          style={{width: "256px"}}
           collection={controlledAnimals}
+          style={{width: "256px"}}
           value={value}
           onValueChange={(details) => setValue(details.value)}
         >
@@ -171,7 +170,9 @@ export const Controlled: Story = {
             ))}
           </ComboBox.Popover>
         </ComboBox>
-        <Text fontSize="sm" color="fg.muted">Selected: {selectedAnimal?.label || "None"}</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Selected: {selectedAnimal?.label || "None"}
+        </Text>
       </Box>
     );
   },
@@ -184,9 +185,9 @@ export const ControlledInputValue: Story = {
     return (
       <Box spaceY="2">
         <ComboBox
-          style={{width: "256px"}}
           collection={animals}
           inputValue={inputValue}
+          style={{width: "256px"}}
           onInputValueChange={(details) => setInputValue(details.inputValue)}
         >
           <Label>Search (controlled input)</Label>
@@ -203,7 +204,9 @@ export const ControlledInputValue: Story = {
             ))}
           </ComboBox.Popover>
         </ComboBox>
-        <Text fontSize="sm" color="fg.muted">Input value: {inputValue || "(empty)"}</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Input value: {inputValue || "(empty)"}
+        </Text>
       </Box>
     );
   },
@@ -211,7 +214,7 @@ export const ControlledInputValue: Story = {
 
 export const AllowsCustomValue: Story = {
   render: () => (
-    <ComboBox allowCustomValue style={{width: "256px"}} collection={animals}>
+    <ComboBox allowCustomValue collection={animals} style={{width: "256px"}}>
       <Label>Favorite Animal</Label>
       <ComboBox.InputGroup>
         <Combobox.Input placeholder="Search or type an animal..." />
@@ -232,7 +235,7 @@ export const AllowsCustomValue: Story = {
 
 export const Disabled: Story = {
   render: () => (
-    <ComboBox style={{width: "256px"}} collection={animals} defaultValue={["cat"]} disabled>
+    <ComboBox disabled collection={animals} defaultValue={["cat"]} style={{width: "256px"}}>
       <Label>Favorite Animal</Label>
       <ComboBox.InputGroup>
         <Combobox.Input placeholder="Search animals..." />
@@ -258,8 +261,16 @@ export const Required: Story = {
     };
 
     return (
-      <form style={{display: "flex", flexDirection: "column", gap: "var(--chakra-spacing-4)", width: "256px"}} onSubmit={onSubmit}>
-        <ComboBox style={{width: "100%"}} collection={animals} name="animal" required>
+      <form
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "var(--chakra-spacing-4)",
+          width: "256px",
+        }}
+        onSubmit={onSubmit}
+      >
+        <ComboBox required collection={animals} name="animal" style={{width: "100%"}}>
           <Label>Favorite Animal</Label>
           <ComboBox.InputGroup>
             <Combobox.Input placeholder="Search animals..." />

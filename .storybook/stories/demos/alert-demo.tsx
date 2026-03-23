@@ -1,5 +1,6 @@
-import {Alert, Button} from "../../../src";
 import React from "react";
+
+import {Alert, Button} from "../../../src";
 
 export function AlertDemo() {
   return (

@@ -2,8 +2,8 @@
 
 import type {ReactNode} from "react";
 
-import {toaster} from "./toast";
 import {DEFAULT_TOAST_TIMEOUT} from "./constants";
+import {toaster} from "./toast";
 
 /* ------------------------------------------------------------------------------------------------
  * Toast Content Value

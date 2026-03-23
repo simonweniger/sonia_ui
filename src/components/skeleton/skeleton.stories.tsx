@@ -1,5 +1,5 @@
 import type {SkeletonProps} from "./index";
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Box, Grid} from "@chakra-ui/react";
 import React from "react";
@@ -23,18 +23,18 @@ export default {
 const defaultArgs: SkeletonProps = {};
 
 const Template = (props: SkeletonProps) => (
-  <Box bg="surface-1" w="200px" spaceY="5" rounded="3xl" p="4" shadow="surface">
+  <Box bg="surface-1" p="4" rounded="3xl" shadow="surface" spaceY="5" w="200px">
     <Skeleton h="24" rounded="xl" {...props} />
     <Box spaceY="3">
-      <Skeleton h="3" w="3/5" rounded="lg" {...props} />
-      <Skeleton h="3" w="4/5" rounded="lg" {...props} />
-      <Skeleton h="3" w="2/5" rounded="lg" {...props} />
+      <Skeleton h="3" rounded="lg" w="3/5" {...props} />
+      <Skeleton h="3" rounded="lg" w="4/5" {...props} />
+      <Skeleton h="3" rounded="lg" w="2/5" {...props} />
     </Box>
   </Box>
 );
 
 const GridTemplate = (props: SkeletonProps) => (
-  <Grid w="450px" templateColumns="repeat(3, 1fr)" gap="4">
+  <Grid gap="4" templateColumns="repeat(3, 1fr)" w="450px">
     <Skeleton h="24" rounded="xl" {...props} />
     <Skeleton h="24" rounded="xl" {...props} />
     <Skeleton h="24" rounded="xl" {...props} />
@@ -42,7 +42,15 @@ const GridTemplate = (props: SkeletonProps) => (
 );
 
 const SingleShimmerTemplate = (props: SkeletonProps) => (
-  <Grid className="skeleton--shimmer" position="relative" w="450px" templateColumns="repeat(3, 1fr)" gap="4" overflow="hidden" rounded="xl">
+  <Grid
+    className="skeleton--shimmer"
+    gap="4"
+    overflow="hidden"
+    position="relative"
+    rounded="xl"
+    templateColumns="repeat(3, 1fr)"
+    w="450px"
+  >
     <Skeleton h="24" rounded="xl" {...props} />
     <Skeleton h="24" rounded="xl" {...props} />
     <Skeleton h="24" rounded="xl" {...props} />

@@ -1,7 +1,7 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
-import {Icon} from "@iconify/react";
 import {Box, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
 import React from "react";
 
 import {Button} from "../button";
@@ -66,7 +66,9 @@ export const Variants: Story = {
   render: () => (
     <Box display="flex" flexDirection="column" gap="8" px="4">
       <Box display="flex" flexDirection="column" gap="2">
-        <Text fontSize="sm" fontWeight="medium" color="fg.muted">Primary variant</Text>
+        <Text color="fg.muted" fontSize="sm" fontWeight="medium">
+          Primary variant
+        </Text>
         <RadioGroup defaultValue="option1" name="primary-plan" variant="primary">
           <Radio value="option1">
             <Radio.Control>
@@ -89,7 +91,9 @@ export const Variants: Story = {
         </RadioGroup>
       </Box>
       <Box display="flex" flexDirection="column" gap="2">
-        <Text fontSize="sm" fontWeight="medium" color="fg.muted">Secondary variant</Text>
+        <Text color="fg.muted" fontSize="sm" fontWeight="medium">
+          Secondary variant
+        </Text>
         <RadioGroup defaultValue="option1" name="secondary-plan" variant="secondary">
           <Radio value="option1">
             <Radio.Control>
@@ -248,7 +252,11 @@ export const Controlled: Story = {
 
     return (
       <Box display="flex" flexDirection="column" gap="3" px="4">
-        <RadioGroup name="plan-controlled" value={value} onValueChange={(e) => setValue(e.value ?? "")}>
+        <RadioGroup
+          name="plan-controlled"
+          value={value}
+          onValueChange={(e) => setValue(e.value ?? "")}
+        >
           <Label>Subscription plan</Label>
           <Radio value="starter">
             <Radio.Control>
@@ -278,8 +286,11 @@ export const Controlled: Story = {
             </Radio.Content>
           </Radio>
         </RadioGroup>
-        <Text mt="2" fontSize="sm" color="fg.muted">
-          Selected plan: <Text as="span" fontWeight="medium">{value}</Text>
+        <Text color="fg.muted" fontSize="sm" mt="2">
+          Selected plan:{" "}
+          <Text as="span" fontWeight="medium">
+            {value}
+          </Text>
         </Text>
       </Box>
     );
@@ -326,8 +337,11 @@ export const Uncontrolled: Story = {
             </Radio.Content>
           </Radio>
         </RadioGroup>
-        <Text mt="2" fontSize="sm" color="fg.muted">
-          Last chosen plan: <Text as="span" fontWeight="medium">{selection}</Text>
+        <Text color="fg.muted" fontSize="sm" mt="2">
+          Last chosen plan:{" "}
+          <Text as="span" fontWeight="medium">
+            {selection}
+          </Text>
         </Text>
       </Box>
     );
@@ -417,26 +431,42 @@ export const DeliveryAndPaymentExample: Story = {
     ];
 
     return (
-      <Box display="flex" w="100%" flexDirection="column" alignItems="center" gap="10" px="4" py="8">
-        <Box as="section" display="flex" w="100%" maxW="lg" flexDirection="column" gap="4">
+      <Box
+        alignItems="center"
+        display="flex"
+        flexDirection="column"
+        gap="10"
+        px="4"
+        py="8"
+        w="100%"
+      >
+        <Box as="section" display="flex" flexDirection="column" gap="4" maxW="lg" w="100%">
           <RadioGroup defaultValue="express" name="delivery">
             <Label>Delivery method</Label>
             <Box display="grid" gap="4" gridTemplateColumns={{md: "repeat(3, 1fr)"}}>
               {deliveryOptions.map((option) => (
                 <Radio
                   key={option.value}
-                  value={option.value}
-                  css={{"&[data-selected=true]": {borderColor: "var(--colors-accent)", bg: "color-mix(in oklch, var(--colors-accent) 10%, transparent)"}, "&[data-focus-visible=true]": {bg: "color-mix(in oklch, var(--colors-accent) 10%, transparent)"}}}
-                  position="relative"
+                  bg="surface-tertiary"
                   flexDirection="column"
                   gap="4"
-                  rounded="xl"
-                  bg="surface-tertiary"
+                  position="relative"
                   px="5"
                   py="4"
+                  rounded="xl"
                   transition="all"
+                  value={option.value}
+                  css={{
+                    "&[data-selected=true]": {
+                      borderColor: "var(--colors-accent)",
+                      bg: "color-mix(in oklch, var(--colors-accent) 10%, transparent)",
+                    },
+                    "&[data-focus-visible=true]": {
+                      bg: "color-mix(in oklch, var(--colors-accent) 10%, transparent)",
+                    },
+                  }}
                 >
-                  <Radio.Control position="absolute" top="3" right="4" boxSize="5">
+                  <Radio.Control boxSize="5" position="absolute" right="4" top="3">
                     <Radio.Indicator />
                   </Radio.Control>
                   <Radio.Content display="flex" flexDirection="column" gap="6">
@@ -444,38 +474,59 @@ export const DeliveryAndPaymentExample: Story = {
                       <Label>{option.title}</Label>
                       <Description>{option.description}</Description>
                     </Box>
-                    <Text fontSize="sm" fontWeight="semibold">{option.price}</Text>
+                    <Text fontSize="sm" fontWeight="semibold">
+                      {option.price}
+                    </Text>
                   </Radio.Content>
                 </Radio>
               ))}
             </Box>
           </RadioGroup>
         </Box>
-        <Box as="section" display="flex" w="100%" maxW="lg" flexDirection="column" gap="4">
+        <Box as="section" display="flex" flexDirection="column" gap="4" maxW="lg" w="100%">
           <RadioGroup defaultValue="visa" name="payment">
-            <Box display="flex" flexWrap="wrap" alignItems="center" justifyContent="space-between" gap="4">
+            <Box
+              alignItems="center"
+              display="flex"
+              flexWrap="wrap"
+              gap="4"
+              justifyContent="space-between"
+            >
               <Label>Payment method</Label>
             </Box>
             <Box display="grid" gap="4" gridTemplateColumns={{md: "repeat(2, 1fr)"}}>
               {paymentOptions.map((option) => (
                 <Radio
                   key={option.value}
-                  value={option.value}
-                  css={{"&[data-selected=true]": {bg: "color-mix(in oklch, var(--colors-accent) 10%, transparent)"}}}
-                  position="relative"
+                  bg="surface-tertiary"
                   flexDirection="column"
                   gap="4"
-                  rounded="xl"
-                  bg="surface-tertiary"
+                  position="relative"
                   px="5"
                   py="4"
+                  rounded="xl"
                   transition="all"
+                  value={option.value}
+                  css={{
+                    "&[data-selected=true]": {
+                      bg: "color-mix(in oklch, var(--colors-accent) 10%, transparent)",
+                    },
+                  }}
                 >
-                  <Radio.Control position="absolute" top="3" right="4" boxSize="5">
+                  <Radio.Control boxSize="5" position="absolute" right="4" top="3">
                     <Radio.Indicator />
                   </Radio.Control>
-                  <Radio.Content display="flex" flexDirection="row" alignItems="start" justifyContent="start" gap="4">
-                    <Icon icon={option.icon} style={{width: "1.5rem", height: "1.5rem", color: "var(--colors-accent)"}} />
+                  <Radio.Content
+                    alignItems="start"
+                    display="flex"
+                    flexDirection="row"
+                    gap="4"
+                    justifyContent="start"
+                  >
+                    <Icon
+                      icon={option.icon}
+                      style={{width: "1.5rem", height: "1.5rem", color: "var(--colors-accent)"}}
+                    />
                     <Box display="flex" flexDirection="column" gap="1">
                       <Label>{option.title}</Label>
                       <Description>{option.description}</Description>

@@ -1,5 +1,5 @@
 import type {HeroUIToastOptions} from "./toast-queue";
-import type {Meta} from "@storybook/react";
+import type {Meta} from "@storybook/react-vite";
 
 import {Box, Flex, Text} from "@chakra-ui/react";
 import {Icon} from "@iconify/react";
@@ -30,12 +30,12 @@ export default meta;
 
 const Template = () => {
   return (
-    <Flex h="full" maxW="xl" direction="column" align="center" justify="center">
+    <Flex align="center" direction="column" h="full" justify="center" maxW="xl">
       <Toast.Root />
-      <Flex w="full" wrap="wrap" align="center" justify="center" gap="4">
+      <Flex align="center" gap="4" justify="center" w="full" wrap="wrap">
         <Button
-          style={{color: "var(--colors-fg-muted)"}}
           size="sm"
+          style={{color: "var(--colors-fg-muted)"}}
           variant="ghost"
           onClick={() => {
             toast("You have been invited to join a team", {
@@ -59,8 +59,8 @@ const Template = () => {
           Accent toast
         </Button>
         <Button
-          style={{color: "var(--colors-fg-success)"}}
           size="sm"
+          style={{color: "var(--colors-fg-success)"}}
           variant="ghost"
           onClick={() =>
             toast.success("You have upgraded your plan", {
@@ -71,8 +71,8 @@ const Template = () => {
           Success toast
         </Button>
         <Button
-          style={{color: "var(--colors-fg-warning)"}}
           size="sm"
+          style={{color: "var(--colors-fg-warning)"}}
           variant="ghost"
           onClick={() =>
             toast.warning("You have no credits left", {
@@ -108,9 +108,9 @@ export const Default = {
 // Simple Toast - Title only, minimal examples
 const SimpleToastTemplate = () => {
   return (
-    <Flex h="full" maxW="xl" direction="column" align="center" justify="center">
+    <Flex align="center" direction="column" h="full" justify="center" maxW="xl">
       <Toast.Root />
-      <Flex w="full" wrap="wrap" align="center" justify="center" gap="4">
+      <Flex align="center" gap="4" justify="center" w="full" wrap="wrap">
         <Button size="sm" variant="outline" onClick={() => toast("Simple message")}>
           Default
         </Button>
@@ -172,9 +172,9 @@ const PromiseToastTemplate = () => {
   };
 
   return (
-    <Flex h="full" maxW="xl" direction="column" align="center" justify="center">
+    <Flex align="center" direction="column" h="full" justify="center" maxW="xl">
       <Toast.Root />
-      <Flex w="full" wrap="wrap" align="center" justify="center" gap="4">
+      <Flex align="center" gap="4" justify="center" w="full" wrap="wrap">
         <Button
           size="sm"
           variant="outline"
@@ -239,7 +239,7 @@ export const PromiseToast = {
 // Custom Indicator - Custom or no indicators
 const CustomIndicatorTemplate = () => {
   return (
-    <Flex h="full" maxW="xl" direction="column" align="center" justify="center">
+    <Flex align="center" direction="column" h="full" justify="center" maxW="xl">
       <Toast.Root />
       <Button
         size="sm"
@@ -263,9 +263,9 @@ export const CustomIndicator = {
 // Loading State - Manual loading toasts
 const LoadingStateTemplate = () => {
   return (
-    <Flex h="full" maxW="xl" direction="column" align="center" justify="center">
+    <Flex align="center" direction="column" h="full" justify="center" maxW="xl">
       <Toast.Root />
-      <Flex w="full" wrap="wrap" align="center" justify="center" gap="4">
+      <Flex align="center" gap="4" justify="center" w="full" wrap="wrap">
         <Button
           size="sm"
           variant="outline"
@@ -346,11 +346,11 @@ const WithCallbacksTemplate = () => {
   };
 
   return (
-    <Flex h="full" maxW="2xl" direction="column" align="center" justify="center" gap="6">
+    <Flex align="center" direction="column" gap="6" h="full" justify="center" maxW="2xl">
       <Toast.Root />
 
       {/* Toast Buttons */}
-      <Flex w="full" wrap="wrap" align="center" justify="center" gap="4">
+      <Flex align="center" gap="4" justify="center" w="full" wrap="wrap">
         <Button
           size="sm"
           variant="outline"
@@ -410,13 +410,15 @@ const WithCallbacksTemplate = () => {
       </Flex>
 
       {/* Closed History Panel */}
-      <Flex w="full" direction="column" gap="2">
+      <Flex direction="column" gap="2" w="full">
         <Flex align="center" justify="space-between">
-          <Text fontSize="sm" fontWeight="medium">Closed History</Text>
+          <Text fontSize="sm" fontWeight="medium">
+            Closed History
+          </Text>
           {closedHistory.length > 0 && (
             <Button
-              style={{height: "24px", fontSize: "12px"}}
               size="sm"
+              style={{height: "24px", fontSize: "12px"}}
               variant="ghost"
               onClick={() => setClosedHistory([])}
             >
@@ -425,55 +427,61 @@ const WithCallbacksTemplate = () => {
           )}
         </Flex>
         <Box
-          minH="120px"
+          bg="bg.panel"
+          borderColor="border"
+          borderWidth="1px"
           display="flex"
           flexDirection="column"
           gap="2"
-          rounded="lg"
-          borderWidth="1px"
-          borderColor="border"
-          bg="bg.panel"
+          minH="120px"
           p="4"
+          rounded="lg"
         >
           {closedHistory.length === 0 ? (
-            <Text fontSize="sm" color="fg.muted">No toasts closed yet. Try closing one above!</Text>
+            <Text color="fg.muted" fontSize="sm">
+              No toasts closed yet. Try closing one above!
+            </Text>
           ) : (
             closedHistory.map((item, index) => (
               <Flex
                 key={`${item.time}-${index}`}
                 align="start"
-                justify="space-between"
-                gap="3"
-                rounded="md"
-                borderWidth="1px"
-                borderColor="border"
                 bg="bg"
+                borderColor="border"
+                borderWidth="1px"
+                fontSize="sm"
+                gap="3"
+                justify="space-between"
                 px="3"
                 py="2"
-                fontSize="sm"
+                rounded="md"
                 style={{
                   animationDelay: `${index * 50}ms`,
                 }}
               >
                 <Box flex="1">
-                  <Text as="span" fontWeight="medium">{item.message}</Text>
-                  <Text as="span" ml="2" fontSize="xs" color="fg.muted">({item.time})</Text>
+                  <Text as="span" fontWeight="medium">
+                    {item.message}
+                  </Text>
+                  <Text as="span" color="fg.muted" fontSize="xs" ml="2">
+                    ({item.time})
+                  </Text>
                 </Box>
                 <Flex
-                  flexShrink={0}
-                  h="5"
-                  w="5"
                   align="center"
-                  justify="center"
-                  rounded="full"
                   bg="success.muted"
                   color="fg.success"
+                  flexShrink={0}
+                  h="5"
+                  justify="center"
+                  rounded="full"
+                  w="5"
                 >
                   <svg
-                    style={{width: "12px", height: "12px"}}
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
+                    style={{width: "12px", height: "12px"}}
                     viewBox="0 0 24 24"
                   >
                     <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />

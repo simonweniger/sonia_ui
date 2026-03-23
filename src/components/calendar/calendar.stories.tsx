@@ -1,8 +1,9 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {DateValue as ArkDateValue} from "@ark-ui/react/date-picker";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
-import {DatePicker, type DateValue as ArkDateValue} from "@ark-ui/react/date-picker";
+import {DatePicker, parseDate as arkParseDate} from "@ark-ui/react/date-picker";
 import {Box, Flex, Text} from "@chakra-ui/react";
-import {today, getLocalTimeZone} from "@internationalized/date";
+import {getLocalTimeZone, today} from "@internationalized/date";
 import React, {useState} from "react";
 
 import {Button} from "../button";
@@ -21,15 +22,6 @@ const meta: Meta<typeof Calendar> = {
 
 export default meta;
 type Story = StoryObj<typeof Calendar>;
-
-/* -------------------------------------------------------------------------------------------------
- * Helpers: Ark's DatePicker uses @internationalized/date@3.7.0 internally, while the project
- * also depends on a newer version. To avoid type mismatches we use Ark's re-exported parseDate
- * for props consumed by Ark (value, defaultValue, focusedValue) and the project's parseDate for
- * props defined by the Calendar component itself (minValue, maxValue).
- * -----------------------------------------------------------------------------------------------*/
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const arkParseDate: (iso: string) => ArkDateValue = require("@ark-ui/react/date-picker").parseDate;
 
 /* -------------------------------------------------------------------------------------------------
  * Helper component to render a basic calendar structure using Ark context
@@ -128,24 +120,30 @@ export const WithYearPicker: Story = {
 
 export const DefaultValue: Story = {
   render: (args) => (
-    <CalendarTemplate {...args} aria-label="Event date" defaultValue={[arkParseDate("2025-02-14")]} />
+    <CalendarTemplate
+      {...args}
+      aria-label="Event date"
+      defaultValue={[arkParseDate("2025-02-14")]}
+    />
   ),
 };
 
 export const Controlled: Story = {
   render: (args) => {
     const [value, setValue] = useState<ArkDateValue[]>([]);
-    const [focusedDate, setFocusedDate] = useState<ArkDateValue | undefined>(arkParseDate("2025-12-25"));
+    const [focusedDate, setFocusedDate] = useState<ArkDateValue | undefined>(
+      arkParseDate("2025-12-25"),
+    );
 
     return (
-      <Flex direction="column" align="center" gap="4">
+      <Flex align="center" direction="column" gap="4">
         <CalendarTemplate
           {...args}
           aria-label="Event date"
           focusedValue={focusedDate}
           value={value}
-          onValueChange={(details) => setValue(details.value)}
           onFocusChange={(details) => setFocusedDate(details.focusedValue)}
+          onValueChange={(details) => setValue(details.value)}
         />
         <Description style={{textAlign: "center"}}>
           Selected date: {value.length > 0 ? value[0]?.toString() : "(none)"}
@@ -157,6 +155,7 @@ export const Controlled: Story = {
             onClick={() => {
               const todayIso = today(getLocalTimeZone()).toString();
               const td = arkParseDate(todayIso);
+
               setValue([td]);
               setFocusedDate(td);
             }}
@@ -168,6 +167,7 @@ export const Controlled: Story = {
             variant="outline"
             onClick={() => {
               const christmasDate = arkParseDate("2025-12-25");
+
               setValue([christmasDate]);
               setFocusedDate(christmasDate);
             }}
@@ -189,7 +189,7 @@ export const MinMaxDates: Story = {
     const maxDate = now.add({months: 3});
 
     return (
-      <Flex direction="column" align="center" gap="4">
+      <Flex align="center" direction="column" gap="4">
         <Calendar {...args} aria-label="Appointment date" maxValue={maxDate} minValue={now}>
           <Calendar.Header>
             <Calendar.NavButton slot="previous" />
@@ -240,7 +240,7 @@ export const MinMaxDates: Story = {
 export const UnavailableDates: Story = {
   render: (args) => {
     return (
-      <Flex direction="column" align="center" gap="4">
+      <Flex align="center" direction="column" gap="4">
         <CalendarTemplate
           {...args}
           aria-label="Appointment date"
@@ -248,6 +248,7 @@ export const UnavailableDates: Story = {
             // Make weekends unavailable (Saturday=6, Sunday=0)
             const jsDate = new Date(date.year, date.month - 1, date.day);
             const dayOfWeek = jsDate.getDay();
+
             return dayOfWeek === 0 || dayOfWeek === 6;
           }}
         />
@@ -259,7 +260,7 @@ export const UnavailableDates: Story = {
 
 export const Disabled: Story = {
   render: (args) => (
-    <Flex direction="column" align="center" gap="4">
+    <Flex align="center" direction="column" gap="4">
       <CalendarTemplate
         {...args}
         disabled
@@ -273,7 +274,7 @@ export const Disabled: Story = {
 
 export const ReadOnly: Story = {
   render: (args) => (
-    <Flex direction="column" align="center" gap="4">
+    <Flex align="center" direction="column" gap="4">
       <CalendarTemplate
         {...args}
         readOnly
@@ -287,10 +288,12 @@ export const ReadOnly: Story = {
 
 export const FocusedValue: Story = {
   render: (args) => {
-    const [focusedDate, setFocusedDate] = useState<ArkDateValue | undefined>(arkParseDate("2025-06-15"));
+    const [focusedDate, setFocusedDate] = useState<ArkDateValue | undefined>(
+      arkParseDate("2025-06-15"),
+    );
 
     return (
-      <Flex direction="column" align="center" gap="4">
+      <Flex align="center" direction="column" gap="4">
         <CalendarTemplate
           {...args}
           aria-label="Event date"
@@ -298,7 +301,7 @@ export const FocusedValue: Story = {
           onFocusChange={(details) => setFocusedDate(details.focusedValue)}
         />
         <Description style={{textAlign: "center"}}>Focused: {focusedDate?.toString()}</Description>
-        <Flex wrap="wrap" justify="center" gap="2">
+        <Flex gap="2" justify="center" wrap="wrap">
           <Button
             size="sm"
             variant="outline"
@@ -374,19 +377,32 @@ export const MultipleMonths: Story = {
     <Calendar
       {...args}
       aria-label="Trip dates"
-      style={{containerType: "normal", width: "auto", overflowX: "auto"}}
       numOfMonths={2}
+      style={{containerType: "normal", width: "auto", overflowX: "auto"}}
     >
-      <Calendar.Heading style={{position: "absolute", width: "1px", height: "1px", overflow: "hidden", clip: "rect(0,0,0,0)", whiteSpace: "nowrap", borderWidth: 0}} />
+      <Calendar.Heading
+        style={{
+          position: "absolute",
+          width: "1px",
+          height: "1px",
+          overflow: "hidden",
+          clip: "rect(0,0,0,0)",
+          whiteSpace: "nowrap",
+          borderWidth: 0,
+        }}
+      />
       <DatePicker.Context>
         {(api) => {
           const offset = api.getOffset({months: 1});
+
           return (
             <Flex gap="8">
               <Box w="64">
                 <Calendar.Header>
                   <Calendar.NavButton slot="previous" />
-                  <Text fontSize="sm" fontWeight="medium">{api.visibleRangeText.start}</Text>
+                  <Text fontSize="sm" fontWeight="medium">
+                    {api.visibleRangeText.start}
+                  </Text>
                   <Box boxSize="6" />
                 </Calendar.Header>
                 <Calendar.Grid>
@@ -413,14 +429,18 @@ export const MultipleMonths: Story = {
               <Box w="64">
                 <Calendar.Header>
                   <Box boxSize="6" />
-                  <Text fontSize="sm" fontWeight="medium">{api.visibleRangeText.end}</Text>
+                  <Text fontSize="sm" fontWeight="medium">
+                    {api.visibleRangeText.end}
+                  </Text>
                   <Calendar.NavButton slot="next" />
                 </Calendar.Header>
                 <Calendar.Grid>
                   <Calendar.GridHeader>
                     <DatePicker.TableRow>
                       {api.weekDays.map((day) => (
-                        <Calendar.HeaderCell key={`offset-${day.long}`}>{day.short}</Calendar.HeaderCell>
+                        <Calendar.HeaderCell key={`offset-${day.long}`}>
+                          {day.short}
+                        </Calendar.HeaderCell>
                       ))}
                     </DatePicker.TableRow>
                   </Calendar.GridHeader>

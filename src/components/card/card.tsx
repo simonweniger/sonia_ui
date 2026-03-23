@@ -1,7 +1,7 @@
 "use client";
 
-import type {ComponentPropsWithRef} from "react";
 import type {SystemStyleObject} from "@chakra-ui/react";
+import type {ComponentPropsWithRef} from "react";
 
 import {Card as ChakraCard} from "@chakra-ui/react";
 import React from "react";
@@ -29,12 +29,7 @@ const CardRoot = ({children, variant = "default", ...props}: CardRootProps) => {
   const variantProps = cardVariantStyles[variant] ?? {};
 
   return (
-    <ChakraCard.Root
-      data-slot="card"
-      p="4"
-      {...variantProps}
-      {...props}
-    >
+    <ChakraCard.Root data-slot="card" p="4" {...variantProps} {...props}>
       {children}
     </ChakraCard.Root>
   );
@@ -46,12 +41,7 @@ const CardRoot = ({children, variant = "default", ...props}: CardRootProps) => {
 interface CardHeaderProps extends ComponentPropsWithRef<typeof ChakraCard.Header> {}
 
 const CardHeader = ({...props}: CardHeaderProps) => {
-  return (
-    <ChakraCard.Header
-      data-slot="card-header"
-      {...props}
-    />
-  );
+  return <ChakraCard.Header data-slot="card-header" {...props} />;
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -61,10 +51,7 @@ interface CardTitleProps extends ComponentPropsWithRef<typeof ChakraCard.Title> 
 
 const CardTitle = ({children, ...props}: CardTitleProps) => {
   return (
-    <ChakraCard.Title
-      data-slot="card-title"
-      {...props}
-    >
+    <ChakraCard.Title data-slot="card-title" {...props}>
       {children}
     </ChakraCard.Title>
   );
@@ -77,10 +64,7 @@ interface CardDescriptionProps extends ComponentPropsWithRef<typeof ChakraCard.D
 
 const CardDescription = ({children, ...props}: CardDescriptionProps) => {
   return (
-    <ChakraCard.Description
-      data-slot="card-description"
-      {...props}
-    >
+    <ChakraCard.Description data-slot="card-description" {...props}>
       {children}
     </ChakraCard.Description>
   );
@@ -92,13 +76,7 @@ const CardDescription = ({children, ...props}: CardDescriptionProps) => {
 interface CardContentProps extends ComponentPropsWithRef<typeof ChakraCard.Body> {}
 
 const CardContent = ({...props}: CardContentProps) => {
-  return (
-    <ChakraCard.Body
-      data-slot="card-content"
-      gap="1"
-      {...props}
-    />
-  );
+  return <ChakraCard.Body data-slot="card-content" gap="1" {...props} />;
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -107,12 +85,7 @@ const CardContent = ({...props}: CardContentProps) => {
 interface CardFooterProps extends ComponentPropsWithRef<typeof ChakraCard.Footer> {}
 
 const CardFooter = ({...props}: CardFooterProps) => {
-  return (
-    <ChakraCard.Footer
-      data-slot="card-footer"
-      {...props}
-    />
-  );
+  return <ChakraCard.Footer data-slot="card-footer" {...props} />;
 };
 
 /* -------------------------------------------------------------------------------------------------

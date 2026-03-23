@@ -1,7 +1,9 @@
 "use client";
 
+import type {CreateToasterReturn, ToasterProps} from "@chakra-ui/react";
+
+import {Toaster, createToaster} from "@chakra-ui/react";
 import React from "react";
-import {type CreateToasterReturn, Toaster, type ToasterProps, createToaster} from "@chakra-ui/react";
 
 /* ------------------------------------------------------------------------------------------------
  * Toast Instance (imperative API)

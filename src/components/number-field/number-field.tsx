@@ -126,8 +126,10 @@ const stepperButtonBaseStyles = {
 /* -------------------------------------------------------------------------------------------------
  * NumberField Root
  * -----------------------------------------------------------------------------------------------*/
-interface NumberFieldRootProps
-  extends Omit<ComponentPropsWithRef<typeof NumberInput.Root>, "variant"> {
+interface NumberFieldRootProps extends Omit<
+  ComponentPropsWithRef<typeof NumberInput.Root>,
+  "variant"
+> {
   fullWidth?: boolean;
   variant?: string;
 }
@@ -186,21 +188,19 @@ const NumberFieldInput = ({...props}: NumberFieldInputProps) => {
 /* -------------------------------------------------------------------------------------------------
  * NumberField Increment Button
  * -----------------------------------------------------------------------------------------------*/
-interface NumberFieldIncrementButtonProps
-  extends ComponentPropsWithRef<typeof NumberInput.IncrementTrigger> {}
+interface NumberFieldIncrementButtonProps extends ComponentPropsWithRef<
+  typeof NumberInput.IncrementTrigger
+> {}
 
-const NumberFieldIncrementButton = ({
-  children,
-  ...props
-}: NumberFieldIncrementButtonProps) => {
+const NumberFieldIncrementButton = ({children, ...props}: NumberFieldIncrementButtonProps) => {
   return (
     <NumberInput.IncrementTrigger
       data-slot="number-field-increment-button"
       {...stepperButtonBaseStyles}
+      borderLeftColor="blackAlpha.100"
+      borderLeftWidth="1px"
       roundedLeft="none"
       roundedRight="xl"
-      borderLeftWidth="1px"
-      borderLeftColor="blackAlpha.100"
       {...props}
     >
       {children ?? <IconPlus data-slot="number-field-increment-button-icon" />}
@@ -211,21 +211,19 @@ const NumberFieldIncrementButton = ({
 /* -------------------------------------------------------------------------------------------------
  * NumberField Decrement Button
  * -----------------------------------------------------------------------------------------------*/
-interface NumberFieldDecrementButtonProps
-  extends ComponentPropsWithRef<typeof NumberInput.DecrementTrigger> {}
+interface NumberFieldDecrementButtonProps extends ComponentPropsWithRef<
+  typeof NumberInput.DecrementTrigger
+> {}
 
-const NumberFieldDecrementButton = ({
-  children,
-  ...props
-}: NumberFieldDecrementButtonProps) => {
+const NumberFieldDecrementButton = ({children, ...props}: NumberFieldDecrementButtonProps) => {
   return (
     <NumberInput.DecrementTrigger
       data-slot="number-field-decrement-button"
       {...stepperButtonBaseStyles}
+      borderRightColor="blackAlpha.100"
+      borderRightWidth="1px"
       roundedLeft="xl"
       roundedRight="none"
-      borderRightWidth="1px"
-      borderRightColor="blackAlpha.100"
       {...props}
     >
       {children ?? <IconMinus data-slot="number-field-decrement-button-icon" />}

@@ -38,9 +38,9 @@ interface AutocompleteRootProps extends ComponentPropsWithRef<typeof Combobox.Ro
 const AutocompleteRoot = ({
   children,
   className,
+  fullWidth,
   onClear,
   variant = "primary",
-  fullWidth,
   ...props
 }: AutocompleteRootProps) => {
   const triggerRef = useRef<HTMLElement | null>(null);
@@ -182,10 +182,7 @@ const AutocompleteIndicator = ({children, className}: AutocompleteIndicatorProps
   }
 
   return (
-    <Combobox.Trigger
-      style={indicatorStyle}
-      data-slot="autocomplete-indicator"
-    >
+    <Combobox.Trigger data-slot="autocomplete-indicator" style={indicatorStyle}>
       <IconChevronDown
         className={className}
         data-slot="autocomplete-default-indicator"
@@ -310,8 +307,9 @@ const AutocompleteItemText = ({children, className, ...props}: AutocompleteItemT
 /* -------------------------------------------------------------------------------------------------
  * Autocomplete Item Indicator
  * -----------------------------------------------------------------------------------------------*/
-interface AutocompleteItemIndicatorProps
-  extends ComponentPropsWithRef<typeof Combobox.ItemIndicator> {}
+interface AutocompleteItemIndicatorProps extends ComponentPropsWithRef<
+  typeof Combobox.ItemIndicator
+> {}
 
 const AutocompleteItemIndicator = ({
   children,
@@ -361,7 +359,9 @@ const AutocompleteFilter = ({children, ...props}: AutocompleteFilterProps) => {
 /* -------------------------------------------------------------------------------------------------
  * Autocomplete Clear Button
  * -----------------------------------------------------------------------------------------------*/
-interface AutocompleteClearButtonProps extends ComponentPropsWithRef<typeof Combobox.ClearTrigger> {}
+interface AutocompleteClearButtonProps extends ComponentPropsWithRef<
+  typeof Combobox.ClearTrigger
+> {}
 
 const AutocompleteClearButton = ({className, onClick, ...props}: AutocompleteClearButtonProps) => {
   const {onClear} = useContext(AutocompleteContext);

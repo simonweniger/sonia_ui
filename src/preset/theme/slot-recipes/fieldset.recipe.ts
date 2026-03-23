@@ -1,66 +1,66 @@
-import { fieldsetAnatomy } from '@chakra-ui/react/anatomy'
-import { defineSlotRecipe } from '@chakra-ui/react/styled-system'
+import {fieldsetAnatomy} from "@chakra-ui/react/anatomy";
+import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
 export const fieldsetSlotRecipe = defineSlotRecipe({
-  className: 'fieldset',
-  slots: [...fieldsetAnatomy.keys(), 'content'],
+  className: "fieldset",
+  slots: [...fieldsetAnatomy.keys(), "content"],
   base: {
     root: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '6',
-      width: 'full',
+      display: "flex",
+      flexDirection: "column",
+      gap: "6",
+      width: "full",
       flexShrink: 1,
       flexGrow: 1,
-      flexBasis: '0',
+      flexBasis: "0",
     },
     content: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: 'full',
+      display: "flex",
+      flexDirection: "column",
+      width: "full",
     },
     legend: {
-      color: 'fg',
-      fontWeight: 'medium',
+      color: "fg",
+      fontWeight: "medium",
       _disabled: {
-        opacity: '0.5',
+        opacity: "0.5",
       },
     },
     helperText: {
-      color: 'fg.muted',
-      textStyle: 'sm',
+      color: "fg.muted",
+      textStyle: "sm",
     },
     errorText: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      color: 'fg.error',
-      gap: '2',
-      fontWeight: 'medium',
-      textStyle: 'sm',
+      display: "inline-flex",
+      alignItems: "center",
+      color: "fg.error",
+      gap: "2",
+      fontWeight: "medium",
+      textStyle: "sm",
     },
   },
 
   variants: {
     size: {
       sm: {
-        root: { spaceY: '2' },
-        content: { gap: '1.5' },
-        legend: { textStyle: 'sm' },
+        root: {spaceY: "2"},
+        content: {gap: "1.5"},
+        legend: {textStyle: "sm"},
       },
       md: {
-        root: { spaceY: '4' },
-        content: { gap: '4' },
-        legend: { textStyle: 'sm' },
+        root: {spaceY: "4"},
+        content: {gap: "4"},
+        legend: {textStyle: "sm"},
       },
       lg: {
-        root: { spaceY: '6' },
-        content: { gap: '4' },
-        legend: { textStyle: 'md' },
+        root: {spaceY: "6"},
+        content: {gap: "4"},
+        legend: {textStyle: "md"},
       },
     },
   },
 
   defaultVariants: {
-    size: 'md',
+    size: "md",
   },
-})
+});

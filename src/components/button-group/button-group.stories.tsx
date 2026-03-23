@@ -1,7 +1,7 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
-import {Icon} from "@iconify/react";
 import {Box, Flex, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
 import React from "react";
 
 import {Button} from "../button";
@@ -39,7 +39,9 @@ export const Sizes: Story = {
   render: () => (
     <Flex direction="column" gap="6">
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Small</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Small
+        </Text>
         <ButtonGroup size="sm">
           <Button>First</Button>
           <Button>Second</Button>
@@ -47,7 +49,9 @@ export const Sizes: Story = {
         </ButtonGroup>
       </Flex>
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Medium (default)</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Medium (default)
+        </Text>
         <ButtonGroup size="md">
           <Button>First</Button>
           <Button>Second</Button>
@@ -55,7 +59,9 @@ export const Sizes: Story = {
         </ButtonGroup>
       </Flex>
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Large</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Large
+        </Text>
         <ButtonGroup size="lg">
           <Button>First</Button>
           <Button>Second</Button>
@@ -68,7 +74,7 @@ export const Sizes: Story = {
 
 export const FullWidth: Story = {
   render: () => (
-    <Box width="400px" spaceY="3">
+    <Box spaceY="3" width="400px">
       <ButtonGroup fullWidth>
         <Button>First</Button>
         <Button>Second</Button>
@@ -93,7 +99,9 @@ export const Variants: Story = {
   render: () => (
     <Flex direction="column" gap="6">
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Primary</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Primary
+        </Text>
         <ButtonGroup variant="primary">
           <Button>First</Button>
           <Button>Second</Button>
@@ -101,7 +109,9 @@ export const Variants: Story = {
         </ButtonGroup>
       </Flex>
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Secondary</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Secondary
+        </Text>
         <ButtonGroup variant="secondary">
           <Button>First</Button>
           <Button>Second</Button>
@@ -109,7 +119,9 @@ export const Variants: Story = {
         </ButtonGroup>
       </Flex>
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Tertiary</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Tertiary
+        </Text>
         <ButtonGroup variant="tertiary">
           <Button>First</Button>
           <Button>Second</Button>
@@ -117,7 +129,9 @@ export const Variants: Story = {
         </ButtonGroup>
       </Flex>
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Outline</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Outline
+        </Text>
         <ButtonGroup variant="outline">
           <Button>First</Button>
           <Button>Second</Button>
@@ -125,7 +139,9 @@ export const Variants: Story = {
         </ButtonGroup>
       </Flex>
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Ghost</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Ghost
+        </Text>
         <ButtonGroup variant="ghost">
           <Button>First</Button>
           <Button>Second</Button>
@@ -133,7 +149,9 @@ export const Variants: Story = {
         </ButtonGroup>
       </Flex>
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Danger</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Danger
+        </Text>
         <ButtonGroup variant="danger">
           <Button>First</Button>
           <Button>Second</Button>
@@ -148,7 +166,9 @@ export const Disabled: Story = {
   render: () => (
     <Flex direction="column" gap="6">
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">All buttons disabled</Text>
+        <Text color="fg.muted" fontSize="sm">
+          All buttons disabled
+        </Text>
         <ButtonGroup isDisabled>
           <Button>First</Button>
           <Button>Second</Button>
@@ -156,7 +176,9 @@ export const Disabled: Story = {
         </ButtonGroup>
       </Flex>
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Group disabled, but one button overrides</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Group disabled, but one button overrides
+        </Text>
         <ButtonGroup isDisabled>
           <Button>First</Button>
           <Button>Second</Button>
@@ -171,7 +193,9 @@ export const WithIcons: Story = {
   render: () => (
     <Flex direction="column" gap="6">
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">With icons</Text>
+        <Text color="fg.muted" fontSize="sm">
+          With icons
+        </Text>
         <ButtonGroup variant="subtle">
           <Button>
             <Icon icon="gravity-ui:globe" />
@@ -188,7 +212,9 @@ export const WithIcons: Story = {
         </ButtonGroup>
       </Flex>
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Icon only buttons</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Icon only buttons
+        </Text>
         <ButtonGroup variant="ghost">
           <Button isIconOnly>
             <Icon icon="gravity-ui:globe" />
@@ -217,10 +243,12 @@ export const WithoutSeparator: Story = {
 
 export const Examples: Story = {
   render: () => (
-    <Flex direction="column" align="start" gap="8">
+    <Flex align="start" direction="column" gap="8">
       {/* Single button with dropdown */}
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Single button with dropdown</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Single button with dropdown
+        </Text>
         <ButtonGroup variant="primary">
           <Button>Merge pull request</Button>
           <Dropdown>
@@ -230,20 +258,16 @@ export const Examples: Story = {
               </Button>
             </Dropdown.Trigger>
             <Dropdown.Content maxW="290px">
-              <Dropdown.Item
-                value="merge"
-              >
-                <Flex direction="column" align="start" gap="1">
+              <Dropdown.Item value="merge">
+                <Flex align="start" direction="column" gap="1">
                   <Label>Create a merge commit</Label>
                   <Description>
                     All commits from this branch will be added to the base branch
                   </Description>
                 </Flex>
               </Dropdown.Item>
-              <Dropdown.Item
-                value="squash-and-merge"
-              >
-                <Flex direction="column" align="start" gap="1">
+              <Dropdown.Item value="squash-and-merge">
+                <Flex align="start" direction="column" gap="1">
                   <Label>Squash and merge</Label>
                   <Description>
                     The 14 commits from this branch will be combined into one commit in the base
@@ -251,10 +275,8 @@ export const Examples: Story = {
                   </Description>
                 </Flex>
               </Dropdown.Item>
-              <Dropdown.Item
-                value="rebase-and-merge"
-              >
-                <Flex direction="column" align="start" gap="1">
+              <Dropdown.Item value="rebase-and-merge">
+                <Flex align="start" direction="column" gap="1">
                   <Label>Rebase and merge</Label>
                   <Description>
                     The 14 commits from this branch will be rebased and added to the base branch
@@ -268,7 +290,9 @@ export const Examples: Story = {
 
       {/* Individual buttons */}
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Individual buttons</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Individual buttons
+        </Text>
         <Flex gap="2">
           <ButtonGroup variant="tertiary">
             <Button>
@@ -291,7 +315,9 @@ export const Examples: Story = {
           <ButtonGroup variant="tertiary">
             <Button>
               <Icon icon="gravity-ui:thumbs-up" />
-              <Text as="span" fontSize="xs" fontWeight="semibold">2.4K</Text>
+              <Text as="span" fontSize="xs" fontWeight="semibold">
+                2.4K
+              </Text>
             </Button>
             <Button isIconOnly>
               <Icon icon="gravity-ui:thumbs-down" />
@@ -322,7 +348,9 @@ export const Examples: Story = {
 
       {/* Previous/Next Button Group */}
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Previous/Next navigation</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Previous/Next navigation
+        </Text>
         <ButtonGroup variant="tertiary">
           <Button>
             <Icon icon="gravity-ui:chevron-left" />
@@ -337,7 +365,9 @@ export const Examples: Story = {
 
       {/* Content Selection Button Group */}
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Content selection</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Content selection
+        </Text>
         <ButtonGroup variant="tertiary">
           <Button>
             <Icon icon="gravity-ui:picture" />
@@ -355,7 +385,9 @@ export const Examples: Story = {
 
       {/* Text Alignment Button Group */}
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Text alignment</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Text alignment
+        </Text>
         <ButtonGroup variant="tertiary">
           <Button>Left</Button>
           <Button>Center</Button>
@@ -365,7 +397,9 @@ export const Examples: Story = {
 
       {/* Icon-Only Alignment Button Group */}
       <Flex direction="column" gap="2">
-        <Text fontSize="sm" color="fg.muted">Icon-only alignment</Text>
+        <Text color="fg.muted" fontSize="sm">
+          Icon-only alignment
+        </Text>
         <ButtonGroup variant="tertiary">
           <Button isIconOnly>
             <Icon icon="gravity-ui:text-align-left" />

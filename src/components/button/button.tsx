@@ -17,7 +17,17 @@ const VARIANT_ALIASES: Record<string, VariantAlias> = {
   danger: {variant: "solid", colorPalette: "red"},
 };
 
-type RecipeVariant = "solid" | "subtle" | "surface" | "outline" | "ghost" | "plain" | "glass" | "secondary" | "tertiary" | "danger-soft";
+type RecipeVariant =
+  | "solid"
+  | "subtle"
+  | "surface"
+  | "outline"
+  | "ghost"
+  | "plain"
+  | "glass"
+  | "secondary"
+  | "tertiary"
+  | "danger-soft";
 type AliasVariant = "primary" | "danger";
 type ButtonVariant = RecipeVariant | AliasVariant;
 type ButtonSize = "sm" | "md" | "lg";
@@ -25,7 +35,10 @@ type ButtonSize = "sm" | "md" | "lg";
 /* -------------------------------------------------------------------------------------------------
  * Button Root
  * -----------------------------------------------------------------------------------------------*/
-interface ButtonRootProps extends Omit<ComponentPropsWithRef<typeof ChakraButton>, "variant" | "size"> {
+interface ButtonRootProps extends Omit<
+  ComponentPropsWithRef<typeof ChakraButton>,
+  "variant" | "size"
+> {
   fullWidth?: boolean;
   isIconOnly?: boolean;
   isDisabled?: boolean;
@@ -35,12 +48,12 @@ interface ButtonRootProps extends Omit<ComponentPropsWithRef<typeof ChakraButton
 
 const ButtonRoot = ({
   children,
+  colorPalette: colorPaletteProp,
   fullWidth,
   isDisabled,
   isIconOnly,
   size,
   variant,
-  colorPalette: colorPaletteProp,
   ...rest
 }: ButtonRootProps) => {
   const buttonGroupContext = useContext(ButtonGroupContext);
@@ -51,32 +64,35 @@ const ButtonRoot = ({
   const finalFullWidth = fullWidth ?? buttonGroupContext?.fullWidth;
   const finalColorPalette = colorPaletteProp ?? buttonGroupContext?.colorPalette;
 
-  const alias =
-    typeof finalVariant === "string"
-      ? VARIANT_ALIASES[finalVariant]
-      : undefined;
+  const alias = typeof finalVariant === "string" ? VARIANT_ALIASES[finalVariant] : undefined;
 
-  const resolvedVariant = (alias?.variant ?? finalVariant) as ComponentPropsWithRef<typeof ChakraButton>["variant"];
+  const resolvedVariant = (alias?.variant ?? finalVariant) as ComponentPropsWithRef<
+    typeof ChakraButton
+  >["variant"];
 
   return (
     <ChakraButton
+      colorPalette={finalColorPalette ?? alias?.colorPalette ?? "accent"}
       data-slot="button"
       data-variant={resolvedVariant}
       disabled={finalIsDisabled}
+      minW={isIconOnly ? "auto" : undefined}
+      px={isIconOnly ? "0" : undefined}
       size={finalSize as ComponentPropsWithRef<typeof ChakraButton>["size"]}
       variant={resolvedVariant}
-      colorPalette={finalColorPalette ?? alias?.colorPalette ?? "accent"}
       width={finalFullWidth ? "100%" : undefined}
-      px={isIconOnly ? "0" : undefined}
-      minW={isIconOnly ? "auto" : undefined}
-      css={isIconOnly ? {
-        aspectRatio: "1/1",
-        /* Inside button groups, icon-only buttons should match group height, not be square */
-        "[data-slot='button-group'] &": {
-          aspectRatio: "auto",
-          paddingInline: "var(--chakra-spacing-3)",
-        },
-      } : undefined}
+      css={
+        isIconOnly
+          ? {
+              aspectRatio: "1/1",
+              /* Inside button groups, icon-only buttons should match group height, not be square */
+              "[data-slot='button-group'] &": {
+                aspectRatio: "auto",
+                paddingInline: "var(--chakra-spacing-3)",
+              },
+            }
+          : undefined
+      }
       {...rest}
     >
       {children}

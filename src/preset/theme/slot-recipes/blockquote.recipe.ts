@@ -1,22 +1,22 @@
-import { blockquoteAnatomy } from '@chakra-ui/react/anatomy'
-import { defineSlotRecipe } from '@chakra-ui/react/styled-system'
+import {blockquoteAnatomy} from "@chakra-ui/react/anatomy";
+import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
 export const blockquoteSlotRecipe = defineSlotRecipe({
-  className: 'chakra-blockquote',
+  className: "chakra-blockquote",
   slots: blockquoteAnatomy.keys(),
   base: {
     root: {
-      position: 'relative',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '2',
+      position: "relative",
+      display: "flex",
+      flexDirection: "column",
+      gap: "2",
     },
     caption: {
-      textStyle: 'sm',
-      color: 'fg.muted',
+      textStyle: "sm",
+      color: "fg.muted",
     },
     icon: {
-      boxSize: '5',
+      boxSize: "5",
     },
   },
 
@@ -24,20 +24,20 @@ export const blockquoteSlotRecipe = defineSlotRecipe({
     justify: {
       start: {
         root: {
-          alignItems: 'flex-start',
-          textAlign: 'start',
+          alignItems: "flex-start",
+          textAlign: "start",
         },
       },
       center: {
         root: {
-          alignItems: 'center',
-          textAlign: 'center',
+          alignItems: "center",
+          textAlign: "center",
         },
       },
       end: {
         root: {
-          alignItems: 'flex-end',
-          textAlign: 'end',
+          alignItems: "flex-end",
+          textAlign: "end",
         },
       },
     },
@@ -45,39 +45,39 @@ export const blockquoteSlotRecipe = defineSlotRecipe({
     variant: {
       subtle: {
         root: {
-          paddingX: '5',
-          borderStartWidth: '4px',
-          borderStartColor: 'colorPalette.muted',
+          paddingX: "5",
+          borderStartWidth: "4px",
+          borderStartColor: "colorPalette.muted",
         },
         icon: {
-          color: 'colorPalette.fg',
+          color: "colorPalette.fg",
         },
       },
 
       solid: {
         root: {
-          paddingX: '5',
-          borderStartWidth: '4px',
-          borderStartColor: 'colorPalette.solid',
+          paddingX: "5",
+          borderStartWidth: "4px",
+          borderStartColor: "colorPalette.solid",
         },
         icon: {
-          color: 'colorPalette.solid',
+          color: "colorPalette.solid",
         },
       },
 
       plain: {
         root: {
-          paddingX: '5',
+          paddingX: "5",
         },
         icon: {
-          color: 'colorPalette.solid',
+          color: "colorPalette.solid",
         },
       },
     },
   },
 
   defaultVariants: {
-    variant: 'subtle',
-    justify: 'start',
+    variant: "subtle",
+    justify: "start",
   },
-})
+});

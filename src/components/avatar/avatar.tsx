@@ -1,7 +1,7 @@
 "use client";
 
-import type {ComponentPropsWithRef} from "react";
 import type {SystemStyleObject} from "@chakra-ui/react";
+import type {ComponentPropsWithRef} from "react";
 
 import {Avatar as ChakraAvatar} from "@chakra-ui/react";
 import React from "react";
@@ -59,17 +59,20 @@ const AvatarContext = React.createContext<AvatarContextValue>({
 /* -------------------------------------------------------------------------------------------------
  * Avatar Root
  * -----------------------------------------------------------------------------------------------*/
-interface AvatarRootProps extends Omit<ComponentPropsWithRef<typeof ChakraAvatar.Root>, "variant" | "colorScheme"> {
+interface AvatarRootProps extends Omit<
+  ComponentPropsWithRef<typeof ChakraAvatar.Root>,
+  "variant" | "colorScheme"
+> {
   avatarSize?: AvatarSize;
   variant?: AvatarVariant;
   colorScheme?: AvatarColor;
 }
 
 const AvatarRoot = ({
-  children,
   avatarSize = "md",
-  variant = "default",
+  children,
   colorScheme = "default",
+  variant = "default",
   ...props
 }: AvatarRootProps) => {
   const sizeProps = avatarSizeStyles[avatarSize] ?? {};
@@ -77,16 +80,16 @@ const AvatarRoot = ({
   return (
     <AvatarContext.Provider value={{size: avatarSize, variant, colorScheme}}>
       <ChakraAvatar.Root
-        data-slot="avatar"
-        pos="relative"
-        display="flex"
-        boxSize="10"
-        flexShrink={0}
         alignItems="center"
+        bg={variant === "soft" ? "transparent" : "bg"}
+        boxSize="10"
+        data-slot="avatar"
+        display="flex"
+        flexShrink={0}
         justifyContent="center"
         overflow="hidden"
+        pos="relative"
         rounded="full"
-        bg={variant === "soft" ? "transparent" : "bg"}
         {...sizeProps}
         {...props}
       >
@@ -104,11 +107,11 @@ interface AvatarImageProps extends ComponentPropsWithRef<typeof ChakraAvatar.Ima
 const AvatarImage = ({...props}: AvatarImageProps) => {
   return (
     <ChakraAvatar.Image
-      data-slot="avatar-image"
-      pos="absolute"
-      inset="0"
       aspectRatio="square"
       boxSize="full"
+      data-slot="avatar-image"
+      inset="0"
+      pos="absolute"
       css={{
         transition: "opacity 250ms",
         "@media (prefers-reduced-motion: reduce)": {
@@ -126,26 +129,26 @@ const AvatarImage = ({...props}: AvatarImageProps) => {
 interface AvatarFallbackProps extends ComponentPropsWithRef<typeof ChakraAvatar.Fallback> {}
 
 const AvatarFallback = ({...props}: AvatarFallbackProps) => {
-  const {size, variant, colorScheme} = React.useContext(AvatarContext);
+  const {colorScheme, size, variant} = React.useContext(AvatarContext);
 
   const colorProps =
     variant === "soft"
-      ? softFallbackColorStyles[colorScheme] ?? {}
-      : fallbackColorStyles[colorScheme] ?? {};
+      ? (softFallbackColorStyles[colorScheme] ?? {})
+      : (fallbackColorStyles[colorScheme] ?? {});
   const sizeProps = fallbackSizeStyles[size] ?? {};
 
   return (
     <ChakraAvatar.Fallback
+      alignItems="center"
+      bg={variant === "soft" ? undefined : "bg"}
+      boxSize="full"
+      css={{...colorProps, ...sizeProps}}
       data-slot="avatar-fallback"
       display="flex"
-      boxSize="full"
-      alignItems="center"
+      fontWeight="medium"
       justifyContent="center"
       rounded="full"
-      bg={variant === "soft" ? undefined : "bg"}
       textStyle="sm"
-      fontWeight="medium"
-      css={{...colorProps, ...sizeProps}}
       {...props}
     />
   );
@@ -156,4 +159,11 @@ const AvatarFallback = ({...props}: AvatarFallbackProps) => {
  * -----------------------------------------------------------------------------------------------*/
 export {AvatarRoot, AvatarImage, AvatarFallback};
 
-export type {AvatarRootProps, AvatarImageProps, AvatarFallbackProps, AvatarSize, AvatarVariant, AvatarColor};
+export type {
+  AvatarRootProps,
+  AvatarImageProps,
+  AvatarFallbackProps,
+  AvatarSize,
+  AvatarVariant,
+  AvatarColor,
+};

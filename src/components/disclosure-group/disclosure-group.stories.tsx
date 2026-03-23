@@ -1,10 +1,10 @@
 import type {DisclosureGroupProps} from "./index";
 import type {ButtonProps} from "../..";
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 import type {SVGProps} from "react";
 
-import {Icon} from "@iconify/react";
 import {Box, Flex, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
 import React from "react";
 
 import {Button} from "../button";
@@ -42,19 +42,23 @@ const Template = (props: DisclosureGroupProps) => {
   const [expandedKeys, setExpandedKeys] = React.useState(new Set<string | number>(["preview"]));
 
   return (
-    <Box width="full" maxW="md">
-      <Flex direction="column" gap="4" rounded="3xl" bg="surface" p="4" shadow="surface">
-        <DisclosureGroup {...props} value={Array.from(expandedKeys).map(String)} onValueChange={({value}) => setExpandedKeys(new Set(value))}>
+    <Box maxW="md" width="full">
+      <Flex bg="surface" direction="column" gap="4" p="4" rounded="3xl" shadow="surface">
+        <DisclosureGroup
+          {...props}
+          value={Array.from(expandedKeys).map(String)}
+          onValueChange={({value}) => setExpandedKeys(new Set(value))}
+        >
           <Disclosure aria-label="Preview HeroUI Native" id="preview">
             <Disclosure.Heading>
               <Button
+                bg={!expandedKeys.has("preview") ? "transparent" : undefined}
+                borderWidth="0"
                 slot="trigger"
                 variant={expandedKeys.has("preview") ? "outline" : "ghost"}
                 width="full"
-                borderWidth="0"
-                bg={!expandedKeys.has("preview") ? "transparent" : undefined}
               >
-                <Flex width="full" align="center" justify="start" gap="2">
+                <Flex align="center" gap="2" justify="start" width="full">
                   <Icon icon="gravity-ui:qr-code" />
                   Preview HeroUI Native
                 </Flex>
@@ -62,16 +66,34 @@ const Template = (props: DisclosureGroupProps) => {
               </Button>
             </Disclosure.Heading>
             <Disclosure.Content>
-              <Disclosure.Body style={{marginLeft: "0.5rem", marginRight: "0.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem", padding: "1rem", textAlign: "center"}}>
-                <Text fontSize="sm" color="fg.muted">
+              <Disclosure.Body
+                style={{
+                  marginLeft: "0.5rem",
+                  marginRight: "0.5rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  padding: "1rem",
+                  textAlign: "center",
+                }}
+              >
+                <Text color="fg.muted" fontSize="sm">
                   Scan this QR code with your camera app to preview the HeroUI native components.
                 </Text>
                 <img
                   alt="Expo Go QR Code"
                   src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
-                  style={{aspectRatio: "1/1", width: "100%", maxWidth: "13.5rem", objectFit: "cover"}}
+                  style={{
+                    aspectRatio: "1/1",
+                    width: "100%",
+                    maxWidth: "13.5rem",
+                    objectFit: "cover",
+                  }}
                 />
-                <Text fontSize="sm" color="fg.muted">Expo must be installed on your device.</Text>
+                <Text color="fg.muted" fontSize="sm">
+                  Expo must be installed on your device.
+                </Text>
                 <Button mt="4" variant="solid">
                   <Icon className="[&_path]:fill-accent-foreground" icon="logos:expo-icon" />
                   Preview on Expo Go
@@ -83,13 +105,13 @@ const Template = (props: DisclosureGroupProps) => {
           <Disclosure id="download">
             <Disclosure.Heading aria-label="Download HeroUI Native">
               <Button
+                bg={!expandedKeys.has("download") ? "transparent" : undefined}
+                borderWidth="0"
                 slot="trigger"
                 variant={expandedKeys.has("download") ? "outline" : "ghost"}
                 width="full"
-                borderWidth="0"
-                bg={!expandedKeys.has("download") ? "transparent" : undefined}
               >
-                <Flex width="full" align="center" justify="start" gap="2">
+                <Flex align="center" gap="2" justify="start" width="full">
                   <Icon icon="tabler:brand-apple-filled" />
                   Download HeroUI Native
                 </Flex>
@@ -97,16 +119,34 @@ const Template = (props: DisclosureGroupProps) => {
               </Button>
             </Disclosure.Heading>
             <Disclosure.Content>
-              <Disclosure.Body style={{marginLeft: "0.5rem", marginRight: "0.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem", padding: "1rem", textAlign: "center"}}>
-                <Text fontSize="sm" color="fg.muted">
+              <Disclosure.Body
+                style={{
+                  marginLeft: "0.5rem",
+                  marginRight: "0.5rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  padding: "1rem",
+                  textAlign: "center",
+                }}
+              >
+                <Text color="fg.muted" fontSize="sm">
                   Scan this QR code with your camera app to preview the HeroUI native components.
                 </Text>
                 <img
                   alt="Expo Go QR Code"
                   src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
-                  style={{aspectRatio: "1/1", width: "100%", maxWidth: "13.5rem", objectFit: "cover"}}
+                  style={{
+                    aspectRatio: "1/1",
+                    width: "100%",
+                    maxWidth: "13.5rem",
+                    objectFit: "cover",
+                  }}
                 />
-                <Text fontSize="sm" color="fg.muted">Expo must be installed on your device.</Text>
+                <Text color="fg.muted" fontSize="sm">
+                  Expo must be installed on your device.
+                </Text>
                 <Button mt="4" variant="solid">
                   <Icon icon="tabler:brand-apple-filled" />
                   Download on App Store
@@ -131,10 +171,12 @@ const ControlledTemplate = (props: DisclosureGroupProps) => {
   });
 
   return (
-    <Box width="full" maxW="md">
-      <Flex direction="column" gap="4" rounded="3xl" bg="surface" p="4" shadow="surface">
-        <Flex mb="2" align="center" justify="space-between">
-          <Text as="h3" fontSize="lg" fontWeight="semibold">HeroUI Native</Text>
+    <Box maxW="md" width="full">
+      <Flex bg="surface" direction="column" gap="4" p="4" rounded="3xl" shadow="surface">
+        <Flex align="center" justify="space-between" mb="2">
+          <Text as="h3" fontSize="lg" fontWeight="semibold">
+            HeroUI Native
+          </Text>
           <Flex gap="2">
             <Button
               aria-label="Previous disclosure"
@@ -156,17 +198,21 @@ const ControlledTemplate = (props: DisclosureGroupProps) => {
             </Button>
           </Flex>
         </Flex>
-        <DisclosureGroup {...props} value={Array.from(expandedKeys).map(String)} onValueChange={({value}) => setExpandedKeys(new Set(value))}>
+        <DisclosureGroup
+          {...props}
+          value={Array.from(expandedKeys).map(String)}
+          onValueChange={({value}) => setExpandedKeys(new Set(value))}
+        >
           <Disclosure aria-label="Preview HeroUI Native" id="preview">
             <Disclosure.Heading>
               <Button
+                bg={!expandedKeys.has("preview") ? "transparent" : undefined}
+                borderWidth="0"
                 slot="trigger"
                 variant={expandedKeys.has("preview") ? "outline" : "ghost"}
                 width="full"
-                borderWidth="0"
-                bg={!expandedKeys.has("preview") ? "transparent" : undefined}
               >
-                <Flex width="full" align="center" justify="start" gap="2">
+                <Flex align="center" gap="2" justify="start" width="full">
                   <Icon icon="gravity-ui:qr-code" />
                   Preview HeroUI Native
                 </Flex>
@@ -174,16 +220,34 @@ const ControlledTemplate = (props: DisclosureGroupProps) => {
               </Button>
             </Disclosure.Heading>
             <Disclosure.Content>
-              <Disclosure.Body style={{marginLeft: "0.5rem", marginRight: "0.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem", padding: "1rem", textAlign: "center"}}>
-                <Text fontSize="sm" color="fg.muted">
+              <Disclosure.Body
+                style={{
+                  marginLeft: "0.5rem",
+                  marginRight: "0.5rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  padding: "1rem",
+                  textAlign: "center",
+                }}
+              >
+                <Text color="fg.muted" fontSize="sm">
                   Scan this QR code with your camera app to preview the HeroUI native components.
                 </Text>
                 <img
                   alt="Expo Go QR Code"
                   src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
-                  style={{aspectRatio: "1/1", width: "100%", maxWidth: "13.5rem", objectFit: "cover"}}
+                  style={{
+                    aspectRatio: "1/1",
+                    width: "100%",
+                    maxWidth: "13.5rem",
+                    objectFit: "cover",
+                  }}
                 />
-                <Text fontSize="sm" color="fg.muted">Expo must be installed on your device.</Text>
+                <Text color="fg.muted" fontSize="sm">
+                  Expo must be installed on your device.
+                </Text>
                 <Button mt="4" variant="solid">
                   <Icon className="[&_path]:fill-accent-foreground" icon="logos:expo-icon" />
                   Preview on Expo Go
@@ -195,13 +259,13 @@ const ControlledTemplate = (props: DisclosureGroupProps) => {
           <Disclosure id="download">
             <Disclosure.Heading aria-label="Download HeroUI Native">
               <Button
+                bg={!expandedKeys.has("download") ? "transparent" : undefined}
+                borderWidth="0"
                 slot="trigger"
                 variant={expandedKeys.has("download") ? "outline" : "ghost"}
                 width="full"
-                borderWidth="0"
-                bg={!expandedKeys.has("download") ? "transparent" : undefined}
               >
-                <Flex width="full" align="center" justify="start" gap="2">
+                <Flex align="center" gap="2" justify="start" width="full">
                   <Icon icon="tabler:brand-apple-filled" />
                   Download HeroUI Native
                 </Flex>
@@ -209,16 +273,34 @@ const ControlledTemplate = (props: DisclosureGroupProps) => {
               </Button>
             </Disclosure.Heading>
             <Disclosure.Content>
-              <Disclosure.Body style={{marginLeft: "0.5rem", marginRight: "0.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem", padding: "1rem", textAlign: "center"}}>
-                <Text fontSize="sm" color="fg.muted">
+              <Disclosure.Body
+                style={{
+                  marginLeft: "0.5rem",
+                  marginRight: "0.5rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  padding: "1rem",
+                  textAlign: "center",
+                }}
+              >
+                <Text color="fg.muted" fontSize="sm">
                   Scan this QR code with your camera app to preview the HeroUI native components.
                 </Text>
                 <img
                   alt="Expo Go QR Code"
                   src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
-                  style={{aspectRatio: "1/1", width: "100%", maxWidth: "13.5rem", objectFit: "cover"}}
+                  style={{
+                    aspectRatio: "1/1",
+                    width: "100%",
+                    maxWidth: "13.5rem",
+                    objectFit: "cover",
+                  }}
                 />
-                <Text fontSize="sm" color="fg.muted">Expo must be installed on your device.</Text>
+                <Text color="fg.muted" fontSize="sm">
+                  Expo must be installed on your device.
+                </Text>
                 <Button mt="4" variant="solid">
                   <Icon icon="tabler:brand-apple-filled" />
                   Download on App Store
@@ -239,12 +321,12 @@ function AppleShowcaseButton({
 }: ButtonProps & {isSelected: boolean}) {
   return (
     <Button
+      _hover={{bg: "#272729"}}
+      bg={isSelected ? "#272729" : "#1e1e20"}
+      color="#f5f5f7"
+      fontSize="17px"
       height="56px"
       rounded="full"
-      bg={isSelected ? "#272729" : "#1e1e20"}
-      fontSize="17px"
-      color="#f5f5f7"
-      _hover={{bg: "#272729"}}
       css={{
         transitionDuration: "400ms",
         transitionTimingFunction: "cubic-bezier(0.455, 0.03, 0.515, 0.955)",
@@ -260,15 +342,17 @@ function SelectedIphoneColorSwatch({color, name}: {color: string; name: string})
   return (
     <Box
       as="span"
-      position="relative"
       boxSize="6"
+      position="relative"
       rounded="lg"
       shadow="inset 0px -1px 0px 0px rgba(255,255,255,.5)"
       style={{
         backgroundColor: `${color}`,
       }}
     >
-      <Box as="span" srOnly>Copy {name} color</Box>
+      <Box srOnly as="span">
+        Copy {name} color
+      </Box>
     </Box>
   );
 }
@@ -277,10 +361,10 @@ function PlusIcon({height = 24, width = 24, ...props}: SVGProps<SVGSVGElement>) 
   return (
     <svg
       height={height}
+      style={{width: "1.5rem", height: "1.5rem", flexShrink: 0}}
       viewBox="0 0 24 24"
       width={width}
       xmlns="http://www.w3.org/2000/svg"
-      style={{width: "1.5rem", height: "1.5rem", flexShrink: 0}}
       {...props}
     >
       <circle cx="12" cy="12" fill="none" r="11.3" stroke="currentColor" />
@@ -361,46 +445,52 @@ const Showcase1Template = (props: DisclosureGroupProps) => {
   });
 
   return (
-    <Box as="section" width="full" overflow="hidden" bg="surface">
+    <Box as="section" bg="surface" overflow="hidden" width="full">
       {/* Left content */}
-      <Flex width="full" align="center" gap="8" px="8" py="8">
+      <Flex align="center" gap="8" px="8" py="8" width="full">
         {/* Controls */}
         <Flex
+          className="opacity-0 transition-all duration-300 ease-out-quad data-[expanded=true]:duration-400 translate-y-[120px] data-[expanded=true]:translate-y-0 data-[expanded=true]:opacity-100 scale-50 data-[expanded=true]:scale-100"
           data-expanded={isAnyItemExpanded}
           direction="column"
+          display={{base: "none", sm: "flex"}}
           gap="5"
           zIndex={1}
-          display={{base: "none", sm: "flex"}}
-          className="opacity-0 transition-all duration-300 ease-out-quad data-[expanded=true]:duration-400 translate-y-[120px] data-[expanded=true]:translate-y-0 data-[expanded=true]:opacity-100 scale-50 data-[expanded=true]:scale-100"
         >
           <Button
             isIconOnly
             aria-label="Previous disclosure"
-            rounded="full"
             className="transition-all duration-250 ease-smooth"
             disabled={isPrevDisabled}
+            rounded="full"
             variant="outline"
             onClick={onPrevious}
           >
-            <svg style={{width: "2rem", height: "2rem", fill: "var(--colors-fg)"}} viewBox="0 0 36 36">
+            <svg
+              style={{width: "2rem", height: "2rem", fill: "var(--colors-fg)"}}
+              viewBox="0 0 36 36"
+            >
               <path d="m11 20c0-.3838.1465-.7676.4395-1.0605l5.5-5.5c.5854-.5859 1.5356-.5859 2.1211 0l5.5 5.5c.5859.5859.5859 1.5352 0 2.1211-.5854.5859-1.5356.5859-2.1211 0l-4.4395-4.4395-4.4395 4.4395c-.5854.5859-1.5356.5859-2.1211 0-.293-.293-.4395-.6768-.4395-1.0605z" />
             </svg>
           </Button>
           <Button
             isIconOnly
             aria-label="Next disclosure"
-            rounded="full"
             className="transition-all duration-250 ease-smooth"
             disabled={isNextDisabled}
+            rounded="full"
             variant="outline"
             onClick={onNext}
           >
-            <svg style={{width: "2rem", height: "2rem", fill: "var(--colors-fg)"}} viewBox="0 0 36 36">
+            <svg
+              style={{width: "2rem", height: "2rem", fill: "var(--colors-fg)"}}
+              viewBox="0 0 36 36"
+            >
               <path d="m19.0625 22.5597 5.5-5.5076c.5854-.5854.5825-1.5323-.0039-2.1157-.5869-.5835-1.5366-.5815-2.1211.0039l-4.4375 4.4438-4.4375-4.4438c-.5845-.5854-1.5342-.5874-2.1211-.0039-.2944.2922-.4414.676-.4414 1.0598 0 .3818.1455.7637.4375 1.0559l5.5 5.5076c.2813.2815.6636.4403 1.0625.4403s.7812-.1588 1.0625-.4403z" />
             </svg>
           </Button>
         </Flex>
-        <Box zIndex={1} width="full" maxW="md">
+        <Box maxW="md" width="full" zIndex={1}>
           <DisclosureGroup
             {...props}
             style={{display: "flex", flexDirection: "column", gap: "0.75rem"}}
@@ -411,7 +501,7 @@ const Showcase1Template = (props: DisclosureGroupProps) => {
               <Disclosure key={item.id} aria-label={item.label} id={item.id}>
                 <Disclosure.Heading>
                   <AppleShowcaseButton isSelected={expandedKeys.has(item.id)} slot="trigger">
-                    <Flex width="full" align="center" justify="start" gap="3">
+                    <Flex align="center" gap="3" justify="start" width="full">
                       {item.id === "colors" ? (
                         <SelectedIphoneColorSwatch color="#f77314" name="Cosmic Orange" />
                       ) : (

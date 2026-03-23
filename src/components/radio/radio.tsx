@@ -60,19 +60,21 @@ const RadioControl = ({children, ...props}: RadioControlProps) => {
           bg: "accent",
         },
         /* Selected + Pressed */
-        "[data-slot=radio]:active[data-selected=true] &, [data-slot=radio][data-pressed=true][data-selected=true] &": {
-          bg: "accent/90",
-        },
+        "[data-slot=radio]:active[data-selected=true] &, [data-slot=radio][data-pressed=true][data-selected=true] &":
+          {
+            bg: "accent/90",
+          },
         /* Invalid */
         "[data-slot=radio][data-invalid=true] &, [data-slot=radio][aria-invalid=true] &": {
           borderColor: "danger",
           bg: "danger/10",
         },
         /* Invalid + Selected */
-        "[data-slot=radio][data-invalid=true][aria-checked=true] &, [data-slot=radio][data-invalid=true][data-selected=true] &, [data-slot=radio][aria-invalid=true][aria-checked=true] &, [data-slot=radio][aria-invalid=true][data-selected=true] &": {
-          borderColor: "danger",
-          bg: "danger/10",
-        },
+        "[data-slot=radio][data-invalid=true][aria-checked=true] &, [data-slot=radio][data-invalid=true][data-selected=true] &, [data-slot=radio][aria-invalid=true][aria-checked=true] &, [data-slot=radio][aria-invalid=true][data-selected=true] &":
+          {
+            borderColor: "danger",
+            bg: "danger/10",
+          },
       }}
       {...props}
     >
@@ -89,13 +91,13 @@ interface RadioIndicatorProps extends ComponentPropsWithRef<typeof RadioGroup.It
 const RadioIndicator = ({children, ...props}: RadioIndicatorProps) => {
   return (
     <RadioGroup.ItemIndicator
-      data-slot="radio-indicator"
-      position="absolute"
-      inset="0"
-      display="flex"
       alignItems="center"
+      data-slot="radio-indicator"
+      display="flex"
+      inset="0"
       justifyContent="center"
       pointerEvents="none"
+      position="absolute"
       css={{
         "&:empty::before": {
           content: '""',
@@ -107,14 +109,16 @@ const RadioIndicator = ({children, ...props}: RadioIndicatorProps) => {
           transition: "scale 200ms ease-out, background-color 200ms ease-out",
         },
         /* Hover unselected indicator */
-        "[data-slot=radio]:hover:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] &:empty::before, [data-slot=radio][data-hovered=true]:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] &:empty::before": {
-          bg: "bg.subtle",
-        },
+        "[data-slot=radio]:hover:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] &:empty::before, [data-slot=radio][data-hovered=true]:not([aria-checked=true]):not([data-selected=true]) [data-slot=radio-control] &:empty::before":
+          {
+            bg: "bg.subtle",
+          },
         /* Selected indicator dot */
-        "[data-slot=radio][aria-checked=true] &:empty::before, [data-slot=radio][data-selected=true] &:empty::before": {
-          bg: "accent.fg",
-          scale: "0.4286",
-        },
+        "[data-slot=radio][aria-checked=true] &:empty::before, [data-slot=radio][data-selected=true] &:empty::before":
+          {
+            bg: "accent.fg",
+            scale: "0.4286",
+          },
         /* Selected + Pressed */
         "[data-slot=radio][data-selected=true][data-pressed=true] &:empty::before": {
           scale: "0.5714",

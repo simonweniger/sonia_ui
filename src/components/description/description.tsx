@@ -12,11 +12,11 @@ interface DescriptionRootProps extends ComponentPropsWithRef<typeof Text> {}
 const DescriptionRoot = ({children, ...props}: DescriptionRootProps) => {
   return (
     <Text
-      data-slot="description"
       color="fg.muted"
+      data-slot="description"
       fontSize="xs"
-      textWrap="wrap"
       overflowWrap="break-word"
+      textWrap="wrap"
       {...props}
     >
       {children}

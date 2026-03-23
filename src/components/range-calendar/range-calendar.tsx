@@ -1,11 +1,12 @@
 "use client";
 
-import type {DateValue} from "@internationalized/date";
+import type {CalendarIdentifier, DateValue} from "@internationalized/date";
 import type {ComponentPropsWithRef} from "react";
+
+import {CalendarDate, DateFormatter, createCalendar} from "@internationalized/date";
 
 import {DatePicker} from "@ark-ui/react";
 import {Box} from "@chakra-ui/react";
-import {type CalendarIdentifier, CalendarDate, DateFormatter, createCalendar} from "@internationalized/date";
 import React, {createContext} from "react";
 
 import {getGregorianYearOffset} from "../../utils/calendar";
@@ -67,7 +68,9 @@ function RangeCalendarRoot({
   );
 
   const calendarProp = React.useMemo(() => {
-    const calendarIdentifier = new DateFormatter(localeProp).resolvedOptions().calendar as CalendarIdentifier;
+    const calendarIdentifier = new DateFormatter(localeProp).resolvedOptions()
+      .calendar as CalendarIdentifier;
+
     return createCalendar(calendarIdentifier);
   }, [localeProp]);
 
@@ -76,16 +79,13 @@ function RangeCalendarRoot({
     [calendarProp.identifier],
   );
 
-  const minDate = minValueProp
-    ? undefined
-    : new CalendarDate(1900 + gregorianYearOffset, 1, 1);
-  const maxDate = maxValueProp
-    ? undefined
-    : new CalendarDate(2099 + gregorianYearOffset, 12, 31);
+  const minDate = minValueProp ? undefined : new CalendarDate(1900 + gregorianYearOffset, 1, 1);
+  const maxDate = maxValueProp ? undefined : new CalendarDate(2099 + gregorianYearOffset, 12, 31);
 
   const yearPickerStateValue = React.useMemo(() => {
     const now = new Date();
     const focusedDate = new CalendarDate(now.getFullYear(), now.getMonth() + 1, now.getDate());
+
     return {
       focusedDate,
       setFocusedDate: (_value: DateValue) => {},
@@ -108,13 +108,13 @@ function RangeCalendarRoot({
         <YearPickerStateContext value={yearPickerStateValue}>
           <DatePicker.Root
             ref={calendarRef}
-            data-slot="range-calendar"
             open
             closeOnSelect={false}
-            selectionMode="range"
+            data-slot="range-calendar"
             locale={localeProp}
-            min={minDate as ComponentPropsWithRef<typeof DatePicker.Root>["min"]}
             max={maxDate as ComponentPropsWithRef<typeof DatePicker.Root>["max"]}
+            min={minDate as ComponentPropsWithRef<typeof DatePicker.Root>["min"]}
+            selectionMode="range"
             {...rest}
             className={className}
             style={{
@@ -156,14 +156,14 @@ interface RangeCalendarHeaderProps extends ComponentPropsWithRef<"header"> {
 const RangeCalendarHeader = ({children, className, ...props}: RangeCalendarHeaderProps) => {
   return (
     <Box
+      alignItems="center"
       as="header"
       className={className}
       data-slot="range-calendar-header"
       display="flex"
-      alignItems="center"
       justifyContent="space-between"
-      px="0.5"
       pb="4"
+      px="0.5"
       {...props}
     >
       {children}
@@ -181,8 +181,8 @@ interface RangeCalendarHeadingProps extends ComponentPropsWithRef<"div"> {}
 const RangeCalendarHeading = ({className, ...props}: RangeCalendarHeadingProps) => {
   return (
     <DatePicker.ViewControl
-      data-slot="range-calendar-heading"
       className={className}
+      data-slot="range-calendar-heading"
       {...props}
       style={{
         flex: 1,
@@ -227,28 +227,24 @@ const RangeCalendarNavButton = ({
   if (slot === "previous") {
     return (
       <DatePicker.PrevTrigger
-        data-slot="range-calendar-nav-button"
         className={className}
+        data-slot="range-calendar-nav-button"
         {...props}
         style={{...navButtonStyle, ...props.style}}
       >
-        {children || (
-          <IconChevronLeft data-slot="range-calendar-nav-button-icon" />
-        )}
+        {children || <IconChevronLeft data-slot="range-calendar-nav-button-icon" />}
       </DatePicker.PrevTrigger>
     );
   }
 
   return (
     <DatePicker.NextTrigger
-      data-slot="range-calendar-nav-button"
       className={className}
+      data-slot="range-calendar-nav-button"
       {...props}
       style={{...navButtonStyle, ...props.style}}
     >
-      {children || (
-        <IconChevronRight data-slot="range-calendar-nav-button-icon" />
-      )}
+      {children || <IconChevronRight data-slot="range-calendar-nav-button-icon" />}
     </DatePicker.NextTrigger>
   );
 };
@@ -260,15 +256,11 @@ RangeCalendarNavButton.displayName = "RangeCalendar.NavButton";
 | * -----------------------------------------------------------------------------------------------*/
 interface RangeCalendarGridProps extends ComponentPropsWithRef<"table"> {}
 
-const RangeCalendarGrid = ({
-  children,
-  className,
-  ...props
-}: RangeCalendarGridProps) => {
+const RangeCalendarGrid = ({children, className, ...props}: RangeCalendarGridProps) => {
   return (
     <DatePicker.Table
-      data-slot="range-calendar-grid"
       className={className}
+      data-slot="range-calendar-grid"
       {...props}
       style={{
         display: "grid",
@@ -292,8 +284,8 @@ interface RangeCalendarGridHeaderProps extends ComponentPropsWithRef<"thead"> {}
 const RangeCalendarGridHeader = ({className, ...props}: RangeCalendarGridHeaderProps) => {
   return (
     <DatePicker.TableHead
-      data-slot="range-calendar-grid-header"
       className={className}
+      data-slot="range-calendar-grid-header"
       {...props}
       style={{
         display: "contents",
@@ -313,8 +305,8 @@ interface RangeCalendarGridBodyProps extends ComponentPropsWithRef<"tbody"> {}
 const RangeCalendarGridBody = ({className, ...props}: RangeCalendarGridBodyProps) => {
   return (
     <DatePicker.TableBody
-      data-slot="range-calendar-grid-body"
       className={className}
+      data-slot="range-calendar-grid-body"
       {...props}
       style={{
         display: "contents",
@@ -334,8 +326,8 @@ interface RangeCalendarHeaderCellProps extends ComponentPropsWithRef<"th"> {}
 const RangeCalendarHeaderCell = ({className, ...props}: RangeCalendarHeaderCellProps) => {
   return (
     <DatePicker.TableHeader
-      data-slot="range-calendar-header-cell"
       className={className}
+      data-slot="range-calendar-header-cell"
       {...props}
       style={{
         display: "flex",
@@ -356,13 +348,15 @@ RangeCalendarHeaderCell.displayName = "RangeCalendar.HeaderCell";
 /* -------------------------------------------------------------------------------------------------
 | * RangeCalendar Cell
 | * -----------------------------------------------------------------------------------------------*/
-interface RangeCalendarCellProps extends ComponentPropsWithRef<typeof DatePicker.TableCellTrigger> {}
+interface RangeCalendarCellProps extends ComponentPropsWithRef<
+  typeof DatePicker.TableCellTrigger
+> {}
 
 const RangeCalendarCell = ({children, className, ...props}: RangeCalendarCellProps) => {
   return (
     <DatePicker.TableCellTrigger
-      data-slot="range-calendar-cell"
       className={className}
+      data-slot="range-calendar-cell"
       {...props}
       style={{
         position: "relative",
@@ -393,18 +387,18 @@ interface RangeCalendarCellIndicatorProps extends ComponentPropsWithRef<"span"> 
 const RangeCalendarCellIndicator = ({className, ...props}: RangeCalendarCellIndicatorProps) => {
   return (
     <Box
-      as="span"
       aria-hidden="true"
+      as="span"
+      bg="fg.muted"
+      bottom="1"
       className={className}
       data-slot="range-calendar-cell-indicator"
-      position="absolute"
-      bottom="1"
-      left="50%"
-      w="3px"
       h="3px"
-      transform="translateX(-50%)"
+      left="50%"
+      position="absolute"
       rounded="full"
-      bg="fg.muted"
+      transform="translateX(-50%)"
+      w="3px"
       {...props}
     />
   );

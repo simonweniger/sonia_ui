@@ -1,10 +1,9 @@
 "use client";
 
+import type {SelectRootProps as ChakraSelectRootProps, CollectionItem} from "@chakra-ui/react";
 import type {ComponentPropsWithRef, ReactNode, RefAttributes} from "react";
 
-import type {CollectionItem, SelectRootProps as ChakraSelectRootProps} from "@chakra-ui/react";
-
-import {Portal, Select as ChakraSelect} from "@chakra-ui/react";
+import {Select as ChakraSelect, Portal} from "@chakra-ui/react";
 import React from "react";
 
 import {IconChevronDown} from "../icons";
@@ -13,8 +12,7 @@ import {IconChevronDown} from "../icons";
  * Select Root
  * -----------------------------------------------------------------------------------------------*/
 interface SelectRootProps<T extends CollectionItem = CollectionItem>
-  extends ChakraSelectRootProps<T>,
-    RefAttributes<HTMLDivElement> {
+  extends ChakraSelectRootProps<T>, RefAttributes<HTMLDivElement> {
   fullWidth?: boolean;
   children?: ReactNode;
 }
@@ -56,11 +54,11 @@ interface SelectValueProps extends ComponentPropsWithRef<typeof ChakraSelect.Val
 const SelectValue = ({children, ...props}: SelectValueProps) => {
   return (
     <ChakraSelect.ValueText
+      css={{overflowWrap: "break-word"}}
       data-slot="select-value"
       flex="1"
-      textAlign="left"
       fontSize={{base: "md", sm: "sm"}}
-      css={{overflowWrap: "break-word"}}
+      textAlign="left"
       {...props}
     >
       {children}

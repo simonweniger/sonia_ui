@@ -1,8 +1,8 @@
 "use client";
 
+import type {Tag as ChakraTag} from "@chakra-ui/react";
 import type {ComponentPropsWithRef} from "react";
 
-import {Tag as ChakraTag} from "@chakra-ui/react";
 import {Box} from "@chakra-ui/react";
 import React, {createContext} from "react";
 
@@ -29,10 +29,10 @@ const TagGroupRoot = ({children, size, variant, ...restProps}: TagGroupRootProps
     <TagGroupContext value={{size, variant}}>
       <Box
         data-slot="tag-group"
-        position="relative"
         display="flex"
         flexDirection="column"
         gap="1"
+        position="relative"
         {...restProps}
       >
         {children}
@@ -50,10 +50,10 @@ const TagGroupList = ({children, ...restProps}: TagGroupListProps) => {
   return (
     <Box
       data-slot="tag-group-list"
-      position="relative"
       display="flex"
       flexWrap="wrap"
       gap="1.5"
+      position="relative"
       {...restProps}
     >
       {children}

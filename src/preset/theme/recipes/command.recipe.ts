@@ -1,40 +1,39 @@
-import {
-  type RecipeVariantProps,
-  defineRecipe,
-} from '@chakra-ui/react/styled-system'
+import type {RecipeVariantProps} from "@chakra-ui/react/styled-system";
+
+import {defineRecipe} from "@chakra-ui/react/styled-system";
 
 export const commandRecipe = defineRecipe({
-  className: 'sonia-command',
+  className: "sonia-command",
   base: {
-    colorPalette: 'gray',
-    display: 'inline-flex',
+    colorPalette: "gray",
+    display: "inline-flex",
     gap: 1,
-    color: 'fg.muted',
-    '[role=tooltip] > &': {
+    color: "fg.muted",
+    "[role=tooltip] > &": {
       ms: 1,
       _before: {
         content: '"•"',
         me: 1,
-        fontSize: 'xs',
+        fontSize: "xs",
       },
     },
   },
   variants: {
     size: {
       sm: {
-        fontSize: 'xs',
+        fontSize: "xs",
       },
       md: {
-        fontSize: 'sm',
+        fontSize: "sm",
       },
       lg: {
-        fontSize: 'md',
+        fontSize: "md",
       },
     },
   },
   defaultVariants: {
-    size: 'md',
+    size: "md",
   },
-})
+});
 
-export type CommandVariantProps = RecipeVariantProps<typeof commandRecipe>
+export type CommandVariantProps = RecipeVariantProps<typeof commandRecipe>;

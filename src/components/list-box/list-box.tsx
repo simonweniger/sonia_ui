@@ -16,16 +16,16 @@ function ListBoxRoot({className, ...props}: ListBoxRootProps) {
   return (
     <Box
       as="ul"
-      role="listbox"
       className={className}
       data-slot="list-box"
-      position="relative"
       display="flex"
-      w="full"
       flexDirection="column"
       gap="1"
       overflow="clip"
       p="1"
+      position="relative"
+      role="listbox"
+      w="full"
       css={{
         "& [data-slot='separator'][data-orientation='horizontal']": {
           marginLeft: "3%",

@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Box, Select as ChakraSelect, Text, createListCollection} from "@chakra-ui/react";
 import React from "react";
@@ -91,7 +91,7 @@ export const Variants: Story = {
 
 export const FullWidth: Story = {
   render: () => (
-    <Box w="400px" spaceY="4">
+    <Box spaceY="4" w="400px">
       <Select fullWidth collection={states}>
         <Label>State</Label>
         <Select.Trigger>
@@ -149,7 +149,7 @@ export const MultipleSelect: Story = {
     });
 
     return (
-      <Select collection={countries} multiple width="256px">
+      <Select multiple collection={countries} width="256px">
         <Label>Countries to Visit</Label>
         <Select.Trigger>
           <Select.Value placeholder="Select countries" />
@@ -264,7 +264,7 @@ export const Controlled: Story = {
             ))}
           </Select.Popover>
         </Select>
-        <Text fontSize="sm" color="fg.muted">
+        <Text color="fg.muted" fontSize="sm">
           Selected: {selectedState?.label || "None"}
         </Text>
       </Box>
@@ -279,8 +279,8 @@ export const ControlledMultiple: Story = {
     return (
       <Box spaceY="4">
         <Select
-          collection={states}
           multiple
+          collection={states}
           value={selected}
           width="256px"
           onValueChange={(e) => setSelected(e.value)}
@@ -299,7 +299,7 @@ export const ControlledMultiple: Story = {
             ))}
           </Select.Popover>
         </Select>
-        <Text fontSize="sm" color="fg.muted">
+        <Text color="fg.muted" fontSize="sm">
           Selected: {selected.length > 0 ? selected.join(", ") : "None"}
         </Text>
       </Box>
@@ -333,10 +333,8 @@ export const ControlledOpenState: Story = {
             ))}
           </Select.Popover>
         </Select>
-        <Button onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? "Close" : "Open"} Select
-        </Button>
-        <Text fontSize="sm" color="fg.muted">
+        <Button onClick={() => setIsOpen(!isOpen)}>{isOpen ? "Close" : "Open"} Select</Button>
+        <Text color="fg.muted" fontSize="sm">
           Select is {isOpen ? "open" : "closed"}
         </Text>
       </Box>
@@ -347,12 +345,7 @@ export const ControlledOpenState: Story = {
 export const Disabled: Story = {
   render: () => (
     <Box display="flex" flexDirection="column" gap="4">
-      <Select
-        collection={states}
-        defaultValue={["california"]}
-        disabled
-        width="256px"
-      >
+      <Select disabled collection={states} defaultValue={["california"]} width="256px">
         <Label>State</Label>
         <Select.Trigger>
           <Select.Value placeholder="Select one" />

@@ -2,8 +2,8 @@
 
 import type {ComponentPropsWithRef} from "react";
 
-import React from "react";
 import {Popover as ChakraPopover} from "@chakra-ui/react";
+import React from "react";
 
 /* -------------------------------------------------------------------------------------------------
  * Popover Root
@@ -26,10 +26,10 @@ interface PopoverContentProps extends ComponentPropsWithRef<typeof ChakraPopover
 const PopoverContent = ({children, className, ...props}: PopoverContentProps) => {
   return (
     <ChakraPopover.Content
-      data-slot="popover-content"
       className={className}
-      p="0"
       css={{transformOrigin: "var(--trigger-anchor-point)"}}
+      data-slot="popover-content"
+      p="0"
       {...props}
     >
       {children}
@@ -44,7 +44,7 @@ interface PopoverArrowProps extends ComponentPropsWithRef<typeof ChakraPopover.A
 
 const PopoverArrow = ({className, ...props}: PopoverArrowProps) => {
   return (
-    <ChakraPopover.Arrow data-slot="popover-arrow" className={className} {...props}>
+    <ChakraPopover.Arrow className={className} data-slot="popover-arrow" {...props}>
       <ChakraPopover.ArrowTip />
     </ChakraPopover.Arrow>
   );
@@ -58,10 +58,10 @@ interface PopoverBodyProps extends ComponentPropsWithRef<typeof ChakraPopover.Bo
 const PopoverBody = ({children, className, ...props}: PopoverBodyProps) => {
   return (
     <ChakraPopover.Body
-      data-slot="popover-body"
       className={className}
-      p="4"
+      data-slot="popover-body"
       outline="none"
+      p="4"
       {...props}
     >
       {children}
@@ -77,15 +77,15 @@ interface PopoverTriggerProps extends ComponentPropsWithRef<typeof ChakraPopover
 const PopoverTrigger = ({children, className, ...props}: PopoverTriggerProps) => {
   return (
     <ChakraPopover.Trigger
-      data-slot="popover-trigger"
+      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
+      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
       className={className}
       cursor="pointer"
+      data-slot="popover-trigger"
       css={{
         transition:
           "color 150ms var(--ease-smooth), background-color 150ms var(--ease-smooth), box-shadow 150ms var(--ease-out)",
       }}
-      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
-      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
       {...props}
     >
       {children}
@@ -101,8 +101,8 @@ interface PopoverHeadingProps extends ComponentPropsWithRef<typeof ChakraPopover
 const PopoverHeading = ({children, className, ...props}: PopoverHeadingProps) => {
   return (
     <ChakraPopover.Header
-      data-slot="popover-heading"
       className={className}
+      data-slot="popover-heading"
       fontWeight="medium"
       {...props}
     >
@@ -114,11 +114,13 @@ const PopoverHeading = ({children, className, ...props}: PopoverHeadingProps) =>
 /* -------------------------------------------------------------------------------------------------
  * Popover CloseTrigger
  * -----------------------------------------------------------------------------------------------*/
-interface PopoverCloseTriggerProps extends ComponentPropsWithRef<typeof ChakraPopover.CloseTrigger> {}
+interface PopoverCloseTriggerProps extends ComponentPropsWithRef<
+  typeof ChakraPopover.CloseTrigger
+> {}
 
 const PopoverCloseTrigger = ({children, className, ...props}: PopoverCloseTriggerProps) => {
   return (
-    <ChakraPopover.CloseTrigger data-slot="popover-close-trigger" className={className} {...props}>
+    <ChakraPopover.CloseTrigger className={className} data-slot="popover-close-trigger" {...props}>
       {children}
     </ChakraPopover.CloseTrigger>
   );
@@ -127,7 +129,15 @@ const PopoverCloseTrigger = ({children, className, ...props}: PopoverCloseTrigge
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/
-export {PopoverRoot, PopoverTrigger, PopoverBody, PopoverArrow, PopoverContent, PopoverHeading, PopoverCloseTrigger};
+export {
+  PopoverRoot,
+  PopoverTrigger,
+  PopoverBody,
+  PopoverArrow,
+  PopoverContent,
+  PopoverHeading,
+  PopoverCloseTrigger,
+};
 
 export type {
   PopoverRootProps,

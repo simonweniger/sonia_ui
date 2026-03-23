@@ -1,4 +1,4 @@
-import type {Decorator} from "@storybook/react";
+import type {Decorator} from "@storybook/react-vite";
 
 import React, {useEffect} from "react";
 import {useGlobals} from "storybook/preview-api";
@@ -6,11 +6,9 @@ import {useGlobals} from "storybook/preview-api";
 import {DEFAULT_LOCALE, I18N_GLOBAL_TYPE_ID, LOCALES} from "./constants";
 
 export const withInternationalization: Decorator = (Story) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks -- Storybook decorators are valid hook consumers
   const [globals] = useGlobals();
   const selectedLocale = globals[I18N_GLOBAL_TYPE_ID] || DEFAULT_LOCALE;
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks -- Storybook decorators are valid hook consumers
   useEffect(() => {
     // If auto, use navigator language, otherwise use selected
     const localeValue =

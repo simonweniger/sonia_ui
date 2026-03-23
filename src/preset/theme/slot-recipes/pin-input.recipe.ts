@@ -1,19 +1,19 @@
-import { pinInputAnatomy } from '@chakra-ui/react/anatomy'
-import { defineSlotRecipe } from '@chakra-ui/react/styled-system'
+import {pinInputAnatomy} from "@chakra-ui/react/anatomy";
+import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
-import { inputRecipe } from '../recipes/input.recipe'
-import { mapEntries } from '../utils'
+import {inputRecipe} from "../recipes/input.recipe";
+import {mapEntries} from "../utils";
 
-const { variants, defaultVariants } = inputRecipe
+const {defaultVariants, variants} = inputRecipe;
 
 export const pinInputSlotRecipe = defineSlotRecipe({
-  className: 'chakra-pin-input',
+  className: "chakra-pin-input",
   slots: pinInputAnatomy.keys(),
   base: {
     input: {
       ...inputRecipe.base,
-      textAlign: 'center',
-      width: 'var(--input-height)',
+      textAlign: "center",
+      width: "var(--input-height)",
     },
   },
   variants: {
@@ -26,10 +26,7 @@ export const pinInputSlotRecipe = defineSlotRecipe({
         },
       },
     ]),
-    variant: mapEntries(variants!.variant, (key, value) => [
-      key,
-      { input: value },
-    ]),
+    variant: mapEntries(variants!.variant, (key, value) => [key, {input: value}]),
   },
   defaultVariants: defaultVariants,
-})
+});

@@ -1,10 +1,10 @@
 "use client";
 
-import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {SystemStyleObject} from "@chakra-ui/react";
+import type {ComponentPropsWithRef, ReactNode} from "react";
 
-import React from "react";
 import {Box, Dialog as ChakraDialog} from "@chakra-ui/react";
+import React from "react";
 
 import {CloseButton} from "../close-button";
 import {DangerIcon, InfoIcon, SuccessIcon, WarningIcon} from "../icons";
@@ -59,8 +59,10 @@ interface AlertDialogTriggerProps extends ComponentPropsWithRef<typeof ChakraDia
 const AlertDialogTrigger = ({children, ...props}: AlertDialogTriggerProps) => {
   return (
     <ChakraDialog.Trigger
-      data-slot="alert-dialog-trigger"
+      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
+      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
       cursor="pointer"
+      data-slot="alert-dialog-trigger"
       css={{
         WebkitTapHighlightColor: "transparent",
         transition:
@@ -72,8 +74,6 @@ const AlertDialogTrigger = ({children, ...props}: AlertDialogTriggerProps) => {
           transform: "scale(0.97)",
         },
       }}
-      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
-      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
       {...props}
     >
       {children}
@@ -99,15 +99,15 @@ const AlertDialogBackdrop = ({variant = "opaque", ...props}: AlertDialogBackdrop
 
   return (
     <ChakraDialog.Backdrop
+      alignItems="center"
       data-slot="alert-dialog-backdrop"
-      pos="fixed"
-      inset="0"
-      zIndex="50"
       display="flex"
       flexDir="row"
-      alignItems="center"
+      inset="0"
       justifyContent="center"
+      pos="fixed"
       w="full"
+      zIndex="50"
       css={{
         height: "var(--visual-viewport-height)",
         "&[data-entering='true']": {
@@ -140,18 +140,19 @@ interface AlertDialogContentProps extends ComponentPropsWithRef<typeof ChakraDia
 
 const AlertDialogContent = ({
   children,
-  size = "md",
   placement = "auto",
+  size = "md",
   ...props
 }: AlertDialogContentProps) => {
   const sizeProps = sizeStyles[size] ?? {};
 
   return (
     <ChakraDialog.Content
-      data-slot="alert-dialog-content"
       data-placement={placement}
+      data-slot="alert-dialog-content"
       overflow="hidden"
       {...sizeProps}
+      role="alertdialog"
       css={{
         "&[data-placement='auto']": {
           marginTop: "auto",
@@ -173,7 +174,6 @@ const AlertDialogContent = ({
           marginTop: 0,
         },
       }}
-      role="alertdialog"
       {...props}
     >
       {children}
@@ -209,11 +209,11 @@ interface AlertDialogHeadingProps extends ComponentPropsWithRef<typeof ChakraDia
 const AlertDialogHeading = ({children, ...props}: AlertDialogHeadingProps) => {
   return (
     <ChakraDialog.Title
-      data-slot="alert-dialog-heading"
-      verticalAlign="middle"
-      textStyle="md"
-      fontWeight="medium"
       color="fg"
+      data-slot="alert-dialog-heading"
+      fontWeight="medium"
+      textStyle="md"
+      verticalAlign="middle"
       {...props}
     >
       {children}
@@ -229,14 +229,14 @@ interface AlertDialogBodyProps extends ComponentPropsWithRef<typeof ChakraDialog
 const AlertDialogBody = ({children, ...props}: AlertDialogBodyProps) => {
   return (
     <ChakraDialog.Body
-      data-slot="alert-dialog-body"
-      minH="0"
-      flex="1"
-      textStyle="sm"
-      lineHeight="1.43"
       color="fg.muted"
+      data-slot="alert-dialog-body"
+      flex="1"
+      lineHeight="1.43"
+      minH="0"
       my="0"
       overflowY="auto"
+      textStyle="sm"
       css={{
         WebkitOverflowScrolling: "touch",
         "[data-slot='alert-dialog-header'] + &": {
@@ -258,12 +258,12 @@ interface AlertDialogFooterProps extends ComponentPropsWithRef<typeof ChakraDial
 const AlertDialogFooter = ({children, ...props}: AlertDialogFooterProps) => {
   return (
     <ChakraDialog.Footer
+      alignItems="center"
       data-slot="alert-dialog-footer"
       display="flex"
       flexDir="row"
-      alignItems="center"
-      justifyContent="flex-end"
       gap="2"
+      justifyContent="flex-end"
       mt="0"
       css={{
         "[data-slot='alert-dialog-header'] + &": {
@@ -291,11 +291,7 @@ interface AlertDialogIconProps extends ComponentPropsWithRef<"div"> {
   status?: AlertDialogStatus;
 }
 
-const AlertDialogIcon = ({
-  children,
-  status = "danger",
-  ...props
-}: AlertDialogIconProps) => {
+const AlertDialogIcon = ({children, status = "danger", ...props}: AlertDialogIconProps) => {
   const getDefaultIcon = () => {
     switch (status) {
       case "default":
@@ -317,13 +313,13 @@ const AlertDialogIcon = ({
 
   return (
     <Box
+      alignItems="center"
+      boxSize="10"
       data-slot="alert-dialog-icon"
       data-status={status}
       display="flex"
-      alignItems="center"
-      justifyContent="center"
-      boxSize="10"
       flexShrink={0}
+      justifyContent="center"
       rounded="full"
       userSelect="none"
       {...variantProps}
@@ -344,7 +340,9 @@ const AlertDialogIcon = ({
 /* -------------------------------------------------------------------------------------------------
  * AlertDialog Close Trigger
  * -----------------------------------------------------------------------------------------------*/
-interface AlertDialogCloseTriggerProps extends ComponentPropsWithRef<typeof ChakraDialog.CloseTrigger> {
+interface AlertDialogCloseTriggerProps extends ComponentPropsWithRef<
+  typeof ChakraDialog.CloseTrigger
+> {
   children?: ReactNode;
 }
 
@@ -353,8 +351,8 @@ const AlertDialogCloseTrigger = ({children, ...rest}: AlertDialogCloseTriggerPro
     <ChakraDialog.CloseTrigger
       data-slot="alert-dialog-close-trigger"
       pos="absolute"
-      top="4"
       right="4"
+      top="4"
       {...rest}
     >
       {children ?? <CloseButton />}

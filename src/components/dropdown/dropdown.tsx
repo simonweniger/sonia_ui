@@ -2,8 +2,8 @@
 
 import type {ComponentPropsWithRef} from "react";
 
-import React from "react";
 import {Menu as ChakraMenu, Portal} from "@chakra-ui/react";
+import React from "react";
 
 /* -------------------------------------------------------------------------------------------------
  * Dropdown Root
@@ -25,12 +25,7 @@ interface DropdownTriggerProps extends ComponentPropsWithRef<typeof ChakraMenu.T
 
 const DropdownTrigger = ({children, className, ...props}: DropdownTriggerProps) => {
   return (
-    <ChakraMenu.Trigger
-      data-slot="dropdown-trigger"
-      className={className}
-      asChild
-      {...props}
-    >
+    <ChakraMenu.Trigger asChild className={className} data-slot="dropdown-trigger" {...props}>
       {children}
     </ChakraMenu.Trigger>
   );
@@ -46,14 +41,14 @@ const DropdownContent = ({children, className, ...props}: DropdownContentProps) 
     <Portal>
       <ChakraMenu.Positioner>
         <ChakraMenu.Content
-          data-slot="dropdown-content"
           className={className}
-          maxW="48svw"
-          p="1.5"
+          data-slot="dropdown-content"
           display="flex"
           flexDir="column"
           gap="0.5"
+          maxW="48svw"
           md={{minW: "55"}}
+          p="1.5"
           css={{
             scrollPaddingBlock: "0.25rem",
             /* Dropdown items get slightly more horizontal padding than default menu items */
@@ -91,9 +86,10 @@ const indicatorAnimationCss = {
     strokeDashoffset: 66,
     transition: "stroke-dashoffset 100ms linear",
   },
-  "&[data-state=checked] [data-slot=menu-item-indicator--checkmark], &[aria-checked=true] [data-slot=menu-item-indicator--checkmark]": {
-    strokeDashoffset: 44,
-  },
+  "&[data-state=checked] [data-slot=menu-item-indicator--checkmark], &[aria-checked=true] [data-slot=menu-item-indicator--checkmark]":
+    {
+      strokeDashoffset: 44,
+    },
   /* Dot: hidden via scale/opacity, shown when checked */
   "& [data-slot=menu-item-indicator--dot]": {
     width: "0.5rem",
@@ -102,10 +98,11 @@ const indicatorAnimationCss = {
     opacity: 0,
     transition: "all 250ms",
   },
-  "&[data-state=checked] [data-slot=menu-item-indicator--dot], &[aria-checked=true] [data-slot=menu-item-indicator--dot]": {
-    transform: "scale(1)",
-    opacity: 1,
-  },
+  "&[data-state=checked] [data-slot=menu-item-indicator--dot], &[aria-checked=true] [data-slot=menu-item-indicator--dot]":
+    {
+      transform: "scale(1)",
+      opacity: 1,
+    },
   /* Custom children: hidden by default, shown when checked */
   "& [data-type=custom]": {
     opacity: 0,
@@ -123,12 +120,7 @@ interface DropdownItemProps extends ComponentPropsWithRef<typeof ChakraMenu.Item
 
 const DropdownItem = ({children, className, ...props}: DropdownItemProps) => {
   return (
-    <ChakraMenu.Item
-      data-slot="menu-item"
-      className={className}
-      css={itemBaseCss}
-      {...props}
-    >
+    <ChakraMenu.Item className={className} css={itemBaseCss} data-slot="menu-item" {...props}>
       {children}
     </ChakraMenu.Item>
   );
@@ -142,8 +134,8 @@ interface DropdownSectionProps extends ComponentPropsWithRef<typeof ChakraMenu.I
 const DropdownSection = ({children, className, ...props}: DropdownSectionProps) => {
   return (
     <ChakraMenu.ItemGroup
-      data-slot="menu-section"
       className={className}
+      data-slot="menu-section"
       display="flex"
       flexDir="column"
       gap="0"
@@ -157,11 +149,13 @@ const DropdownSection = ({children, className, ...props}: DropdownSectionProps) 
 /* -------------------------------------------------------------------------------------------------
  * Dropdown Section Label (Header)
  * -----------------------------------------------------------------------------------------------*/
-interface DropdownSectionLabelProps extends ComponentPropsWithRef<typeof ChakraMenu.ItemGroupLabel> {}
+interface DropdownSectionLabelProps extends ComponentPropsWithRef<
+  typeof ChakraMenu.ItemGroupLabel
+> {}
 
 const DropdownSectionLabel = ({children, className, ...props}: DropdownSectionLabelProps) => {
   return (
-    <ChakraMenu.ItemGroupLabel data-slot="menu-section-label" className={className} {...props}>
+    <ChakraMenu.ItemGroupLabel className={className} data-slot="menu-section-label" {...props}>
       {children}
     </ChakraMenu.ItemGroupLabel>
   );
@@ -173,13 +167,7 @@ const DropdownSectionLabel = ({children, className, ...props}: DropdownSectionLa
 interface DropdownSeparatorProps extends ComponentPropsWithRef<typeof ChakraMenu.Separator> {}
 
 const DropdownSeparator = ({className, ...props}: DropdownSeparatorProps) => {
-  return (
-    <ChakraMenu.Separator
-      data-slot="dropdown-separator"
-      className={className}
-      {...props}
-    />
-  );
+  return <ChakraMenu.Separator className={className} data-slot="dropdown-separator" {...props} />;
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -228,15 +216,20 @@ interface DropdownItemIndicatorProps extends Omit<ComponentPropsWithRef<"span">,
   type?: "checkmark" | "dot";
 }
 
-const DropdownItemIndicator = ({children, className, type = "checkmark", ...props}: DropdownItemIndicatorProps) => {
+const DropdownItemIndicator = ({
+  children,
+  className,
+  type = "checkmark",
+  ...props
+}: DropdownItemIndicatorProps) => {
   const hasCustomChildren = children != null;
 
   return (
     <span
       aria-hidden="true"
+      className={className}
       data-slot="menu-item-indicator"
       data-type={hasCustomChildren ? "custom" : type}
-      className={className}
       style={{
         display: "flex",
         width: "1rem",
@@ -262,9 +255,9 @@ interface DropdownCheckboxItemProps extends ComponentPropsWithRef<typeof ChakraM
 const DropdownCheckboxItem = ({children, className, ...props}: DropdownCheckboxItemProps) => {
   return (
     <ChakraMenu.CheckboxItem
-      data-slot="menu-item"
       className={className}
       css={{...itemBaseCss, ...indicatorAnimationCss}}
+      data-slot="menu-item"
       {...props}
     >
       {children}
@@ -275,13 +268,15 @@ const DropdownCheckboxItem = ({children, className, ...props}: DropdownCheckboxI
 /* -------------------------------------------------------------------------------------------------
  * Dropdown Radio Item Group
  * -----------------------------------------------------------------------------------------------*/
-interface DropdownRadioItemGroupProps extends ComponentPropsWithRef<typeof ChakraMenu.RadioItemGroup> {}
+interface DropdownRadioItemGroupProps extends ComponentPropsWithRef<
+  typeof ChakraMenu.RadioItemGroup
+> {}
 
 const DropdownRadioItemGroup = ({children, className, ...props}: DropdownRadioItemGroupProps) => {
   return (
     <ChakraMenu.RadioItemGroup
-      data-slot="dropdown-radio-item-group"
       className={className}
+      data-slot="dropdown-radio-item-group"
       {...props}
     >
       {children}
@@ -297,9 +292,9 @@ interface DropdownRadioItemProps extends ComponentPropsWithRef<typeof ChakraMenu
 const DropdownRadioItem = ({children, className, ...props}: DropdownRadioItemProps) => {
   return (
     <ChakraMenu.RadioItem
-      data-slot="menu-item"
       className={className}
       css={{...itemBaseCss, ...indicatorAnimationCss}}
+      data-slot="menu-item"
       {...props}
     >
       {children}
@@ -315,8 +310,8 @@ interface DropdownTriggerItemProps extends ComponentPropsWithRef<typeof ChakraMe
 const DropdownTriggerItem = ({children, className, ...props}: DropdownTriggerItemProps) => {
   return (
     <ChakraMenu.TriggerItem
-      data-slot="menu-item"
       className={className}
+      data-slot="menu-item"
       css={{
         "[data-slot=label]": {pointerEvents: "none", width: "fit-content", userSelect: "none"},
       }}

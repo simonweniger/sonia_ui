@@ -1,4 +1,4 @@
-import type {Decorator} from "@storybook/react";
+import type {Decorator} from "@storybook/react-vite";
 
 import React, {useEffect} from "react";
 import {addons, useGlobals} from "storybook/preview-api";
@@ -15,12 +15,11 @@ const updatePreviewTheme = (theme: string) => {
 };
 
 export const withTheme: Decorator = (Story, context) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks -- Storybook decorators are valid hook consumers
   const [globals] = useGlobals();
   const theme = ensureThemeKey(globals[THEME_GLOBAL_TYPE_ID] as string | undefined);
 
   // Update theme in memory and apply to preview/docs
-  // eslint-disable-next-line react-hooks/rules-of-hooks -- Storybook decorators are valid hook consumers
+
   useEffect(() => {
     updatePreviewTheme(theme);
 
@@ -33,7 +32,7 @@ export const withTheme: Decorator = (Story, context) => {
   }, [theme]);
 
   // Listen for STORY_CHANGED and SET_STORIES events to ensure preview theme is applied
-  // eslint-disable-next-line react-hooks/rules-of-hooks -- Storybook decorators are valid hook consumers
+
   useEffect(() => {
     const channel = addons.getChannel();
 

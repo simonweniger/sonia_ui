@@ -87,9 +87,7 @@ const TabList = ({children, className, ...props}: TabListProps) => {
             p: "0",
           })}
       css={{
-        ...(variant === "primary"
-          ? {borderRadius: "calc(var(--chakra-radii-2xl) + 0.25rem)"}
-          : {}),
+        ...(variant === "primary" ? {borderRadius: "calc(var(--chakra-radii-2xl) + 0.25rem)"} : {}),
         ...(variant === "secondary"
           ? {
               borderRadius: 0,
@@ -122,9 +120,7 @@ const TabList = ({children, className, ...props}: TabListProps) => {
         "&[data-orientation=vertical]": {
           flexDirection: "column",
           gap: variant === "primary" ? "0.25rem" : undefined,
-          ...(variant === "primary"
-            ? {"& [data-slot=tabs-tab]": {minWidth: "5rem"}}
-            : {}),
+          ...(variant === "primary" ? {"& [data-slot=tabs-tab]": {minWidth: "5rem"}} : {}),
         },
       }}
       {...props}
@@ -146,23 +142,25 @@ const Tab = ({children, className, ...props}: TabProps) => {
 
   return (
     <ChakraTabs.Trigger
-      className={className}
-      data-slot="tabs-tab"
-      position="relative"
-      zIndex="1"
-      cursor="pointer"
-      display="flex"
-      h="8"
-      w="100%"
+      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
+      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
       alignItems="center"
-      justifyContent="center"
-      rounded={variant === "secondary" ? "none" : "3xl"}
-      px="4"
-      textAlign="center"
+      className={className}
+      color="fg.muted"
+      cursor="pointer"
+      data-slot="tabs-tab"
+      display="flex"
       fontSize="sm"
       fontWeight="medium"
-      color="fg.muted"
+      h="8"
+      justifyContent="center"
       outline="none"
+      position="relative"
+      px="4"
+      rounded={variant === "secondary" ? "none" : "3xl"}
+      textAlign="center"
+      w="100%"
+      zIndex="1"
       css={{
         WebkitTapHighlightColor: "transparent",
         transition:
@@ -183,8 +181,6 @@ const Tab = ({children, className, ...props}: TabProps) => {
             },
         },
       }}
-      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
-      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
       {...props}
     >
       {children}
@@ -205,9 +201,9 @@ const TabIndicator = ({className, ...props}: TabIndicatorProps) => {
   if (variant === "secondary") {
     return (
       <ChakraTabs.Indicator
+        bg="accent"
         className={className}
         data-slot="tabs-indicator"
-        bg="accent"
         css={{
           boxShadow: "none",
           borderRadius: 0,
@@ -235,17 +231,17 @@ const TabIndicator = ({className, ...props}: TabIndicatorProps) => {
 
   return (
     <ChakraTabs.Indicator
+      bg="surface"
       className={className}
       data-slot="tabs-indicator"
-      position="absolute"
-      top="0"
-      left="0"
-      zIndex={-1}
-      rounded="3xl"
-      w="100%"
       h="100%"
-      bg="surface"
+      left="0"
+      position="absolute"
+      rounded="3xl"
       shadow="surface"
+      top="0"
+      w="100%"
+      zIndex={-1}
       css={{
         transitionDuration: "250ms",
         transitionProperty: "translate, width, height",
@@ -269,9 +265,9 @@ const TabPanel = ({children, className, ...props}: TabPanelProps) => {
     <ChakraTabs.Content
       className={className}
       data-slot="tabs-panel"
-      w="100%"
-      p="2"
       outline="none"
+      p="2"
+      w="100%"
       css={{
         "&[data-orientation=horizontal]": {marginTop: "var(--chakra-spacing-4)"},
         "&[data-orientation=vertical]": {marginLeft: "var(--chakra-spacing-4)"},
@@ -299,14 +295,14 @@ const TabSeparator = ({className, ...props}: TabSeparatorProps) => {
 
   return (
     <Box
-      as="span"
       aria-hidden="true"
+      as="span"
+      bg="fg.muted/25"
       className={className}
       data-slot="tabs-separator"
-      position="absolute"
       pointerEvents="none"
+      position="absolute"
       rounded="sm"
-      bg="fg.muted/25"
       css={{
         transition: "opacity 150ms var(--ease-smooth, ease)",
         /* Horizontal tabs: vertical separator */

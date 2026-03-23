@@ -32,8 +32,8 @@ interface KbdAbbrProps extends ComponentPropsWithRef<"abbr"> {
 const KbdAbbr = ({keyValue, ...props}: KbdAbbrProps) => {
   return (
     <abbr
-      title={kbdKeysLabelMap[keyValue]}
       data-slot="kbd-abbr"
+      title={kbdKeysLabelMap[keyValue]}
       style={{
         display: "flex",
         justifyContent: "center",

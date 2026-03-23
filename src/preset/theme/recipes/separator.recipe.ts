@@ -1,56 +1,56 @@
-import { defineRecipe } from '@chakra-ui/react/styled-system'
+import {defineRecipe} from "@chakra-ui/react/styled-system";
 
 export const separatorRecipe = defineRecipe({
-  className: 'chakra-separator',
+  className: "chakra-separator",
   base: {
-    display: 'block',
+    display: "block",
     flexShrink: 0,
-    borderRadius: 'sm',
-    borderColor: 'border',
+    borderRadius: "sm",
+    borderColor: "border",
   },
   variants: {
     variant: {
       solid: {
-        borderStyle: 'solid',
+        borderStyle: "solid",
       },
       dashed: {
-        borderStyle: 'dashed',
+        borderStyle: "dashed",
       },
       dotted: {
-        borderStyle: 'dotted',
+        borderStyle: "dotted",
       },
     },
     orientation: {
       vertical: {
-        height: '100%',
-        minHeight: '0.5rem',
-        width: '1px',
-        borderInlineStartWidth: 'var(--separator-thickness)',
+        height: "100%",
+        minHeight: "0.5rem",
+        width: "1px",
+        borderInlineStartWidth: "var(--separator-thickness)",
       },
       horizontal: {
-        width: '100%',
-        height: '1px',
-        borderTopWidth: 'var(--separator-thickness)',
+        width: "100%",
+        height: "1px",
+        borderTopWidth: "var(--separator-thickness)",
       },
     },
     size: {
       xs: {
-        '--separator-thickness': '0.5px',
+        "--separator-thickness": "0.5px",
       },
       sm: {
-        '--separator-thickness': '1px',
+        "--separator-thickness": "1px",
       },
       md: {
-        '--separator-thickness': '2px',
+        "--separator-thickness": "2px",
       },
       lg: {
-        '--separator-thickness': '3px',
+        "--separator-thickness": "3px",
       },
     },
   },
   defaultVariants: {
-    size: 'sm',
-    variant: 'solid',
-    orientation: 'horizontal',
+    size: "sm",
+    variant: "solid",
+    orientation: "horizontal",
   },
-})
+});

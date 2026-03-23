@@ -1,9 +1,8 @@
-import type {Meta} from "@storybook/react";
-
-import {Icon} from "@iconify/react";
-import React from "react";
+import type {Meta} from "@storybook/react-vite";
 
 import {Box, Flex, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
+import React from "react";
 
 import {Button} from "../button";
 import {Card} from "../card";
@@ -45,7 +44,7 @@ const defaultArgs: Omit<Tooltip["ContentProps"], "children"> = {
 };
 
 const Template = (props: Tooltip["ContentProps"]) => (
-  <Flex align="center" justify="center" gap="3">
+  <Flex align="center" gap="3" justify="center">
     <Tooltip openDelay={0}>
       <Tooltip.Trigger>
         <Button isIconOnly variant="ghost">
@@ -64,7 +63,7 @@ const TemplateWithTrigger = (props: Tooltip["ContentProps"]) => (
   <Flex align="center" gap="3">
     <Tooltip openDelay={0}>
       <Tooltip.Trigger aria-label="Tooltip trigger">
-        <Box rounded="full" bg="accent.soft" p="2">
+        <Box bg="accent.soft" p="2" rounded="full">
           <Icon icon="gravity-ui:circle-info" />
         </Box>
       </Tooltip.Trigger>
@@ -88,16 +87,10 @@ export const WithTrigger = {
 
 const CardWithTooltipTemplate = (props: Tooltip["ContentProps"]) => (
   <Card width="200px">
-    <Card.Content display="flex" alignItems="center" justifyContent="center" p="6">
+    <Card.Content alignItems="center" display="flex" justifyContent="center" p="6">
       <Tooltip openDelay={0}>
         <Tooltip.Trigger aria-label="Attach a file">
-          <Button
-            isIconOnly
-            aria-label="Attach file"
-            rounded="full"
-            size="lg"
-            variant="outline"
-          >
+          <Button isIconOnly aria-label="Attach file" rounded="full" size="lg" variant="outline">
             <Icon icon="gravity-ui:paperclip" />
           </Button>
         </Tooltip.Trigger>

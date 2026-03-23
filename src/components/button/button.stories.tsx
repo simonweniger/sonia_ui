@@ -1,7 +1,7 @@
-import type {Meta} from "@storybook/react";
+import type {Meta} from "@storybook/react-vite";
 
-import {Icon} from "@iconify/react";
 import {Box, Flex} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
 import React, {useState} from "react";
 
 import {Spinner} from "../spinner";
@@ -20,8 +20,18 @@ export default {
     variant: {
       control: "select",
       options: [
-        "solid", "subtle", "surface", "outline", "ghost", "plain", "glass",
-        "primary", "secondary", "tertiary", "danger", "danger-soft",
+        "solid",
+        "subtle",
+        "surface",
+        "outline",
+        "ghost",
+        "plain",
+        "glass",
+        "primary",
+        "secondary",
+        "tertiary",
+        "danger",
+        "danger-soft",
       ],
     },
     colorPalette: {
@@ -41,7 +51,7 @@ const defaultArgs: Button["RootProps"] = {
 };
 
 const Template = ({disabled, size}: Button["RootProps"]) => (
-  <Flex gap="3" flexWrap="wrap">
+  <Flex flexWrap="wrap" gap="3">
     <Button disabled={disabled} size={size} variant="primary">
       Primary
     </Button>
@@ -147,13 +157,13 @@ const SizesTemplate = () => (
       </Button>
     </Flex>
     <Flex align="center" gap="3">
-      <Button isIconOnly size="sm" variant="subtle" colorPalette="gray">
+      <Button isIconOnly colorPalette="gray" size="sm" variant="subtle">
         <Icon icon="gravity-ui:ellipsis" />
       </Button>
-      <Button isIconOnly size="md" variant="subtle" colorPalette="gray">
+      <Button isIconOnly colorPalette="gray" size="md" variant="subtle">
         <Icon icon="gravity-ui:ellipsis" />
       </Button>
-      <Button isIconOnly size="lg" variant="subtle" colorPalette="gray">
+      <Button isIconOnly colorPalette="gray" size="lg" variant="subtle">
         <Icon icon="gravity-ui:ellipsis" />
       </Button>
     </Flex>
@@ -161,7 +171,7 @@ const SizesTemplate = () => (
 );
 
 const TemplateWithSocialButton = ({size, variant}: Button["RootProps"]) => (
-  <Flex width="full" maxW="xs" direction="column" gap="3">
+  <Flex direction="column" gap="3" maxW="xs" width="full">
     <Button size={size} variant={variant ?? "ghost"}>
       <Icon icon="devicon:google" />
       Sign in with Google
@@ -188,14 +198,14 @@ export const Default = {
 
 export const Sizes = {
   args: {
-    variant: "solid"
+    variant: "solid",
   },
-  render:SizesTemplate
+  render: SizesTemplate,
 };
 
 export const FullWidth = {
   render: () => (
-    <Box width="400px" spaceY="3">
+    <Box spaceY="3" width="400px">
       <Button fullWidth>Solid</Button>
       <Button fullWidth variant="subtle">
         Subtle

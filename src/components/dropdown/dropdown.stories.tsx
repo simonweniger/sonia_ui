@@ -1,9 +1,8 @@
-import type {Meta, StoryObj} from "@storybook/react";
-
-import {Icon} from "@iconify/react";
-import * as React from "react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Box, Flex, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
+import * as React from "react";
 
 import {Avatar} from "../avatar";
 import {Button} from "../button";
@@ -11,6 +10,7 @@ import {Description} from "../description";
 import {Header} from "../header";
 import {Kbd} from "../kbd";
 import {Label} from "../label";
+
 import {Dropdown} from "./index";
 
 const meta: Meta<typeof Dropdown> = {
@@ -70,7 +70,10 @@ export const WithSingleSelection: Story = {
         <Dropdown.Content minW="256px">
           <Dropdown.Section>
             <Header>Select a fruit</Header>
-            <Dropdown.RadioItemGroup value={value} onValueChange={(details) => setValue(details.value)}>
+            <Dropdown.RadioItemGroup
+              value={value}
+              onValueChange={(details) => setValue(details.value)}
+            >
               <Dropdown.RadioItem value="apple">
                 <Dropdown.ItemIndicator />
                 <Label>Apple</Label>
@@ -85,7 +88,10 @@ export const WithSingleSelection: Story = {
               </Dropdown.RadioItem>
             </Dropdown.RadioItemGroup>
           </Dropdown.Section>
-          <Dropdown.RadioItemGroup value={value} onValueChange={(details) => setValue(details.value)}>
+          <Dropdown.RadioItemGroup
+            value={value}
+            onValueChange={(details) => setValue(details.value)}
+          >
             <Dropdown.RadioItem value="orange">
               <Dropdown.ItemIndicator />
               <Label>Orange</Label>
@@ -126,7 +132,10 @@ export const SingleWithCustomIndicator: Story = {
         <Dropdown.Content minW="256px">
           <Dropdown.Section>
             <Header>Select a fruit</Header>
-            <Dropdown.RadioItemGroup value={value} onValueChange={(details) => setValue(details.value)}>
+            <Dropdown.RadioItemGroup
+              value={value}
+              onValueChange={(details) => setValue(details.value)}
+            >
               <Dropdown.RadioItem value="apple">
                 <Dropdown.ItemIndicator>{CustomCheckmarkIcon}</Dropdown.ItemIndicator>
                 <Label>Apple</Label>
@@ -141,7 +150,10 @@ export const SingleWithCustomIndicator: Story = {
               </Dropdown.RadioItem>
             </Dropdown.RadioItemGroup>
           </Dropdown.Section>
-          <Dropdown.RadioItemGroup value={value} onValueChange={(details) => setValue(details.value)}>
+          <Dropdown.RadioItemGroup
+            value={value}
+            onValueChange={(details) => setValue(details.value)}
+          >
             <Dropdown.RadioItem value="orange">
               <Dropdown.ItemIndicator>{CustomCheckmarkIcon}</Dropdown.ItemIndicator>
               <Label>Orange</Label>
@@ -159,7 +171,13 @@ export const SingleWithCustomIndicator: Story = {
 
 export const WithMultipleSelection: Story = {
   render: () => {
-    const [checked, setChecked] = React.useState({apple: true, banana: false, cherry: false, orange: false, pear: false});
+    const [checked, setChecked] = React.useState({
+      apple: true,
+      banana: false,
+      cherry: false,
+      orange: false,
+      pear: false,
+    });
 
     return (
       <Dropdown closeOnSelect={false}>
@@ -172,24 +190,24 @@ export const WithMultipleSelection: Story = {
           <Dropdown.Section>
             <Header>Select a fruit</Header>
             <Dropdown.CheckboxItem
-              value="apple"
               checked={checked.apple}
+              value="apple"
               onCheckedChange={(v) => setChecked((p) => ({...p, apple: Boolean(v)}))}
             >
               <Dropdown.ItemIndicator />
               <Label>Apple</Label>
             </Dropdown.CheckboxItem>
             <Dropdown.CheckboxItem
-              value="banana"
               checked={checked.banana}
+              value="banana"
               onCheckedChange={(v) => setChecked((p) => ({...p, banana: Boolean(v)}))}
             >
               <Dropdown.ItemIndicator />
               <Label>Banana</Label>
             </Dropdown.CheckboxItem>
             <Dropdown.CheckboxItem
-              value="cherry"
               checked={checked.cherry}
+              value="cherry"
               onCheckedChange={(v) => setChecked((p) => ({...p, cherry: Boolean(v)}))}
             >
               <Dropdown.ItemIndicator />
@@ -197,16 +215,16 @@ export const WithMultipleSelection: Story = {
             </Dropdown.CheckboxItem>
           </Dropdown.Section>
           <Dropdown.CheckboxItem
-            value="orange"
             checked={checked.orange}
+            value="orange"
             onCheckedChange={(v) => setChecked((p) => ({...p, orange: Boolean(v)}))}
           >
             <Dropdown.ItemIndicator />
             <Label>Orange</Label>
           </Dropdown.CheckboxItem>
           <Dropdown.CheckboxItem
-            value="pear"
             checked={checked.pear}
+            value="pear"
             onCheckedChange={(v) => setChecked((p) => ({...p, pear: Boolean(v)}))}
           >
             <Dropdown.ItemIndicator />
@@ -220,7 +238,11 @@ export const WithMultipleSelection: Story = {
 
 export const WithSectionLevelSelection: Story = {
   render: () => {
-    const [textStyles, setTextStyles] = React.useState({bold: true, italic: true, underline: false});
+    const [textStyles, setTextStyles] = React.useState({
+      bold: true,
+      italic: true,
+      underline: false,
+    });
     const [textAlignment, setTextAlignment] = React.useState("left");
 
     return (
@@ -259,8 +281,8 @@ export const WithSectionLevelSelection: Story = {
           <Dropdown.Section>
             <Header>Text Style</Header>
             <Dropdown.CheckboxItem
-              value="bold"
               checked={textStyles.bold}
+              value="bold"
               onCheckedChange={(v) => setTextStyles((p) => ({...p, bold: Boolean(v)}))}
             >
               <Dropdown.ItemIndicator />
@@ -271,8 +293,8 @@ export const WithSectionLevelSelection: Story = {
               </Kbd>
             </Dropdown.CheckboxItem>
             <Dropdown.CheckboxItem
-              value="italic"
               checked={textStyles.italic}
+              value="italic"
               onCheckedChange={(v) => setTextStyles((p) => ({...p, italic: Boolean(v)}))}
             >
               <Dropdown.ItemIndicator />
@@ -283,8 +305,8 @@ export const WithSectionLevelSelection: Story = {
               </Kbd>
             </Dropdown.CheckboxItem>
             <Dropdown.CheckboxItem
-              value="underline"
               checked={textStyles.underline}
+              value="underline"
               onCheckedChange={(v) => setTextStyles((p) => ({...p, underline: Boolean(v)}))}
             >
               <Dropdown.ItemIndicator />
@@ -298,7 +320,10 @@ export const WithSectionLevelSelection: Story = {
           <Dropdown.Separator />
           <Dropdown.Section>
             <Header>Text Alignment</Header>
-            <Dropdown.RadioItemGroup value={textAlignment} onValueChange={(details) => setTextAlignment(details.value)}>
+            <Dropdown.RadioItemGroup
+              value={textAlignment}
+              onValueChange={(details) => setTextAlignment(details.value)}
+            >
               <Dropdown.RadioItem value="left">
                 <Dropdown.ItemIndicator />
                 <Label>Left</Label>
@@ -384,7 +409,15 @@ export const WithIcons: Story = {
       </Dropdown.Trigger>
       <Dropdown.Content>
         <Dropdown.Item value="new-file">
-          <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:square-plus" />
+          <Icon
+            icon="gravity-ui:square-plus"
+            style={{
+              width: "1rem",
+              height: "1rem",
+              flexShrink: 0,
+              color: "var(--chakra-colors-fg-muted)",
+            }}
+          />
           <Label>New file</Label>
           <Kbd ms="auto" slot="keyboard" variant="plain">
             <Kbd.Abbr keyValue="command" />
@@ -392,7 +425,15 @@ export const WithIcons: Story = {
           </Kbd>
         </Dropdown.Item>
         <Dropdown.Item value="open-file">
-          <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:folder-open" />
+          <Icon
+            icon="gravity-ui:folder-open"
+            style={{
+              width: "1rem",
+              height: "1rem",
+              flexShrink: 0,
+              color: "var(--chakra-colors-fg-muted)",
+            }}
+          />
           <Label>Open file</Label>
           <Kbd ms="auto" slot="keyboard" variant="plain">
             <Kbd.Abbr keyValue="command" />
@@ -400,7 +441,15 @@ export const WithIcons: Story = {
           </Kbd>
         </Dropdown.Item>
         <Dropdown.Item value="save-file">
-          <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:floppy-disk" />
+          <Icon
+            icon="gravity-ui:floppy-disk"
+            style={{
+              width: "1rem",
+              height: "1rem",
+              flexShrink: 0,
+              color: "var(--chakra-colors-fg-muted)",
+            }}
+          />
           <Label>Save file</Label>
           <Kbd ms="auto" slot="keyboard" variant="plain">
             <Kbd.Abbr keyValue="command" />
@@ -408,7 +457,15 @@ export const WithIcons: Story = {
           </Kbd>
         </Dropdown.Item>
         <Dropdown.Item value="delete-file">
-          <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-error)"}} icon="gravity-ui:trash-bin" />
+          <Icon
+            icon="gravity-ui:trash-bin"
+            style={{
+              width: "1rem",
+              height: "1rem",
+              flexShrink: 0,
+              color: "var(--chakra-colors-fg-error)",
+            }}
+          />
           <Label color="fg.error">Delete file</Label>
           <Kbd ms="auto" slot="keyboard" variant="plain">
             <Kbd.Abbr keyValue="command" />
@@ -431,8 +488,16 @@ export const WithDescriptions: Story = {
       </Dropdown.Trigger>
       <Dropdown.Content>
         <Dropdown.Item value="new-file">
-          <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-            <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:square-plus" />
+          <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+            <Icon
+              icon="gravity-ui:square-plus"
+              style={{
+                width: "1rem",
+                height: "1rem",
+                flexShrink: 0,
+                color: "var(--chakra-colors-fg-muted)",
+              }}
+            />
           </Flex>
           <Flex direction="column">
             <Label>New file</Label>
@@ -444,8 +509,16 @@ export const WithDescriptions: Story = {
           </Kbd>
         </Dropdown.Item>
         <Dropdown.Item value="open-file">
-          <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-            <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:folder-open" />
+          <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+            <Icon
+              icon="gravity-ui:folder-open"
+              style={{
+                width: "1rem",
+                height: "1rem",
+                flexShrink: 0,
+                color: "var(--chakra-colors-fg-muted)",
+              }}
+            />
           </Flex>
           <Flex direction="column">
             <Label>Open file</Label>
@@ -457,8 +530,16 @@ export const WithDescriptions: Story = {
           </Kbd>
         </Dropdown.Item>
         <Dropdown.Item value="save-file">
-          <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-            <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:floppy-disk" />
+          <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+            <Icon
+              icon="gravity-ui:floppy-disk"
+              style={{
+                width: "1rem",
+                height: "1rem",
+                flexShrink: 0,
+                color: "var(--chakra-colors-fg-muted)",
+              }}
+            />
           </Flex>
           <Flex direction="column">
             <Label>Save file</Label>
@@ -470,8 +551,16 @@ export const WithDescriptions: Story = {
           </Kbd>
         </Dropdown.Item>
         <Dropdown.Item value="delete-file">
-          <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-            <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-error)"}} icon="gravity-ui:trash-bin" />
+          <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+            <Icon
+              icon="gravity-ui:trash-bin"
+              style={{
+                width: "1rem",
+                height: "1rem",
+                flexShrink: 0,
+                color: "var(--chakra-colors-fg-error)",
+              }}
+            />
           </Flex>
           <Flex direction="column">
             <Label color="fg.error">Delete file</Label>
@@ -493,15 +582,23 @@ export const WithSections: Story = {
     <Dropdown onSelect={(details) => alert(`Selected: ${details.value}`)}>
       <Dropdown.Trigger aria-label="Menu">
         <Button isIconOnly aria-label="Menu" variant="secondary">
-          <Icon style={{outline: "none"}} icon="gravity-ui:ellipsis-vertical" />
+          <Icon icon="gravity-ui:ellipsis-vertical" style={{outline: "none"}} />
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Content>
         <Dropdown.Section>
           <Header>Actions</Header>
           <Dropdown.Item value="new-file">
-            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:square-plus" />
+            <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon
+                icon="gravity-ui:square-plus"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  flexShrink: 0,
+                  color: "var(--chakra-colors-fg-muted)",
+                }}
+              />
             </Flex>
             <Flex direction="column">
               <Label>New file</Label>
@@ -513,8 +610,16 @@ export const WithSections: Story = {
             </Kbd>
           </Dropdown.Item>
           <Dropdown.Item value="edit-file">
-            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:pencil" />
+            <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon
+                icon="gravity-ui:pencil"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  flexShrink: 0,
+                  color: "var(--chakra-colors-fg-muted)",
+                }}
+              />
             </Flex>
             <Flex direction="column">
               <Label>Edit file</Label>
@@ -530,8 +635,16 @@ export const WithSections: Story = {
         <Dropdown.Section>
           <Header>Danger zone</Header>
           <Dropdown.Item value="delete-file">
-            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-error)"}} icon="gravity-ui:trash-bin" />
+            <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon
+                icon="gravity-ui:trash-bin"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  flexShrink: 0,
+                  color: "var(--chakra-colors-fg-error)",
+                }}
+              />
             </Flex>
             <Flex direction="column">
               <Label color="fg.error">Delete file</Label>
@@ -554,15 +667,23 @@ export const WithDisabledItems: Story = {
     <Dropdown onSelect={(details) => alert(`Selected: ${details.value}`)}>
       <Dropdown.Trigger>
         <Button isIconOnly aria-label="Menu" variant="secondary">
-          <Icon style={{outline: "none"}} icon="gravity-ui:bars" />
+          <Icon icon="gravity-ui:bars" style={{outline: "none"}} />
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Content minW="220px">
         <Dropdown.Section>
           <Header>Actions</Header>
           <Dropdown.Item value="new-file">
-            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:square-plus" />
+            <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon
+                icon="gravity-ui:square-plus"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  flexShrink: 0,
+                  color: "var(--chakra-colors-fg-muted)",
+                }}
+              />
             </Flex>
             <Flex direction="column">
               <Label>New file</Label>
@@ -574,8 +695,16 @@ export const WithDisabledItems: Story = {
             </Kbd>
           </Dropdown.Item>
           <Dropdown.Item value="edit-file">
-            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:pencil" />
+            <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon
+                icon="gravity-ui:pencil"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  flexShrink: 0,
+                  color: "var(--chakra-colors-fg-muted)",
+                }}
+              />
             </Flex>
             <Flex direction="column">
               <Label>Edit file</Label>
@@ -590,9 +719,17 @@ export const WithDisabledItems: Story = {
         <Dropdown.Separator />
         <Dropdown.Section>
           <Header>Danger zone</Header>
-          <Dropdown.Item value="delete-file" disabled>
-            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-error)"}} icon="gravity-ui:trash-bin" />
+          <Dropdown.Item disabled value="delete-file">
+            <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon
+                icon="gravity-ui:trash-bin"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  flexShrink: 0,
+                  color: "var(--chakra-colors-fg-error)",
+                }}
+              />
             </Flex>
             <Flex direction="column">
               <Label color="fg.error">Delete file</Label>
@@ -631,7 +768,15 @@ export const WithSubmenus: Story = {
         <Dropdown.Root positioning={{placement: "right-start", gutter: -2}}>
           <Dropdown.TriggerItem>
             <Label>Other</Label>
-            <Icon style={{width: "0.75rem", height: "0.75rem", marginLeft: "auto", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:chevron-right" />
+            <Icon
+              icon="gravity-ui:chevron-right"
+              style={{
+                width: "0.75rem",
+                height: "0.75rem",
+                marginLeft: "auto",
+                color: "var(--chakra-colors-fg-muted)",
+              }}
+            />
           </Dropdown.TriggerItem>
           <Dropdown.Content>
             <Dropdown.Item value="whatsapp">
@@ -646,7 +791,15 @@ export const WithSubmenus: Story = {
             <Dropdown.Root positioning={{placement: "right-start", gutter: -2}}>
               <Dropdown.TriggerItem>
                 <Label>Email</Label>
-                <Icon style={{width: "0.75rem", height: "0.75rem", marginLeft: "auto", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:chevron-right" />
+                <Icon
+                  icon="gravity-ui:chevron-right"
+                  style={{
+                    width: "0.75rem",
+                    height: "0.75rem",
+                    marginLeft: "auto",
+                    color: "var(--chakra-colors-fg-muted)",
+                  }}
+                />
               </Dropdown.TriggerItem>
               <Dropdown.Content>
                 <Dropdown.Item value="work">
@@ -682,7 +835,15 @@ export const WithCustomSubmenuIndicator: Story = {
         <Dropdown.Root positioning={{placement: "right-start", gutter: -2}}>
           <Dropdown.TriggerItem>
             <Label>More options</Label>
-            <Icon style={{width: "0.875rem", height: "0.875rem", marginLeft: "auto", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:arrow-right" />
+            <Icon
+              icon="gravity-ui:arrow-right"
+              style={{
+                width: "0.875rem",
+                height: "0.875rem",
+                marginLeft: "auto",
+                color: "var(--chakra-colors-fg-muted)",
+              }}
+            />
           </Dropdown.TriggerItem>
           <Dropdown.Content>
             <Dropdown.Item value="whatsapp">
@@ -695,13 +856,18 @@ export const WithCustomSubmenuIndicator: Story = {
               <Dropdown.TriggerItem>
                 <Label>Email</Label>
                 <svg
-                  style={{width: "0.875rem", height: "0.875rem", marginLeft: "auto", color: "var(--chakra-colors-fg-muted)"}}
                   fill="none"
                   stroke="currentColor"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
                   viewBox="0 0 24 24"
+                  style={{
+                    width: "0.875rem",
+                    height: "0.875rem",
+                    marginLeft: "auto",
+                    color: "var(--chakra-colors-fg-muted)",
+                  }}
                 >
                   <path d="M9 18l6-6-6-6" />
                 </svg>
@@ -723,7 +889,15 @@ export const WithCustomSubmenuIndicator: Story = {
         <Dropdown.Root positioning={{placement: "right-start", gutter: -2}}>
           <Dropdown.TriggerItem>
             <Label>Other (default indicator)</Label>
-            <Icon style={{width: "0.75rem", height: "0.75rem", marginLeft: "auto", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:chevron-right" />
+            <Icon
+              icon="gravity-ui:chevron-right"
+              style={{
+                width: "0.75rem",
+                height: "0.75rem",
+                marginLeft: "auto",
+                color: "var(--chakra-colors-fg-muted)",
+              }}
+            />
           </Dropdown.TriggerItem>
           <Dropdown.Content>
             <Dropdown.Item value="sms">
@@ -754,24 +928,24 @@ export const Controlled: Story = {
           </Dropdown.Trigger>
           <Dropdown.Content>
             <Dropdown.CheckboxItem
-              value="bold"
               checked={checked.bold}
+              value="bold"
               onCheckedChange={(v) => setChecked((p) => ({...p, bold: Boolean(v)}))}
             >
               <Dropdown.ItemIndicator />
               <Label>Bold</Label>
             </Dropdown.CheckboxItem>
             <Dropdown.CheckboxItem
-              value="italic"
               checked={checked.italic}
+              value="italic"
               onCheckedChange={(v) => setChecked((p) => ({...p, italic: Boolean(v)}))}
             >
               <Dropdown.ItemIndicator />
               <Label>Italic</Label>
             </Dropdown.CheckboxItem>
             <Dropdown.CheckboxItem
-              value="underline"
               checked={checked.underline}
+              value="underline"
               onCheckedChange={(v) => setChecked((p) => ({...p, underline: Boolean(v)}))}
             >
               <Dropdown.ItemIndicator />
@@ -779,7 +953,7 @@ export const Controlled: Story = {
             </Dropdown.CheckboxItem>
           </Dropdown.Content>
         </Dropdown>
-        <Text fontSize="sm" color="fg.muted">
+        <Text color="fg.muted" fontSize="sm">
           Selected: {selectedItems.length > 0 ? selectedItems.join(", ") : "None"}
         </Text>
       </Box>
@@ -793,7 +967,7 @@ export const ControlledOpenState: Story = {
 
     return (
       <Box minW="sm" spaceY="4">
-        <Text fontSize="sm" color="fg.muted">
+        <Text color="fg.muted" fontSize="sm">
           Dropdown is: <strong>{open ? "open" : "closed"}</strong>
         </Text>
         <Dropdown open={open} onOpenChange={(details) => setOpen(details.open)}>
@@ -829,24 +1003,28 @@ export const CustomTrigger: Story = {
         <Avatar>
           <Avatar.Image
             alt="Junior Garcia"
-            src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
+            src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
           />
           <Avatar.Fallback>JD</Avatar.Fallback>
         </Avatar>
       </Dropdown.Trigger>
       <Dropdown.Content>
-        <Box px="3" pt="3" pb="1">
+        <Box pb="1" pt="3" px="3">
           <Flex align="center" gap="2">
             <Avatar size="sm">
               <Avatar.Image
                 alt="Jane"
-                src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
+                src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
               />
               <Avatar.Fallback>JD</Avatar.Fallback>
             </Avatar>
             <Flex direction="column" gap="0">
-              <Text fontSize="sm" lineHeight="5" fontWeight="medium">Jane Doe</Text>
-              <Text fontSize="xs" lineHeight="none" color="fg.muted">jane@example.com</Text>
+              <Text fontSize="sm" fontWeight="medium" lineHeight="5">
+                Jane Doe
+              </Text>
+              <Text color="fg.muted" fontSize="xs" lineHeight="none">
+                jane@example.com
+              </Text>
             </Flex>
           </Flex>
         </Box>
@@ -857,21 +1035,42 @@ export const CustomTrigger: Story = {
           <Label>Profile</Label>
         </Dropdown.Item>
         <Dropdown.Item value="settings">
-          <Flex width="full" align="center" justify="space-between" gap="2">
+          <Flex align="center" gap="2" justify="space-between" width="full">
             <Label>Settings</Label>
-            <Icon style={{width: "0.875rem", height: "0.875rem", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:gear" />
+            <Icon
+              icon="gravity-ui:gear"
+              style={{
+                width: "0.875rem",
+                height: "0.875rem",
+                color: "var(--chakra-colors-fg-muted)",
+              }}
+            />
           </Flex>
         </Dropdown.Item>
         <Dropdown.Item value="new-project">
-          <Flex width="full" align="center" justify="space-between" gap="2">
+          <Flex align="center" gap="2" justify="space-between" width="full">
             <Label>Create Team</Label>
-            <Icon style={{width: "0.875rem", height: "0.875rem", color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:persons" />
+            <Icon
+              icon="gravity-ui:persons"
+              style={{
+                width: "0.875rem",
+                height: "0.875rem",
+                color: "var(--chakra-colors-fg-muted)",
+              }}
+            />
           </Flex>
         </Dropdown.Item>
         <Dropdown.Item value="logout">
-          <Flex width="full" align="center" justify="space-between" gap="2">
+          <Flex align="center" gap="2" justify="space-between" width="full">
             <Label color="fg.error">Log Out</Label>
-            <Icon style={{width: "0.875rem", height: "0.875rem", color: "var(--chakra-colors-fg-error)"}} icon="gravity-ui:arrow-right-from-square" />
+            <Icon
+              icon="gravity-ui:arrow-right-from-square"
+              style={{
+                width: "0.875rem",
+                height: "0.875rem",
+                color: "var(--chakra-colors-fg-error)",
+              }}
+            />
           </Flex>
         </Dropdown.Item>
       </Dropdown.Content>

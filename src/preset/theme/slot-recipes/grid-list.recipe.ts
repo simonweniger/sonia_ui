@@ -1,50 +1,49 @@
-import {
-  type RecipeVariantProps,
-  defineSlotRecipe,
-} from '@chakra-ui/react/styled-system'
+import type {RecipeVariantProps} from "@chakra-ui/react/styled-system";
+
+import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
 export const gridListSlotRecipe = defineSlotRecipe({
-  className: 'sonia-grid-list',
-  slots: ['root', 'item', 'header', 'cell'],
+  className: "sonia-grid-list",
+  slots: ["root", "item", "header", "cell"],
   base: {
     root: {
-      position: 'relative',
+      position: "relative",
     },
     item: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
       flex: 1,
-      userSelect: 'none',
-      borderRadius: 'inherit',
-      outline: 'none',
+      userSelect: "none",
+      borderRadius: "inherit",
+      outline: "none",
       _focusVisible: {
-        boxShadow: 'outline',
+        boxShadow: "outline",
       },
       _disabled: {
-        cursor: 'disabled',
+        cursor: "disabled",
         opacity: 0.5,
         _hover: {
-          bg: 'transparent',
+          bg: "transparent",
           _dark: {
-            bg: 'transparent',
+            bg: "transparent",
           },
         },
         _active: {
-          bg: 'transparent',
+          bg: "transparent",
           _dark: {
-            bg: 'transparent',
+            bg: "transparent",
           },
         },
       },
     },
     header: {
-      display: 'flex',
-      flexDirection: 'row',
-      position: 'sticky',
-      fontWeight: 'medium',
-      color: 'fg.subtle',
+      display: "flex",
+      flexDirection: "row",
+      position: "sticky",
+      fontWeight: "medium",
+      color: "fg.subtle",
     },
     cell: {
       flexShrink: 0,
@@ -54,14 +53,14 @@ export const gridListSlotRecipe = defineSlotRecipe({
     interactive: {
       true: {
         item: {
-          cursor: 'button',
-          transitionProperty: 'bg',
-          transitionDuration: 'fast',
+          cursor: "button",
+          transitionProperty: "bg",
+          transitionDuration: "fast",
           _hover: {
-            bg: 'bg.subtle',
+            bg: "bg.subtle",
           },
           _active: {
-            bg: 'bg.subtle',
+            bg: "bg.subtle",
           },
         },
       },
@@ -70,7 +69,7 @@ export const gridListSlotRecipe = defineSlotRecipe({
       simple: {},
       rounded: {
         item: {
-          borderRadius: 'md',
+          borderRadius: "md",
           mb: 0.5,
         },
       },
@@ -78,7 +77,7 @@ export const gridListSlotRecipe = defineSlotRecipe({
     size: {
       sm: {
         root: {
-          textStyle: 'sm',
+          textStyle: "sm",
           py: 0.5,
         },
         item: {
@@ -93,7 +92,7 @@ export const gridListSlotRecipe = defineSlotRecipe({
       },
       md: {
         root: {
-          textStyle: 'md',
+          textStyle: "md",
           py: 1,
         },
         item: {
@@ -110,8 +109,8 @@ export const gridListSlotRecipe = defineSlotRecipe({
   },
   compoundVariants: [
     {
-      variant: 'rounded',
-      size: 'sm',
+      variant: "rounded",
+      size: "sm",
       css: {
         root: {
           p: 1,
@@ -119,8 +118,8 @@ export const gridListSlotRecipe = defineSlotRecipe({
       },
     },
     {
-      variant: 'rounded',
-      size: 'md',
+      variant: "rounded",
+      size: "md",
       css: {
         root: {
           p: 2,
@@ -129,9 +128,9 @@ export const gridListSlotRecipe = defineSlotRecipe({
     },
   ],
   defaultVariants: {
-    variant: 'simple',
-    size: 'md',
+    variant: "simple",
+    size: "md",
   },
-})
+});
 
-export type GridListVariantProps = RecipeVariantProps<typeof gridListSlotRecipe>
+export type GridListVariantProps = RecipeVariantProps<typeof gridListSlotRecipe>;

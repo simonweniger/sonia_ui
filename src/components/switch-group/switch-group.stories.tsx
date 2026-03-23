@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Box} from "@chakra-ui/react";
 import React from "react";
@@ -48,26 +48,26 @@ export const Default: Story = {
 export const Horizontal: Story = {
   render: () => (
     <Box overflow="auto">
-    <SwitchGroup orientation="horizontal">
-      <Switch name="notifications">
-        <Switch.Control>
-          <Switch.Thumb />
-        </Switch.Control>
-        <Label fontSize="sm">Notifications</Label>
-      </Switch>
-      <Switch name="marketing">
-        <Switch.Control>
-          <Switch.Thumb />
-        </Switch.Control>
-        <Label fontSize="sm">Marketing</Label>
-      </Switch>
-      <Switch name="social">
-        <Switch.Control>
-          <Switch.Thumb />
-        </Switch.Control>
-        <Label fontSize="sm">Social</Label>
-      </Switch>
-    </SwitchGroup>
+      <SwitchGroup orientation="horizontal">
+        <Switch name="notifications">
+          <Switch.Control>
+            <Switch.Thumb />
+          </Switch.Control>
+          <Label fontSize="sm">Notifications</Label>
+        </Switch>
+        <Switch name="marketing">
+          <Switch.Control>
+            <Switch.Thumb />
+          </Switch.Control>
+          <Label fontSize="sm">Marketing</Label>
+        </Switch>
+        <Switch name="social">
+          <Switch.Control>
+            <Switch.Thumb />
+          </Switch.Control>
+          <Label fontSize="sm">Social</Label>
+        </Switch>
+      </SwitchGroup>
     </Box>
   ),
 };

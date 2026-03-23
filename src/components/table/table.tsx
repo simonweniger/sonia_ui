@@ -1,8 +1,9 @@
 "use client";
 
+import type {HTMLChakraProps} from "@chakra-ui/react";
 import type {ComponentPropsWithRef} from "react";
 
-import {Box, Table as ChakraTable, chakra} from "@chakra-ui/react";
+import {Box, chakra} from "@chakra-ui/react";
 import React, {createContext, useContext} from "react";
 
 /* -------------------------------------------------------------------------------------------------
@@ -19,30 +20,29 @@ const TableContext = createContext<TableContextValue>({variant: "primary"});
 /* -------------------------------------------------------------------------------------------------
  * Table Root
  * -----------------------------------------------------------------------------------------------*/
-interface TableRootProps extends Omit<ComponentPropsWithRef<typeof ChakraTable.Root>, "variant"> {
-  className?: string;
+interface TableRootProps extends HTMLChakraProps<"div"> {
   children?: React.ReactNode;
   variant?: TableVariant;
 }
 
-const TableRoot = React.forwardRef<HTMLTableElement, TableRootProps>(
+const TableRoot = React.forwardRef<HTMLDivElement, TableRootProps>(
   ({children, className, variant = "primary", ...props}, ref) => {
     return (
       <TableContext value={{variant}}>
-        <ChakraTable.Root
+        <Box
           ref={ref}
           className={className}
           data-slot="table"
           data-variant={variant}
-          position="relative"
           display="grid"
-          w="100%"
           overflow="clip"
+          position="relative"
+          w="100%"
           css={{
             gridTemplateColumns: "minmax(0, 1fr)",
             ...(variant === "primary"
               ? {
-                  bg: "bg.muted",
+                  bg: "surface.secondary",
                   paddingInline: "0.25rem",
                   paddingBottom: "0.25rem",
                   borderRadius: "calc(var(--chakra-radii-2xl) * 1.25)",
@@ -52,7 +52,7 @@ const TableRoot = React.forwardRef<HTMLTableElement, TableRootProps>(
           {...props}
         >
           {children}
-        </ChakraTable.Root>
+        </Box>
       </TableContext>
     );
   },
@@ -63,12 +63,12 @@ TableRoot.displayName = "Table";
 /* -------------------------------------------------------------------------------------------------
  * Table Scroll Container
  * -----------------------------------------------------------------------------------------------*/
-interface TableScrollContainerProps extends ComponentPropsWithRef<typeof ChakraTable.ScrollArea> {}
+interface TableScrollContainerProps extends ComponentPropsWithRef<"div"> {}
 
 const TableScrollContainer = React.forwardRef<HTMLDivElement, TableScrollContainerProps>(
   ({className, ...props}, ref) => {
     return (
-      <ChakraTable.ScrollArea
+      <Box
         ref={ref}
         className={className}
         data-slot="table-scroll-container"
@@ -104,13 +104,13 @@ interface TableContentProps extends ComponentPropsWithRef<"table"> {
 function TableContent({className, ...props}: TableContentProps) {
   return (
     <chakra.table
-      className={className}
-      data-slot="table-content"
-      w="100%"
       borderCollapse="separate"
       borderSpacing="0"
+      className={className}
+      data-slot="table-content"
       fontSize="sm"
       overflow="clip"
+      w="100%"
       {...props}
     />
   );
@@ -121,19 +121,19 @@ function TableContent({className, ...props}: TableContentProps) {
 /* -------------------------------------------------------------------------------------------------
  * Table Header
  * -----------------------------------------------------------------------------------------------*/
-interface TableHeaderProps extends ComponentPropsWithRef<typeof ChakraTable.Header> {}
+interface TableHeaderProps extends HTMLChakraProps<"thead"> {}
 
 function TableHeader({className, ...props}: TableHeaderProps) {
   const {variant} = useContext(TableContext);
 
   return (
-    <ChakraTable.Header
+    <chakra.thead
       className={className}
       data-slot="table-header"
       css={{
         borderBottom: "1px solid",
-        borderColor: "border/50",
-        bg: "bg.muted",
+        borderColor: "separator/50",
+        bg: "surface.secondary",
         ...(variant === "secondary"
           ? {
               borderBottom: "none",
@@ -151,24 +151,24 @@ function TableHeader({className, ...props}: TableHeaderProps) {
 /* -------------------------------------------------------------------------------------------------
  * Table Column
  * -----------------------------------------------------------------------------------------------*/
-interface TableColumnProps extends ComponentPropsWithRef<typeof ChakraTable.ColumnHeader> {}
+interface TableColumnProps extends HTMLChakraProps<"th"> {}
 
 const TableColumn = React.forwardRef<HTMLTableCellElement, TableColumnProps>(
   ({className, ...props}, ref) => {
     const {variant} = useContext(TableContext);
 
     return (
-      <ChakraTable.ColumnHeader
+      <chakra.th
         ref={ref}
         className={className}
+        color="fg.muted"
         data-slot="table-column"
+        fontSize="xs"
+        fontWeight="medium"
         position="relative"
         px="4"
         py="2.5"
         textAlign="left"
-        fontSize="xs"
-        fontWeight="medium"
-        color="fg.muted"
         css={{
           /* Column separator */
           "&::after": {
@@ -181,7 +181,7 @@ const TableColumn = React.forwardRef<HTMLTableCellElement, TableColumnProps>(
             width: "1px",
             transform: "translateY(-50%)",
             borderRadius: "1px",
-            bg: "border",
+            bg: "separator",
           },
           "&:last-child:not(:only-child)::after": {
             content: "none",
@@ -194,10 +194,11 @@ const TableColumn = React.forwardRef<HTMLTableCellElement, TableColumnProps>(
           '&[data-allows-sorting="true"]': {
             cursor: "pointer",
           },
-          '@media (hover: hover)': {
-            '&[data-allows-sorting="true"]:hover, &[data-allows-sorting="true"][data-hovered="true"]': {
-              color: "fg",
-            },
+          "@media (hover: hover)": {
+            '&[data-allows-sorting="true"]:hover, &[data-allows-sorting="true"][data-hovered="true"]':
+              {
+                color: "fg",
+              },
           },
           /* Focus visible */
           '&:focus-visible, &[data-focus-visible="true"]': {
@@ -208,7 +209,7 @@ const TableColumn = React.forwardRef<HTMLTableCellElement, TableColumnProps>(
           /* Secondary variant: column cells get bg */
           ...(variant === "secondary"
             ? {
-                bg: "bg.muted",
+                bg: "surface.secondary",
                 "&:first-child": {
                   borderTopLeftRadius: "var(--chakra-radii-2xl)",
                   borderBottomLeftRadius: "var(--chakra-radii-2xl)",
@@ -231,13 +232,13 @@ TableColumn.displayName = "Table.Column";
 /* -------------------------------------------------------------------------------------------------
  * Table Body
  * -----------------------------------------------------------------------------------------------*/
-interface TableBodyProps extends ComponentPropsWithRef<typeof ChakraTable.Body> {}
+interface TableBodyProps extends HTMLChakraProps<"tbody"> {}
 
 function TableBody({className, ...props}: TableBodyProps) {
   const {variant} = useContext(TableContext);
 
   return (
-    <ChakraTable.Body
+    <chakra.tbody
       className={className}
       data-slot="table-body"
       css={{
@@ -257,9 +258,10 @@ function TableBody({className, ...props}: TableBodyProps) {
         ...(variant === "secondary"
           ? {
               boxShadow: "none",
-              "& tr:first-child td:first-child, & tr:first-child td:last-child, & tr:last-child td:first-child, & tr:last-child td:last-child": {
-                borderRadius: 0,
-              },
+              "& tr:first-child td:first-child, & tr:first-child td:last-child, & tr:last-child td:first-child, & tr:last-child td:last-child":
+                {
+                  borderRadius: 0,
+                },
               "&:not(tbody)": {
                 overflow: "visible",
                 borderRadius: 0,
@@ -277,17 +279,17 @@ function TableBody({className, ...props}: TableBodyProps) {
 /* -------------------------------------------------------------------------------------------------
  * Table Row
  * -----------------------------------------------------------------------------------------------*/
-interface TableRowProps extends ComponentPropsWithRef<typeof ChakraTable.Row> {}
+interface TableRowProps extends HTMLChakraProps<"tr"> {}
 
 function TableRow({className, ...props}: TableRowProps) {
   const {variant} = useContext(TableContext);
 
   return (
-    <ChakraTable.Row
+    <chakra.tr
       className={className}
       data-slot="table-row"
-      position="relative"
       h="100%"
+      position="relative"
       css={{
         /* Last row: no bottom border */
         "&:last-child [data-slot=table-cell]": {
@@ -296,7 +298,7 @@ function TableRow({className, ...props}: TableRowProps) {
         /* Hover */
         "@media (hover: hover)": {
           "&:hover [data-slot=table-cell], &[data-hovered=true] [data-slot=table-cell]": {
-            bg: variant === "secondary" ? "bg.subtle/50" : "surface/40",
+            bg: variant === "secondary" ? "bg.muted/50" : "surface/40",
           },
         },
         /* Selected */
@@ -328,7 +330,7 @@ function TableRow({className, ...props}: TableRowProps) {
               "& [data-slot=table-cell]": {
                 bg: "transparent",
                 borderBottom: "1px solid",
-                borderColor: "border/30",
+                borderColor: "separator.tertiary/50",
               },
             }
           : {}),
@@ -343,25 +345,26 @@ function TableRow({className, ...props}: TableRowProps) {
 /* -------------------------------------------------------------------------------------------------
  * Table Cell
  * -----------------------------------------------------------------------------------------------*/
-interface TableCellProps extends ComponentPropsWithRef<typeof ChakraTable.Cell> {}
+interface TableCellProps extends HTMLChakraProps<"td"> {}
 
 const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({className, ...props}, ref) => {
     return (
-      <ChakraTable.Cell
+      <chakra.td
         ref={ref}
-        className={className}
-        data-slot="table-cell"
-        h="100%"
         bg="surface"
+        borderBottomColor="separator.tertiary/50"
+        borderBottomStyle="solid"
+        borderBottomWidth="1px"
+        className={className}
+        color="fg"
+        data-slot="table-cell"
+        fontSize="sm"
+        h="100%"
         px="4"
         py="3"
         verticalAlign="middle"
-        fontSize="sm"
-        color="fg"
-        borderBottom="1px solid"
         css={{
-          borderColor: "border/30",
           /* Focus visible */
           '&:focus-visible, &[data-focus-visible="true"]': {
             borderRadius: "var(--chakra-radii-lg)",
@@ -389,10 +392,10 @@ const TableFooter = React.forwardRef<HTMLDivElement, TableFooterProps>(
     return (
       <Box
         ref={ref}
+        alignItems="center"
         className={className}
         data-slot="table-footer"
         display="flex"
-        alignItems="center"
         px="4"
         py="2.5"
         {...props}
@@ -411,13 +414,11 @@ const TableCollection = ({children}: {children: React.ReactNode}) => <>{children
 /* -------------------------------------------------------------------------------------------------
  * Table Load More Item
  * -----------------------------------------------------------------------------------------------*/
-interface TableLoadMoreItemProps extends ComponentPropsWithRef<typeof ChakraTable.Row> {}
+interface TableLoadMoreItemProps extends HTMLChakraProps<"tr"> {}
 
 const TableLoadMoreItem = React.forwardRef<HTMLTableRowElement, TableLoadMoreItemProps>(
   ({className, ...props}, ref) => {
-    return (
-      <ChakraTable.Row ref={ref} className={className} data-slot="table-load-more" {...props} />
-    );
+    return <chakra.tr ref={ref} className={className} data-slot="table-load-more" {...props} />;
   },
 );
 
@@ -433,12 +434,12 @@ const TableLoadMoreContent = React.forwardRef<HTMLDivElement, TableLoadMoreConte
     return (
       <Box
         ref={ref}
+        alignItems="center"
         className={className}
         data-slot="table-load-more-content"
         display="flex"
-        alignItems="center"
-        justifyContent="center"
         gap="2"
+        justifyContent="center"
         py="2"
         {...props}
       />
@@ -460,8 +461,8 @@ const TableResizableContainer = React.forwardRef<HTMLDivElement, TableResizableC
         ref={ref}
         className={className}
         data-slot="table-resizable-container"
-        position="relative"
         overflow="auto"
+        position="relative"
         {...props}
       />
     );
@@ -480,19 +481,19 @@ const TableColumnResizer = React.forwardRef<HTMLDivElement, TableColumnResizerPr
     return (
       <Box
         ref={ref}
+        bg="border"
+        border="none"
+        boxSizing="content-box"
         className={className}
         data-slot="table-column-resizer"
-        position="absolute"
-        top="50%"
-        right="0"
         h="4"
-        w="px"
-        transform="translateY(-50%)"
-        rounded="sm"
-        bg="border"
-        boxSizing="content-box"
-        border="none"
         outline="none"
+        position="absolute"
+        right="0"
+        rounded="sm"
+        top="50%"
+        transform="translateY(-50%)"
+        w="px"
         css={{
           translate: "50%",
           cursor: "col-resize",

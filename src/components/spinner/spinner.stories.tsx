@@ -1,5 +1,5 @@
 import type {SpinnerProps} from "./index";
-import type {Meta} from "@storybook/react";
+import type {Meta} from "@storybook/react-vite";
 
 import {Flex, Text} from "@chakra-ui/react";
 import React from "react";
@@ -34,46 +34,64 @@ const Template = (props: SpinnerProps) => (
 
 const ColorsTemplate = (props: SpinnerProps) => (
   <Flex align="center" gap="8">
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Spinner color="accent" {...props} />
-      <Text as="span" fontSize="xs" color="fg.muted">Accent</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Accent
+      </Text>
     </Flex>
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Spinner color="current" {...props} />
-      <Text as="span" fontSize="xs" color="fg.muted">Current</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Current
+      </Text>
     </Flex>
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Spinner color="success" {...props} />
-      <Text as="span" fontSize="xs" color="fg.muted">Success</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Success
+      </Text>
     </Flex>
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Spinner color="warning" {...props} />
-      <Text as="span" fontSize="xs" color="fg.muted">Warning</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Warning
+      </Text>
     </Flex>
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Spinner color="danger" {...props} />
-      <Text as="span" fontSize="xs" color="fg.muted">Danger</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Danger
+      </Text>
     </Flex>
   </Flex>
 );
 
 const SizesTemplate = (props: SpinnerProps) => (
   <Flex align="center" gap="8">
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Spinner size="sm" {...props} />
-      <Text as="span" fontSize="xs" color="fg.muted">Small</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Small
+      </Text>
     </Flex>
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Spinner size="md" {...props} />
-      <Text as="span" fontSize="xs" color="fg.muted">Medium</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Medium
+      </Text>
     </Flex>
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Spinner size="lg" {...props} />
-      <Text as="span" fontSize="xs" color="fg.muted">Large</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Large
+      </Text>
     </Flex>
-    <Flex direction="column" align="center" gap="2">
+    <Flex align="center" direction="column" gap="2">
       <Spinner size="xl" {...props} />
-      <Text as="span" fontSize="xs" color="fg.muted">Extra Large</Text>
+      <Text as="span" color="fg.muted" fontSize="xs">
+        Extra Large
+      </Text>
     </Flex>
   </Flex>
 );

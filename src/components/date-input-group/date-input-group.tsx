@@ -130,14 +130,14 @@ interface DateInputGroupPrefixProps extends ComponentPropsWithRef<"div"> {}
 const DateInputGroupPrefix = ({children, className, ...props}: DateInputGroupPrefixProps) => {
   return (
     <Box
-      className={className}
-      data-slot="date-input-group-prefix"
-      pointerEvents="none"
-      flexShrink={0}
-      color="fg.muted"
-      ml="3"
-      display="flex"
       alignItems="center"
+      className={className}
+      color="fg.muted"
+      data-slot="date-input-group-prefix"
+      display="flex"
+      flexShrink={0}
+      ml="3"
+      pointerEvents="none"
       {...props}
     >
       {children}
@@ -210,14 +210,14 @@ const DateInputGroupInputContainer = ({
 }: DateInputGroupInputContainerProps) => {
   return (
     <Box
+      alignItems="center"
       className={className}
       data-slot="date-input-group-input-container"
       display="flex"
-      alignItems="center"
       flex="1"
-      width="fit-content"
       overflowX="auto"
       overflowY="clip"
+      width="fit-content"
       css={{
         scrollbarWidth: "none",
         "&::-webkit-scrollbar": {display: "none"},
@@ -237,14 +237,14 @@ interface DateInputGroupSuffixProps extends ComponentPropsWithRef<"div"> {}
 const DateInputGroupSuffix = ({children, className, ...props}: DateInputGroupSuffixProps) => {
   return (
     <Box
-      className={className}
-      data-slot="date-input-group-suffix"
-      pointerEvents="none"
-      flexShrink={0}
-      color="fg.muted"
-      mr="3"
-      display="flex"
       alignItems="center"
+      className={className}
+      color="fg.muted"
+      data-slot="date-input-group-suffix"
+      display="flex"
+      flexShrink={0}
+      mr="3"
+      pointerEvents="none"
       {...props}
     >
       {children}

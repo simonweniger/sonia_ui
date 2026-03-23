@@ -1,8 +1,8 @@
 import type {ChipProps} from "./index";
-import type {Meta} from "@storybook/react";
+import type {Meta} from "@storybook/react-vite";
 
-import {Icon} from "@iconify/react";
 import {Box, Flex, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
 import React from "react";
 
 import {Separator} from "../separator";
@@ -17,7 +17,16 @@ export default {
     },
     variant: {
       control: "select",
-      options: ["primary", "secondary", "tertiary", "soft", "solid", "subtle", "outline", "surface"],
+      options: [
+        "primary",
+        "secondary",
+        "tertiary",
+        "soft",
+        "solid",
+        "subtle",
+        "outline",
+        "surface",
+      ],
     },
     size: {
       control: "select",
@@ -106,31 +115,49 @@ const VariantsTemplate = (props: ChipProps) => {
       {sizes.map((size, index) => (
         <React.Fragment key={size}>
           <Flex direction="column" gap="4">
-            <Box as="h3" fontSize="sm" fontWeight="semibold" color="fg.muted" textTransform="capitalize">{size}</Box>
+            <Box
+              as="h3"
+              color="fg.muted"
+              fontSize="sm"
+              fontWeight="semibold"
+              textTransform="capitalize"
+            >
+              {size}
+            </Box>
             {/* Color labels header */}
             <Flex align="center" gap="3">
-              <Box width="24" flexShrink="0" />
+              <Box flexShrink="0" width="24" />
               {colors.map((color) => (
                 <Flex
                   key={color}
-                  flexShrink="0"
                   align="center"
+                  flexShrink="0"
                   justify="center"
                   style={{width: "130px"}}
                 >
-                  <Text as="span" fontSize="xs" color="fg.muted" textTransform="capitalize">{color}</Text>
+                  <Text as="span" color="fg.muted" fontSize="xs" textTransform="capitalize">
+                    {color}
+                  </Text>
                 </Flex>
               ))}
             </Flex>
             <Flex direction="column" gap="3">
               {variants.map((variant) => (
                 <Flex key={variant} align="center" gap="3">
-                  <Box width="24" flexShrink="0" fontSize="sm" color="fg.muted" textTransform="capitalize">{variant}</Box>
+                  <Box
+                    color="fg.muted"
+                    flexShrink="0"
+                    fontSize="sm"
+                    textTransform="capitalize"
+                    width="24"
+                  >
+                    {variant}
+                  </Box>
                   {colors.map((color) => (
                     <Flex
                       key={color}
-                      flexShrink="0"
                       align="center"
+                      flexShrink="0"
                       justify="center"
                       style={{width: "130px"}}
                     >

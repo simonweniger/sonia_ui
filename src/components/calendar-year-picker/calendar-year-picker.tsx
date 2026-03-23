@@ -29,13 +29,17 @@ interface CalendarYearPickerTriggerRenderProps {
   toggle: () => void;
 }
 
-interface CalendarYearPickerTriggerHeadingProps
-  extends Omit<ComponentPropsWithRef<"span">, "children"> {
+interface CalendarYearPickerTriggerHeadingProps extends Omit<
+  ComponentPropsWithRef<"span">,
+  "children"
+> {
   children?: React.ReactNode | ((values: CalendarYearPickerTriggerRenderProps) => React.ReactNode);
 }
 
-interface CalendarYearPickerTriggerIndicatorProps
-  extends Omit<ComponentPropsWithRef<"span">, "children"> {
+interface CalendarYearPickerTriggerIndicatorProps extends Omit<
+  ComponentPropsWithRef<"span">,
+  "children"
+> {
   children?: React.ReactNode | ((values: CalendarYearPickerTriggerRenderProps) => React.ReactNode);
 }
 
@@ -59,8 +63,8 @@ function useCalendarYearPickerTriggerContext(): CalendarYearPickerTriggerContext
 const CalendarYearPickerTrigger = ({
   children,
   className,
-  onKeyDown,
   onClick,
+  onKeyDown,
 }: CalendarYearPickerTriggerProps) => {
   const {isYearPickerOpen, setIsYearPickerOpen} = useYearPicker();
   const state = useYearPickerState();
@@ -70,6 +74,7 @@ const CalendarYearPickerTrigger = ({
   const monthYear = React.useMemo(() => {
     try {
       const date = new Date(focusedDate.year, focusedDate.month - 1, focusedDate.day);
+
       return new Intl.DateTimeFormat("en-US", {month: "long", year: "numeric"}).format(date);
     } catch {
       return `${focusedDate.month}/${focusedDate.year}`;
@@ -105,22 +110,22 @@ const CalendarYearPickerTrigger = ({
   return (
     <CalendarYearPickerTriggerContext value={values}>
       <chakra.button
-        type="button"
+        _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
+        alignItems="center"
         aria-expanded={isYearPickerOpen}
         aria-label={`${monthYear}, year selector`}
         className={className}
+        css={{touchAction: "manipulation"}}
+        cursor="pointer"
         data-open={isYearPickerOpen || undefined}
         data-slot="calendar-year-picker-trigger"
         display="flex"
         flex="1"
-        alignItems="center"
-        justifyContent="flex-start"
         gap="0.5"
-        rounded="lg"
+        justifyContent="flex-start"
         outline="none"
-        cursor="pointer"
-        css={{touchAction: "manipulation"}}
-        _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
+        rounded="lg"
+        type="button"
         onKeyDown={handleKeyDown}
         onClick={(event) => {
           onClick?.(event);
@@ -150,8 +155,8 @@ const CalendarYearPickerTriggerHeading = ({
       as="span"
       className={className}
       data-slot="calendar-year-picker-trigger-heading"
-      fontWeight="medium"
       fontSize="sm"
+      fontWeight="medium"
       transition="colors"
       transitionDuration="150ms"
       {...props}
@@ -175,16 +180,16 @@ const CalendarYearPickerTriggerIndicator = ({
 
   return (
     <Box
-      as="span"
       aria-hidden="true"
+      as="span"
       className={className}
+      color="accent"
       data-slot="calendar-year-picker-trigger-indicator"
       display="inline-flex"
-      w="3"
       h="3"
-      color="accent"
-      transition="transform 150ms"
       transform={values.isOpen ? "rotate(90deg)" : undefined}
+      transition="transform 150ms"
+      w="3"
       {...props}
     >
       {typeof children === "function"
@@ -269,10 +274,7 @@ const CalendarYearPickerGrid = ({
 
   const years = React.useMemo(() => yearDates.map((d) => d.year), [yearDates]);
 
-  const formatYear = React.useCallback(
-    (year: number) => String(year),
-    [],
-  );
+  const formatYear = React.useCallback((year: number) => String(year), []);
 
   const [activeYear, setActiveYear] = React.useState(focusedYear);
 
@@ -426,24 +428,24 @@ const CalendarYearPickerGrid = ({
     <CalendarYearPickerGridContext value={contextValue}>
       <Grid
         ref={gridRef}
+        alignContent="flex-start"
         aria-hidden={!isYearPickerOpen}
         aria-label="Year selector"
         className={className}
         data-open={isYearPickerOpen || undefined}
         data-slot="calendar-year-picker-grid"
+        gap="1"
+        insetX="0"
+        opacity={isYearPickerOpen ? 1 : 0}
+        overflowY="auto"
+        p="1"
+        pointerEvents={isYearPickerOpen ? "auto" : "none"}
+        position="absolute"
         role="listbox"
         tabIndex={-1}
         templateColumns="repeat(3, 1fr)"
-        gap="1"
-        overflowY="auto"
-        position="absolute"
-        insetX="0"
-        p="1"
-        alignContent="flex-start"
-        opacity={isYearPickerOpen ? 1 : 0}
-        pointerEvents={isYearPickerOpen ? "auto" : "none"}
-        willChange="opacity"
         transition={isYearPickerOpen ? "opacity 200ms 50ms" : undefined}
+        willChange="opacity"
         css={{
           scrollbarWidth: "thin",
           scrollbarColor: "oklch(0% 0 0 / 0.15) transparent",
@@ -509,8 +511,8 @@ CalendarYearPickerGridBody.displayName = "CalendarYearPicker.GridBody";
 const CalendarYearPickerCell = ({
   children,
   className,
-  onFocus,
   onClick,
+  onFocus,
   year,
 }: CalendarYearPickerCellProps) => {
   const {activeYear, focusedYear, formatYear, isYearPickerOpen, selectYear, setActiveYear} =
@@ -529,42 +531,43 @@ const CalendarYearPickerCell = ({
 
   return (
     <chakra.button
-      type="button"
+      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
+      _hover={{bg: isSelected ? "accent/90" : "bg.muted"}}
+      alignItems="center"
       aria-label={formattedYear}
       aria-selected={isSelected}
+      bg={isSelected ? "accent" : undefined}
       className={className}
+      color={isSelected ? "accent.fg" : undefined}
+      cursor="pointer"
       data-selected={isSelected || undefined}
       data-slot="calendar-year-picker-year-cell"
       data-year={year}
-      tabIndex={isYearPickerOpen && isActive ? 0 : -1}
       display="inline-flex"
-      alignItems="center"
-      justifyContent="center"
-      rounded="full"
-      py="1.5"
-      px="2.5"
       fontSize="sm"
       fontWeight="medium"
+      justifyContent="center"
       outline="none"
+      px="2.5"
+      py="1.5"
+      rounded="full"
+      tabIndex={isYearPickerOpen && isActive ? 0 : -1}
+      type="button"
       userSelect="none"
-      cursor="pointer"
       css={{
         WebkitTapHighlightColor: "transparent",
         touchAction: "manipulation",
-        transition: "color 100ms, scale 100ms, opacity 100ms, background-color 100ms, box-shadow 100ms",
+        transition:
+          "color 100ms, scale 100ms, opacity 100ms, background-color 100ms, box-shadow 100ms",
         transformOrigin: "center",
-      }}
-      bg={isSelected ? "accent" : undefined}
-      color={isSelected ? "accent.fg" : undefined}
-      _hover={{bg: isSelected ? "accent/90" : "bg.muted"}}
-      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
-      onFocus={(event) => {
-        onFocus?.(event);
-        setActiveYear(year);
       }}
       onClick={(event) => {
         onClick?.(event);
         selectYear(year);
+      }}
+      onFocus={(event) => {
+        onFocus?.(event);
+        setActiveYear(year);
       }}
     >
       {typeof children === "function" ? children(values) : children || formattedYear}

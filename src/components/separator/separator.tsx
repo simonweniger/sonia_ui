@@ -27,9 +27,9 @@ const SeparatorRoot = ({
 }: SeparatorRootProps) => {
   return (
     <ChakraSeparator
+      borderColor={colorMap[separatorColor]}
       data-slot="separator"
       orientation={orientation}
-      borderColor={colorMap[separatorColor]}
       {...props}
     />
   );

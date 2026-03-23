@@ -1,17 +1,17 @@
-import { defineSlotRecipe } from '@chakra-ui/react'
+import {defineSlotRecipe} from "@chakra-ui/react";
 
 export const loadingOverlaySlotRecipe = defineSlotRecipe({
-  className: 'sonia-loading-overlay',
-  slots: ['root', 'text'],
+  className: "sonia-loading-overlay",
+  slots: ["root", "text"],
   base: {
     root: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
       p: 4,
-      transitionProperty: 'opacity',
-      transitionDuration: 'slower',
+      transitionProperty: "opacity",
+      transitionDuration: "slower",
       _open: {
         opacity: 1,
       },
@@ -25,28 +25,28 @@ export const loadingOverlaySlotRecipe = defineSlotRecipe({
       fill: {
         root: {
           flex: 1,
-          height: '100%',
-          bg: 'currentBg',
+          height: "100%",
+          bg: "currentBg",
         },
       },
       fullscreen: {
         root: {
-          position: 'fixed',
+          position: "fixed",
           inset: 0,
-          zIndex: 'modal',
-          bg: 'bg',
+          zIndex: "modal",
+          bg: "bg",
         },
       },
       overlay: {
         root: {
-          position: 'absolute',
+          position: "absolute",
           inset: 0,
-          bg: 'currentBg/50',
+          bg: "currentBg/50",
         },
       },
     },
   },
   defaultVariants: {
-    variant: 'fill',
+    variant: "fill",
   },
-})
+});

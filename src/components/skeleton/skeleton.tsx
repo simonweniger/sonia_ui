@@ -33,9 +33,9 @@ const SkeletonRoot = ({animation = "shimmer", ...props}: SkeletonRootProps) => {
 
   return (
     <ChakraSkeleton
+      css={isShimmer ? shimmerCss : undefined}
       data-slot="skeleton"
       variant={isShimmer ? "none" : animation}
-      css={isShimmer ? shimmerCss : undefined}
       {...props}
     />
   );

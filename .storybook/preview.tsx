@@ -1,8 +1,9 @@
-import type {Preview} from "@storybook/react";
+import type {Preview} from "@storybook/react-vite";
 
 import React from "react";
 
 import {SoniaProvider} from "../src/provider";
+
 import {withInternationalization} from "./addons/i18n/decorator";
 import {i18nGlobalType} from "./addons/i18n/preview";
 import {withReactScan} from "./addons/react-scan/decorator";
@@ -26,12 +27,11 @@ const withChakraProvider: Preview["decorators"] = [
 const parameters: Preview["parameters"] = {
   layout: "fullscreen",
   backgrounds: {
-    default: "white",
-    values: [
-      {name: "white", value: "#ffffff"},
-      {name: "light", value: "#f5f5f5"},
-      {name: "dark", value: "#1a1a1a"},
-    ],
+    options: {
+      white: {name: "white", value: "#ffffff"},
+      light: {name: "light", value: "#f5f5f5"},
+      dark: {name: "dark", value: "#1a1a1a"},
+    },
   },
   controls: {
     matchers: {
@@ -72,6 +72,12 @@ const preview: Preview = {
   parameters,
   globalTypes,
   tags: ["autodocs"],
+
+  initialGlobals: {
+    backgrounds: {
+      value: "white",
+    },
+  },
 };
 
 export default preview;

@@ -15,8 +15,8 @@ interface SwitchGroupRootProps extends ComponentPropsWithRef<"div"> {
 const SwitchGroupRoot = ({children, orientation = "vertical", ...props}: SwitchGroupRootProps) => {
   return (
     <Box
-      data-slot="switch-group"
       data-orientation={orientation}
+      data-slot="switch-group"
       display="flex"
       flexDirection={orientation === "horizontal" ? "row" : "column"}
       gap="4"

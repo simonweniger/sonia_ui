@@ -1,9 +1,8 @@
-import type {Meta, StoryObj} from "@storybook/react";
-
-import {Icon} from "@iconify/react";
-import * as React from "react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Box, Flex, Text} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
+import * as React from "react";
 
 import {Avatar, AvatarFallback, AvatarImage} from "../avatar";
 import {Description} from "../description";
@@ -32,36 +31,48 @@ export const Default: Story = {
 
     return (
       <ListBox aria-label="Users" width="220px">
-        <ListBox.Item id="1" isSelected={selected === "1"} onClick={() => setSelected(selected === "1" ? null : "1")}>
+        <ListBox.Item
+          id="1"
+          isSelected={selected === "1"}
+          onClick={() => setSelected(selected === "1" ? null : "1")}
+        >
           <Avatar size="sm">
             <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg" />
             <AvatarFallback>B</AvatarFallback>
           </Avatar>
           <Flex direction="column">
             <Label>Bob</Label>
-            <Description>bob@heroui.com</Description>
+            <Description>bob@sonia.so</Description>
           </Flex>
           <ListBox.ItemIndicator />
         </ListBox.Item>
-        <ListBox.Item id="2" isSelected={selected === "2"} onClick={() => setSelected(selected === "2" ? null : "2")}>
+        <ListBox.Item
+          id="2"
+          isSelected={selected === "2"}
+          onClick={() => setSelected(selected === "2" ? null : "2")}
+        >
           <Avatar size="sm">
             <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg" />
             <AvatarFallback>F</AvatarFallback>
           </Avatar>
           <Flex direction="column">
             <Label>Fred</Label>
-            <Description>fred@heroui.com</Description>
+            <Description>fred@sonia.so</Description>
           </Flex>
           <ListBox.ItemIndicator />
         </ListBox.Item>
-        <ListBox.Item id="3" isSelected={selected === "3"} onClick={() => setSelected(selected === "3" ? null : "3")}>
+        <ListBox.Item
+          id="3"
+          isSelected={selected === "3"}
+          onClick={() => setSelected(selected === "3" ? null : "3")}
+        >
           <Avatar size="sm">
             <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg" />
             <AvatarFallback>M</AvatarFallback>
           </Avatar>
           <Flex direction="column">
             <Label>Martha</Label>
-            <Description>martha@heroui.com</Description>
+            <Description>martha@sonia.so</Description>
           </Flex>
           <ListBox.ItemIndicator />
         </ListBox.Item>
@@ -72,17 +83,27 @@ export const Default: Story = {
 
 export const WithSections: Story = {
   render: () => (
-    <Surface style={{width: "256px", borderRadius: "var(--chakra-radii-3xl)", boxShadow: "var(--chakra-shadows-surface)"}}>
-      <ListBox
-        aria-label="File actions"
-        width="full"
-        p="2"
-      >
+    <Surface
+      style={{
+        width: "256px",
+        borderRadius: "var(--chakra-radii-3xl)",
+        boxShadow: "var(--chakra-shadows-surface)",
+      }}
+    >
+      <ListBox aria-label="File actions" p="2" width="full">
         <ListBox.Section>
           <Header>Actions</Header>
           <ListBox.Item id="new-file">
-            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:square-plus" />
+            <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon
+                icon="gravity-ui:square-plus"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  flexShrink: 0,
+                  color: "var(--chakra-colors-fg-muted)",
+                }}
+              />
             </Flex>
             <Flex direction="column">
               <Label>New file</Label>
@@ -94,8 +115,16 @@ export const WithSections: Story = {
             </Kbd>
           </ListBox.Item>
           <ListBox.Item id="edit-file">
-            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:pencil" />
+            <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon
+                icon="gravity-ui:pencil"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  flexShrink: 0,
+                  color: "var(--chakra-colors-fg-muted)",
+                }}
+              />
             </Flex>
             <Flex direction="column">
               <Label>Edit file</Label>
@@ -111,8 +140,16 @@ export const WithSections: Story = {
         <ListBox.Section>
           <Header>Danger zone</Header>
           <ListBox.Item id="delete-file">
-            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-error)"}} icon="gravity-ui:trash-bin" />
+            <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon
+                icon="gravity-ui:trash-bin"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  flexShrink: 0,
+                  color: "var(--chakra-colors-fg-error)",
+                }}
+              />
             </Flex>
             <Flex direction="column">
               <Label>Delete file</Label>
@@ -132,17 +169,27 @@ export const WithSections: Story = {
 
 export const WithDisabledItems: Story = {
   render: () => (
-    <Surface style={{width: "256px", borderRadius: "var(--chakra-radii-3xl)", boxShadow: "var(--chakra-shadows-surface)"}}>
-      <ListBox
-        aria-label="File actions"
-        width="full"
-        p="2"
-      >
+    <Surface
+      style={{
+        width: "256px",
+        borderRadius: "var(--chakra-radii-3xl)",
+        boxShadow: "var(--chakra-shadows-surface)",
+      }}
+    >
+      <ListBox aria-label="File actions" p="2" width="full">
         <ListBox.Section>
           <Header>Actions</Header>
           <ListBox.Item id="new-file">
-            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:square-plus" />
+            <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon
+                icon="gravity-ui:square-plus"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  flexShrink: 0,
+                  color: "var(--chakra-colors-fg-muted)",
+                }}
+              />
             </Flex>
             <Flex direction="column">
               <Label>New file</Label>
@@ -154,8 +201,16 @@ export const WithDisabledItems: Story = {
             </Kbd>
           </ListBox.Item>
           <ListBox.Item id="edit-file">
-            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-muted)"}} icon="gravity-ui:pencil" />
+            <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon
+                icon="gravity-ui:pencil"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  flexShrink: 0,
+                  color: "var(--chakra-colors-fg-muted)",
+                }}
+              />
             </Flex>
             <Flex direction="column">
               <Label>Edit file</Label>
@@ -170,9 +225,17 @@ export const WithDisabledItems: Story = {
         <Separator />
         <ListBox.Section>
           <Header>Danger zone</Header>
-          <ListBox.Item id="delete-file" aria-disabled="true" data-disabled>
-            <Flex height="8" alignItems="start" justifyContent="center" style={{paddingTop: "1px"}}>
-              <Icon style={{width: "1rem", height: "1rem", flexShrink: 0, color: "var(--chakra-colors-fg-error)"}} icon="gravity-ui:trash-bin" />
+          <ListBox.Item data-disabled aria-disabled="true" id="delete-file">
+            <Flex alignItems="start" height="8" justifyContent="center" style={{paddingTop: "1px"}}>
+              <Icon
+                icon="gravity-ui:trash-bin"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  flexShrink: 0,
+                  color: "var(--chakra-colors-fg-error)",
+                }}
+              />
             </Flex>
             <Flex direction="column">
               <Label>Delete file</Label>
@@ -197,17 +260,25 @@ export const MultiSelect: Story = {
     const toggleItem = (id: string) => {
       setSelected((prev) => {
         const next = new Set(prev);
+
         if (next.has(id)) {
           next.delete(id);
         } else {
           next.add(id);
         }
+
         return next;
       });
     };
 
     return (
-      <Surface style={{width: "256px", borderRadius: "var(--chakra-radii-3xl)", boxShadow: "var(--chakra-shadows-surface)"}}>
+      <Surface
+        style={{
+          width: "256px",
+          borderRadius: "var(--chakra-radii-3xl)",
+          boxShadow: "var(--chakra-shadows-surface)",
+        }}
+      >
         <ListBox aria-label="Users">
           <ListBox.Item id="1" isSelected={selected.has("1")} onClick={() => toggleItem("1")}>
             <Avatar size="sm">
@@ -216,7 +287,7 @@ export const MultiSelect: Story = {
             </Avatar>
             <Flex direction="column">
               <Label>Bob</Label>
-              <Description>bob@heroui.com</Description>
+              <Description>bob@sonia.so</Description>
             </Flex>
             <ListBox.ItemIndicator />
           </ListBox.Item>
@@ -227,7 +298,7 @@ export const MultiSelect: Story = {
             </Avatar>
             <Flex direction="column">
               <Label>Fred</Label>
-              <Description>fred@heroui.com</Description>
+              <Description>fred@sonia.so</Description>
             </Flex>
             <ListBox.ItemIndicator />
           </ListBox.Item>
@@ -238,7 +309,7 @@ export const MultiSelect: Story = {
             </Avatar>
             <Flex direction="column">
               <Label>Martha</Label>
-              <Description>martha@heroui.com</Description>
+              <Description>martha@sonia.so</Description>
             </Flex>
             <ListBox.ItemIndicator />
           </ListBox.Item>
@@ -255,17 +326,25 @@ export const CustomCheckIcon: Story = {
     const toggleItem = (id: string) => {
       setSelected((prev) => {
         const next = new Set(prev);
+
         if (next.has(id)) {
           next.delete(id);
         } else {
           next.add(id);
         }
+
         return next;
       });
     };
 
     return (
-      <Surface style={{width: "256px", borderRadius: "var(--chakra-radii-3xl)", boxShadow: "var(--chakra-shadows-surface)"}}>
+      <Surface
+        style={{
+          width: "256px",
+          borderRadius: "var(--chakra-radii-3xl)",
+          boxShadow: "var(--chakra-shadows-surface)",
+        }}
+      >
         <ListBox aria-label="Users">
           <ListBox.Item id="1" isSelected={selected.has("1")} onClick={() => toggleItem("1")}>
             <Avatar size="sm">
@@ -274,10 +353,17 @@ export const CustomCheckIcon: Story = {
             </Avatar>
             <Flex direction="column">
               <Label>Bob</Label>
-              <Description>bob@heroui.com</Description>
+              <Description>bob@sonia.so</Description>
             </Flex>
             <ListBox.ItemIndicator>
-              <Icon style={{width: "1rem", height: "1rem", color: "var(--chakra-colors-colorPalette-fg)"}} icon="gravity-ui:check" />
+              <Icon
+                icon="gravity-ui:check"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  color: "var(--chakra-colors-colorPalette-fg)",
+                }}
+              />
             </ListBox.ItemIndicator>
           </ListBox.Item>
           <ListBox.Item id="2" isSelected={selected.has("2")} onClick={() => toggleItem("2")}>
@@ -287,10 +373,17 @@ export const CustomCheckIcon: Story = {
             </Avatar>
             <Flex direction="column">
               <Label>Fred</Label>
-              <Description>fred@heroui.com</Description>
+              <Description>fred@sonia.so</Description>
             </Flex>
             <ListBox.ItemIndicator>
-              <Icon style={{width: "1rem", height: "1rem", color: "var(--chakra-colors-colorPalette-fg)"}} icon="gravity-ui:check" />
+              <Icon
+                icon="gravity-ui:check"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  color: "var(--chakra-colors-colorPalette-fg)",
+                }}
+              />
             </ListBox.ItemIndicator>
           </ListBox.Item>
           <ListBox.Item id="3" isSelected={selected.has("3")} onClick={() => toggleItem("3")}>
@@ -300,10 +393,17 @@ export const CustomCheckIcon: Story = {
             </Avatar>
             <Flex direction="column">
               <Label>Martha</Label>
-              <Description>martha@heroui.com</Description>
+              <Description>martha@sonia.so</Description>
             </Flex>
             <ListBox.ItemIndicator>
-              <Icon style={{width: "1rem", height: "1rem", color: "var(--chakra-colors-colorPalette-fg)"}} icon="gravity-ui:check" />
+              <Icon
+                icon="gravity-ui:check"
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  color: "var(--chakra-colors-colorPalette-fg)",
+                }}
+              />
             </ListBox.ItemIndicator>
           </ListBox.Item>
         </ListBox>
@@ -319,11 +419,13 @@ export const Controlled: Story = {
     const toggleItem = (id: string) => {
       setSelected((prev) => {
         const next = new Set(prev);
+
         if (next.has(id)) {
           next.delete(id);
         } else {
           next.add(id);
         }
+
         return next;
       });
     };
@@ -332,7 +434,13 @@ export const Controlled: Story = {
 
     return (
       <Box spaceY="4">
-        <Surface style={{width: "256px", borderRadius: "var(--chakra-radii-3xl)", boxShadow: "var(--chakra-shadows-surface)"}}>
+        <Surface
+          style={{
+            width: "256px",
+            borderRadius: "var(--chakra-radii-3xl)",
+            boxShadow: "var(--chakra-shadows-surface)",
+          }}
+        >
           <ListBox aria-label="Users">
             <ListBox.Item id="1" isSelected={selected.has("1")} onClick={() => toggleItem("1")}>
               <Avatar size="sm">
@@ -341,7 +449,7 @@ export const Controlled: Story = {
               </Avatar>
               <Flex direction="column">
                 <Label>Bob</Label>
-                <Description>bob@heroui.com</Description>
+                <Description>bob@sonia.so</Description>
               </Flex>
               <ListBox.ItemIndicator />
             </ListBox.Item>
@@ -352,7 +460,7 @@ export const Controlled: Story = {
               </Avatar>
               <Flex direction="column">
                 <Label>Fred</Label>
-                <Description>fred@heroui.com</Description>
+                <Description>fred@sonia.so</Description>
               </Flex>
               <ListBox.ItemIndicator />
             </ListBox.Item>
@@ -363,13 +471,13 @@ export const Controlled: Story = {
               </Avatar>
               <Flex direction="column">
                 <Label>Martha</Label>
-                <Description>martha@heroui.com</Description>
+                <Description>martha@sonia.so</Description>
               </Flex>
               <ListBox.ItemIndicator />
             </ListBox.Item>
           </ListBox>
         </Surface>
-        <Text fontSize="sm" color="fg.muted">
+        <Text color="fg.muted" fontSize="sm">
           Selected: {selectedItems.length > 0 ? selectedItems.join(", ") : "None"}
         </Text>
       </Box>

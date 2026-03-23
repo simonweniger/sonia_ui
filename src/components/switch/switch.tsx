@@ -99,13 +99,13 @@ interface SwitchIconProps extends ComponentPropsWithRef<"span"> {}
 const SwitchIcon = ({children, ...props}: SwitchIconProps) => {
   return (
     <Box
+      alignItems="center"
       as="span"
       data-slot="switch-icon"
       display="flex"
-      width="100%"
       height="100%"
-      alignItems="center"
       justifyContent="center"
+      width="100%"
       {...props}
     >
       {children}
@@ -120,13 +120,7 @@ interface SwitchContentProps extends ComponentPropsWithRef<"div"> {}
 
 const SwitchContent = ({children, ...props}: SwitchContentProps) => {
   return (
-    <Box
-      data-slot="switch-content"
-      display="flex"
-      flexDirection="column"
-      gap="0"
-      {...props}
-    >
+    <Box data-slot="switch-content" display="flex" flexDirection="column" gap="0" {...props}>
       {children}
     </Box>
   );

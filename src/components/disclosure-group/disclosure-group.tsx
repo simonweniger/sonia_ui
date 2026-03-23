@@ -13,9 +13,9 @@ interface DisclosureGroupRootProps extends ComponentPropsWithRef<typeof ChakraAc
 const DisclosureGroupRoot = ({children, ...props}: DisclosureGroupRootProps) => {
   return (
     <ChakraAccordion.Root
+      css={{contain: "layout style"}}
       data-slot="disclosure-group"
       w="full"
-      css={{contain: "layout style"}}
       {...props}
     >
       {children}

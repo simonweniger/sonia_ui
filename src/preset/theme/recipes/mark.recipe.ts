@@ -1,27 +1,27 @@
-import { defineRecipe } from '@chakra-ui/react/styled-system'
+import {defineRecipe} from "@chakra-ui/react/styled-system";
 
 export const markRecipe = defineRecipe({
-  className: 'chakra-mark',
+  className: "chakra-mark",
   base: {
-    bg: 'transparent',
-    color: 'inherit',
-    whiteSpace: 'nowrap',
+    bg: "transparent",
+    color: "inherit",
+    whiteSpace: "nowrap",
   },
 
   variants: {
     variant: {
       subtle: {
-        bg: 'colorPalette.subtle',
-        color: 'inherit',
+        bg: "colorPalette.subtle",
+        color: "inherit",
       },
       solid: {
-        bg: 'colorPalette.solid',
-        color: 'colorPalette.contrast',
+        bg: "colorPalette.solid",
+        color: "colorPalette.contrast",
       },
       text: {
-        fontWeight: 'medium',
+        fontWeight: "medium",
       },
       plain: {},
     },
   },
-})
+});

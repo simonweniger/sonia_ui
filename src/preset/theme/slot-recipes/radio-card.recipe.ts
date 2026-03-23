@@ -1,76 +1,76 @@
-import { radioCardAnatomy } from '@chakra-ui/react/anatomy'
-import { defineSlotRecipe } from '@chakra-ui/react/styled-system'
+import {radioCardAnatomy} from "@chakra-ui/react/anatomy";
+import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
-import { radiomarkRecipe } from '../recipes/radiomark.recipe'
+import {radiomarkRecipe} from "../recipes/radiomark.recipe";
 
 export const radioCardSlotRecipe = defineSlotRecipe({
-  className: 'chakra-radio-card',
+  className: "chakra-radio-card",
   slots: radioCardAnatomy.keys(),
   base: {
     root: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '1.5',
-      isolation: 'isolate',
+      display: "flex",
+      flexDirection: "column",
+      gap: "1.5",
+      isolation: "isolate",
     },
     item: {
-      flex: '1',
-      display: 'flex',
-      flexDirection: 'column',
-      userSelect: 'none',
-      position: 'relative',
-      borderRadius: 'panel.md',
+      flex: "1",
+      display: "flex",
+      flexDirection: "column",
+      userSelect: "none",
+      position: "relative",
+      borderRadius: "panel.md",
       _focus: {
-        bg: 'colorPalette.muted/20',
+        bg: "colorPalette.muted/20",
       },
       _disabled: {
-        opacity: '0.8',
-        borderColor: 'border.disabled',
+        opacity: "0.8",
+        borderColor: "border.disabled",
       },
       _checked: {
-        zIndex: '1',
+        zIndex: "1",
       },
     },
     label: {
-      display: 'inline-flex',
-      fontWeight: 'medium',
-      textStyle: 'sm',
+      display: "inline-flex",
+      fontWeight: "medium",
+      textStyle: "sm",
       _disabled: {
-        opacity: '0.5',
+        opacity: "0.5",
       },
     },
     itemText: {
-      fontWeight: 'medium',
+      fontWeight: "medium",
     },
     itemDescription: {
-      opacity: '0.64',
-      textStyle: 'sm',
+      opacity: "0.64",
+      textStyle: "sm",
     },
     itemControl: {
-      display: 'inline-flex',
-      flex: '1',
-      pos: 'relative',
-      rounded: 'inherit',
-      justifyContent: 'var(--radio-card-justify)',
-      alignItems: 'var(--radio-card-align)',
+      display: "inline-flex",
+      flex: "1",
+      pos: "relative",
+      rounded: "inherit",
+      justifyContent: "var(--radio-card-justify)",
+      alignItems: "var(--radio-card-align)",
       _disabled: {
-        bg: 'bg.muted',
+        bg: "bg.muted",
       },
     },
     itemIndicator: radiomarkRecipe.base,
     itemAddon: {
-      roundedBottom: 'inherit',
+      roundedBottom: "inherit",
       _disabled: {
-        color: 'fg.muted',
+        color: "fg.muted",
       },
     },
     itemContent: {
-      display: 'flex',
-      flexDirection: 'column',
-      flex: '1',
-      gap: '1',
-      justifyContent: 'var(--radio-card-justify)',
-      alignItems: 'var(--radio-card-align)',
+      display: "flex",
+      flexDirection: "column",
+      flex: "1",
+      gap: "1",
+      justifyContent: "var(--radio-card-justify)",
+      alignItems: "var(--radio-card-align)",
     },
   },
 
@@ -78,46 +78,46 @@ export const radioCardSlotRecipe = defineSlotRecipe({
     size: {
       sm: {
         item: {
-          textStyle: 'sm',
+          textStyle: "sm",
         },
         itemControl: {
-          padding: '3',
-          gap: '1.5',
+          padding: "3",
+          gap: "1.5",
         },
         itemAddon: {
-          px: '3',
-          py: '1.5',
-          borderTopWidth: '1px',
+          px: "3",
+          py: "1.5",
+          borderTopWidth: "1px",
         },
         itemIndicator: radiomarkRecipe.variants?.size.sm,
       },
       md: {
         item: {
-          textStyle: 'sm',
+          textStyle: "sm",
         },
         itemControl: {
-          padding: '4',
-          gap: '2.5',
+          padding: "4",
+          gap: "2.5",
         },
         itemAddon: {
-          px: '4',
-          py: '2',
-          borderTopWidth: '1px',
+          px: "4",
+          py: "2",
+          borderTopWidth: "1px",
         },
         itemIndicator: radiomarkRecipe.variants?.size.md,
       },
       lg: {
         item: {
-          textStyle: 'md',
+          textStyle: "md",
         },
         itemControl: {
-          padding: '4',
-          gap: '3.5',
+          padding: "4",
+          gap: "3.5",
         },
         itemAddon: {
-          px: '4',
-          py: '2',
-          borderTopWidth: '1px',
+          px: "4",
+          py: "2",
+          borderTopWidth: "1px",
         },
         itemIndicator: radiomarkRecipe.variants?.size.lg,
       },
@@ -126,11 +126,11 @@ export const radioCardSlotRecipe = defineSlotRecipe({
     variant: {
       surface: {
         item: {
-          borderWidth: '1px',
+          borderWidth: "1px",
           _checked: {
-            bg: 'colorPalette.subtle',
-            color: 'colorPalette.fg',
-            borderColor: 'colorPalette.muted',
+            bg: "colorPalette.subtle",
+            color: "colorPalette.fg",
+            borderColor: "colorPalette.muted",
           },
         },
         itemIndicator: radiomarkRecipe.variants?.variant.solid,
@@ -138,12 +138,12 @@ export const radioCardSlotRecipe = defineSlotRecipe({
 
       subtle: {
         item: {
-          bg: 'bg.muted',
+          bg: "bg.muted",
         },
         itemControl: {
           _checked: {
-            bg: 'colorPalette.muted',
-            color: 'colorPalette.fg',
+            bg: "colorPalette.muted",
+            color: "colorPalette.fg",
           },
         },
         itemIndicator: radiomarkRecipe.variants?.variant.outline,
@@ -151,11 +151,11 @@ export const radioCardSlotRecipe = defineSlotRecipe({
 
       outline: {
         item: {
-          borderWidth: '1px',
+          borderWidth: "1px",
           _checked: {
-            boxShadow: '0 0 0 1px var(--shadow-color)',
-            boxShadowColor: 'colorPalette.solid',
-            borderColor: 'colorPalette.solid',
+            boxShadow: "0 0 0 1px var(--shadow-color)",
+            boxShadowColor: "colorPalette.solid",
+            borderColor: "colorPalette.solid",
           },
         },
         itemIndicator: radiomarkRecipe.variants?.variant.solid,
@@ -163,11 +163,11 @@ export const radioCardSlotRecipe = defineSlotRecipe({
 
       solid: {
         item: {
-          borderWidth: '1px',
+          borderWidth: "1px",
           _checked: {
-            bg: 'colorPalette.solid',
-            color: 'colorPalette.contrast',
-            borderColor: 'colorPalette.solid',
+            bg: "colorPalette.solid",
+            color: "colorPalette.contrast",
+            borderColor: "colorPalette.solid",
           },
         },
         itemIndicator: radiomarkRecipe.variants?.variant.inverted,
@@ -176,45 +176,45 @@ export const radioCardSlotRecipe = defineSlotRecipe({
 
     justify: {
       start: {
-        item: { '--radio-card-justify': 'flex-start' },
+        item: {"--radio-card-justify": "flex-start"},
       },
       end: {
-        item: { '--radio-card-justify': 'flex-end' },
+        item: {"--radio-card-justify": "flex-end"},
       },
       center: {
-        item: { '--radio-card-justify': 'center' },
+        item: {"--radio-card-justify": "center"},
       },
     },
 
     align: {
       start: {
-        item: { '--radio-card-align': 'flex-start' },
-        itemControl: { textAlign: 'start' },
+        item: {"--radio-card-align": "flex-start"},
+        itemControl: {textAlign: "start"},
       },
       end: {
-        item: { '--radio-card-align': 'flex-end' },
-        itemControl: { textAlign: 'end' },
+        item: {"--radio-card-align": "flex-end"},
+        itemControl: {textAlign: "end"},
       },
       center: {
-        item: { '--radio-card-align': 'center' },
-        itemControl: { textAlign: 'center' },
+        item: {"--radio-card-align": "center"},
+        itemControl: {textAlign: "center"},
       },
     },
 
     orientation: {
       vertical: {
-        itemControl: { flexDirection: 'column' },
+        itemControl: {flexDirection: "column"},
       },
       horizontal: {
-        itemControl: { flexDirection: 'row' },
+        itemControl: {flexDirection: "row"},
       },
     },
   },
 
   defaultVariants: {
-    size: 'md',
-    variant: 'outline',
-    align: 'start',
-    orientation: 'horizontal',
+    size: "md",
+    variant: "outline",
+    align: "start",
+    orientation: "horizontal",
   },
-})
+});

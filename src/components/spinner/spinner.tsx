@@ -25,12 +25,7 @@ interface SpinnerRootProps extends Omit<ComponentPropsWithRef<typeof ChakraSpinn
 
 const SpinnerRoot = ({size = "md", spinnerColor = "current", ...props}: SpinnerRootProps) => {
   return (
-    <ChakraSpinner
-      data-slot="spinner"
-      size={size}
-      color={colorMap[spinnerColor]}
-      {...props}
-    />
+    <ChakraSpinner color={colorMap[spinnerColor]} data-slot="spinner" size={size} {...props} />
   );
 };
 

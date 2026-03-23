@@ -2,8 +2,8 @@
 
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
-import React from "react";
 import {Box, Dialog as ChakraDialog} from "@chakra-ui/react";
+import React from "react";
 
 import {CloseButton} from "../close-button";
 
@@ -28,16 +28,16 @@ interface ModalTriggerProps extends ComponentPropsWithRef<typeof ChakraDialog.Tr
 const ModalTrigger = ({children, className, ...props}: ModalTriggerProps) => {
   return (
     <ChakraDialog.Trigger
-      data-slot="modal-trigger"
+      _active={{transform: "scale(0.97)"}}
+      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
+      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
       className={className}
       cursor="pointer"
+      data-slot="modal-trigger"
       css={{
         transition:
           "transform 250ms var(--ease-out-quart), background-color 150ms var(--ease-smooth), box-shadow 150ms var(--ease-out)",
       }}
-      _focusVisible={{ring: "2px", ringColor: "accent", ringOffset: "2px"}}
-      _disabled={{opacity: 0.5, cursor: "not-allowed", pointerEvents: "none"}}
-      _active={{transform: "scale(0.97)"}}
       {...props}
     >
       {children}
@@ -54,19 +54,24 @@ interface ModalBackdropProps extends ComponentPropsWithRef<typeof ChakraDialog.B
   backdropVariant?: ModalBackdropVariant;
 }
 
-const ModalBackdrop = ({children, className, backdropVariant = "opaque", ...props}: ModalBackdropProps) => {
+const ModalBackdrop = ({
+  backdropVariant = "opaque",
+  children,
+  className,
+  ...props
+}: ModalBackdropProps) => {
   return (
     <ChakraDialog.Backdrop
-      data-slot="modal-backdrop"
+      alignItems="center"
       className={className}
-      position="fixed"
-      inset="0"
-      zIndex="50"
+      data-slot="modal-backdrop"
       display="flex"
       flexDir="row"
-      alignItems="center"
+      inset="0"
       justifyContent="center"
+      position="fixed"
       w="100%"
+      zIndex="50"
       {...(backdropVariant === "opaque" ? {bg: "black/50"} : {})}
       {...(backdropVariant === "blur" ? {bg: "black/50", backdropFilter: "blur(12px)"} : {})}
       {...(backdropVariant === "transparent" ? {bg: "transparent"} : {})}
@@ -99,13 +104,19 @@ const ModalContent = ({children, className, modalSize = "md", ...props}: ModalCo
 
   return (
     <ChakraDialog.Content
-      data-slot="modal-content"
       className={className}
+      data-slot="modal-content"
       css={{
         /* Sibling spacing */
-        "& [data-slot=modal-header] + [data-slot=modal-body]": {marginTop: "var(--chakra-spacing-2)"},
-        "& [data-slot=modal-header] + [data-slot=modal-footer]": {marginTop: "var(--chakra-spacing-5)"},
-        "& [data-slot=modal-body] + [data-slot=modal-footer]": {marginTop: "var(--chakra-spacing-5)"},
+        "& [data-slot=modal-header] + [data-slot=modal-body]": {
+          marginTop: "var(--chakra-spacing-2)",
+        },
+        "& [data-slot=modal-header] + [data-slot=modal-footer]": {
+          marginTop: "var(--chakra-spacing-5)",
+        },
+        "& [data-slot=modal-body] + [data-slot=modal-footer]": {
+          marginTop: "var(--chakra-spacing-5)",
+        },
       }}
       {...sizeProps}
       {...props}
@@ -123,8 +134,8 @@ interface ModalHeaderProps extends ComponentPropsWithRef<typeof ChakraDialog.Hea
 const ModalHeader = ({children, className, ...props}: ModalHeaderProps) => {
   return (
     <ChakraDialog.Header
-      data-slot="modal-header"
       className={className}
+      data-slot="modal-header"
       display="flex"
       flexDir="column"
       gap="3"
@@ -144,13 +155,13 @@ interface ModalBodyProps extends ComponentPropsWithRef<typeof ChakraDialog.Body>
 const ModalBody = ({children, className, ...props}: ModalBodyProps) => {
   return (
     <ChakraDialog.Body
-      data-slot="modal-body"
       className={className}
-      minH="0"
+      color="fg.muted"
+      data-slot="modal-body"
       flex="1"
       fontSize="sm"
       lineHeight="1.43"
-      color="fg.muted"
+      minH="0"
       my="0"
       {...props}
     >
@@ -167,13 +178,13 @@ interface ModalFooterProps extends ComponentPropsWithRef<typeof ChakraDialog.Foo
 const ModalFooter = ({children, className, ...props}: ModalFooterProps) => {
   return (
     <ChakraDialog.Footer
-      data-slot="modal-footer"
+      alignItems="center"
       className={className}
+      data-slot="modal-footer"
       display="flex"
       flexDir="row"
-      alignItems="center"
-      justifyContent="flex-end"
       gap="2"
+      justifyContent="flex-end"
       mt="0"
       {...props}
     >
@@ -190,12 +201,12 @@ interface ModalHeadingProps extends ComponentPropsWithRef<typeof ChakraDialog.Ti
 const ModalHeading = ({children, className, ...props}: ModalHeadingProps) => {
   return (
     <ChakraDialog.Title
-      data-slot="modal-heading"
       className={className}
-      verticalAlign="middle"
+      color="fg"
+      data-slot="modal-heading"
       fontSize="md"
       fontWeight="medium"
-      color="fg"
+      verticalAlign="middle"
       {...props}
     >
       {children}
@@ -210,7 +221,7 @@ interface ModalDescriptionProps extends ComponentPropsWithRef<typeof ChakraDialo
 
 const ModalDescription = ({children, className, ...props}: ModalDescriptionProps) => {
   return (
-    <ChakraDialog.Description data-slot="modal-description" className={className} {...props}>
+    <ChakraDialog.Description className={className} data-slot="modal-description" {...props}>
       {children}
     </ChakraDialog.Description>
   );
@@ -224,13 +235,13 @@ interface ModalIconProps extends ComponentPropsWithRef<"div"> {}
 const ModalIcon = ({children, className, ...props}: ModalIconProps) => {
   return (
     <Box
-      data-slot="modal-icon"
-      className={className}
-      display="flex"
       alignItems="center"
-      justifyContent="center"
       boxSize="10"
+      className={className}
+      data-slot="modal-icon"
+      display="flex"
       flexShrink={0}
+      justifyContent="center"
       rounded="full"
       userSelect="none"
       {...props}
@@ -247,14 +258,14 @@ interface ModalCloseTriggerProps extends ComponentPropsWithRef<typeof ChakraDial
   children?: ReactNode;
 }
 
-const ModalCloseTrigger = ({className, children, ...rest}: ModalCloseTriggerProps) => {
+const ModalCloseTrigger = ({children, className, ...rest}: ModalCloseTriggerProps) => {
   return (
     <ChakraDialog.CloseTrigger
-      data-slot="modal-close-trigger"
       className={className}
+      data-slot="modal-close-trigger"
       position="absolute"
-      top="4"
       right="4"
+      top="4"
       {...rest}
     >
       {children ?? <CloseButton />}

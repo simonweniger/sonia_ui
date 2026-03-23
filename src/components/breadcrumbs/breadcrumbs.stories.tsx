@@ -1,9 +1,8 @@
-import type {Meta, StoryObj} from "@storybook/react";
-
-import {Icon} from "@iconify/react";
-import React from "react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Box} from "@chakra-ui/react";
+import {Icon} from "@iconify/react";
+import React from "react";
 
 import {Breadcrumbs, BreadcrumbsItem} from "./index";
 
@@ -53,7 +52,7 @@ const CustomSeparatorTemplate = () => (
 );
 
 const DisabledTemplate = () => (
-  <Box pointerEvents="none" opacity={0.5}>
+  <Box opacity={0.5} pointerEvents="none">
     <Breadcrumbs>
       <BreadcrumbsItem href="#">Home</BreadcrumbsItem>
       <BreadcrumbsItem href="#">Products</BreadcrumbsItem>

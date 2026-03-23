@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from "@storybook/react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Box, Text} from "@chakra-ui/react";
 import React from "react";
@@ -36,10 +36,12 @@ type Story = StoryObj<typeof InputOTP>;
 
 export const Default: Story = {
   render: (args) => (
-    <Box display="flex" w="280px" flexDirection="column" gap="2">
+    <Box display="flex" flexDirection="column" gap="2" w="280px">
       <Box display="flex" flexDirection="column" gap="1">
         <Label>Verify account</Label>
-        <Text fontSize="sm" color="fg.muted">We&apos;ve sent a code to a****@gmail.com</Text>
+        <Text color="fg.muted" fontSize="sm">
+          We&apos;ve sent a code to a****@gmail.com
+        </Text>
       </Box>
       <InputOTP {...args} maxLength={6}>
         <InputOTP.Group>
@@ -54,8 +56,10 @@ export const Default: Story = {
           <InputOTP.Slot index={5} />
         </InputOTP.Group>
       </InputOTP>
-      <Box display="flex" alignItems="center" gap="5px" px="1" pt="1">
-        <Text fontSize="sm" color="fg.muted">Didn&apos;t receive a code?</Text>
+      <Box alignItems="center" display="flex" gap="5px" pt="1" px="1">
+        <Text color="fg.muted" fontSize="sm">
+          Didn&apos;t receive a code?
+        </Text>
         <Link color="fg" textDecoration="underline">
           Resend
         </Link>
@@ -105,7 +109,7 @@ export const Variants: Story = {
 
 export const FourDigits: Story = {
   render: (args) => (
-    <Box display="flex" w="280px" flexDirection="column" gap="2">
+    <Box display="flex" flexDirection="column" gap="2" w="280px">
       <Label>Enter PIN</Label>
       <InputOTP {...args} maxLength={4}>
         <InputOTP.Group>
@@ -121,7 +125,7 @@ export const FourDigits: Story = {
 
 export const Disabled: Story = {
   render: (args) => (
-    <Box display="flex" w="280px" flexDirection="column" gap="2">
+    <Box display="flex" flexDirection="column" gap="2" w="280px">
       <Label>Verify account</Label>
       <Description>Code verification is currently disabled</Description>
       <InputOTP {...args} isDisabled maxLength={6}>
@@ -143,7 +147,7 @@ export const Disabled: Story = {
 
 export const WithPattern: Story = {
   render: (args) => (
-    <Box display="flex" w="280px" flexDirection="column" gap="2">
+    <Box display="flex" flexDirection="column" gap="2" w="280px">
       <Label>Enter code (letters only)</Label>
       <Description>Only alphabetic characters are allowed</Description>
       <InputOTP {...args} maxLength={6} pattern={REGEXP_ONLY_CHARS}>
@@ -168,7 +172,7 @@ export const Controlled: Story = {
     const [value, setValue] = React.useState("");
 
     return (
-      <Box display="flex" w="280px" flexDirection="column" gap="2">
+      <Box display="flex" flexDirection="column" gap="2" w="280px">
         <Label>Verify account</Label>
         <InputOTP {...args} maxLength={6} value={value} onChange={setValue}>
           <InputOTP.Group>
@@ -231,7 +235,7 @@ export const WithValidation: Story = {
     };
 
     return (
-      <Box display="flex" w="280px" flexDirection="column" gap="2">
+      <Box display="flex" flexDirection="column" gap="2" w="280px">
         <Form style={{display: "flex", flexDirection: "column", gap: "8px"}} onSubmit={onSubmit}>
           <Label>Verify account</Label>
           <Description>Hint: The code is 123456</Description>
@@ -293,7 +297,10 @@ export const OnComplete: Story = {
     };
 
     return (
-      <Form style={{display: "flex", width: "280px", flexDirection: "column", gap: "8px"}} onSubmit={handleSubmit}>
+      <Form
+        style={{display: "flex", width: "280px", flexDirection: "column", gap: "8px"}}
+        onSubmit={handleSubmit}
+      >
         <Label>Verify account</Label>
         <InputOTP
           {...args}
@@ -318,8 +325,8 @@ export const OnComplete: Story = {
           </InputOTP.Group>
         </InputOTP>
         <Button
-          style={{marginTop: "8px", width: "100%"}}
           isDisabled={!isComplete}
+          style={{marginTop: "8px", width: "100%"}}
           type="submit"
           variant="solid"
         >
@@ -369,7 +376,10 @@ export const FormExample: Story = {
     };
 
     return (
-      <Form style={{display: "flex", width: "280px", flexDirection: "column", gap: "16px"}} onSubmit={handleSubmit}>
+      <Form
+        style={{display: "flex", width: "280px", flexDirection: "column", gap: "16px"}}
+        onSubmit={handleSubmit}
+      >
         <Box display="flex" flexDirection="column" gap="2">
           <Label>Two-factor authentication</Label>
           <Description>Enter the 6-digit code from your authenticator app</Description>
@@ -400,8 +410,8 @@ export const FormExample: Story = {
           </Text>
         </Box>
         <Button
-          style={{width: "100%"}}
           isDisabled={value.length !== 6}
+          style={{width: "100%"}}
           type="submit"
           variant="solid"
         >
@@ -414,9 +424,11 @@ export const FormExample: Story = {
             "Verify"
           )}
         </Button>
-        <Box display="flex" alignItems="center" justifyContent="center" gap="1">
-          <Text fontSize="sm" color="fg.muted">Having trouble?</Text>
-          <Link fontSize="sm" color="fg" textDecoration="underline">
+        <Box alignItems="center" display="flex" gap="1" justifyContent="center">
+          <Text color="fg.muted" fontSize="sm">
+            Having trouble?
+          </Text>
+          <Link color="fg" fontSize="sm" textDecoration="underline">
             Use backup code
           </Link>
         </Box>

@@ -1,8 +1,7 @@
-import type {Meta, StoryObj} from "@storybook/react";
-
-import React from "react";
+import type {Meta, StoryObj} from "@storybook/react-vite";
 
 import {Box, Flex, Text} from "@chakra-ui/react";
+import React from "react";
 
 import {Tabs} from "./index";
 
@@ -78,24 +77,34 @@ const VerticalTemplate = (args: Story["args"]) => {
           </Tabs.List>
         </Tabs.ListContainer>
         <Tabs.Panel px="4" value="account">
-          <Text as="h3" mb="2" fontWeight="semibold">Account Settings</Text>
-          <Text fontSize="sm" color="fg.muted">Manage your account information and preferences.</Text>
+          <Text as="h3" fontWeight="semibold" mb="2">
+            Account Settings
+          </Text>
+          <Text color="fg.muted" fontSize="sm">
+            Manage your account information and preferences.
+          </Text>
         </Tabs.Panel>
         <Tabs.Panel px="4" value="security">
-          <Text as="h3" mb="2" fontWeight="semibold">Security Settings</Text>
-          <Text fontSize="sm" color="fg.muted">
+          <Text as="h3" fontWeight="semibold" mb="2">
+            Security Settings
+          </Text>
+          <Text color="fg.muted" fontSize="sm">
             Configure two-factor authentication and password settings.
           </Text>
         </Tabs.Panel>
         <Tabs.Panel px="4" value="notifications">
-          <Text as="h3" mb="2" fontWeight="semibold">Notification Preferences</Text>
-          <Text fontSize="sm" color="fg.muted">
+          <Text as="h3" fontWeight="semibold" mb="2">
+            Notification Preferences
+          </Text>
+          <Text color="fg.muted" fontSize="sm">
             Choose how and when you want to receive notifications.
           </Text>
         </Tabs.Panel>
         <Tabs.Panel px="4" value="billing">
-          <Text as="h3" mb="2" fontWeight="semibold">Billing Information</Text>
-          <Text fontSize="sm" color="fg.muted">
+          <Text as="h3" fontWeight="semibold" mb="2">
+            Billing Information
+          </Text>
+          <Text color="fg.muted" fontSize="sm">
             View and manage your subscription and payment methods.
           </Text>
         </Tabs.Panel>
@@ -174,7 +183,11 @@ const ControlledSelectionTemplate = (args: Story["args"]) => {
   return (
     <Box width="600px">
       <Text my="2">Selected: {selectedValue}</Text>
-      <Tabs value={selectedValue} onValueChange={(details) => setSelectedValue(details.value)} {...args}>
+      <Tabs
+        value={selectedValue}
+        onValueChange={(details) => setSelectedValue(details.value)}
+        {...args}
+      >
         <Tabs.ListContainer>
           <Tabs.List aria-label="Tabs with controlled options">
             <Tabs.Tab value="active">
@@ -213,7 +226,16 @@ const CustomStyleTemplate = (args: Story["args"]) => {
           <Tabs.List
             aria-label="Options"
             style={{width: "fit-content"}}
-            css={{"& > *": {height: "1.5rem", width: "fit-content", paddingInline: "0.75rem", fontSize: "var(--font-sizes-sm)", fontWeight: "normal"}, "& > *[data-selected=true]": {color: "var(--colors-accent-fg)"}}}
+            css={{
+              "& > *": {
+                height: "1.5rem",
+                width: "fit-content",
+                paddingInline: "0.75rem",
+                fontSize: "var(--font-sizes-sm)",
+                fontWeight: "normal",
+              },
+              "& > *[data-selected=true]": {color: "var(--colors-accent-fg)"},
+            }}
           >
             <Tabs.Tab value="daily">
               Daily
@@ -333,24 +355,34 @@ const SecondaryVerticalTemplate = (args: Story["args"]) => {
           </Tabs.List>
         </Tabs.ListContainer>
         <Tabs.Panel px="4" value="account">
-          <Text as="h3" mb="2" fontWeight="semibold">Account Settings</Text>
-          <Text fontSize="sm" color="fg.muted">Manage your account information and preferences.</Text>
+          <Text as="h3" fontWeight="semibold" mb="2">
+            Account Settings
+          </Text>
+          <Text color="fg.muted" fontSize="sm">
+            Manage your account information and preferences.
+          </Text>
         </Tabs.Panel>
         <Tabs.Panel px="4" value="security">
-          <Text as="h3" mb="2" fontWeight="semibold">Security Settings</Text>
-          <Text fontSize="sm" color="fg.muted">
+          <Text as="h3" fontWeight="semibold" mb="2">
+            Security Settings
+          </Text>
+          <Text color="fg.muted" fontSize="sm">
             Configure two-factor authentication and password settings.
           </Text>
         </Tabs.Panel>
         <Tabs.Panel px="4" value="notifications">
-          <Text as="h3" mb="2" fontWeight="semibold">Notification Preferences</Text>
-          <Text fontSize="sm" color="fg.muted">
+          <Text as="h3" fontWeight="semibold" mb="2">
+            Notification Preferences
+          </Text>
+          <Text color="fg.muted" fontSize="sm">
             Choose how and when you want to receive notifications.
           </Text>
         </Tabs.Panel>
         <Tabs.Panel px="4" value="billing">
-          <Text as="h3" mb="2" fontWeight="semibold">Billing Information</Text>
-          <Text fontSize="sm" color="fg.muted">
+          <Text as="h3" fontWeight="semibold" mb="2">
+            Billing Information
+          </Text>
+          <Text color="fg.muted" fontSize="sm">
             View and manage your subscription and payment methods.
           </Text>
         </Tabs.Panel>
@@ -373,7 +405,7 @@ const Showcase1Template = (args: Story["args"]) => {
     "28": "1.2x",
     "24": "1x",
     "13": "0.5x",
-    "macro": "0.2x",
+    macro: "0.2x",
   };
 
   const zoomImgMap: Record<string, string> = {
@@ -386,14 +418,20 @@ const Showcase1Template = (args: Story["args"]) => {
     "28": "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/28mm__fylmxo06jq6i_large_2x.jpg",
     "24": "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/24mm__e54cxtdkdrwy_large_2x.jpg",
     "13": "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/13mm__dzafu9h1kaye_large_2x.jpg",
-    "macro":
+    macro:
       "https://www.apple.com/v/iphone-17-pro/a/images/overview/cameras/zoom/macro__bb7oud7ri2o2_large_2x.jpg",
   };
 
   return (
     <Box width="full">
-      <Flex direction="column" align="center">
-        <Box position="relative" aspectRatio="7/5" width="full" maxW="840px" height={{sm: "400px", md: "500px", lg: "600px"}}>
+      <Flex align="center" direction="column">
+        <Box
+          aspectRatio="7/5"
+          height={{sm: "400px", md: "500px", lg: "600px"}}
+          maxW="840px"
+          position="relative"
+          width="full"
+        >
           {Object.keys(zoomImgMap).map((key) => (
             <img
               key={key}
@@ -414,12 +452,48 @@ const Showcase1Template = (args: Story["args"]) => {
             />
           ))}
         </Box>
-        <Tabs {...args} defaultValue={DEFAULT_ZOOM} onValueChange={(details) => setSelectedZoom(details.value)}>
-          <Tabs.ListContainer style={{marginBlock: "1rem", width: "100%", maxWidth: "100%", overflowX: "auto", scrollbarWidth: "none"}}>
+        <Tabs
+          {...args}
+          defaultValue={DEFAULT_ZOOM}
+          onValueChange={(details) => setSelectedZoom(details.value)}
+        >
+          <Tabs.ListContainer
+            style={{
+              marginBlock: "1rem",
+              width: "100%",
+              maxWidth: "100%",
+              overflowX: "auto",
+              scrollbarWidth: "none",
+            }}
+          >
             <Tabs.List
               aria-label="Options"
-              style={{width: "fit-content", minWidth: "min-content", borderRadius: "9999px", backgroundColor: "#333336"}}
-              css={{"& > *": {height: "2rem", width: "fit-content", paddingInline: "0.75rem", fontSize: "var(--font-sizes-xs)", fontWeight: "normal", color: "white", opacity: 0.8}, "& > *:hover": {opacity: 1}, "& > *[data-selected=true]": {color: "black"}, "@media (min-width: 640px)": {"& > *": {height: "2.25rem", paddingInline: "1rem", fontSize: "var(--font-sizes-sm)"}}}}
+              css={{
+                "& > *": {
+                  height: "2rem",
+                  width: "fit-content",
+                  paddingInline: "0.75rem",
+                  fontSize: "var(--font-sizes-xs)",
+                  fontWeight: "normal",
+                  color: "white",
+                  opacity: 0.8,
+                },
+                "& > *:hover": {opacity: 1},
+                "& > *[data-selected=true]": {color: "black"},
+                "@media (min-width: 640px)": {
+                  "& > *": {
+                    height: "2.25rem",
+                    paddingInline: "1rem",
+                    fontSize: "var(--font-sizes-sm)",
+                  },
+                },
+              }}
+              style={{
+                width: "fit-content",
+                minWidth: "min-content",
+                borderRadius: "9999px",
+                backgroundColor: "#333336",
+              }}
             >
               {zoomLevels.map((zoom) => (
                 <Tabs.Tab
@@ -428,35 +502,50 @@ const Showcase1Template = (args: Story["args"]) => {
                   value={zoom}
                 >
                   {zoom} {zoom === "macro" ? "" : "mm"}
-                  <Tabs.Indicator style={{borderRadius: "9999px", backgroundColor: "white", boxShadow: "none", transitionDuration: "320ms"}} />
+                  <Tabs.Indicator
+                    style={{
+                      borderRadius: "9999px",
+                      backgroundColor: "white",
+                      boxShadow: "none",
+                      transitionDuration: "320ms",
+                    }}
+                  />
                 </Tabs.Tab>
               ))}
             </Tabs.List>
           </Tabs.ListContainer>
         </Tabs>
-        <Box position="relative" height="10" width="10">
+        <Box height="10" position="relative" width="10">
           {Object.keys(zoomXMap).map((key) => (
             <Text
               key={key}
               aria-hidden={selectedZoom !== key}
+              className={`data-[selected=true]:scale-100 data-[selected=true]:opacity-100 data-[selected=true]:delay-200 ${selectedZoom !== key ? "sr-only" : ""}`}
+              color="fg"
               data-selected={selectedZoom === key}
-              position="absolute"
-              top="50%"
-              left="50%"
-              transformOrigin="center"
-              transform="translate(-50%, -50%) scale(0.75)"
               fontSize="21px"
               fontWeight="medium"
-              color="fg"
+              left="50%"
               opacity={0}
+              position="absolute"
+              top="50%"
+              transform="translate(-50%, -50%) scale(0.75)"
+              transformOrigin="center"
               transition="scale 300ms cubic-bezier(0.33,1,0.68,1), opacity 300ms cubic-bezier(0.33,1,0.68,1)"
-              className={`data-[selected=true]:scale-100 data-[selected=true]:opacity-100 data-[selected=true]:delay-200 ${selectedZoom !== key ? "sr-only" : ""}`}
             >
               {zoomXMap[key]}
             </Text>
           ))}
         </Box>
-        <Box as="footer" mt="4" width="full" px="4" textAlign="center" fontSize={{base: "xs", sm: "sm"}} color="fg.muted/30">
+        <Box
+          as="footer"
+          color="fg.muted/30"
+          fontSize={{base: "xs", sm: "sm"}}
+          mt="4"
+          px="4"
+          textAlign="center"
+          width="full"
+        >
           <a href="https://www.apple.com/iphone-17-pro/" rel="noopener noreferrer" target="_blank">
             Showcase based on Apple&apos;s iPhone 17 Pro camera zoom showcase
           </a>
