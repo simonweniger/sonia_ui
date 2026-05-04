@@ -1,6 +1,6 @@
 import {defineRecipe} from "@chakra-ui/react/styled-system";
 
-import {heroUIDisabled, heroUIFocusRing} from "../shared";
+import {soniaUIDisabled, soniaUIFocusRing} from "../shared";
 
 export const inputRecipe = defineRecipe({
   className: "chakra-input",
@@ -11,7 +11,7 @@ export const inputRecipe = defineRecipe({
     position: "relative",
     appearance: "none",
     textAlign: "start",
-    borderRadius: "xl",
+    borderRadius: "lg",
     color: "fg",
     px: "3",
     py: "2",
@@ -20,8 +20,8 @@ export const inputRecipe = defineRecipe({
     transitionDuration: "fast",
     transitionTimingFunction: "ease",
     _placeholder: {color: "fg.muted"},
-    ...heroUIFocusRing,
-    ...heroUIDisabled,
+    ...soniaUIFocusRing,
+    ...soniaUIDisabled,
     height: "var(--input-height)",
     minW: "var(--input-height)",
     "--focus-color": "colors.colorPalette.focusRing",
@@ -48,19 +48,19 @@ export const inputRecipe = defineRecipe({
         "--input-height": "sizes.7",
       },
       md: {
-        borderRadius: "xl",
+        borderRadius: "lg",
         textStyle: "sm",
         px: "3",
         "--input-height": "sizes.8",
       },
       lg: {
-        borderRadius: "xl",
+        borderRadius: "lg",
         textStyle: "md",
         px: "4.5",
         "--input-height": "sizes.10",
       },
       xl: {
-        borderRadius: "xl",
+        borderRadius: "lg",
         textStyle: "md",
         px: "6",
         "--input-height": "sizes.12",

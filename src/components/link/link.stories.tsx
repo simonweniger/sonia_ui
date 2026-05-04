@@ -36,7 +36,7 @@ const DefaultTemplate = (_props: Link["RootProps"]) => (
       target="_blank"
       textDecoration="none"
     >
-      HeroUI
+      SoniaUI
       <Link.Icon style={{height: "0.5rem", width: "0.5rem"}} />
     </Link>
   </Flex>

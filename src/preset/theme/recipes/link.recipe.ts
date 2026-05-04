@@ -1,6 +1,6 @@
 import {defineRecipe} from "@chakra-ui/react/styled-system";
 
-import {heroUIDisabled, heroUIFocusRing} from "../shared";
+import {soniaUIDisabled, soniaUIFocusRing} from "../shared";
 
 export const linkRecipe = defineRecipe({
   className: "chakra-link",
@@ -33,8 +33,8 @@ export const linkRecipe = defineRecipe({
     _hover: {
       textDecorationColor: "fg.muted",
     },
-    ...heroUIFocusRing,
-    ...heroUIDisabled,
+    ...soniaUIFocusRing,
+    ...soniaUIDisabled,
   },
 
   variants: {

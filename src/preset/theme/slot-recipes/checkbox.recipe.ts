@@ -2,7 +2,7 @@ import {checkboxAnatomy} from "@chakra-ui/react/anatomy";
 import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
 import {checkmarkRecipe} from "../recipes/checkmark.recipe";
-import {heroUIDisabled} from "../shared";
+import {soniaUIDisabled} from "../shared";
 
 export const checkboxSlotRecipe = defineSlotRecipe({
   slots: checkboxAnatomy.keys(),
@@ -18,7 +18,7 @@ export const checkboxSlotRecipe = defineSlotRecipe({
       outline: "none",
       cursor: "pointer",
       WebkitTapHighlightColor: "transparent",
-      ...heroUIDisabled,
+      ...soniaUIDisabled,
     },
 
     control: {

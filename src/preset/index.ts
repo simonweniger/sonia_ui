@@ -1,17 +1,7 @@
 import {createSystem, defaultBaseConfig, mergeConfigs} from "@chakra-ui/react";
 
 import {defaultThemeConfig} from "./theme/index";
-import {utilities} from "./theme/utilities";
 
-const defaultConfig = mergeConfigs(defaultBaseConfig, defaultThemeConfig);
-
-/**
- * TODO: This is a temporary fix to add the utilities to the default config.
- */
-defaultConfig.utilities = Object.assign(defaultConfig.utilities ?? {}, utilities);
-
-export const defaultSystem = createSystem(defaultConfig);
-
-export {defaultSystem as system, defaultConfig};
+export const system = createSystem(mergeConfigs(defaultBaseConfig, defaultThemeConfig));
 
 export type {RecipeProps, SlotRecipeProps} from "./types";

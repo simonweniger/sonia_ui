@@ -37,7 +37,7 @@ export const Default: Story = {
           onClick={() => setSelected(selected === "1" ? null : "1")}
         >
           <Avatar size="sm">
-            <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg" />
+            <AvatarImage src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg" />
             <AvatarFallback>B</AvatarFallback>
           </Avatar>
           <Flex direction="column">
@@ -52,7 +52,7 @@ export const Default: Story = {
           onClick={() => setSelected(selected === "2" ? null : "2")}
         >
           <Avatar size="sm">
-            <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg" />
+            <AvatarImage src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg" />
             <AvatarFallback>F</AvatarFallback>
           </Avatar>
           <Flex direction="column">
@@ -67,7 +67,7 @@ export const Default: Story = {
           onClick={() => setSelected(selected === "3" ? null : "3")}
         >
           <Avatar size="sm">
-            <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg" />
+            <AvatarImage src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg" />
             <AvatarFallback>M</AvatarFallback>
           </Avatar>
           <Flex direction="column">
@@ -282,7 +282,7 @@ export const MultiSelect: Story = {
         <ListBox aria-label="Users">
           <ListBox.Item id="1" isSelected={selected.has("1")} onClick={() => toggleItem("1")}>
             <Avatar size="sm">
-              <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg" />
+              <AvatarImage src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg" />
               <AvatarFallback>B</AvatarFallback>
             </Avatar>
             <Flex direction="column">
@@ -293,7 +293,7 @@ export const MultiSelect: Story = {
           </ListBox.Item>
           <ListBox.Item id="2" isSelected={selected.has("2")} onClick={() => toggleItem("2")}>
             <Avatar size="sm">
-              <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg" />
+              <AvatarImage src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg" />
               <AvatarFallback>F</AvatarFallback>
             </Avatar>
             <Flex direction="column">
@@ -304,7 +304,7 @@ export const MultiSelect: Story = {
           </ListBox.Item>
           <ListBox.Item id="3" isSelected={selected.has("3")} onClick={() => toggleItem("3")}>
             <Avatar size="sm">
-              <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg" />
+              <AvatarImage src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg" />
               <AvatarFallback>M</AvatarFallback>
             </Avatar>
             <Flex direction="column">
@@ -348,7 +348,7 @@ export const CustomCheckIcon: Story = {
         <ListBox aria-label="Users">
           <ListBox.Item id="1" isSelected={selected.has("1")} onClick={() => toggleItem("1")}>
             <Avatar size="sm">
-              <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg" />
+              <AvatarImage src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg" />
               <AvatarFallback>B</AvatarFallback>
             </Avatar>
             <Flex direction="column">
@@ -368,7 +368,7 @@ export const CustomCheckIcon: Story = {
           </ListBox.Item>
           <ListBox.Item id="2" isSelected={selected.has("2")} onClick={() => toggleItem("2")}>
             <Avatar size="sm">
-              <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg" />
+              <AvatarImage src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg" />
               <AvatarFallback>F</AvatarFallback>
             </Avatar>
             <Flex direction="column">
@@ -388,7 +388,7 @@ export const CustomCheckIcon: Story = {
           </ListBox.Item>
           <ListBox.Item id="3" isSelected={selected.has("3")} onClick={() => toggleItem("3")}>
             <Avatar size="sm">
-              <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg" />
+              <AvatarImage src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg" />
               <AvatarFallback>M</AvatarFallback>
             </Avatar>
             <Flex direction="column">
@@ -444,7 +444,7 @@ export const Controlled: Story = {
           <ListBox aria-label="Users">
             <ListBox.Item id="1" isSelected={selected.has("1")} onClick={() => toggleItem("1")}>
               <Avatar size="sm">
-                <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg" />
+                <AvatarImage src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg" />
                 <AvatarFallback>B</AvatarFallback>
               </Avatar>
               <Flex direction="column">
@@ -455,7 +455,7 @@ export const Controlled: Story = {
             </ListBox.Item>
             <ListBox.Item id="2" isSelected={selected.has("2")} onClick={() => toggleItem("2")}>
               <Avatar size="sm">
-                <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg" />
+                <AvatarImage src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg" />
                 <AvatarFallback>F</AvatarFallback>
               </Avatar>
               <Flex direction="column">
@@ -466,7 +466,7 @@ export const Controlled: Story = {
             </ListBox.Item>
             <ListBox.Item id="3" isSelected={selected.has("3")} onClick={() => toggleItem("3")}>
               <Avatar size="sm">
-                <AvatarImage src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg" />
+                <AvatarImage src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg" />
                 <AvatarFallback>M</AvatarFallback>
               </Avatar>
               <Flex direction="column">

@@ -37,9 +37,9 @@ const LoremContent = () => (
 
 const LoremCards = () => {
   const images = [
-    "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/robot1.jpeg",
-    "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/avocado.jpeg",
-    "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/oranges.jpeg",
+    "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/docs/robot1.jpeg",
+    "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/docs/avocado.jpeg",
+    "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/docs/oranges.jpeg",
   ];
 
   const getRandomImage = (idx: number) => {

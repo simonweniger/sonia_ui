@@ -2,10 +2,10 @@ import {switchAnatomy} from "@chakra-ui/react/anatomy";
 import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
 /**
- * Switch recipe matching the original HeroUI v3 design.
+ * Switch recipe matching the original SoniaUI v3 design.
  *
  * Uses margin-based thumb animation (margin-inline-start) with a pill-shaped
- * thumb, matching the original HeroUI approach.
+ * thumb, matching the original SoniaUI approach.
  */
 export const switchSlotRecipe = defineSlotRecipe({
   slots: switchAnatomy.keys(),

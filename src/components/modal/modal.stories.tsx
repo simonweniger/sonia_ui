@@ -42,7 +42,7 @@ export const Default = () => {
             >
               <Icon icon="gravity-ui:rocket" style={{width: "20px", height: "20px"}} />
             </Modal.Icon>
-            <Modal.Heading>Welcome to HeroUI</Modal.Heading>
+            <Modal.Heading>Welcome to SoniaUI</Modal.Heading>
           </Modal.Header>
           <Modal.Body>
             <Text>

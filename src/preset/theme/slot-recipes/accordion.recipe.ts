@@ -1,7 +1,7 @@
 import {accordionAnatomy} from "@chakra-ui/react/anatomy";
 import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
-import {heroUIDisabled, heroUIFocusRing} from "../shared";
+import {soniaUIDisabled, soniaUIFocusRing} from "../shared";
 
 export const accordionSlotRecipe = defineSlotRecipe({
   className: "chakra-accordion",
@@ -31,8 +31,8 @@ export const accordionSlotRecipe = defineSlotRecipe({
       cursor: "pointer",
       WebkitTapHighlightColor: "transparent",
       borderRadius: "var(--accordion-radius)",
-      _focusVisible: heroUIFocusRing._focusVisible,
-      ...heroUIDisabled,
+      _focusVisible: soniaUIFocusRing._focusVisible,
+      ...soniaUIDisabled,
     },
     itemBody: {
       px: "4",

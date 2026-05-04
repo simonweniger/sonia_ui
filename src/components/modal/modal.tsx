@@ -56,7 +56,7 @@ interface ModalBackdropProps extends ComponentPropsWithRef<typeof ChakraDialog.B
 
 const ModalBackdrop = ({
   backdropVariant = "opaque",
-  children,
+  children: _children,
   className,
   ...props
 }: ModalBackdropProps) => {

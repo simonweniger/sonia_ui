@@ -1,4 +1,4 @@
-import type {HeroUIToastOptions} from "./toast-queue";
+import type {SoniaUIToastOptions} from "./toast-queue";
 import type {Meta} from "@storybook/react-vite";
 
 import {Box, Flex, Text} from "@chakra-ui/react";
@@ -9,7 +9,7 @@ import {Button} from "../button";
 
 import {Toast, toast} from "./index";
 
-interface ToastStoryProps extends Omit<HeroUIToastOptions, "variant"> {}
+interface ToastStoryProps extends Omit<SoniaUIToastOptions, "variant"> {}
 
 const meta: Meta<ToastStoryProps> = {
   argTypes: {
@@ -39,7 +39,7 @@ const Template = () => {
           variant="ghost"
           onClick={() => {
             toast("You have been invited to join a team", {
-              description: "Bob sent you an invitation to join HeroUI team",
+              description: "Bob sent you an invitation to join SoniaUI team",
               indicator: <Icon icon="gravity-ui:persons" />,
               variant: "default",
             });
@@ -64,7 +64,7 @@ const Template = () => {
           variant="ghost"
           onClick={() =>
             toast.success("You have upgraded your plan", {
-              description: "You can continue using HeroUI Chat",
+              description: "You can continue using SoniaUI Chat",
             })
           }
         >

@@ -81,8 +81,8 @@ const InputOTPRoot = ({
   inputClassName,
   isDisabled = false,
   isInvalid = false,
-  validationDetails,
-  validationErrors = [],
+  validationDetails: _validationDetails,
+  validationErrors: _validationErrors = [],
   variant,
   ...props
 }: InputOTPRootProps) => {

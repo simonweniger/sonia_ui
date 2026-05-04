@@ -41,7 +41,7 @@ export const dialogSlotRecipe = defineSlotRecipe({
       width: "100%",
       outline: 0,
       textStyle: "sm",
-      borderRadius: "3xl",
+      borderRadius: "xl",
       bg: "overlay",
       boxShadow: "overlay",
       p: "6",

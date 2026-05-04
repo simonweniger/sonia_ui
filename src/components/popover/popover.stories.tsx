@@ -88,7 +88,7 @@ const TemplateWithCustomContent = (props: Popover["ContentProps"]) => {
         <Popover.Trigger aria-label="Popover trigger">
           <Flex align="center" gap="2">
             <Avatar size="sm">
-              <Avatar.Image alt="Zoe" src="https://img.heroui.chat/image/avatar?w=400&h=400&u=5" />
+              <Avatar.Image alt="Zoe" src="https://img.soniaui.chat/image/avatar?w=400&h=400&u=5" />
               <Avatar.Fallback>Z</Avatar.Fallback>
             </Avatar>
             <Flex direction="column" gap="0">
@@ -110,7 +110,7 @@ const TemplateWithCustomContent = (props: Popover["ContentProps"]) => {
                     <Avatar size="md">
                       <Avatar.Image
                         alt="Zoe"
-                        src="https://img.heroui.chat/image/avatar?w=400&h=400&u=5"
+                        src="https://img.soniaui.chat/image/avatar?w=400&h=400&u=5"
                       />
                       <Avatar.Fallback>Z</Avatar.Fallback>
                     </Avatar>

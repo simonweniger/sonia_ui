@@ -3,7 +3,7 @@ import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
 /**
  * Minimal table recipe — all visual styling lives in the table component
- * (table.tsx) to match the original HeroUI design. This recipe only
+ * (table.tsx) to match the original SoniaUI design. This recipe only
  * provides the slot class names so Chakra's anatomy system is satisfied.
  */
 export const tableSlotRecipe = defineSlotRecipe({

@@ -27,7 +27,7 @@ export type {ToastRootProps} from "./toast";
  * -----------------------------------------------------------------------------------------------*/
 export {toast} from "./toast-queue";
 
-export type {ToastContentValue, HeroUIToastOptions, ToastPromiseOptions} from "./toast-queue";
+export type {ToastContentValue, SoniaUIToastOptions, ToastPromiseOptions} from "./toast-queue";
 
 /* -------------------------------------------------------------------------------------------------
  * Constants

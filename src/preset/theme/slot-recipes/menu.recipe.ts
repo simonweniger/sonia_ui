@@ -1,7 +1,7 @@
 import {menuAnatomy} from "@chakra-ui/react/anatomy";
 import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
-import {heroUIDisabled, heroUIFocusRing} from "../shared";
+import {soniaUIDisabled, soniaUIFocusRing} from "../shared";
 
 export const menuSlotRecipe = defineSlotRecipe({
   className: "chakra-menu",
@@ -15,7 +15,7 @@ export const menuSlotRecipe = defineSlotRecipe({
     content: {
       overflowY: "auto",
       overscrollBehavior: "contain",
-      borderRadius: "3xl",
+      borderRadius: "xl",
       bg: "overlay",
       p: "0",
       fontSize: "sm",
@@ -41,7 +41,7 @@ export const menuSlotRecipe = defineSlotRecipe({
       textDecoration: "none",
       color: "fg",
       userSelect: "none",
-      borderRadius: "2xl",
+      borderRadius: "lg",
       width: "100%",
       display: "flex",
       cursor: "pointer",
@@ -58,9 +58,9 @@ export const menuSlotRecipe = defineSlotRecipe({
       WebkitTapHighlightColor: "transparent",
       transitionProperty: "transform, box-shadow",
       transitionDuration: "250ms, 150ms",
-      ...heroUIFocusRing,
+      ...soniaUIFocusRing,
       _active: {transform: "scale(0.98)"},
-      ...heroUIDisabled,
+      ...soniaUIDisabled,
     },
     itemText: {
       flex: "1",

@@ -1,7 +1,7 @@
 import {tagAnatomy} from "@chakra-ui/react/anatomy";
 import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
-import {heroUIDisabled} from "../shared";
+import {soniaUIDisabled} from "../shared";
 
 export const tagSlotRecipe = defineSlotRecipe({
   slots: tagAnatomy.keys(),
@@ -23,7 +23,7 @@ export const tagSlotRecipe = defineSlotRecipe({
       transitionDuration: "100ms",
       transitionTimingFunction: "var(--ease-smooth, ease)",
       transformOrigin: "center",
-      ...heroUIDisabled,
+      ...soniaUIDisabled,
 
       /* SVG icon styling */
       "& svg": {
@@ -162,7 +162,7 @@ export const tagSlotRecipe = defineSlotRecipe({
 
     variant: {
       /**
-       * "subtle" maps to the original HeroUI "default" variant:
+       * "subtle" maps to the original SoniaUI "default" variant:
        * neutral gray background with foreground text.
        */
       subtle: {
@@ -178,7 +178,7 @@ export const tagSlotRecipe = defineSlotRecipe({
         },
       },
       /**
-       * "surface" maps to the original HeroUI "surface" variant:
+       * "surface" maps to the original SoniaUI "surface" variant:
        * white/surface background with foreground text.
        */
       surface: {

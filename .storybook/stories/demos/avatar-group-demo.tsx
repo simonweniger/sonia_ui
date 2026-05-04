@@ -4,31 +4,31 @@ import {Avatar} from "../../../src";
 
 const avatars = [
   {
-    image: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
+    image: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
     name: "Blue",
   },
   {
-    image: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
+    image: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
     name: "Green",
   },
   {
-    image: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
+    image: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
     name: "Purple",
   },
   {
-    image: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg",
+    image: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg",
     name: "Orange",
   },
   {
-    image: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg",
+    image: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg",
     name: "red",
   },
   {
-    image: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
+    image: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
     name: "Blue",
   },
   {
-    image: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/black.jpg",
+    image: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/black.jpg",
     name: "Black",
   },
 ];

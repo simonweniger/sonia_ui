@@ -17,7 +17,7 @@ export interface ToastContentValue {
   isLoading?: boolean | undefined;
 }
 
-export interface HeroUIToastOptions {
+export interface SoniaUIToastOptions {
   description?: ReactNode;
   indicator?: ReactNode;
   variant?: ToastContentValue["variant"];
@@ -54,7 +54,7 @@ function mapVariantToType(
 }
 
 function createToastFunction() {
-  const toastFn = (message: ReactNode, options?: HeroUIToastOptions): string => {
+  const toastFn = (message: ReactNode, options?: SoniaUIToastOptions): string => {
     const duration = options?.timeout !== undefined ? options.timeout : DEFAULT_TOAST_TIMEOUT;
 
     const id = toaster.create({
@@ -72,19 +72,25 @@ function createToastFunction() {
     return id ?? "";
   };
 
-  toastFn.success = (message: ReactNode, options?: Omit<HeroUIToastOptions, "variant">): string => {
+  toastFn.success = (
+    message: ReactNode,
+    options?: Omit<SoniaUIToastOptions, "variant">,
+  ): string => {
     return toastFn(message, {...options, variant: "success"});
   };
 
-  toastFn.danger = (message: ReactNode, options?: Omit<HeroUIToastOptions, "variant">): string => {
+  toastFn.danger = (message: ReactNode, options?: Omit<SoniaUIToastOptions, "variant">): string => {
     return toastFn(message, {...options, variant: "danger"});
   };
 
-  toastFn.info = (message: ReactNode, options?: Omit<HeroUIToastOptions, "variant">): string => {
+  toastFn.info = (message: ReactNode, options?: Omit<SoniaUIToastOptions, "variant">): string => {
     return toastFn(message, {...options, variant: "accent"});
   };
 
-  toastFn.warning = (message: ReactNode, options?: Omit<HeroUIToastOptions, "variant">): string => {
+  toastFn.warning = (
+    message: ReactNode,
+    options?: Omit<SoniaUIToastOptions, "variant">,
+  ): string => {
     return toastFn(message, {...options, variant: "warning"});
   };
 

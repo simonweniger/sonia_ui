@@ -11,7 +11,7 @@ export const cardSlotRecipe = defineSlotRecipe({
       position: "relative",
       minWidth: "0",
       wordWrap: "break-word",
-      borderRadius: "3xl",
+      borderRadius: "xl",
       color: "fg",
       textAlign: "start",
       gap: "3",

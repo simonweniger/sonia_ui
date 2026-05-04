@@ -120,7 +120,7 @@ export const Horizontal: Story = {
         objectFit="cover"
         pointerEvents="none"
         rounded="3xl"
-        src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/components/card/porsche-911.png"
+        src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/components/card/porsche-911.png"
         userSelect="none"
         width="full"
       />
@@ -171,7 +171,7 @@ export const WithAvatar: Story = {
           objectFit="cover"
           pointerEvents="none"
           rounded="2xl"
-          src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo1.jpg"
+          src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo1.jpg"
           userSelect="none"
           width="14"
         />
@@ -183,7 +183,7 @@ export const WithAvatar: Story = {
           <Avatar aria-label="Martha's profile picture" boxSize="5">
             <Avatar.Image
               alt="Martha's avatar"
-              src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg"
+              src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg"
             />
             <Avatar.Fallback fontSize="xs">IH</Avatar.Fallback>
           </Avatar>
@@ -199,7 +199,7 @@ export const WithAvatar: Story = {
           objectFit="cover"
           pointerEvents="none"
           rounded="2xl"
-          src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo2.jpg"
+          src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo2.jpg"
           userSelect="none"
           width="14"
         />
@@ -211,7 +211,7 @@ export const WithAvatar: Story = {
           <Avatar aria-label="John's profile picture" boxSize="5">
             <Avatar.Image
               alt="John's avatar - blue themed"
-              src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+              src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
             />
             <Avatar.Fallback fontSize="xs">B</Avatar.Fallback>
           </Avatar>
@@ -254,7 +254,7 @@ export const WithImages: Story = {
               objectFit="cover"
               pointerEvents="none"
               position="absolute"
-              src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/cherries.jpeg"
+              src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/docs/cherries.jpeg"
               transform="scale(1.25)"
               userSelect="none"
               width="full"
@@ -348,7 +348,7 @@ export const WithImages: Story = {
                   <Avatar borderRadius="xl" boxSize="56px">
                     <Avatar.Image
                       alt="Demo 1"
-                      src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo1.jpg"
+                      src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo1.jpg"
                     />
                     <Avatar.Fallback>JK</Avatar.Fallback>
                   </Avatar>
@@ -365,7 +365,7 @@ export const WithImages: Story = {
                   <Avatar boxSize="4">
                     <Avatar.Image
                       alt="John"
-                      src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg"
+                      src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg"
                     />
                     <Avatar.Fallback>JK</Avatar.Fallback>
                   </Avatar>
@@ -380,7 +380,7 @@ export const WithImages: Story = {
                   <Avatar borderRadius="xl" boxSize="56px">
                     <Avatar.Image
                       alt="Demo 2"
-                      src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo2.jpg"
+                      src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/docs/demo2.jpg"
                     />
                     <Avatar.Fallback>AB</Avatar.Fallback>
                   </Avatar>
@@ -397,7 +397,7 @@ export const WithImages: Story = {
                   <Avatar boxSize="4">
                     <Avatar.Image
                       alt="John"
-                      src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+                      src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
                     />
                     <Avatar.Fallback>M</Avatar.Fallback>
                   </Avatar>
@@ -418,7 +418,7 @@ export const WithImages: Story = {
               inset="0"
               objectFit="cover"
               position="absolute"
-              src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/neo2.jpeg"
+              src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/docs/neo2.jpeg"
               width="full"
             />
 
@@ -495,7 +495,7 @@ export const WithImages: Story = {
               inset="0"
               objectFit="cover"
               position="absolute"
-              src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/neo1.jpeg"
+              src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/docs/neo1.jpeg"
               width="full"
             />
 
@@ -561,7 +561,7 @@ export const WithImages: Story = {
                 loading="lazy"
                 objectFit="cover"
                 rounded="xl"
-                src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/robot1.jpeg"
+                src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/docs/robot1.jpeg"
                 userSelect="none"
                 width={{base: "16", sm: "20"}}
               />
@@ -580,7 +580,7 @@ export const WithImages: Story = {
                 loading="lazy"
                 objectFit="cover"
                 rounded="xl"
-                src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/avocado.jpeg"
+                src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/docs/avocado.jpeg"
                 userSelect="none"
                 width={{base: "16", sm: "20"}}
               />
@@ -599,7 +599,7 @@ export const WithImages: Story = {
                 loading="lazy"
                 objectFit="cover"
                 rounded="xl"
-                src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/oranges.jpeg"
+                src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/docs/oranges.jpeg"
                 userSelect="none"
                 width={{base: "16", sm: "20"}}
               />

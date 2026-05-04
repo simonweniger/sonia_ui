@@ -178,7 +178,7 @@ interface DatePickerPopoverProps extends ComponentPropsWithRef<typeof ArkDatePic
 const DatePickerPopover = ({
   children,
   className,
-  placement = "bottom",
+  placement: _placement = "bottom",
   ...props
 }: DatePickerPopoverProps) => {
   return (

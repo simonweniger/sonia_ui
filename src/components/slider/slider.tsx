@@ -5,15 +5,15 @@ import type {CSSProperties, ComponentPropsWithRef} from "react";
 import {Slider as ChakraSlider, chakra} from "@chakra-ui/react";
 import React from "react";
 
-/* Half the thumb width (28px / 2) — used to extend the fill to the thumb edge */
-const THUMB_HALF = 14;
+/* Half the thumb width — used to extend the fill to the thumb edge */
+const THUMB_HALF = 8;
 
 /* -------------------------------------------------------------------------------------------------
  * Slider Root
  * -----------------------------------------------------------------------------------------------*/
 interface SliderRootProps extends ComponentPropsWithRef<typeof ChakraSlider.Root> {}
 
-const SliderRoot = ({children, thumbSize = {width: 28, height: 20}, ...props}: SliderRootProps) => {
+const SliderRoot = ({children, thumbSize = {width: 16, height: 16}, ...props}: SliderRootProps) => {
   return (
     <ChakraSlider.Root data-slot="slider" thumbSize={thumbSize} {...props}>
       {children}
@@ -38,7 +38,7 @@ const SliderOutput = ({children, ...props}: SliderOutputProps) => {
  * Slider Track
  *
  * Renders Chakra's Control + Track structure internally while keeping
- * the original HeroUI API where Fill and Thumb are children of Track.
+ * the original SoniaUI API where Fill and Thumb are children of Track.
  * Separates Fill (into Control directly) from Thumb (as sibling in Control).
  * -----------------------------------------------------------------------------------------------*/
 interface SliderTrackProps extends ComponentPropsWithRef<typeof ChakraSlider.Track> {}
@@ -55,53 +55,12 @@ const SliderTrack = ({children, ...props}: SliderTrackProps) => {
     }
   });
 
-  /* Remember which side was stretched so the spring-back uses the same origin */
-  const lastOriginRef = React.useRef<string>("center");
-
   return (
-    <ChakraSlider.Context>
-      {(api) => {
-        const isDragging = api.dragging;
-        const lastIdx = api.value.length - 1;
-        const firstPct = api.getThumbPercent(0);
-        const lastPct = api.getThumbPercent(lastIdx);
-
-        const edgeThreshold = 0.02;
-        const maxStretch = 1.03;
-
-        let scale = 1;
-        let origin = lastOriginRef.current;
-
-        if (isDragging) {
-          if (firstPct <= edgeThreshold) {
-            const t = 1 - firstPct / edgeThreshold;
-
-            scale = 1 + (maxStretch - 1) * t;
-            origin = "right center";
-            lastOriginRef.current = origin;
-          } else if (lastPct >= 1 - edgeThreshold) {
-            const t = (lastPct - (1 - edgeThreshold)) / edgeThreshold;
-
-            scale = 1 + (maxStretch - 1) * t;
-            origin = "left center";
-            lastOriginRef.current = origin;
-          }
-        }
-
-        const stretchStyle: CSSProperties = {
-          transformOrigin: origin,
-          transform: scale !== 1 ? `scaleX(${scale})` : undefined,
-        };
-
-        return (
-          <ChakraSlider.Control data-slot="slider-control" style={stretchStyle}>
-            <ChakraSlider.Track data-slot="slider-track" {...props} />
-            {overlays}
-            {thumbs}
-          </ChakraSlider.Control>
-        );
-      }}
-    </ChakraSlider.Context>
+    <ChakraSlider.Control data-slot="slider-control">
+      <ChakraSlider.Track data-slot="slider-track" {...props} />
+      {overlays}
+      {thumbs}
+    </ChakraSlider.Control>
   );
 };
 
@@ -112,7 +71,7 @@ const SliderTrack = ({children, ...props}: SliderTrackProps) => {
  * (corrected for thumbAlignment="contain") instead of Ark's Range which uses
  * raw percentages. This ensures the fill always extends seamlessly to the thumb.
  *
- * Original HeroUI did the same: computed fill from getThumbPercent() (corrected).
+ * Original SoniaUI did the same: computed fill from getThumbPercent() (corrected).
  * -----------------------------------------------------------------------------------------------*/
 interface SliderFillProps extends ComponentPropsWithRef<"div"> {}
 
@@ -125,15 +84,17 @@ const SliderFill = ({style, ...props}: SliderFillProps) => {
         const fillStyle: CSSProperties = isRange
           ? {
               position: "absolute",
-              top: 0,
-              bottom: 0,
+              top: "50%",
+              transform: "translateY(-50%)",
+              height: "var(--slider-track-height, 4px)",
               left: `calc(var(--slider-thumb-offset-0) - ${THUMB_HALF}px)`,
               right: `calc(100% - var(--slider-thumb-offset-${api.value.length - 1}) - ${THUMB_HALF}px)`,
             }
           : {
               position: "absolute",
-              top: 0,
-              bottom: 0,
+              top: "50%",
+              transform: "translateY(-50%)",
+              height: "var(--slider-track-height, 4px)",
               left: 0,
               width: `calc(var(--slider-thumb-offset-0) + ${THUMB_HALF}px)`,
             };

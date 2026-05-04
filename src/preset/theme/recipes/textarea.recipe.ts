@@ -1,6 +1,6 @@
 import {defineRecipe} from "@chakra-ui/react/styled-system";
 
-import {heroUIDisabled, heroUIFocusRing} from "../shared";
+import {soniaUIDisabled, soniaUIFocusRing} from "../shared";
 
 export const textareaRecipe = defineRecipe({
   className: "chakra-textarea",
@@ -19,8 +19,8 @@ export const textareaRecipe = defineRecipe({
     transitionDuration: "fast",
     transitionTimingFunction: "ease",
     _placeholder: {color: "fg.muted"},
-    ...heroUIFocusRing,
-    ...heroUIDisabled,
+    ...soniaUIFocusRing,
+    ...soniaUIDisabled,
     "--focus-color": "colors.colorPalette.focusRing",
     "--error-color": "colors.border.error",
     _invalid: {

@@ -81,7 +81,7 @@ export const sidebarSlotRecipe = defineSlotRecipe({
       fontSize: "xs",
       transitionProperty: "common",
       transitionDuration: "fast",
-      // @ts-expect-error
+      // @ts-expect-error - _groupCollapsible is not typed in the style system
       _groupCollapsible: {
         cursor: "button",
         userSelect: "none",

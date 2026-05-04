@@ -1,6 +1,6 @@
-export const I18N_ADDON_ID = "heroui-i18n-addon";
-export const I18N_GLOBAL_TYPE_ID = "heroui-i18n";
-export const I18N_PARAM_KEY = "heroui-i18n";
+export const I18N_ADDON_ID = "soniaui-i18n-addon";
+export const I18N_GLOBAL_TYPE_ID = "soniaui-i18n";
+export const I18N_PARAM_KEY = "soniaui-i18n";
 
 export const LOCALES = [
   {

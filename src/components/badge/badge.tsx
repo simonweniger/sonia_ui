@@ -43,15 +43,15 @@ const BadgeAnchor = ({children, ...props}: BadgeAnchorProps) => {
  * Badge Root
  *
  * Uses the Chakra Badge recipe for variant/size/colorPalette styling.
- * Supports HeroUI variant aliases: primary→solid, secondary→subtle, soft→subtle.
+ * Supports SoniaUI variant aliases: primary→solid, secondary→subtle, soft→subtle.
  * -----------------------------------------------------------------------------------------------*/
-type HeroUIBadgeVariant = "primary" | "secondary" | "soft";
+type SoniaUIBadgeVariant = "primary" | "secondary" | "soft";
 type RecipeBadgeVariant = "solid" | "subtle" | "outline" | "surface" | "plain";
 
 interface BadgeRootProps extends Omit<ComponentPropsWithRef<typeof ChakraBadge>, "variant"> {
   children?: React.ReactNode;
   placement?: BadgePlacement;
-  variant?: RecipeBadgeVariant | HeroUIBadgeVariant;
+  variant?: RecipeBadgeVariant | SoniaUIBadgeVariant;
 }
 
 const VARIANT_MAP: Record<string, RecipeBadgeVariant> = {

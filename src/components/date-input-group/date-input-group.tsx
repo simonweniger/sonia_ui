@@ -182,7 +182,11 @@ interface DateInputGroupSegmentProps extends ComponentPropsWithRef<"span"> {
   className?: string;
 }
 
-const DateInputGroupSegment = ({className, segment, ...props}: DateInputGroupSegmentProps) => {
+const DateInputGroupSegment = ({
+  className,
+  segment: _segment,
+  ...props
+}: DateInputGroupSegmentProps) => {
   return (
     <Box
       as="span"

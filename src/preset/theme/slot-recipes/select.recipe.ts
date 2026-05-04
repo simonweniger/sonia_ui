@@ -1,7 +1,7 @@
 import {selectAnatomy} from "@chakra-ui/react/anatomy";
 import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
-import {heroUIDisabled, heroUIFocusRing} from "../shared";
+import {soniaUIDisabled, soniaUIFocusRing} from "../shared";
 
 export const selectSlotRecipe = defineSlotRecipe({
   className: "chakra-select",
@@ -40,8 +40,8 @@ export const selectSlotRecipe = defineSlotRecipe({
         bg: "bg.subtle",
         borderColor: "border.emphasized",
       },
-      ...heroUIFocusRing,
-      ...heroUIDisabled,
+      ...soniaUIFocusRing,
+      ...soniaUIDisabled,
       _invalid: {
         borderColor: "border.error",
       },
@@ -66,7 +66,7 @@ export const selectSlotRecipe = defineSlotRecipe({
     content: {
       overflowY: "auto",
       overscrollBehavior: "contain",
-      borderRadius: "3xl",
+      borderRadius: "xl",
       bg: "overlay",
       p: "0",
       fontSize: "sm",

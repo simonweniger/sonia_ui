@@ -33,7 +33,7 @@ function TimeFieldRoot({
   defaultValue,
   fullWidth,
   granularity = "minute",
-  hourCycle,
+  hourCycle: _hourCycle,
   isDisabled,
   isReadOnly,
   isRequired,

@@ -210,7 +210,7 @@ interface DateRangePickerPopoverProps extends ComponentPropsWithRef<typeof ArkDa
 const DateRangePickerPopover = ({
   children,
   className,
-  placement = "bottom",
+  placement: _placement = "bottom",
   ...props
 }: DateRangePickerPopoverProps) => {
   return (

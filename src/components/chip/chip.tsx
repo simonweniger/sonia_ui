@@ -112,7 +112,7 @@ function getChipStyleProps(variant?: string, chipColor?: string, size?: string):
     Object.assign(styles, colorStyles[chipColor]);
   }
 
-  // Normalize HeroUI variant names to Chakra-style
+  // Normalize SoniaUI variant names to Chakra-style
   const normalizedVariant = variant === "primary" ? "solid" : variant;
 
   // Variant: tertiary / secondary = transparent bg

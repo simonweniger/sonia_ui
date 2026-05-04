@@ -10,7 +10,7 @@ export const popoverSlotRecipe = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       textStyle: "sm",
-      borderRadius: "3xl",
+      borderRadius: "xl",
       "--popover-bg": "colors.overlay",
       bg: "var(--popover-bg)",
       boxShadow: "overlay",

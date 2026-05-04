@@ -1,6 +1,6 @@
 import {defineRecipe} from "@chakra-ui/react/styled-system";
 
-import {heroUIDisabled, heroUIFocusRing} from "../shared";
+import {soniaUIDisabled, soniaUIFocusRing} from "../shared";
 
 export const buttonRecipe = defineRecipe({
   className: "chakra-button",
@@ -20,7 +20,7 @@ export const buttonRecipe = defineRecipe({
     isolation: "isolate",
     fontWeight: "medium",
     fontSize: "sm",
-    borderRadius: "3xl",
+    borderRadius: "lg",
     gap: "2",
     px: "4",
     width: "fit-content",
@@ -40,8 +40,8 @@ export const buttonRecipe = defineRecipe({
       transform: "scale(0.97)",
     },
 
-    ...heroUIFocusRing,
-    ...heroUIDisabled,
+    ...soniaUIFocusRing,
+    ...soniaUIDisabled,
 
     "&[data-pending=true]": {
       cursor: "wait",

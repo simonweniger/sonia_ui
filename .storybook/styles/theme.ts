@@ -1,6 +1,6 @@
 import {create, themes as storybookThemes} from "storybook/theming";
 
-// HeroUI Colors (OKLCH -> Hex approximation)
+// SoniaUI Colors (OKLCH -> Hex approximation)
 const colors = {
   white: "#FFFFFF",
   black: "#000000",
@@ -57,7 +57,7 @@ const fontCode = [
 const lightTheme = create({
   ...storybookThemes.light,
   base: "light",
-  brandTitle: `<img src="/logo-dark.svg" style="width: 120px; height: auto;" alt="HeroUI"/>`,
+  brandTitle: `<img src="/logo-dark.svg" style="width: 120px; height: auto;" alt="SoniaUI"/>`,
   // brandUrl: "https://sonia.so",
   brandTarget: "_self",
   // Colors
@@ -91,7 +91,7 @@ const lightTheme = create({
 const darkTheme = create({
   ...storybookThemes.dark,
   base: "dark",
-  brandTitle: `<img src="/logo-light.svg" style="width: 120px; height: auto;" alt="HeroUI"/>`,
+  brandTitle: `<img src="/logo-light.svg" style="width: 120px; height: auto;" alt="SoniaUI"/>`,
   // brandUrl: "https://sonia.so",
   brandTarget: "_self",
   // Colors

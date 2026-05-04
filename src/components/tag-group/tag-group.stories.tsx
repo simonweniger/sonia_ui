@@ -163,19 +163,19 @@ export const WithPrefix: Story = {
       {
         id: "fred",
         name: "Fred",
-        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
+        avatar: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
         fallback: "F",
       },
       {
         id: "michael",
         name: "Michael",
-        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
+        avatar: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
         fallback: "M",
       },
       {
         id: "jane",
         name: "Jane",
-        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
+        avatar: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
         fallback: "J",
       },
     ];
@@ -262,31 +262,31 @@ export const WithAvatars: Story = {
       {
         id: "fred",
         name: "Fred",
-        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
+        avatar: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg",
         fallback: "F",
       },
       {
         id: "michael",
         name: "Michael",
-        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
+        avatar: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg",
         fallback: "M",
       },
       {
         id: "jane",
         name: "Jane",
-        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
+        avatar: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg",
         fallback: "J",
       },
       {
         id: "alice",
         name: "Alice",
-        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg",
+        avatar: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg",
         fallback: "A",
       },
       {
         id: "bob",
         name: "Bob",
-        avatar: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg",
+        avatar: "https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg",
         fallback: "B",
       },
     ];

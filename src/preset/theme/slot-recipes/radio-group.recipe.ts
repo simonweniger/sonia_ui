@@ -2,7 +2,7 @@ import {radioGroupAnatomy} from "@chakra-ui/react/anatomy";
 import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
 import {radiomarkRecipe} from "../recipes/radiomark.recipe";
-import {heroUIDisabled} from "../shared";
+import {soniaUIDisabled} from "../shared";
 
 export const radioGroupSlotRecipe = defineSlotRecipe({
   className: "chakra-radio-group",
@@ -17,7 +17,7 @@ export const radioGroupSlotRecipe = defineSlotRecipe({
       outline: "none",
       cursor: "pointer",
       WebkitTapHighlightColor: "transparent",
-      ...heroUIDisabled,
+      ...soniaUIDisabled,
     },
 
     itemControl: {

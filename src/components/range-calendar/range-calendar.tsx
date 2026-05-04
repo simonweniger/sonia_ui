@@ -3,10 +3,9 @@
 import type {CalendarIdentifier, DateValue} from "@internationalized/date";
 import type {ComponentPropsWithRef} from "react";
 
-import {CalendarDate, DateFormatter, createCalendar} from "@internationalized/date";
-
 import {DatePicker} from "@ark-ui/react";
 import {Box} from "@chakra-ui/react";
+import {CalendarDate, DateFormatter, createCalendar} from "@internationalized/date";
 import React, {createContext} from "react";
 
 import {getGregorianYearOffset} from "../../utils/calendar";
@@ -15,6 +14,52 @@ import {
   YearPickerStateContext,
 } from "../calendar-year-picker/year-picker-context";
 import {IconChevronLeft, IconChevronRight} from "../icons";
+
+/* -------------------------------------------------------------------------------------------------
+| * Ark → YearPicker State Bridge
+| * -----------------------------------------------------------------------------------------------*/
+interface ArkYearPickerStateBridgeProps {
+  children: React.ReactNode;
+  minValue: DateValue;
+  maxValue: DateValue;
+}
+
+const ArkYearPickerStateBridge = ({
+  children,
+  maxValue,
+  minValue,
+}: ArkYearPickerStateBridgeProps) => {
+  return (
+    <DatePicker.Context>
+      {(api) => {
+        // Ark's focusedValue is a plain {year,month,day} object without
+        // @internationalized/date methods like .set(). Convert it so the
+        // year picker can call focusedDate.set({year}).
+        const arkFocused = api.focusedValue;
+        const focusedDate = new CalendarDate(arkFocused.year, arkFocused.month, arkFocused.day);
+
+        const yearPickerStateValue = {
+          focusedDate,
+          setFocusedDate: (value: DateValue) => {
+            // Convert @internationalized/date DateValue to plain object for Ark
+            api.setFocusedValue({
+              year: value.year,
+              month: value.month,
+              day: value.day,
+            } as Parameters<typeof api.setFocusedValue>[0]);
+          },
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          minValue,
+          maxValue,
+        };
+
+        return (
+          <YearPickerStateContext value={yearPickerStateValue}>{children}</YearPickerStateContext>
+        );
+      }}
+    </DatePicker.Context>
+  );
+};
 
 /* -------------------------------------------------------------------------------------------------
 | * RangeCalendar Context
@@ -79,21 +124,8 @@ function RangeCalendarRoot({
     [calendarProp.identifier],
   );
 
-  const minDate = minValueProp ? undefined : new CalendarDate(1900 + gregorianYearOffset, 1, 1);
-  const maxDate = maxValueProp ? undefined : new CalendarDate(2099 + gregorianYearOffset, 12, 31);
-
-  const yearPickerStateValue = React.useMemo(() => {
-    const now = new Date();
-    const focusedDate = new CalendarDate(now.getFullYear(), now.getMonth() + 1, now.getDate());
-
-    return {
-      focusedDate,
-      setFocusedDate: (_value: DateValue) => {},
-      timeZone: "UTC",
-      minValue: minValueProp ?? null,
-      maxValue: maxValueProp ?? null,
-    };
-  }, [minValueProp, maxValueProp]);
+  const minDate = minValueProp ?? new CalendarDate(1900 + gregorianYearOffset, 1, 1);
+  const maxDate = maxValueProp ?? new CalendarDate(2099 + gregorianYearOffset, 12, 31);
 
   return (
     <YearPickerContext
@@ -105,40 +137,48 @@ function RangeCalendarRoot({
       }}
     >
       <RangeCalendarContext value={{locale: localeProp}}>
-        <YearPickerStateContext value={yearPickerStateValue}>
-          <DatePicker.Root
-            ref={calendarRef}
-            open
-            closeOnSelect={false}
-            data-slot="range-calendar"
-            locale={localeProp}
-            max={maxDate as ComponentPropsWithRef<typeof DatePicker.Root>["max"]}
-            min={minDate as ComponentPropsWithRef<typeof DatePicker.Root>["min"]}
-            selectionMode="range"
-            {...rest}
-            className={className}
+        <DatePicker.Root
+          ref={calendarRef}
+          open
+          closeOnSelect={false}
+          data-slot="range-calendar"
+          locale={localeProp}
+          selectionMode="range"
+          max={
+            {year: maxDate.year, month: maxDate.month, day: maxDate.day} as ComponentPropsWithRef<
+              typeof DatePicker.Root
+            >["max"]
+          }
+          min={
+            {year: minDate.year, month: minDate.month, day: minDate.day} as ComponentPropsWithRef<
+              typeof DatePicker.Root
+            >["min"]
+          }
+          {...rest}
+          className={className}
+          style={{
+            width: "15.75rem",
+            maxWidth: "100%",
+            containerType: "inline-size",
+            position: "relative",
+            ...rest.style,
+          }}
+        >
+          <DatePicker.Content
+            data-slot="range-calendar-content-wrapper"
             style={{
-              width: "15.75rem",
-              maxWidth: "100%",
-              containerType: "inline-size",
-              position: "relative",
-              ...rest.style,
+              position: "static",
+              boxShadow: "none",
+              background: "transparent",
+              border: "none",
+              padding: 0,
             }}
           >
-            <DatePicker.Content
-              data-slot="range-calendar-content-wrapper"
-              style={{
-                position: "static",
-                boxShadow: "none",
-                background: "transparent",
-                border: "none",
-                padding: 0,
-              }}
-            >
+            <ArkYearPickerStateBridge maxValue={maxDate} minValue={minDate}>
               {children}
-            </DatePicker.Content>
-          </DatePicker.Root>
-        </YearPickerStateContext>
+            </ArkYearPickerStateBridge>
+          </DatePicker.Content>
+        </DatePicker.Root>
       </RangeCalendarContext>
     </YearPickerContext>
   );

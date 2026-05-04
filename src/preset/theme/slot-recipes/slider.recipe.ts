@@ -1,20 +1,8 @@
 import {sliderAnatomy} from "@chakra-ui/react/anatomy";
 import {defineSlotRecipe} from "@chakra-ui/react/styled-system";
 
-import {heroUIDisabled} from "../shared";
+import {soniaUIDisabled} from "../shared";
 
-/**
- * Slider recipe matching the original HeroUI v3 design.
- *
- * Architecture (Ark inline styles we CANNOT override):
- * - Control: position:relative, touch-action:none, user-select:none
- * - Track:   position:relative
- * - Thumb:   position:absolute, insetInlineStart, transform:translateX(-50%)
- *
- * We pass thumbSize to Zag for correct contain-alignment offsets.
- * The fill uses --slider-thumb-offset-N CSS vars (corrected positions)
- * instead of Ark's Range (raw percentages), ensuring seamless fill-to-thumb alignment.
- */
 export const sliderSlotRecipe = defineSlotRecipe({
   className: "chakra-slider",
   slots: sliderAnatomy.keys(),
@@ -27,9 +15,8 @@ export const sliderSlotRecipe = defineSlotRecipe({
       gridTemplateColumns: "1fr auto",
       position: "relative",
       isolation: "isolate",
-      ...heroUIDisabled,
+      ...soniaUIDisabled,
 
-      /* Label within slider (our custom Label component) */
       "& [data-slot=label]": {
         width: "fit-content",
         fontSize: "sm",
@@ -57,20 +44,26 @@ export const sliderSlotRecipe = defineSlotRecipe({
 
     control: {
       gridArea: "track",
+      display: "flex",
+      alignItems: "center",
       borderRadius: "full",
-      bg: "default",
-      transitionProperty: "transform",
-      transitionDuration: "400ms",
-      transitionTimingFunction: "cubic-bezier(0.2, 0.9, 0.3, 1)",
+      cursor: "pointer",
+      _disabled: {cursor: "default"},
     },
 
     track: {
       width: "100%",
-      height: "100%",
       borderRadius: "full",
+      bg: "default",
+      position: "relative",
+      overflow: "hidden",
     },
 
-    range: {},
+    range: {
+      borderRadius: "full",
+      height: "100%",
+      bg: "accent",
+    },
 
     thumb: {
       display: "flex",
@@ -78,34 +71,19 @@ export const sliderSlotRecipe = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       borderRadius: "full",
-      bg: "accent",
+      bg: "white",
+      boxShadow:
+        "0 1px 3px 0 rgb(0 0 0 / 0.15), 0 1px 1px 0 rgb(0 0 0 / 0.1), 0 0 0 1px rgb(0 0 0 / 0.05)",
       outline: 0,
       WebkitTapHighlightColor: "transparent",
-      transitionProperty: "background-color, box-shadow",
-      transitionDuration: "250ms",
+      transitionProperty: "box-shadow, transform",
+      transitionDuration: "150ms",
       transitionTimingFunction: "var(--ease-smooth, ease)",
       _motionReduce: {transition: "none"},
 
-      _after: {
-        content: '""',
-        display: "block",
-        position: "relative",
-        zIndex: 10,
-        borderRadius: "full",
-        bg: "accent.fg",
-        boxShadow: "0 2px 4px 0 rgb(0 0 0 / 0.1), 0 0 1px 0 rgb(0 0 0 / 0.2)",
-        transformOrigin: "center",
-        transitionProperty: "all",
-        transitionDuration: "150ms",
-        transitionTimingFunction: "var(--ease-out, ease-out)",
-        _motionReduce: {transition: "none"},
-      },
-
       "&[data-dragging]": {
         cursor: "grabbing",
-      },
-      "&[data-dragging]::after": {
-        transform: "scale(0.9)",
+        scale: "0.9",
       },
 
       _focusVisible: {
@@ -126,6 +104,24 @@ export const sliderSlotRecipe = defineSlotRecipe({
   },
 
   variants: {
+    size: {
+      sm: {
+        control: {height: "3.5", "--slider-track-height": "3px"},
+        track: {height: "var(--slider-track-height)"},
+        thumb: {width: "3", height: "3"},
+      },
+      md: {
+        control: {height: "4", "--slider-track-height": "4px"},
+        track: {height: "var(--slider-track-height)"},
+        thumb: {width: "4", height: "4"},
+      },
+      lg: {
+        control: {height: "5", "--slider-track-height": "6px"},
+        track: {height: "var(--slider-track-height)"},
+        thumb: {width: "5", height: "5"},
+      },
+    },
+
     orientation: {
       horizontal: {
         root: {
@@ -133,22 +129,13 @@ export const sliderSlotRecipe = defineSlotRecipe({
         },
         control: {
           width: "100%",
-          height: "5",
-        },
-        thumb: {
-          top: 0,
-          bottom: 0,
-          width: "calc(1.5rem + 0.25rem)",
-          _after: {
-            width: "1.5rem",
-            height: "1rem",
-          },
         },
       },
     },
   },
 
   defaultVariants: {
+    size: "md",
     orientation: "horizontal",
   },
 });

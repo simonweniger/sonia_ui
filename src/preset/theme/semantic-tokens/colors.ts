@@ -1,53 +1,57 @@
 import {defineSemanticTokens} from "@chakra-ui/react";
 
 /**
- * Semantic color tokens for the HeroUI design system.
+ * Semantic color tokens for the SoniaUI design system.
  *
- * Light-mode values are taken directly from the original HeroUI v3 default theme
- * (packages/styles/themes/default/variables.css) using exact OKLCH values.
+ * Updated to match the custom theme with hue 253.83 for neutral tones.
  *
  * Calculated colors (hover, soft, etc.) use `color-mix()` matching the original
  * shared theme (packages/styles/themes/shared/theme.css).
  */
 
 /* ── Primitive constants (not exposed as tokens, referenced below) ──── */
-const WHITE = "oklch(100% 0 0)";
 const SNOW = "oklch(0.9911 0 0)";
-const ECLIPSE = "oklch(0.2103 0.0059 285.89)";
 
 /* ── Light theme base variables ────────────────────────────────────── */
-const L_BACKGROUND = "oklch(0.9702 0 0)";
-const L_FOREGROUND = ECLIPSE;
-const L_SURFACE = WHITE;
-const L_SURFACE_SECONDARY = "oklch(0.9524 0.0013 286.37)";
-const L_SURFACE_TERTIARY = "oklch(0.9373 0.0013 286.37)";
-const L_DEFAULT = "oklch(0.94 0.001 286.375)";
-const L_DEFAULT_FG = ECLIPSE;
+const L_BACKGROUND = "oklch(0.9702 0.0036 253.83)";
+const L_FOREGROUND = "oklch(0.2103 0.0036 253.83)";
+const L_SURFACE = "oklch(1.0 0.0018 253.83)";
+const L_SURFACE_SECONDARY = "oklch(0.9524 0.0029 253.83)";
+const L_SURFACE_TERTIARY = "oklch(0.9373 0.0029 253.83)";
+const L_DEFAULT = "oklch(0.94 0.0036 253.83)";
+const L_DEFAULT_FG = "oklch(0.2103 0.0059 253.83)";
 const L_ACCENT = "oklch(0.6204 0.195 253.83)";
 const L_ACCENT_FG = SNOW;
-const L_MUTED = "oklch(0.5517 0.0138 285.94)";
-const L_BORDER = "oklch(0.90 0.004 286.32)";
-const L_SEPARATOR = "oklch(0.92 0.004 286.32)";
-const L_SUCCESS = "oklch(0.7329 0.1935 150.81)";
-const L_WARNING = "oklch(0.7819 0.1585 72.33)";
-const L_DANGER = "oklch(0.6532 0.2328 25.74)";
-const L_FIELD = WHITE;
+const L_MUTED = "oklch(0.5517 0.0072 253.83)";
+const L_BORDER = "oklch(0.90 0.0036 253.83)";
+const L_SEPARATOR = "oklch(0.92 0.0036 253.83)";
+const L_SUCCESS = "oklch(0.7329 0.1949 150.81)";
+const L_SUCCESS_FG = "oklch(0.2103 0.0059 150.81)";
+const L_WARNING = "oklch(0.7819 0.1596 72.33)";
+const L_WARNING_FG = "oklch(0.2103 0.0059 72.33)";
+const L_DANGER = "oklch(0.6532 0.2345 25.74)";
+const L_DANGER_FG = SNOW;
+const L_FIELD = "oklch(1.0 0.0018 253.83)";
+const L_OVERLAY = "oklch(1.0 0.0011 253.83)";
+const L_SEGMENT = "oklch(1.0 0.0036 253.83)";
 
 /* ── Dark theme base variables ─────────────────────────────────────── */
-const D_BACKGROUND = "oklch(0.12 0.005 285.823)";
-const D_FOREGROUND = SNOW;
-const D_SURFACE = ECLIPSE;
-const D_SURFACE_SECONDARY = "oklch(0.257 0.0037 286.14)";
-const D_SURFACE_TERTIARY = "oklch(0.2721 0.0024 247.91)";
-const D_DEFAULT = "oklch(0.274 0.006 286.033)";
+const D_BACKGROUND = "oklch(0.12 0.0036 253.83)";
+const D_FOREGROUND = "oklch(0.9911 0.0036 253.83)";
+const D_SURFACE = "oklch(0.2103 0.0072 253.83)";
+const D_SURFACE_SECONDARY = "oklch(0.257 0.0054 253.83)";
+const D_SURFACE_TERTIARY = "oklch(0.2721 0.0054 253.83)";
+const D_DEFAULT = "oklch(0.274 0.0036 253.83)";
 const D_DEFAULT_FG = SNOW;
 const D_ACCENT = "oklch(0.6204 0.195 253.83)";
-const D_MUTED = "oklch(0.705 0.015 286.067)";
-const D_BORDER = "oklch(0.28 0.006 286.033)";
-const D_SEPARATOR = "oklch(0.25 0.006 286.033)";
-const D_WARNING = "oklch(0.8203 0.1388 76.34)";
-const D_DANGER = "oklch(0.594 0.1967 24.63)";
-const D_FIELD = ECLIPSE;
+const D_MUTED = "oklch(0.705 0.0072 253.83)";
+const D_BORDER = "oklch(0.28 0.0036 253.83)";
+const D_SEPARATOR = "oklch(0.25 0.0036 253.83)";
+const D_WARNING = "oklch(0.8203 0.1398 76.34)";
+const D_WARNING_FG = "oklch(0.2103 0.0059 76.34)";
+const D_DANGER = "oklch(0.594 0.1981 24.63)";
+const D_FIELD = "oklch(0.2103 0.0072 253.83)";
+const D_SEGMENT = "oklch(0.3964 0.0036 253.83)";
 
 /* ── Calculated color-mix helpers ──────────────────────────────────── */
 /* hover = 96% base + 4% foreground for default, 90% + 10% for accent/status */
@@ -83,10 +87,10 @@ const D_SEPARATOR_TERTIARY = `color-mix(in oklab, ${D_SURFACE} 81%, ${D_FOREGROU
 /* status hover states */
 const L_ACCENT_HOVER = `color-mix(in oklab, ${L_ACCENT} 90%, ${L_ACCENT_FG} 10%)`;
 const D_ACCENT_HOVER = `color-mix(in oklab, ${D_ACCENT} 90%, ${SNOW} 10%)`;
-const L_SUCCESS_HOVER = `color-mix(in oklab, ${L_SUCCESS} 90%, ${ECLIPSE} 10%)`;
-const D_SUCCESS_HOVER = `color-mix(in oklab, ${L_SUCCESS} 90%, ${ECLIPSE} 10%)`;
-const L_WARNING_HOVER = `color-mix(in oklab, ${L_WARNING} 90%, ${ECLIPSE} 10%)`;
-const D_WARNING_HOVER = `color-mix(in oklab, ${D_WARNING} 90%, ${ECLIPSE} 10%)`;
+const L_SUCCESS_HOVER = `color-mix(in oklab, ${L_SUCCESS} 90%, ${L_SUCCESS_FG} 10%)`;
+const D_SUCCESS_HOVER = `color-mix(in oklab, ${L_SUCCESS} 90%, ${L_SUCCESS_FG} 10%)`;
+const L_WARNING_HOVER = `color-mix(in oklab, ${L_WARNING} 90%, ${L_WARNING_FG} 10%)`;
+const D_WARNING_HOVER = `color-mix(in oklab, ${D_WARNING} 90%, ${D_WARNING_FG} 10%)`;
 const L_DANGER_HOVER = `color-mix(in oklab, ${L_DANGER} 90%, ${SNOW} 10%)`;
 const D_DANGER_HOVER = `color-mix(in oklab, ${D_DANGER} 90%, ${SNOW} 10%)`;
 
@@ -132,12 +136,12 @@ export const semanticColors = defineSemanticTokens.colors({
       value: {_light: L_BACKGROUND, _dark: D_BACKGROUND},
     },
     panel: {
-      value: {_light: WHITE, _dark: ECLIPSE},
+      value: {_light: L_SURFACE, _dark: D_SURFACE},
     },
     overlay: {
       value: {
-        _light: `color-mix(in oklch, ${WHITE} 95%, transparent)`,
-        _dark: `color-mix(in oklch, ${ECLIPSE} 85%, transparent)`,
+        _light: `color-mix(in oklch, ${L_OVERLAY} 95%, transparent)`,
+        _dark: `color-mix(in oklch, ${D_SURFACE} 85%, transparent)`,
       },
     },
     backdrop: {
@@ -261,7 +265,7 @@ export const semanticColors = defineSemanticTokens.colors({
       value: {_light: L_ACCENT_FG, _dark: SNOW},
     },
     fg: {
-      value: {_light: L_ACCENT_FG, _dark: SNOW},
+      value: {_light: L_ACCENT, _dark: D_ACCENT},
     },
     muted: {
       value: {_light: L_ACCENT_SOFT, _dark: D_ACCENT_SOFT},
@@ -295,12 +299,12 @@ export const semanticColors = defineSemanticTokens.colors({
   /* -----------------------------------------------------------------------
    * Neutral (default colorPalette — used by tags, buttons, inputs, etc.)
    *
-   * Maps to the original HeroUI `--default` / `--default-foreground` tokens
+   * Maps to the original SoniaUI `--default` / `--default-foreground` tokens
    * which are distinct from Tailwind's gray scale.
    * ----------------------------------------------------------------------- */
   neutral: {
     contrast: {
-      value: {_light: WHITE, _dark: ECLIPSE},
+      value: {_light: L_SURFACE, _dark: D_SURFACE},
     },
     fg: {
       value: {_light: L_DEFAULT_FG, _dark: D_DEFAULT_FG},
@@ -309,10 +313,10 @@ export const semanticColors = defineSemanticTokens.colors({
       value: {_light: L_DEFAULT, _dark: D_DEFAULT},
     },
     subtle: {
-      value: {_light: L_DEFAULT_HOVER, _dark: D_DEFAULT_HOVER},
+      value: {_light: L_DEFAULT, _dark: D_DEFAULT},
     },
     emphasized: {
-      value: {_light: L_BG_TERTIARY, _dark: D_BG_TERTIARY},
+      value: {_light: L_DEFAULT_HOVER, _dark: D_DEFAULT_HOVER},
     },
     solid: {
       value: {_light: L_FOREGROUND, _dark: D_FOREGROUND},
@@ -348,8 +352,8 @@ export const semanticColors = defineSemanticTokens.colors({
   overlay: {
     DEFAULT: {
       value: {
-        _light: `color-mix(in oklch, ${WHITE} 95%, transparent)`,
-        _dark: `color-mix(in oklch, ${ECLIPSE} 85%, transparent)`,
+        _light: `color-mix(in oklch, ${L_OVERLAY} 95%, transparent)`,
+        _dark: `color-mix(in oklch, ${D_SURFACE} 85%, transparent)`,
       },
     },
     fg: {
@@ -422,10 +426,10 @@ export const semanticColors = defineSemanticTokens.colors({
    * ----------------------------------------------------------------------- */
   segment: {
     DEFAULT: {
-      value: {_light: WHITE, _dark: "oklch(0.3964 0.01 285.93)"},
+      value: {_light: L_SEGMENT, _dark: D_SEGMENT},
     },
     fg: {
-      value: {_light: ECLIPSE, _dark: D_FOREGROUND},
+      value: {_light: L_FOREGROUND, _dark: D_FOREGROUND},
     },
   },
 
@@ -499,7 +503,7 @@ export const semanticColors = defineSemanticTokens.colors({
       value: {_light: L_DANGER, _dark: D_DANGER},
     },
     fg: {
-      value: {_light: SNOW, _dark: SNOW},
+      value: {_light: L_DANGER_FG, _dark: SNOW},
     },
     hover: {
       value: {_light: L_DANGER_HOVER, _dark: D_DANGER_HOVER},
@@ -508,7 +512,7 @@ export const semanticColors = defineSemanticTokens.colors({
       value: {_light: L_DANGER_SOFT, _dark: D_DANGER_SOFT},
     },
     contrast: {
-      value: {_light: SNOW, _dark: SNOW},
+      value: {_light: L_DANGER_FG, _dark: SNOW},
     },
     muted: {
       value: {_light: L_DANGER_SOFT, _dark: D_DANGER_SOFT},
@@ -543,7 +547,7 @@ export const semanticColors = defineSemanticTokens.colors({
       value: {_light: L_SUCCESS, _dark: L_SUCCESS},
     },
     fg: {
-      value: {_light: ECLIPSE, _dark: ECLIPSE},
+      value: {_light: L_SUCCESS_FG, _dark: L_SUCCESS_FG},
     },
     hover: {
       value: {_light: L_SUCCESS_HOVER, _dark: D_SUCCESS_HOVER},
@@ -552,7 +556,7 @@ export const semanticColors = defineSemanticTokens.colors({
       value: {_light: L_SUCCESS_SOFT, _dark: D_SUCCESS_SOFT},
     },
     contrast: {
-      value: {_light: ECLIPSE, _dark: ECLIPSE},
+      value: {_light: L_SUCCESS_FG, _dark: L_SUCCESS_FG},
     },
     muted: {
       value: {_light: L_SUCCESS_SOFT, _dark: D_SUCCESS_SOFT},
@@ -587,7 +591,7 @@ export const semanticColors = defineSemanticTokens.colors({
       value: {_light: L_WARNING, _dark: D_WARNING},
     },
     fg: {
-      value: {_light: ECLIPSE, _dark: ECLIPSE},
+      value: {_light: L_WARNING_FG, _dark: D_WARNING_FG},
     },
     hover: {
       value: {_light: L_WARNING_HOVER, _dark: D_WARNING_HOVER},
@@ -596,7 +600,7 @@ export const semanticColors = defineSemanticTokens.colors({
       value: {_light: L_WARNING_SOFT, _dark: D_WARNING_SOFT},
     },
     contrast: {
-      value: {_light: ECLIPSE, _dark: ECLIPSE},
+      value: {_light: L_WARNING_FG, _dark: D_WARNING_FG},
     },
     muted: {
       value: {_light: L_WARNING_SOFT, _dark: D_WARNING_SOFT},
@@ -630,10 +634,9 @@ export const semanticColors = defineSemanticTokens.colors({
   /* -----------------------------------------------------------------------
    * Color Palettes (for colorPalette usage in recipes)
    *
-   * These use exact OKLCH values from the original theme rather than
-   * referencing Tailwind's palette. Each palette provides the standard
-   * Chakra slots: contrast, fg, muted, subtle, emphasized, solid,
-   * focusRing, border.
+   * These use exact OKLCH values from the theme. Each palette provides
+   * the standard Chakra slots: contrast, fg, muted, subtle, emphasized,
+   * solid, focusRing, border.
    * ----------------------------------------------------------------------- */
   red: {
     contrast: {value: {_light: SNOW, _dark: SNOW}},
@@ -662,7 +665,7 @@ export const semanticColors = defineSemanticTokens.colors({
   },
 
   orange: {
-    contrast: {value: {_light: ECLIPSE, _dark: ECLIPSE}},
+    contrast: {value: {_light: L_WARNING_FG, _dark: D_WARNING_FG}},
     fg: {value: {_light: L_WARNING, _dark: D_WARNING}},
     muted: {value: {_light: L_WARNING_SOFT, _dark: D_WARNING_SOFT}},
     subtle: {
@@ -688,7 +691,7 @@ export const semanticColors = defineSemanticTokens.colors({
   },
 
   green: {
-    contrast: {value: {_light: ECLIPSE, _dark: ECLIPSE}},
+    contrast: {value: {_light: L_SUCCESS_FG, _dark: L_SUCCESS_FG}},
     fg: {value: {_light: L_SUCCESS, _dark: L_SUCCESS}},
     muted: {value: {_light: L_SUCCESS_SOFT, _dark: D_SUCCESS_SOFT}},
     subtle: {
@@ -731,11 +734,11 @@ export const semanticColors = defineSemanticTokens.colors({
 
   /* Keep gray/slate/zinc referencing neutral for consistency */
   gray: {
-    contrast: {value: {_light: WHITE, _dark: ECLIPSE}},
+    contrast: {value: {_light: L_SURFACE, _dark: D_SURFACE}},
     fg: {value: {_light: L_DEFAULT_FG, _dark: D_DEFAULT_FG}},
     muted: {value: {_light: L_DEFAULT, _dark: D_DEFAULT}},
-    subtle: {value: {_light: L_DEFAULT_HOVER, _dark: D_DEFAULT_HOVER}},
-    emphasized: {value: {_light: L_BG_TERTIARY, _dark: D_BG_TERTIARY}},
+    subtle: {value: {_light: L_DEFAULT, _dark: D_DEFAULT}},
+    emphasized: {value: {_light: L_DEFAULT_HOVER, _dark: D_DEFAULT_HOVER}},
     solid: {value: {_light: L_FOREGROUND, _dark: D_FOREGROUND}},
     focusRing: {value: {_light: L_ACCENT, _dark: D_ACCENT}},
     border: {value: {_light: L_BORDER, _dark: D_BORDER}},

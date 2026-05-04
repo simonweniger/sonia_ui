@@ -43,7 +43,7 @@ const Template = (props: Disclosure["RootProps"]) => {
         <Disclosure.Heading>
           <Button slot="trigger" variant="outline">
             <Icon icon="gravity-ui:qr-code" />
-            Preview HeroUI Native
+            Preview SoniaUI Native
             <Disclosure.Indicator />
           </Button>
         </Disclosure.Heading>
@@ -61,11 +61,11 @@ const Template = (props: Disclosure["RootProps"]) => {
             }}
           >
             <Text color="fg.muted" fontSize="sm">
-              Scan this QR code with your camera app to preview the HeroUI native components.
+              Scan this QR code with your camera app to preview the SoniaUI native components.
             </Text>
             <img
               alt="Expo Go QR Code"
-              src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
+              src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
               style={{aspectRatio: "1/1", width: "100%", maxWidth: "13.5rem", objectFit: "cover"}}
             />
             <Text color="fg.muted" fontSize="sm">

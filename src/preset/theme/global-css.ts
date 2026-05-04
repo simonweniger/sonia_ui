@@ -39,6 +39,8 @@ export const globalCss = defineGlobalStyles({
     "--global-font-body": "fonts.body",
     "--global-color-border": "colors.border",
     "--cursor-button": "default",
+    "--radius": "0.25rem",
+    "--field-radius": "0.5rem",
     "--radius-full": "9999px",
     "--scale-factor": "1",
     "--overlay-effect": "blur({blurs.lg})",

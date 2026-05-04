@@ -173,7 +173,7 @@ const DropdownSeparator = ({className, ...props}: DropdownSeparatorProps) => {
 /* -------------------------------------------------------------------------------------------------
  * Dropdown Item Indicator
  *
- * Always rendered in the DOM (like original HeroUI MenuItemIndicator).
+ * Always rendered in the DOM (like original SoniaUI MenuItemIndicator).
  * Visibility is CSS-driven via parent's [data-state=checked] attribute:
  *  - Checkmark: animated stroke-dashoffset (66 → 44)
  *  - Dot: animated scale/opacity

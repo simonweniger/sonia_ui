@@ -49,7 +49,7 @@ const Template = (props: DisclosureGroupProps) => {
           value={Array.from(expandedKeys).map(String)}
           onValueChange={({value}) => setExpandedKeys(new Set(value))}
         >
-          <Disclosure aria-label="Preview HeroUI Native" id="preview">
+          <Disclosure aria-label="Preview SoniaUI Native" id="preview">
             <Disclosure.Heading>
               <Button
                 bg={!expandedKeys.has("preview") ? "transparent" : undefined}
@@ -60,7 +60,7 @@ const Template = (props: DisclosureGroupProps) => {
               >
                 <Flex align="center" gap="2" justify="start" width="full">
                   <Icon icon="gravity-ui:qr-code" />
-                  Preview HeroUI Native
+                  Preview SoniaUI Native
                 </Flex>
                 <Disclosure.Indicator style={{color: "var(--colors-fg-muted)"}} />
               </Button>
@@ -79,11 +79,11 @@ const Template = (props: DisclosureGroupProps) => {
                 }}
               >
                 <Text color="fg.muted" fontSize="sm">
-                  Scan this QR code with your camera app to preview the HeroUI native components.
+                  Scan this QR code with your camera app to preview the SoniaUI native components.
                 </Text>
                 <img
                   alt="Expo Go QR Code"
-                  src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
+                  src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
                   style={{
                     aspectRatio: "1/1",
                     width: "100%",
@@ -103,7 +103,7 @@ const Template = (props: DisclosureGroupProps) => {
           </Disclosure>
           <Separator my="2" />
           <Disclosure id="download">
-            <Disclosure.Heading aria-label="Download HeroUI Native">
+            <Disclosure.Heading aria-label="Download SoniaUI Native">
               <Button
                 bg={!expandedKeys.has("download") ? "transparent" : undefined}
                 borderWidth="0"
@@ -113,7 +113,7 @@ const Template = (props: DisclosureGroupProps) => {
               >
                 <Flex align="center" gap="2" justify="start" width="full">
                   <Icon icon="tabler:brand-apple-filled" />
-                  Download HeroUI Native
+                  Download SoniaUI Native
                 </Flex>
                 <Disclosure.Indicator style={{color: "var(--colors-fg-muted)"}} />
               </Button>
@@ -132,11 +132,11 @@ const Template = (props: DisclosureGroupProps) => {
                 }}
               >
                 <Text color="fg.muted" fontSize="sm">
-                  Scan this QR code with your camera app to preview the HeroUI native components.
+                  Scan this QR code with your camera app to preview the SoniaUI native components.
                 </Text>
                 <img
                   alt="Expo Go QR Code"
-                  src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
+                  src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
                   style={{
                     aspectRatio: "1/1",
                     width: "100%",
@@ -175,7 +175,7 @@ const ControlledTemplate = (props: DisclosureGroupProps) => {
       <Flex bg="surface" direction="column" gap="4" p="4" rounded="3xl" shadow="surface">
         <Flex align="center" justify="space-between" mb="2">
           <Text as="h3" fontSize="lg" fontWeight="semibold">
-            HeroUI Native
+            SoniaUI Native
           </Text>
           <Flex gap="2">
             <Button
@@ -203,7 +203,7 @@ const ControlledTemplate = (props: DisclosureGroupProps) => {
           value={Array.from(expandedKeys).map(String)}
           onValueChange={({value}) => setExpandedKeys(new Set(value))}
         >
-          <Disclosure aria-label="Preview HeroUI Native" id="preview">
+          <Disclosure aria-label="Preview SoniaUI Native" id="preview">
             <Disclosure.Heading>
               <Button
                 bg={!expandedKeys.has("preview") ? "transparent" : undefined}
@@ -214,7 +214,7 @@ const ControlledTemplate = (props: DisclosureGroupProps) => {
               >
                 <Flex align="center" gap="2" justify="start" width="full">
                   <Icon icon="gravity-ui:qr-code" />
-                  Preview HeroUI Native
+                  Preview SoniaUI Native
                 </Flex>
                 <Disclosure.Indicator style={{color: "var(--colors-fg-muted)"}} />
               </Button>
@@ -233,11 +233,11 @@ const ControlledTemplate = (props: DisclosureGroupProps) => {
                 }}
               >
                 <Text color="fg.muted" fontSize="sm">
-                  Scan this QR code with your camera app to preview the HeroUI native components.
+                  Scan this QR code with your camera app to preview the SoniaUI native components.
                 </Text>
                 <img
                   alt="Expo Go QR Code"
-                  src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
+                  src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
                   style={{
                     aspectRatio: "1/1",
                     width: "100%",
@@ -257,7 +257,7 @@ const ControlledTemplate = (props: DisclosureGroupProps) => {
           </Disclosure>
           <Separator my="2" />
           <Disclosure id="download">
-            <Disclosure.Heading aria-label="Download HeroUI Native">
+            <Disclosure.Heading aria-label="Download SoniaUI Native">
               <Button
                 bg={!expandedKeys.has("download") ? "transparent" : undefined}
                 borderWidth="0"
@@ -267,7 +267,7 @@ const ControlledTemplate = (props: DisclosureGroupProps) => {
               >
                 <Flex align="center" gap="2" justify="start" width="full">
                   <Icon icon="tabler:brand-apple-filled" />
-                  Download HeroUI Native
+                  Download SoniaUI Native
                 </Flex>
                 <Disclosure.Indicator style={{color: "var(--colors-fg-muted)"}} />
               </Button>
@@ -286,11 +286,11 @@ const ControlledTemplate = (props: DisclosureGroupProps) => {
                 }}
               >
                 <Text color="fg.muted" fontSize="sm">
-                  Scan this QR code with your camera app to preview the HeroUI native components.
+                  Scan this QR code with your camera app to preview the SoniaUI native components.
                 </Text>
                 <img
                   alt="Expo Go QR Code"
-                  src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
+                  src="https://soniaui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png"
                   style={{
                     aspectRatio: "1/1",
                     width: "100%",
